@@ -1,4 +1,4 @@
-package com.wopin.qingpaopao.common;
+package com.wopin.qingpaopao.fragment;
 
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 
 import com.wopin.qingpaopao.R;
+import com.wopin.qingpaopao.presenter.BasePresenter;
 
 
 public abstract class BaseDialogFragment<P extends BasePresenter> extends DialogFragment {

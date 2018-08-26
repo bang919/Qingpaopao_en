@@ -6,7 +6,6 @@ import android.view.View;
 
 import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.bean.request.LoginReq;
-import com.wopin.qingpaopao.common.BaseActivity;
 import com.wopin.qingpaopao.fragment.ForgetPasswordFragment;
 import com.wopin.qingpaopao.fragment.LoginViewFragment;
 import com.wopin.qingpaopao.fragment.RegisterViewFragment;

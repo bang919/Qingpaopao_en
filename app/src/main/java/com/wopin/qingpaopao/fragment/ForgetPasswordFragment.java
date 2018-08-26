@@ -5,7 +5,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.wopin.qingpaopao.R;
-import com.wopin.qingpaopao.common.BaseDialogFragment;
 import com.wopin.qingpaopao.presenter.ForgetPasswordPresenter;
 import com.wopin.qingpaopao.utils.ToastUtils;
 import com.wopin.qingpaopao.view.ForgetPasswordView;

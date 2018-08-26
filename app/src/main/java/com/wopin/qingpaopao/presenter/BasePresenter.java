@@ -1,4 +1,4 @@
-package com.wopin.qingpaopao.common;
+package com.wopin.qingpaopao.presenter;
 
 import android.content.Context;
 import android.text.TextUtils;

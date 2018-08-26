@@ -2,7 +2,6 @@ package com.wopin.qingpaopao.presenter;
 
 import android.content.Context;
 
-import com.wopin.qingpaopao.common.BasePresenter;
 import com.wopin.qingpaopao.model.MainModel;
 import com.wopin.qingpaopao.view.MainView;
 

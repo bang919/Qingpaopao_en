@@ -1,8 +1,12 @@
 package com.wopin.qingpaopao.activity;
 
 
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
+
 import com.wopin.qingpaopao.R;
-import com.wopin.qingpaopao.common.BaseActivity;
+import com.wopin.qingpaopao.adapter.MainViewPagerAdapter;
+import com.wopin.qingpaopao.fragment.BaseMainFragment;
 import com.wopin.qingpaopao.presenter.MainPresenter;
 import com.wopin.qingpaopao.utils.ToastUtils;
 import com.wopin.qingpaopao.view.MainView;
@@ -10,6 +14,9 @@ import com.wopin.qingpaopao.view.MainView;
 public class MainActivity extends BaseActivity<MainPresenter> implements MainView {
 
     private long doubleClickToExitTime;
+    private ViewPager mViewPager;
+    private MainViewPagerAdapter mViewpagerAdapter;
+    private TabLayout mTablayout;
 
     @Override
     protected int getLayout() {
@@ -23,11 +30,32 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
 
     @Override
     protected void initView() {
-
+        mViewPager = findViewById(R.id.main_viewpager);
+        mTablayout = findViewById(R.id.main_tablayout);
     }
 
     @Override
     protected void initData() {
+        mViewpagerAdapter = new MainViewPagerAdapter(getSupportFragmentManager());
+        mViewpagerAdapter.attendViewpagerAndTablayout(mViewPager, mTablayout);
+        mViewPager.setOffscreenPageLimit(3);
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                //Proof SwipeRefreshLayout's function when ViewPager dragging
+                BaseMainFragment fragment = mViewpagerAdapter.getItem(mViewPager.getCurrentItem());
+            }
+        });
     }
 
     @Override

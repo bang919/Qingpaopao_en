@@ -6,7 +6,6 @@ import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.bean.request.LoginReq;
 import com.wopin.qingpaopao.bean.response.LoginRsp;
 import com.wopin.qingpaopao.bean.response.NormalRsp;
-import com.wopin.qingpaopao.common.BasePresenter;
 import com.wopin.qingpaopao.common.Constants;
 import com.wopin.qingpaopao.common.MyApplication;
 import com.wopin.qingpaopao.model.LoginModel;

@@ -1,4 +1,4 @@
-package com.wopin.qingpaopao.common;
+package com.wopin.qingpaopao.activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -21,6 +21,8 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 
 import com.wopin.qingpaopao.R;
+import com.wopin.qingpaopao.presenter.BasePresenter;
+import com.wopin.qingpaopao.common.Constants;
 
 import java.util.Map;
 

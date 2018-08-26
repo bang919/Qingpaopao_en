@@ -28,5 +28,9 @@
     <string name="and">和</string>
     <string name="privacy_policy">隐私政策</string>
     <string name="wechat_client_not_exist">微信客户端不存在</string>
+    <string name="drinking">喝水</string>
+    <string name="explore">探索</string>
+    <string name="welfare_discounts">福利/优惠</string>
+    <string name="mine">我的</string>
 
 </resources>
