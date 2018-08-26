@@ -8,9 +8,10 @@
 
     <color name="colorBlack">#000000</color>
     <color name="colorHalfBlack">#70000000</color>
-    <color name="colorWhite4">#7E7E7E</color>
-    <color name="colorWhite3">#AAAAAA</color>
-    <color name="colorWhite2">#DFDFDF</color>
+    <color name="colorWhite5">#7E7E7E</color>
+    <color name="colorWhite4">#AAAAAA</color>
+    <color name="colorWhite3">#CCCCCC</color>
+    <color name="colorWhite2">#F1F1F1</color>
     <color name="colorWhite">#FFFFFF</color>
 
     <color name="colorRed">#FF1F1F</color>
