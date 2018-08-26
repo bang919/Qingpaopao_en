@@ -1,0 +1,89 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.mob.sdk'
+
+MobSDK {
+    appKey "278e37a5dcb00"
+    appSecret "5c1b2ba431205dbcf32771abc50d7760"
+
+    ShareSDK {
+        //平台配置信息
+        devInfo {
+            SinaWeibo {
+                appKey "1871771910"
+                appSecret "b255a1185ff2d6255b076db56a6823b3"
+                callbackUri "http://sns.whalecloud.com"
+                shareByAppClient true
+            }
+            Wechat {
+                appId "wxf42ec50449767feb"
+                appSecret "7fd977698fed0ac469207abf358222a5"
+                shareByAppClient true
+            }
+            QQ {
+                appId "1105931776"
+                appKey "c4dPgCZjcuf5dEPx"
+                shareByAppClient true
+            }
+        }
+    }
+
+}
+
+static def releaseTime() {
+    return new Date().format("yyyyMMdd", TimeZone.getTimeZone("UTC"))
+}
+
+android {
+    compileSdkVersion 27
+    defaultConfig {
+        applicationId "com.wopin.qingpaopao"
+        minSdkVersion 19
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+        buildConfigField "String", "basicUrlHttps", "\"http://wifi.h2popo.com:8081\""
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    //重命名apk
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "app_" + buildType.name + "_v" + defaultConfig.versionName + "_${releaseTime()}.apk"
+        }
+    }
+
+    buildTypes {
+
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+ext {
+    supportVersion = "27.1.1"
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation "com.android.support:appcompat-v7:${supportVersion}"
+    //for TabLayout/RecyclerView
+    implementation "com.android.support:design:${supportVersion}"
+    //Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.0'
+    //cookie
+    implementation 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
+    //RxJava
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.16'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
+    //Glide
+    implementation 'com.github.bumptech.glide:glide:4.7.1'
+}

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#94D6F7</color><!--ActionBar颜色-->
+    <color name="colorPrimaryDark">#94D6F7</color><!--导航栏颜色-->
+    <color name="colorAccent">#7CB9F4</color><!--EditText游标等控件选中颜色-->
+    <color name="colorAccent2">#70b2f2</color>
+    <color name="colorAccent3">#5eacf7</color>
+
+    <color name="colorBlack">#000000</color>
+    <color name="colorHalfBlack">#70000000</color>
+    <color name="colorWhite4">#7E7E7E</color>
+    <color name="colorWhite3">#AAAAAA</color>
+    <color name="colorWhite2">#DFDFDF</color>
+    <color name="colorWhite">#FFFFFF</color>
+
+    <color name="colorRed">#FF1F1F</color>
+    <color name="colorGreen">#77B634</color>
+    <color name="colorYellow">#F3D933</color>
+    <color name="colorYellowDark">#F29C30</color>
+    <color name="colorViolet">#A14FFF</color>
+    <color name="colorVioletDark">#6C47CB</color>
+</resources>
