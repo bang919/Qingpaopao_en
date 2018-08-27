@@ -56,6 +56,7 @@
     <string name="head_portrait">头像</string>
     <string name="username">用户名</string>
     <string name="edit_username">修改用户名</string>
+    <string name="edit_username_success">修改用户名成功！</string>
     <string name="save">保存</string>
     <string name="please_input_new_username">请输入新的用户名</string>
 

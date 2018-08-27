@@ -83,6 +83,7 @@ public class EditUsernameFragment extends BaseBarDialogFragment {
                             accountMessage.getResult().setUserName(newUserName);
                             LoginPresenter.updateLoginMessage(accountMessage);
                         }
+                        ToastUtils.showShort(R.string.edit_username_success);
                         dismiss();
                     }
 
