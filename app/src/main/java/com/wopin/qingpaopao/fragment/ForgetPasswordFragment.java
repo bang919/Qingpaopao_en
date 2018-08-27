@@ -12,7 +12,7 @@ import com.wopin.qingpaopao.view.ForgetPasswordView;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class ForgetPasswordFragment extends BaseDialogFragment<ForgetPasswordPresenter> implements View.OnClickListener, ForgetPasswordView {
+public class ForgetPasswordFragment extends BaseBarDialogFragment<ForgetPasswordPresenter> implements View.OnClickListener, ForgetPasswordView {
 
     public static final String TAG = "ForgetPasswordFragment";
 
@@ -45,8 +45,13 @@ public class ForgetPasswordFragment extends BaseDialogFragment<ForgetPasswordPre
         mVerificationCodeView = rootView.findViewById(R.id.get_verification_code);
         mVerificationCodeView.setOnClickListener(this);
 
-        rootView.findViewById(R.id.iv_back).setOnClickListener(this);
+//        rootView.findViewById(R.id.iv_back).setOnClickListener(this);
         rootView.findViewById(R.id.bt_confirm).setOnClickListener(this);
+    }
+
+    @Override
+    protected int setRootLayoutBackgroundColor() {
+        return getContext().getResources().getColor(R.color.colorWhite);
     }
 
     @Override
@@ -131,5 +136,10 @@ public class ForgetPasswordFragment extends BaseDialogFragment<ForgetPasswordPre
     @Override
     public void onError(String errorMsg) {
         ToastUtils.showShort(errorMsg);
+    }
+
+    @Override
+    protected String setBarTitle() {
+        return getString(R.string.forget_password);
     }
 }

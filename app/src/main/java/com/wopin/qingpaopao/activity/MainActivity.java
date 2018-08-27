@@ -6,6 +6,7 @@ import android.support.v4.view.ViewPager;
 
 import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.adapter.MainViewPagerAdapter;
+import com.wopin.qingpaopao.common.Constants;
 import com.wopin.qingpaopao.fragment.BaseMainFragment;
 import com.wopin.qingpaopao.presenter.MainPresenter;
 import com.wopin.qingpaopao.utils.ToastUtils;
@@ -17,6 +18,11 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
     private ViewPager mViewPager;
     private MainViewPagerAdapter mViewpagerAdapter;
     private TabLayout mTablayout;
+
+    @Override
+    protected int getBarColor() {
+        return Constants.NULL_COLOR;
+    }
 
     @Override
     protected int getLayout() {

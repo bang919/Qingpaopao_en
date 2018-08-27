@@ -1,11 +1,16 @@
 package com.wopin.qingpaopao.fragment;
 
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.wopin.qingpaopao.R;
+import com.wopin.qingpaopao.adapter.MineGridRvAdapter;
+import com.wopin.qingpaopao.adapter.MineListRvAdapter;
 import com.wopin.qingpaopao.presenter.BasePresenter;
 
-public class MineFragment extends BaseMainFragment {
+public class MineFragment extends BaseMainFragment implements MineGridRvAdapter.MineGridRvCallback, MineListRvAdapter.MineListRvCallback {
     @Override
     protected int getLayout() {
         return R.layout.fragment_mine;
@@ -18,7 +23,17 @@ public class MineFragment extends BaseMainFragment {
 
     @Override
     protected void initView(View rootView) {
+        RecyclerView gridRecyclerView = rootView.findViewById(R.id.grid_recyclerview);
+        gridRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 4));
+        gridRecyclerView.setAdapter(new MineGridRvAdapter(this));
 
+        RecyclerView listRecyclerView = rootView.findViewById(R.id.list_recyclerview);
+        listRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        listRecyclerView.setAdapter(new MineListRvAdapter(
+                new int[]{R.string.my_collect, R.string.my_fans, R.string.my_focus},
+                new int[]{R.mipmap.pc_source, R.mipmap.h_profile2, R.mipmap.r_head},
+                this
+        ));
     }
 
     @Override
@@ -29,5 +44,40 @@ public class MineFragment extends BaseMainFragment {
     @Override
     public void refreshData() {
 
+    }
+
+    @Override
+    public void onGridItemClick(int textResource, int position) {
+        switch (textResource) {
+            case R.string.my_drinking:
+                break;
+            case R.string.my_health:
+                break;
+            case R.string.information_edit:
+                new InformationEditFragment().show(getFragmentManager(), InformationEditFragment.TAG);
+                break;
+            case R.string.invite_friends:
+                break;
+            case R.string.focus_subtitle:
+                break;
+            case R.string.history_list:
+                break;
+            case R.string.user_guide:
+                break;
+            case R.string.system_setting:
+                break;
+        }
+    }
+
+    @Override
+    public void onListItemClick(int textResource, int position) {
+        switch (textResource) {
+            case R.string.my_collect:
+                break;
+            case R.string.my_fans:
+                break;
+            case R.string.my_focus:
+                break;
+        }
     }
 }

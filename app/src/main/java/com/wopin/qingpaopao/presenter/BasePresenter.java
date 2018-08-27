@@ -1,11 +1,9 @@
 package com.wopin.qingpaopao.presenter;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.util.Log;
 
-import com.wopin.qingpaopao.bean.response.NormalRsp;
-import com.wopin.qingpaopao.utils.ExceptionUtil;
+import com.wopin.qingpaopao.utils.HttpUtil;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -32,7 +30,7 @@ public class BasePresenter<V> {
         mContext = context;
     }
 
-    protected <T extends NormalRsp> void subscribeNetworkTask(Observable<T> observable) {
+    protected <T> void subscribeNetworkTask(Observable<T> observable) {
         observable.retry(2).subscribe(new Observer<T>() {
             @Override
             public void onSubscribe(Disposable d) {
@@ -101,7 +99,7 @@ public class BasePresenter<V> {
 
         removeObserver(observerTag);
 
-        return new Observer<T>() {
+        return HttpUtil.handlerObserver(new Observer<T>() {
             @Override
             public void onSubscribe(Disposable d) {
                 putObserver(observerTag, d);
@@ -109,23 +107,12 @@ public class BasePresenter<V> {
 
             @Override
             public void onNext(T t) {
-                if (t instanceof NormalRsp) {
-                    NormalRsp normalRsp = (NormalRsp) t;
-                    String status = normalRsp.getStatus();
-                    if (TextUtils.isEmpty(status) || Integer.valueOf(status) == 0) {
-                        observer.onMyNext(t);
-                    } else {
-                        onError(new Throwable(normalRsp.getMsg()));
-                    }
-                } else {
-                    observer.onMyNext(t);
-                }
+                observer.onMyNext(t);
             }
 
             @Override
             public void onError(Throwable e) {
-                String errorMessage = ExceptionUtil.getHttpExceptionMessage(e);
-                observer.onMyError(errorMessage);
+                observer.onMyError(e.getMessage());
                 removeObserver(observerTag);
             }
 
@@ -133,7 +120,7 @@ public class BasePresenter<V> {
             public void onComplete() {
                 removeObserver(observerTag);
             }
-        };
+        });
     }
 
     public interface MyObserver<T> {

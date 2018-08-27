@@ -5,7 +5,7 @@
     <string name="accept">Accept</string>
 
 
-    <string name="double_click_to_exit">再按一次返回键退出</string>
+    <string name="double_click_to_exit">双击返回键退出</string>
     <string name="confirm">确定</string>
     <string name="cancel">取消</string>
     <string name="login">登录</string>
@@ -32,5 +32,31 @@
     <string name="explore">探索</string>
     <string name="welfare_discounts">福利/优惠</string>
     <string name="mine">我的</string>
+    <string name="score">积分</string>
+    <string name="sign_in"><u>签到</u></string>
+    <string name="current_drink_quantity">当前喝水量</string>
+    <string name="total_drink_quantity">累计喝水量</string>
+
+    <string name="my_drinking">我的喝水</string>
+    <string name="my_health">我的健康</string>
+    <string name="information_edit">资料修改</string>
+    <string name="invite_friends">邀请好友</string>
+    <string name="focus_subtitle">关注话题</string>
+    <string name="history_list">浏览历史</string>
+    <string name="user_guide">用户指南</string>
+    <string name="system_setting">系统设置</string>
+    <string name="my_collect">我的收藏</string>
+    <string name="my_fans">我的粉丝</string>
+    <string name="my_focus">我的关注</string>
+    <string name="person_info">个人基本信息</string>
+    <string name="edit_bind_phone">修改绑定手机</string>
+    <string name="edit_bind_third">第三方绑定</string>
+    <string name="edit_password">修改密码</string>
+    <string name="safe_logout">安全退出</string>
+    <string name="head_portrait">头像</string>
+    <string name="username">用户名</string>
+    <string name="edit_username">修改用户名</string>
+    <string name="save">保存</string>
+    <string name="please_input_new_username">请输入新的用户名</string>
 
 </resources>

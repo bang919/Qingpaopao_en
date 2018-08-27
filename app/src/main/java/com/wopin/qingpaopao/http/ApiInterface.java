@@ -47,4 +47,7 @@ public interface ApiInterface {
     @POST("users/changeIcon")
     Observable<NormalRsp> changeIcon(@Body ThirdReq loginReq);
 
+    @POST("users/changeUserName")
+    Observable<NormalRsp> changeUsername(@Body ThirdReq loginReq);
+
 }
