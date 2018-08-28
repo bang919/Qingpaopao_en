@@ -14,6 +14,8 @@ import com.wopin.qingpaopao.presenter.BasePresenter;
 
 public abstract class BaseBarDialogFragment<P extends BasePresenter> extends BaseDialogFragment<P> {
 
+    public boolean isDestroy;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -25,6 +27,12 @@ public abstract class BaseBarDialogFragment<P extends BasePresenter> extends Bas
         setBaseUi(rootLayout);
 
         return rootLayout;
+    }
+
+    @Override
+    public void onDestroy() {
+        isDestroy = true;
+        super.onDestroy();
     }
 
     private void addChildToRootView(ConstraintLayout rootLayout, View child) {

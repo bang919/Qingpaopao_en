@@ -21,10 +21,11 @@
         android:id="@+id/et_input_username"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:layout_marginLeft="100dp"
+        android:layout_marginLeft="110dp"
         android:background="@null"
         android:hint="@string/please_input_new_username"
         android:singleLine="true"
+        android:textSize="20sp"
         app:layout_constraintBaseline_toBaselineOf="@id/tv_username"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />

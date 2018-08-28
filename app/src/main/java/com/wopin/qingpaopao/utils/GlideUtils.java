@@ -35,17 +35,18 @@ public class GlideUtils {
     }
 
     public static void loadImage(ImageView imageView, int imgDefaultSource, String imgUrl, BitmapTransformation... transformation) {
-        if (!TextUtils.isEmpty(imgUrl)) {
-            RequestBuilder<Drawable> requestBuilder = Glide.with(imageView.getContext()).load(imgUrl);
-            RequestOptions requestOptions = new RequestOptions();
-            if (transformation.length != 0) {
-                requestOptions.transforms(transformation);
-            }
-            if (imgDefaultSource != 0 && imgDefaultSource != -1) {
-                requestOptions.placeholder(imgDefaultSource);
-            }
-            requestBuilder.apply(requestOptions);
-            requestBuilder.into(imageView);
+        if (TextUtils.isEmpty(imgUrl) && imgDefaultSource <= 0) {
+            return;
         }
+        RequestBuilder<Drawable> requestBuilder = Glide.with(imageView.getContext()).load(!TextUtils.isEmpty(imgUrl) ? imgUrl : imgDefaultSource);
+        RequestOptions requestOptions = new RequestOptions();
+        if (transformation.length != 0) {
+            requestOptions.transforms(transformation);
+        }
+        if (imgDefaultSource != 0 && imgDefaultSource != -1) {
+            requestOptions.placeholder(imgDefaultSource);
+        }
+        requestBuilder.apply(requestOptions);
+        requestBuilder.into(imageView);
     }
 }

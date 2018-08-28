@@ -28,8 +28,21 @@ public class LoginModel {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<NormalRsp> changePassword(LoginReq loginReq) {
+    public Observable<NormalRsp> changePassword(String phoneNumber, String vcode, String newPassword) {
+        LoginReq loginReq = new LoginReq();
+        loginReq.setPhone(phoneNumber);
+        loginReq.setV_code(vcode);
+        loginReq.setPassword(newPassword);
         return HttpClient.getApiInterface().changePassword(loginReq)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<NormalRsp> changePhone(String phoneNumber, String vcode) {
+        LoginReq loginReq = new LoginReq();
+        loginReq.setPhone(phoneNumber);
+        loginReq.setV_code(vcode);
+        return HttpClient.getApiInterface().changePhone(loginReq)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

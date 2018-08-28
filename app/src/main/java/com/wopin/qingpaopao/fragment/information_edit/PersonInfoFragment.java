@@ -1,4 +1,4 @@
-package com.wopin.qingpaopao.fragment;
+package com.wopin.qingpaopao.fragment.information_edit;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.adapter.MineListRvAdapter;
+import com.wopin.qingpaopao.fragment.BaseBarDialogFragment;
 import com.wopin.qingpaopao.presenter.BasePresenter;
 import com.wopin.qingpaopao.presenter.LoginPresenter;
 

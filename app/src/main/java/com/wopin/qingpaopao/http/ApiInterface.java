@@ -38,6 +38,9 @@ public interface ApiInterface {
     @POST("users/changePassword")
     Observable<NormalRsp> changePassword(@Body LoginReq loginReq);
 
+    @POST("users/changePhone")
+    Observable<NormalRsp> changePhone(@Body LoginReq loginReq);
+
     @POST("users/thirdRegister")
     Observable<NormalRsp> thirdRegister(@Body ThirdReq loginReq);
 

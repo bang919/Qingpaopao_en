@@ -11,8 +11,11 @@
     <string name="login">登录</string>
     <string name="please_input_phone_number">请输入手机号码</string>
     <string name="please_input_password">请输入密码</string>
+    <string name="new_password">新密码</string>
+    <string name="double_check_password">确认密码</string>
     <string name="please_input_password_again">请再次输入密码</string>
     <string name="password_double_check_error">两次密码输入不相同，请核实</string>
+    <string name="verification_code">验证码</string>
     <string name="please_input_verification_code">请输入短信验证码</string>
     <string name="forget_password">忘记密码</string>
     <string name="have_no_account">还没有账号？</string>
@@ -59,5 +62,9 @@
     <string name="edit_username_success">修改用户名成功！</string>
     <string name="save">保存</string>
     <string name="please_input_new_username">请输入新的用户名</string>
+    <string name="phone_number">手机号</string>
+    <string name="edit_phone_number">修改手机号</string>
+    <string name="edit_phone_number_success">修改手机号成功！</string>
+    <string name="please_bind_phone_number">请先绑定手机号码</string>
 
 </resources>

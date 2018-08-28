@@ -1,4 +1,4 @@
-package com.wopin.qingpaopao.fragment;
+package com.wopin.qingpaopao.fragment.information_edit;
 
 import android.content.DialogInterface;
 import android.text.TextUtils;
@@ -10,6 +10,7 @@ import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.bean.request.ThirdReq;
 import com.wopin.qingpaopao.bean.response.LoginRsp;
 import com.wopin.qingpaopao.bean.response.NormalRsp;
+import com.wopin.qingpaopao.fragment.BaseBarDialogFragment;
 import com.wopin.qingpaopao.http.HttpClient;
 import com.wopin.qingpaopao.presenter.BasePresenter;
 import com.wopin.qingpaopao.presenter.LoginPresenter;
@@ -78,18 +79,20 @@ public class EditUsernameFragment extends BaseBarDialogFragment {
                 new BasePresenter.MyObserver<NormalRsp>() {
                     @Override
                     public void onMyNext(NormalRsp normalRsp) {
-                        if (getContext() != null) {
-                            LoginRsp accountMessage = LoginPresenter.getAccountMessage();
-                            accountMessage.getResult().setUserName(newUserName);
-                            LoginPresenter.updateLoginMessage(accountMessage);
-                        }
+                        LoginRsp accountMessage = LoginPresenter.getAccountMessage();
+                        accountMessage.getResult().setUserName(newUserName);
+                        LoginPresenter.updateLoginMessage(accountMessage);
                         ToastUtils.showShort(R.string.edit_username_success);
-                        dismiss();
+                        if (!isDestroy) {
+                            dismiss();
+                        }
                     }
 
                     @Override
                     public void onMyError(String errorMessage) {
-                        ToastUtils.showShort(errorMessage);
+                        if (!isDestroy) {
+                            ToastUtils.showShort(errorMessage);
+                        }
                     }
                 });
     }

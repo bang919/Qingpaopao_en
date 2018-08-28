@@ -38,7 +38,7 @@ public class LoginRsp extends NormalRsp implements Serializable {
          */
 
         private String _id;
-        private long phone;
+        private String phone;
         private int drinks;
         private int scores;
         private String userName;
@@ -59,11 +59,11 @@ public class LoginRsp extends NormalRsp implements Serializable {
             this._id = _id;
         }
 
-        public long getPhone() {
+        public String getPhone() {
             return phone;
         }
 
-        public void setPhone(long phone) {
+        public void setPhone(String phone) {
             this.phone = phone;
         }
 

@@ -88,11 +88,13 @@ public class BasePresenter<V> {
     }
 
     public void cancelAllRequest() {
-        Iterator<Map.Entry<String, Disposable>> iterator = mDisposableMap.entrySet().iterator();
-        while (iterator.hasNext()) {
-            iterator.next().getValue().dispose();
+        if (mDisposableMap != null) {
+            Iterator<Map.Entry<String, Disposable>> iterator = mDisposableMap.entrySet().iterator();
+            while (iterator.hasNext()) {
+                iterator.next().getValue().dispose();
+            }
+            mDisposableMap.clear();
         }
-        mDisposableMap.clear();
     }
 
     public <T> Observer<T> createObserver(final String observerTag, final MyObserver<T> observer) {

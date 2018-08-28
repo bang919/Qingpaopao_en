@@ -2,37 +2,46 @@ package com.wopin.qingpaopao.presenter;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.wopin.qingpaopao.R;
-import com.wopin.qingpaopao.bean.request.LoginReq;
 import com.wopin.qingpaopao.bean.response.NormalRsp;
 import com.wopin.qingpaopao.common.Constants;
 import com.wopin.qingpaopao.common.MyApplication;
 import com.wopin.qingpaopao.model.LoginModel;
 import com.wopin.qingpaopao.utils.SPUtils;
 import com.wopin.qingpaopao.view.ForgetPasswordView;
+import com.wopin.qingpaopao.view.SendVerifyCodeView;
 
 public class ForgetPasswordPresenter extends BasePresenter<ForgetPasswordView> {
 
     private LoginModel mLoginModel;
+    private SendVerifyCodePresenter mSendVerifyCodePresenter;
 
     public ForgetPasswordPresenter(Context context, ForgetPasswordView view) {
         super(context, view);
         mLoginModel = new LoginModel();
-    }
-
-    public void sendVerifyCode(String phoneNumber) {
-        subscribeNetworkTask(getClass().getName().concat("sendVerifyCode"), mLoginModel.sendVerifyCode(phoneNumber), new MyObserver<NormalRsp>() {
+        mSendVerifyCodePresenter = new SendVerifyCodePresenter(context, new SendVerifyCodeView() {
             @Override
-            public void onMyNext(NormalRsp normalRsp) {
-                mView.onSendVerifyCodeComplete();
-            }
-
-            @Override
-            public void onMyError(String errorMessage) {
-                mView.onError(errorMessage);
+            public void onError(String errorMsg) {
+                mView.onError(errorMsg);
             }
         });
+    }
+
+    @Override
+    public void destroy() {
+        mSendVerifyCodePresenter.destroy();
+        super.destroy();
+    }
+
+    public void setViews(EditText phoneNumberEt, TextView vCodeTv) {
+        mSendVerifyCodePresenter.setViews(phoneNumberEt, vCodeTv);
+    }
+
+    public void sendVerifyCode() {
+        mSendVerifyCodePresenter.sendVerifyCode();
     }
 
     public void changePassword(final String phoneNumber, String newPassword, String passwordCheck, String vcode) {
@@ -43,11 +52,7 @@ public class ForgetPasswordPresenter extends BasePresenter<ForgetPasswordView> {
             mView.onError(mContext.getString(R.string.password_double_check_error));
             return;
         }
-        LoginReq loginReq = new LoginReq();
-        loginReq.setPhone(phoneNumber);
-        loginReq.setV_code(vcode);
-        loginReq.setPassword(newPassword);
-        subscribeNetworkTask(getClass().getName().concat("changePassword"), mLoginModel.changePassword(loginReq), new MyObserver<NormalRsp>() {
+        subscribeNetworkTask(getClass().getName().concat("changePassword"), mLoginModel.changePassword(phoneNumber, vcode, newPassword), new MyObserver<NormalRsp>() {
             @Override
             public void onMyNext(NormalRsp normalRsp) {
                 SPUtils.put(MyApplication.getMyApplicationContext(), Constants.USERNAME, phoneNumber);

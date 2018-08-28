@@ -1,11 +1,13 @@
-package com.wopin.qingpaopao.fragment;
+package com.wopin.qingpaopao.fragment.information_edit;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.wopin.qingpaopao.R;
+import com.wopin.qingpaopao.activity.BaseActivity;
 import com.wopin.qingpaopao.adapter.MineListRvAdapter;
+import com.wopin.qingpaopao.fragment.BaseBarDialogFragment;
 import com.wopin.qingpaopao.presenter.BasePresenter;
 
 public class InformationEditFragment extends BaseBarDialogFragment implements MineListRvAdapter.MineListRvCallback, View.OnClickListener {
@@ -47,10 +49,12 @@ public class InformationEditFragment extends BaseBarDialogFragment implements Mi
                 new PersonInfoFragment().show(getFragmentManager(), PersonInfoFragment.TAG);
                 break;
             case R.string.edit_bind_phone:
+                new BindPhoneNumberFragment().show(getFragmentManager(), BindPhoneNumberFragment.TAG);
                 break;
             case R.string.edit_bind_third:
                 break;
             case R.string.edit_password:
+                new EditPasswordFragment().show(getFragmentManager(), EditPasswordFragment.TAG);
                 break;
         }
     }
@@ -59,6 +63,7 @@ public class InformationEditFragment extends BaseBarDialogFragment implements Mi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bt_safe_logout:
+                ((BaseActivity) getActivity()).logout();
                 break;
         }
     }

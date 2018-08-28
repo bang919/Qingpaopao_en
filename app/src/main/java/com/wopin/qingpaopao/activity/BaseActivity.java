@@ -21,8 +21,9 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 
 import com.wopin.qingpaopao.R;
-import com.wopin.qingpaopao.presenter.BasePresenter;
 import com.wopin.qingpaopao.common.Constants;
+import com.wopin.qingpaopao.presenter.BasePresenter;
+import com.wopin.qingpaopao.presenter.LoginPresenter;
 
 import java.util.Map;
 
@@ -242,5 +243,13 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         super.onDestroy();
         if (mPresenter != null)
             mPresenter.destroy();
+    }
+
+    public void logout() {
+        LoginPresenter.logout();
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
     }
 }

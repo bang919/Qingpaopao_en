@@ -9,9 +9,6 @@ import com.wopin.qingpaopao.presenter.ForgetPasswordPresenter;
 import com.wopin.qingpaopao.utils.ToastUtils;
 import com.wopin.qingpaopao.view.ForgetPasswordView;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 public class ForgetPasswordFragment extends BaseBarDialogFragment<ForgetPasswordPresenter> implements View.OnClickListener, ForgetPasswordView {
 
     public static final String TAG = "ForgetPasswordFragment";
@@ -21,10 +18,6 @@ public class ForgetPasswordFragment extends BaseBarDialogFragment<ForgetPassword
     private EditText mPasswordEt;
     private EditText mDoubleCheckPasswordEt;
     private TextView mVerificationCodeView;
-
-    private Timer timer;
-    private TimerTask task;
-    private int timeSecond = 60;
 
     @Override
     protected int getLayout() {
@@ -47,6 +40,8 @@ public class ForgetPasswordFragment extends BaseBarDialogFragment<ForgetPassword
 
 //        rootView.findViewById(R.id.iv_back).setOnClickListener(this);
         rootView.findViewById(R.id.bt_confirm).setOnClickListener(this);
+
+        mPresenter.setViews(mPhoneNumberEt, mVerificationCodeView);
     }
 
     @Override
@@ -55,54 +50,8 @@ public class ForgetPasswordFragment extends BaseBarDialogFragment<ForgetPassword
     }
 
     @Override
-    public void onDestroy() {
-        cancelTimer();
-        super.onDestroy();
-    }
-
-    @Override
     protected void initEvent() {
 
-    }
-
-    private void startTimer() {
-        cancelTimer();
-        timer = new Timer();
-        task = new TimerTask() {
-            @Override
-            public void run() {
-                if (timeSecond == 1) {
-                    cancelTimer();
-                } else {
-                    mVerificationCodeView.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            mVerificationCodeView.setText(getString(R.string.get_verification_code).concat("(").concat(String.valueOf(timeSecond).concat(")")));
-                        }
-                    });
-                    timeSecond--;
-                }
-            }
-        };
-        timer.schedule(task, 0, 1000);
-        mVerificationCodeView.setClickable(false);
-    }
-
-    private void cancelTimer() {
-        mVerificationCodeView.post(new Runnable() {
-            @Override
-            public void run() {
-                mVerificationCodeView.setText(R.string.get_verification_code);
-            }
-        });
-        timeSecond = 60;
-        if (timer != null) {
-            timer.cancel();
-        }
-        if (task != null) {
-            task.cancel();
-        }
-        mVerificationCodeView.setClickable(true);
     }
 
     @Override
@@ -112,19 +61,13 @@ public class ForgetPasswordFragment extends BaseBarDialogFragment<ForgetPassword
                 dismiss();
                 break;
             case R.id.get_verification_code:
-                mPresenter.sendVerifyCode(mPhoneNumberEt.getText().toString());
+                mPresenter.sendVerifyCode();
                 break;
             case R.id.bt_confirm:
                 mPresenter.changePassword(mPhoneNumberEt.getText().toString(), mPasswordEt.getText().toString()
                         , mDoubleCheckPasswordEt.getText().toString(), mVerificationCodeEt.getText().toString());
                 break;
         }
-    }
-
-    @Override
-    public void onSendVerifyCodeComplete() {
-        ToastUtils.showShort(R.string.verification_code_had_send);
-        startTimer();
     }
 
     @Override
