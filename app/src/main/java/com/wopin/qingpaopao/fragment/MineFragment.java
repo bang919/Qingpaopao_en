@@ -14,6 +14,8 @@ import com.wopin.qingpaopao.adapter.MineGridRvAdapter;
 import com.wopin.qingpaopao.adapter.MineListRvAdapter;
 import com.wopin.qingpaopao.bean.response.LoginRsp;
 import com.wopin.qingpaopao.fragment.information_edit.InformationEditFragment;
+import com.wopin.qingpaopao.fragment.system_setting.SystemSettingFragment;
+import com.wopin.qingpaopao.fragment.user_guide.UserGuideFragment;
 import com.wopin.qingpaopao.presenter.BasePresenter;
 import com.wopin.qingpaopao.presenter.LoginPresenter;
 import com.wopin.qingpaopao.utils.GlideUtils;
@@ -102,8 +104,10 @@ public class MineFragment extends BaseMainFragment implements MineGridRvAdapter.
             case R.string.history_list:
                 break;
             case R.string.user_guide:
+                new UserGuideFragment().show(getFragmentManager(), UserGuideFragment.TAG);
                 break;
             case R.string.system_setting:
+                new SystemSettingFragment().show(getFragmentManager(), SystemSettingFragment.TAG);
                 break;
         }
     }
