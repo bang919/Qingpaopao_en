@@ -54,9 +54,9 @@ public class PersonInfoFragment extends BaseBarDialogFragment implements MineLis
             case R.string.username:
                 EditUsernameFragment editUsernameFragment = new EditUsernameFragment();
                 editUsernameFragment.show(getFragmentManager(), EditUsernameFragment.TAG);
-                editUsernameFragment.setEditUsernameCallback(new EditUsernameFragment.EditUsernameCallback() {
+                editUsernameFragment.setOnBaseBarDialogFragmentCallback(new OnBaseBarDialogFragmentCallback() {
                     @Override
-                    public void onEditUsernameDismiss() {
+                    public void onDismiss() {
                         initEvent();
                     }
                 });

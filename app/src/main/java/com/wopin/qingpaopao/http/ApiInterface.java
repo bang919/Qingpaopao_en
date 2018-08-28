@@ -5,6 +5,7 @@ import com.wopin.qingpaopao.bean.request.LoginReq;
 import com.wopin.qingpaopao.bean.request.ThirdReq;
 import com.wopin.qingpaopao.bean.response.LoginRsp;
 import com.wopin.qingpaopao.bean.response.NormalRsp;
+import com.wopin.qingpaopao.bean.response.ThirdBindRsp;
 
 import io.reactivex.Observable;
 import okhttp3.ResponseBody;
@@ -46,6 +47,12 @@ public interface ApiInterface {
 
     @POST("users/thirdLogin")
     Observable<LoginRsp> thirdLogin(@Body ThirdReq loginReq);
+
+    @POST("users/getThirdBinding")
+    Observable<ThirdBindRsp> getThirdBinding();
+
+    @POST("users/thirdBinding")
+    Observable<NormalRsp> thirdBinding(@Body ThirdReq loginReq);
 
     @POST("users/changeIcon")
     Observable<NormalRsp> changeIcon(@Body ThirdReq loginReq);

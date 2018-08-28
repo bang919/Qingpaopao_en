@@ -86,7 +86,14 @@ public class MineFragment extends BaseMainFragment implements MineGridRvAdapter.
             case R.string.my_health:
                 break;
             case R.string.information_edit:
-                new InformationEditFragment().show(getFragmentManager(), InformationEditFragment.TAG);
+                InformationEditFragment informationEditFragment = new InformationEditFragment();
+                informationEditFragment.show(getFragmentManager(), InformationEditFragment.TAG);
+                informationEditFragment.setOnBaseBarDialogFragmentCallback(new BaseBarDialogFragment.OnBaseBarDialogFragmentCallback() {
+                    @Override
+                    public void onDismiss() {
+                        refreshData();
+                    }
+                });
                 break;
             case R.string.invite_friends:
                 break;

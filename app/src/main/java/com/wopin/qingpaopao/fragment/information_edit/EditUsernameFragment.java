@@ -1,6 +1,5 @@
 package com.wopin.qingpaopao.fragment.information_edit;
 
-import android.content.DialogInterface;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -24,11 +23,6 @@ public class EditUsernameFragment extends BaseBarDialogFragment {
 
     public static final String TAG = "EditUsernameFragment";
     private EditText mUsernameEt;
-    private EditUsernameCallback mEditUsernameCallback;
-
-    public void setEditUsernameCallback(EditUsernameCallback editUsernameCallback) {
-        mEditUsernameCallback = editUsernameCallback;
-    }
 
     @Override
     protected String setBarTitle() {
@@ -95,17 +89,5 @@ public class EditUsernameFragment extends BaseBarDialogFragment {
                         }
                     }
                 });
-    }
-
-    @Override
-    public void onDismiss(DialogInterface dialog) {
-        super.onDismiss(dialog);
-        if (mEditUsernameCallback != null) {
-            mEditUsernameCallback.onEditUsernameDismiss();
-        }
-    }
-
-    public interface EditUsernameCallback {
-        void onEditUsernameDismiss();
     }
 }

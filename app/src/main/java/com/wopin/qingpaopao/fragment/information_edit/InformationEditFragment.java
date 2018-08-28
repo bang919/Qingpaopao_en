@@ -52,6 +52,7 @@ public class InformationEditFragment extends BaseBarDialogFragment implements Mi
                 new BindPhoneNumberFragment().show(getFragmentManager(), BindPhoneNumberFragment.TAG);
                 break;
             case R.string.edit_bind_third:
+                new ThirdBindFragment().show(getFragmentManager(), ThirdBindFragment.TAG);
                 break;
             case R.string.edit_password:
                 new EditPasswordFragment().show(getFragmentManager(), EditPasswordFragment.TAG);

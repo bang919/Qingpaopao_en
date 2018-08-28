@@ -2,33 +2,27 @@ package com.wopin.qingpaopao.presenter;
 
 import android.content.Context;
 
-import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.bean.request.LoginReq;
 import com.wopin.qingpaopao.bean.response.LoginRsp;
 import com.wopin.qingpaopao.bean.response.NormalRsp;
 import com.wopin.qingpaopao.common.Constants;
 import com.wopin.qingpaopao.common.MyApplication;
 import com.wopin.qingpaopao.model.LoginModel;
+import com.wopin.qingpaopao.model.ThirdLoginModel;
 import com.wopin.qingpaopao.utils.SPUtils;
 import com.wopin.qingpaopao.view.LoginView;
 
-import java.util.HashMap;
-
 import cn.sharesdk.framework.Platform;
-import cn.sharesdk.framework.PlatformActionListener;
-import cn.sharesdk.framework.PlatformDb;
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 
 public class LoginPresenter extends BasePresenter<LoginView> {
 
     private LoginModel mLoginModel;
+    private ThirdLoginModel mThirdLoginModel;
 
     public LoginPresenter(Context context, LoginView view) {
         super(context, view);
         mLoginModel = new LoginModel();
+        mThirdLoginModel = new ThirdLoginModel();
     }
 
     public void sendVerifyCode(String phoneNumber) {
@@ -80,43 +74,17 @@ public class LoginPresenter extends BasePresenter<LoginView> {
     }
 
     public void loginByThird(final Platform platform) {
-        if (platform.isAuthValid()) {
-            platform.removeAccount(true);
-        }
-        platform.SSOSetting(false);
-        platform.setPlatformActionListener(new PlatformActionListener() {
+        mThirdLoginModel.loginByThird(platform, new ThirdLoginModel.ThirdLoginCallback() {
             @Override
-            public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
-                PlatformDb db = platform.getDb();
-                String platformName = db.getPlatformNname();
-                String userName = db.getUserName();
-                String userId = db.getUserId();
-                String userIcon = db.getUserIcon();
+            public void onThirdSuccess(String platformName, String userName, String userId, String userIcon) {
                 loginByThird(platformName, userName, userId, userIcon);
             }
 
             @Override
-            public void onError(Platform platform, int i, Throwable throwable) {
-                String errorMsg = throwable.toString();
-                if (errorMsg.contains("WechatClientNotExistException")) {
-                    errorMsg = mContext.getString(R.string.wechat_client_not_exist);
-                }
-                Disposable subscribe = Observable.just(errorMsg)
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Consumer<String>() {
-                            @Override
-                            public void accept(String s) throws Exception {
-                                mView.onError(s);
-                            }
-                        });
-            }
-
-            @Override
-            public void onCancel(Platform platform, int i) {
-                mView.onError(mContext.getString(R.string.cancel));
+            public void onFailure(String errorMessage) {
+                mView.onError(errorMessage);
             }
         });
-        platform.showUser(null);
     }
 
     private void loginByThird(String platformName, String userName, String userId, String userIcon) {

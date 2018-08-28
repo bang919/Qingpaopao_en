@@ -1,5 +1,6 @@
 package com.wopin.qingpaopao.fragment;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,6 +16,12 @@ import com.wopin.qingpaopao.presenter.BasePresenter;
 public abstract class BaseBarDialogFragment<P extends BasePresenter> extends BaseDialogFragment<P> {
 
     public boolean isDestroy;
+    private OnBaseBarDialogFragmentCallback mOnBaseBarDialogFragmentCallback;
+
+
+    public void setOnBaseBarDialogFragmentCallback(OnBaseBarDialogFragmentCallback onBaseBarDialogFragmentCallback) {
+        mOnBaseBarDialogFragmentCallback = onBaseBarDialogFragmentCallback;
+    }
 
     @Nullable
     @Override
@@ -33,6 +40,14 @@ public abstract class BaseBarDialogFragment<P extends BasePresenter> extends Bas
     public void onDestroy() {
         isDestroy = true;
         super.onDestroy();
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        if (mOnBaseBarDialogFragmentCallback != null) {
+            mOnBaseBarDialogFragmentCallback.onDismiss();
+        }
     }
 
     private void addChildToRootView(ConstraintLayout rootLayout, View child) {
@@ -70,5 +85,9 @@ public abstract class BaseBarDialogFragment<P extends BasePresenter> extends Bas
     }
 
     protected void onTopRightCornerTextView(TextView textView) {
+    }
+
+    public interface OnBaseBarDialogFragmentCallback {
+        void onDismiss();
     }
 }
