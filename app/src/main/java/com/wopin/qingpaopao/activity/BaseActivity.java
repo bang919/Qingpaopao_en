@@ -22,10 +22,13 @@ import android.widget.FrameLayout;
 
 import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.common.Constants;
+import com.wopin.qingpaopao.http.HttpClient;
 import com.wopin.qingpaopao.presenter.BasePresenter;
 import com.wopin.qingpaopao.presenter.LoginPresenter;
 
 import java.util.Map;
+
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by bigbang on 2017/5/2.
@@ -246,6 +249,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     }
 
     public void logout() {
+        HttpClient.getApiInterface().logout().subscribeOn(Schedulers.io()).subscribe();
         LoginPresenter.logout();
         Intent intent = new Intent(this, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

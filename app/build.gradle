@@ -2,15 +2,15 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.mob.sdk'
 
 MobSDK {
-    appKey "278e37a5dcb00"
-    appSecret "5c1b2ba431205dbcf32771abc50d7760"
+    appKey "27a89440df526"
+    appSecret "292406c50d207abb194814722bc73b27"
 
     ShareSDK {
         //平台配置信息
         devInfo {
             SinaWeibo {
-                appKey "1871771910"
-                appSecret "b255a1185ff2d6255b076db56a6823b3"
+                appKey "2651811369"
+                appSecret "d831739acdb1855d8af7814c9f518e1f"
                 callbackUri "http://sns.whalecloud.com"
                 shareByAppClient true
             }
@@ -45,6 +45,16 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
+    //签名 db9977b6f3fe07fedf86f7eb11ab6751
+    signingConfigs {
+        mysigning {
+            storeFile file("${rootProject.rootDir}/qingpaopao.jks")
+            storePassword "qingpaopao"
+            keyAlias "qingpaopao"
+            keyPassword "qingpaopao"
+        }
+    }
+
     //重命名apk
     android.applicationVariants.all { variant ->
         variant.outputs.all {
@@ -54,7 +64,12 @@ android {
 
     buildTypes {
 
+        debug {
+            signingConfig signingConfigs.mysigning
+        }
+
         release {
+            signingConfig signingConfigs.mysigning
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }

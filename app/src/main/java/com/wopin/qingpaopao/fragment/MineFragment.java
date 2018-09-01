@@ -13,12 +13,18 @@ import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.adapter.MineGridRvAdapter;
 import com.wopin.qingpaopao.adapter.MineListRvAdapter;
 import com.wopin.qingpaopao.bean.response.LoginRsp;
+import com.wopin.qingpaopao.bean.response.NormalRsp;
 import com.wopin.qingpaopao.fragment.information_edit.InformationEditFragment;
 import com.wopin.qingpaopao.fragment.system_setting.SystemSettingFragment;
 import com.wopin.qingpaopao.fragment.user_guide.UserGuideFragment;
+import com.wopin.qingpaopao.http.HttpClient;
 import com.wopin.qingpaopao.presenter.BasePresenter;
 import com.wopin.qingpaopao.presenter.LoginPresenter;
 import com.wopin.qingpaopao.utils.GlideUtils;
+import com.wopin.qingpaopao.utils.HttpUtil;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class MineFragment extends BaseMainFragment implements MineGridRvAdapter.MineGridRvCallback, MineListRvAdapter.MineListRvCallback, View.OnClickListener {
 
@@ -72,12 +78,32 @@ public class MineFragment extends BaseMainFragment implements MineGridRvAdapter.
 
     @Override
     public void refreshData() {
-        LoginRsp.ResultBean result = LoginPresenter.getAccountMessage().getResult();
-        mPhoneNumberTv.setText(result.getPhone());
-        mUsernameTv.setText(result.getUserName());
-        mScoreTv.setText(result.getScores() + " " + getString(R.string.score));
-        String iconUrl = result.getIcon();
-        GlideUtils.loadImage(mHeadIconIv, R.mipmap.i_bigicon, iconUrl, new CircleCrop(), new CenterCrop());
+        LoginRsp accountMessage = LoginPresenter.getAccountMessage();
+        if (accountMessage != null) {
+            LoginRsp.ResultBean result = accountMessage.getResult();
+            mPhoneNumberTv.setText(result.getPhone());
+            mUsernameTv.setText(result.getUserName());
+            mScoreTv.setText(result.getScores() + " " + getString(R.string.score));
+            String iconUrl = result.getIcon();
+            GlideUtils.loadImage(mHeadIconIv, R.mipmap.i_profileicon, iconUrl, new CircleCrop(), new CenterCrop());
+            getDrinkList();
+        }
+    }
+
+    private void getDrinkList() {
+        HttpUtil.subscribeNetworkTask(
+                HttpClient.getApiInterface().getDrinkList().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()),
+                new BasePresenter.MyObserver<NormalRsp>() {
+                    @Override
+                    public void onMyNext(NormalRsp normalRsp) {
+
+                    }
+
+                    @Override
+                    public void onMyError(String errorMessage) {
+
+                    }
+                });
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.wopin.qingpaopao.http;
 
 import com.wopin.qingpaopao.bean.request.LoginReq;
 import com.wopin.qingpaopao.bean.request.ThirdReq;
+import com.wopin.qingpaopao.bean.response.ExploreListRsp;
 import com.wopin.qingpaopao.bean.response.LoginRsp;
 import com.wopin.qingpaopao.bean.response.NormalRsp;
 import com.wopin.qingpaopao.bean.response.ThirdBindRsp;
@@ -29,6 +30,9 @@ public interface ApiInterface {
 
     @POST("users/login")
     Observable<LoginRsp> login(@Body LoginReq loginReq);
+
+    @POST("users/logout")
+    Observable<NormalRsp> logout();
 
     @POST("users/sendVerifyCode")
     Observable<NormalRsp> sendVerifyCode(@Body LoginReq loginReq);
@@ -60,4 +64,9 @@ public interface ApiInterface {
     @POST("users/changeUserName")
     Observable<NormalRsp> changeUsername(@Body ThirdReq loginReq);
 
+    @GET("https://public-api.wordpress.com/rest/v1.1/sites/wifi.h2popo.com/posts/?page=1&number=100&fields=ID,title,date,featured_image")
+    Observable<ExploreListRsp> listExplores();
+
+    @POST("users/getDrinkList")
+    Observable<NormalRsp> getDrinkList();
 }

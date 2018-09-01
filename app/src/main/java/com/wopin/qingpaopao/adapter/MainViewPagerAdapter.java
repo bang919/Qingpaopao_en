@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.fragment.BaseMainFragment;
 import com.wopin.qingpaopao.fragment.DrinkingFragment;
-import com.wopin.qingpaopao.fragment.ExploreFragment;
+import com.wopin.qingpaopao.fragment.explore.ExploreFragment;
 import com.wopin.qingpaopao.fragment.MineFragment;
 import com.wopin.qingpaopao.fragment.WelfareFragment;
 
@@ -25,7 +25,8 @@ import java.util.HashMap;
 public class MainViewPagerAdapter extends FragmentStatePagerAdapter {
 
     private int[] tabTitles = {R.string.drinking, R.string.explore, R.string.welfare_discounts, R.string.mine};
-    private int[] tabImages = {R.mipmap.n_tea, R.mipmap.n_toy, R.mipmap.n_gift, R.mipmap.h_profile1};
+    private int[] tabImages = {R.drawable.select_img_bottom_tab_tea, R.drawable.select_img_bottom_tab_toy,
+            R.drawable.select_img_bottom_tab_gift, R.drawable.select_img_bottom_tab_profile};
     private HashMap<Integer, BaseMainFragment> mFragmentMap;
 
     public MainViewPagerAdapter(FragmentManager fm) {
@@ -71,6 +72,7 @@ public class MainViewPagerAdapter extends FragmentStatePagerAdapter {
         if (view != null) {
             view.setBackgroundColor(view.getContext().getResources().getColor(isSelect ? R.color.colorWhite2 : R.color.colorWhite));
             TextView tv = view.findViewById(R.id.tv_item_main_viewpager);
+            view.findViewById(R.id.iv_item_main_viewpager).setSelected(isSelect);
             tv.setTextColor(tv.getContext().getResources().getColor(isSelect ? R.color.colorAccent : R.color.colorHalfBlack));
         }
     }

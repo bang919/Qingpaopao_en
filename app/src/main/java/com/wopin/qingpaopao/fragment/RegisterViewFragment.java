@@ -132,8 +132,8 @@ public class RegisterViewFragment extends Fragment implements View.OnClickListen
                 }
                 break;
             case R.id.tv_user_agreement:
-                break;
             case R.id.tv_privacy_policy:
+                new UserAgreementFragment().show(getFragmentManager(), UserAgreementFragment.TAG);
                 break;
         }
     }

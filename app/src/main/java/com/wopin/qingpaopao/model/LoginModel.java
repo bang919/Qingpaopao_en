@@ -63,6 +63,16 @@ public class LoginModel {
 
         return HttpClient.getApiInterface()
                 .thirdLogin(thirdReq)
+                .map(new Function<LoginRsp, LoginRsp>() {
+                    @Override
+                    public LoginRsp apply(LoginRsp loginRsp) throws Exception {
+                        int status = Integer.valueOf(loginRsp.getStatus());
+                        if (status != 0) {
+                            throw new Exception(loginRsp.getMsg());
+                        }
+                        return loginRsp;
+                    }
+                })
                 .retryWhen(new Function<Observable<Throwable>, ObservableSource<NormalRsp>>() {
                     @Override
                     public ObservableSource<NormalRsp> apply(Observable<Throwable> throwableObservable) throws Exception {

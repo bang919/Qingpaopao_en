@@ -30,6 +30,13 @@
     <string name="user_agreement">用户协议</string>
     <string name="and">和</string>
     <string name="privacy_policy">隐私政策</string>
+    <string name="qing_pao_pao_user_privacy_policy">氢泡泡用户注册协议</string>
+    <string name="qing_pao_pao_user_privacy_policy_content">\t本协议是您与氢泡泡（以下简称"本平台"，网址：www.sznncai.com）所有者深圳市e租客网
+        络科技有限公司（以下简称"氢泡泡公司"）之间就您注册、使用本平台等相关事宜锁定里的协议。\n
+    \t在您注册成为本平台用户前请您仔细阅读本协议各项条款，特别是其中重点加粗等黑色字体部分，当您按照页面提示填写资料、阅读本协议并点击本协议下方的"立即注
+        册"、"同意"或具有类似功能的按钮后，或您以其他平台允许的方式实际使用本平台服务时，即视为您已完全同意并接受本协议，并愿受其约束，本协议即签署成立并
+        生效。届时，您不能以未阅读本协议或对本协议有任何误解为由主张本协议无效或要求撤销本协议。\n
+    \t完成注册成为本平台会员的用户，按照以下条款享受本平台提供的服务，并独立承担相应义务。</string>
     <string name="wechat_client_not_exist">微信客户端不存在</string>
     <string name="drinking">喝水</string>
     <string name="explore">探索</string>
@@ -72,12 +79,19 @@
     <string name="please_bind_phone_number">请先绑定手机号码</string>
     <string name="help_center">帮助中心</string>
     <string name="service_center">客服中心</string>
+    <string name="wechat_official_number">微信公众号：xxxy</string>
     <string name="system_using_introduce">系统使用介绍</string>
     <string name="einstein_talk">如果你无法简洁地表达你的想法，那只能说明你还不够了解它。 —— 阿尔伯特·爱因斯坦</string>
-    <string name="app_synopsis">广州蜗品，是一家专注于科技与健康产品调研、研发、生产、销售于一体的产业链服务企业。公司以创新与科技，服务健康生活为使命，致力于让更多人享受到科技带来的健康生活。是一家专注于市场健康科技产品调研与产品销售链服务业务为核心的公司。</string>
+    <string name="app_synopsis">广州蜗品，是一家专注于科技与健康产品调研、研发、生产、销售于一体的产业链服务企业。公司以创新与科技，服务健康生活为使命，
+        致力于让更多人享受到科技带来的健康生活。是一家专注于市场健康科技产品调研与产品销售链服务业务为核心的公司。</string>
     <string name="service_phone">客服热线： 400&#8211;000&#8211;133</string>
     <string name="system_update">系统更新</string>
     <string name="about_us">关于我们</string>
     <string name="system_version">系统版本</string>
+    <string name="search_your_favourite">搜索你感兴趣的信息</string>
+    <string name="hot_topic">热门话题</string>
+    <string name="newest_topic">最新话题</string>
+    <string name="other">其他</string>
+    <string name="issue">发布</string>
 
 </resources>

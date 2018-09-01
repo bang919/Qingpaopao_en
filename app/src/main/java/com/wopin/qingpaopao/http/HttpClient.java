@@ -86,7 +86,8 @@ public class HttpClient {
                     .hostnameVerifier(new HostnameVerifier() {
                         @Override
                         public boolean verify(String hostname, SSLSession sslSession) {
-                            return hostname.equalsIgnoreCase("wifi.h2popo.com");
+                            return hostname.equalsIgnoreCase("wifi.h2popo.com")
+                                    || hostname.equalsIgnoreCase("public-api.wordpress.com");
                         }
                     })
                     .cache(cache)
