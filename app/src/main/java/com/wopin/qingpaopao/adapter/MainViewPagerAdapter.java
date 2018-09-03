@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.fragment.BaseMainFragment;
-import com.wopin.qingpaopao.fragment.DrinkingFragment;
+import com.wopin.qingpaopao.fragment.drinking.DrinkingFragment;
 import com.wopin.qingpaopao.fragment.explore.ExploreFragment;
 import com.wopin.qingpaopao.fragment.MineFragment;
 import com.wopin.qingpaopao.fragment.WelfareFragment;

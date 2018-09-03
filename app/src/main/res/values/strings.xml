@@ -93,5 +93,18 @@
     <string name="newest_topic">最新话题</string>
     <string name="other">其他</string>
     <string name="issue">发布</string>
+    <string name="device">设备</string>
+    <string name="add_device">添加设备</string>
+    <string name="bluetooth_version">蓝牙版本</string>
+    <string name="wifi_version">WIFI版本</string>
+    <string name="dont_know_version"><u>如何知道是什么版本?</u></string>
+    <string name="cant_find_your_cup">没有找到你的水杯?<u>查找更多</u></string>
+    <string name="not_support_bluetooth">该手机不支持蓝牙</string>
+    <string name="need_permission">需要允许权限</string>
+    <string name="delete">删除</string>
+    <string name="drink_every_title">每日喝水量</string>
+    <string name="drink_every_number">8杯</string>
+    <string name="start_electrolysis">开始电解</string>
+    <string name="stop_electrolysis">停止电解</string>
 
 </resources>

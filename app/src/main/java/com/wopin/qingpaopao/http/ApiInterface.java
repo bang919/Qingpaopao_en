@@ -1,8 +1,10 @@
 package com.wopin.qingpaopao.http;
 
 
+import com.wopin.qingpaopao.bean.request.CupUpdateReq;
 import com.wopin.qingpaopao.bean.request.LoginReq;
 import com.wopin.qingpaopao.bean.request.ThirdReq;
+import com.wopin.qingpaopao.bean.response.CupListRsp;
 import com.wopin.qingpaopao.bean.response.ExploreListRsp;
 import com.wopin.qingpaopao.bean.response.LoginRsp;
 import com.wopin.qingpaopao.bean.response.NormalRsp;
@@ -67,6 +69,15 @@ public interface ApiInterface {
     @GET("https://public-api.wordpress.com/rest/v1.1/sites/wifi.h2popo.com/posts/?page=1&number=100&fields=ID,title,date,featured_image")
     Observable<ExploreListRsp> listExplores();
 
-    @POST("users/getDrinkList")
+    @POST("users/drinklist")
     Observable<NormalRsp> getDrinkList();
+
+    @POST("users/addOrUpdateACup")
+    Observable<NormalRsp> addOrUpdateACup(@Body CupUpdateReq cupUpdateReq);
+
+    @POST("users/deleteACup")
+    Observable<NormalRsp> deleteACup(@Body CupUpdateReq cupUpdateReq);
+
+    @GET("users/cupList")
+    Observable<CupListRsp> getCupList();
 }

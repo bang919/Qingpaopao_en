@@ -49,7 +49,7 @@ public class RegisterViewFragment extends Fragment implements View.OnClickListen
     }
 
     private int getLayout() {
-        return R.layout.fragment_register_view;
+        return R.layout.view_register;
     }
 
     private void onViewPagerFragmentCreate() {

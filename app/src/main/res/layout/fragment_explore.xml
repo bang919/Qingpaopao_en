@@ -8,7 +8,7 @@
     <android.support.constraint.ConstraintLayout
         android:id="@+id/search_bar_layout"
         android:layout_width="0dp"
-        android:layout_height="65dp"
+        android:layout_height="64dp"
         android:background="@color/colorAccent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">

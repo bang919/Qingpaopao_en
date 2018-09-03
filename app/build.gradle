@@ -9,8 +9,8 @@ MobSDK {
         //平台配置信息
         devInfo {
             SinaWeibo {
-                appKey "2651811369"
-                appSecret "d831739acdb1855d8af7814c9f518e1f"
+                appKey "1871771910"
+                appSecret "b255a1185ff2d6255b076db56a6823b3"
                 callbackUri "http://sns.whalecloud.com"
                 shareByAppClient true
             }
@@ -36,7 +36,7 @@ static def releaseTime() {
 android {
     compileSdkVersion 27
     defaultConfig {
-        applicationId "com.wopin.qingpaopao"
+        applicationId "com.mywopin.com.cup"
         minSdkVersion 19
         targetSdkVersion 27
         versionCode 1
@@ -101,4 +101,8 @@ dependencies {
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
     //Glide
     implementation 'com.github.bumptech.glide:glide:4.7.1'
+    //RxPermissions
+    implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
+    //QingPaoPao的lib
+    implementation files('libs/AndroidBleApi_V1.1.5.jar')
 }

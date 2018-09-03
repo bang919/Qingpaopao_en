@@ -36,7 +36,7 @@ public class LoginViewFragment extends Fragment implements View.OnClickListener 
     }
 
     private int getLayout() {
-        return R.layout.fragment_login_view;
+        return R.layout.view_login;
     }
 
     private void onViewPagerFragmentCreate() {
