@@ -1,5 +1,8 @@
 package com.wopin.qingpaopao.bean.response;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 
 public class CupListRsp extends NormalRsp {
@@ -20,7 +23,7 @@ public class CupListRsp extends NormalRsp {
         this.result = result;
     }
 
-    public static class CupBean {
+    public static class CupBean implements Parcelable {
         /**
          * _id : 5b8ad041c2e95a522c5e083f
          * userId : 5b819f0591297b561a79eeaa
@@ -43,6 +46,53 @@ public class CupListRsp extends NormalRsp {
         private int produceScores;
         private int __v;
         private boolean isConnecting;
+        private String electric;
+
+        protected CupBean(Parcel in) {
+            _id = in.readString();
+            userId = in.readString();
+            name = in.readString();
+            type = in.readString();
+            firstRegisterTime = in.readString();
+            registerTime = in.readString();
+            uuid = in.readString();
+            produceScores = in.readInt();
+            __v = in.readInt();
+            isConnecting = in.readByte() != 0;
+            electric = in.readString();
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(_id);
+            dest.writeString(userId);
+            dest.writeString(name);
+            dest.writeString(type);
+            dest.writeString(firstRegisterTime);
+            dest.writeString(registerTime);
+            dest.writeString(uuid);
+            dest.writeInt(produceScores);
+            dest.writeInt(__v);
+            dest.writeByte((byte) (isConnecting ? 1 : 0));
+            dest.writeString(electric);
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        public static final Creator<CupBean> CREATOR = new Creator<CupBean>() {
+            @Override
+            public CupBean createFromParcel(Parcel in) {
+                return new CupBean(in);
+            }
+
+            @Override
+            public CupBean[] newArray(int size) {
+                return new CupBean[size];
+            }
+        };
 
         public String get_id() {
             return _id;
@@ -122,6 +172,14 @@ public class CupListRsp extends NormalRsp {
 
         public void setConnecting(boolean connecting) {
             isConnecting = connecting;
+        }
+
+        public String getElectric() {
+            return electric;
+        }
+
+        public void setElectric(String electric) {
+            this.electric = electric;
         }
     }
 }

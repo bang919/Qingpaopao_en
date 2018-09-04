@@ -13,7 +13,9 @@ public abstract class ConnectManager<T> {
     private ArrayList<ICommand> mICommands = new ArrayList<>();
 
     private void addCommand(ICommand iCommand) {
-        mICommands.add(iCommand);
+        if (iCommand != null) {
+            mICommands.add(iCommand);
+        }
         //Check Connect
         if (!isConnectToServer) {
             isConnectToServer = connectToServer(new OnServerConnectCallback() {

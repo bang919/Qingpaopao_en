@@ -11,11 +11,9 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.wopin.qingpaopao.R;
-import com.wopin.qingpaopao.command.ble.SwitchElectrolyzeCommand;
 import com.wopin.qingpaopao.manager.BleManager;
 
 public class DrinkingStartView extends Fragment implements View.OnClickListener {
-    private String mCurrentAddress;
     private View mRootView;
     private OnDrinkingStartCallback mOnDrinkingStartCallback;
     private TextView mCurrentDrinkTV;
@@ -25,10 +23,6 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
 
     public void setOnDrinkingStartCallback(OnDrinkingStartCallback onDrinkingStartCallback) {
         mOnDrinkingStartCallback = onDrinkingStartCallback;
-    }
-
-    public void setCurrentAddress(String address) {
-        this.mCurrentAddress = address;
     }
 
     @Nullable
@@ -63,10 +57,10 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
                 break;
             case R.id.btn_switch_electrolyze:
                 BleManager bleManager = BleManager.getInstance();
-                if (bleManager != null && mCurrentAddress != null) {
+                if (bleManager != null) {
                     v.setSelected(!v.isSelected());
                     ((TextView) v).setText(!v.isSelected() ? R.string.start_electrolysis : R.string.stop_electrolysis);
-                    bleManager.switchCupElectrolyze(new SwitchElectrolyzeCommand(mCurrentAddress, v.isSelected()));
+                    bleManager.switchCupElectrolyze(v.isSelected());
                 }
                 break;
             case R.id.iv_light_setting:

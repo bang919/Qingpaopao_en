@@ -11,6 +11,6 @@ public class BleConnectDeviceCommand extends IConnectDeviceCommand<String> {
 
     @Override
     public void execute() {
-        LeProxy.getInstance().connect(getTarget(), false);
+        LeProxy.getInstance().connect(getTarget(), true);
     }
 }

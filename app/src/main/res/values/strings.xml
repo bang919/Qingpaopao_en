@@ -106,5 +106,11 @@
     <string name="drink_every_number">8杯</string>
     <string name="start_electrolysis">开始电解</string>
     <string name="stop_electrolysis">停止电解</string>
+    <string name="device_manager">设备管理</string>
+    <string name="electric">电量</string>
+    <string name="device_name">设备名称</string>
+    <string name="cup_color">水杯颜色</string>
+    <string name="device_status">设备状态</string>
+    <string name="bind">绑定</string>
 
 </resources>

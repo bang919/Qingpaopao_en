@@ -76,13 +76,13 @@ public class DrinkingFragment extends BaseMainFragment<DrinkingPresenter> implem
 
     @Override
     public void backToDrinkingStartView() {
-        mDrinkingStartView.setCurrentAddress(mPresenter.getCurrentAddress());
         switchFragment(mDrinkingStartView);
     }
 
     @Override
     public void onBluetoothDeviceFind(BluetoothDevice bluetoothDevice) {
-        mPresenter.connectBleCup(bluetoothDevice.getAddress());
+        //这里是从新搜索出来的Device，所以调用firstTimeAddBleCup
+        mPresenter.firstTimeAddBleCup(bluetoothDevice);
     }
 
     @Override
@@ -96,33 +96,6 @@ public class DrinkingFragment extends BaseMainFragment<DrinkingPresenter> implem
     }
 
     @Override
-    public void onCupItemClick(CupListRsp.CupBean cupBean, int position) {
-        /*if (mBlueToothPresenter != null) {
-            mBlueToothPresenter.destroy();
-        }
-        mBlueToothPresenter = new BlueToothPresenter(this, new BlueToothPresenter.BlueToothPresenterCallback() {
-            @Override
-            public void onDevicesFind(TreeMap<String, BluetoothDevice> devices, BluetoothDevice newDevice) {
-            }
-
-            @Override
-            public void onError(String errorMsg) {
-                ToastUtils.showShort(errorMsg);
-            }
-        });
-        mBlueToothPresenter.start();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (mBlueToothPresenter != null) {
-                    mBlueToothPresenter.destroy();
-                }
-            }
-        }, 5000);*/
-//        mPresenter.connectACup(cupBean);
-    }
-
-    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (mBlueToothPresenter != null) {
@@ -131,11 +104,27 @@ public class DrinkingFragment extends BaseMainFragment<DrinkingPresenter> implem
     }
 
     @Override
+    public void onCupItemClick(CupListRsp.CupBean cupBean, int position) {
+        DeviceDetailFragment.getDeviceDetailFragment(cupBean).show(getFragmentManager(), DeviceDetailFragment.TAG);
+    }
+
+
+    @Override
     public void onCupItemDelete(CupListRsp.CupBean cupBean, int position) {
         if (cupBean.isConnecting() && cupBean.getType().equals(CupUpdateReq.BLE)) {
             mPresenter.disconnectBleCup();
         }
         mPresenter.deleteACup(cupBean.getUuid());
+    }
+
+    @Override
+    public void onCupItemTurn(CupListRsp.CupBean cupBean, boolean isOn) {
+        if (cupBean.getType().equals(CupUpdateReq.BLE)) {
+            mPresenter.disconnectBleCup();
+            if (isOn) {
+//                mPresenter.connectBleCup(cupBean.getAddress());
+            }
+        }
     }
 
     @Override

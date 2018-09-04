@@ -16,7 +16,7 @@ public class DrinkingModel {
         cupUpdateReq.setType(type);
         cupUpdateReq.setUuid(uuid);
         cupUpdateReq.setName(name);
-//        cupUpdateReq.setAddress(address);
+        cupUpdateReq.setAddress(address);
         cupUpdateReq.setAdd(add);
         return HttpClient.getApiInterface().addOrUpdateACup(cupUpdateReq)
                 .subscribeOn(Schedulers.io())

@@ -35,7 +35,7 @@ public class CupListAdapter extends RecyclerView.Adapter<CupListAdapter.CupListH
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CupListHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final CupListHolder holder, final int position) {
         final CupListRsp.CupBean cupBean = mCupBeans.get(position);
         holder.mNameTv.setText(cupBean.getName());
         holder.mLightIv.setSelected(cupBean.isConnecting());
@@ -49,6 +49,12 @@ public class CupListAdapter extends RecyclerView.Adapter<CupListAdapter.CupListH
             @Override
             public void onClick(View v) {
                 mOnCupItemClickCallback.onCupItemDelete(cupBean, position);
+            }
+        });
+        holder.mLightIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mOnCupItemClickCallback.onCupItemTurn(cupBean, !holder.mLightIv.isSelected());
             }
         });
     }
@@ -78,5 +84,7 @@ public class CupListAdapter extends RecyclerView.Adapter<CupListAdapter.CupListH
         void onCupItemClick(CupListRsp.CupBean cupBean, int position);
 
         void onCupItemDelete(CupListRsp.CupBean cupBean, int position);
+
+        void onCupItemTurn(CupListRsp.CupBean cupBean, boolean isOn);
     }
 }
