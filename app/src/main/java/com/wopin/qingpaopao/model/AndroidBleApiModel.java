@@ -11,10 +11,10 @@ import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
 
 import com.ble.ble.BleService;
-import com.wopin.qingpaopao.bean.blecommand.ConnectDeviceCommand;
-import com.wopin.qingpaopao.bean.blecommand.DisconnectDeviceCommand;
-import com.wopin.qingpaopao.bean.blecommand.ICommand;
-import com.wopin.qingpaopao.bean.blecommand.SwitchElectrolyzeCommand;
+import com.wopin.qingpaopao.command.ble.BleConnectDeviceCommand;
+import com.wopin.qingpaopao.command.ble.BleDisconnectDeviceCommand;
+import com.wopin.qingpaopao.command.ICommand;
+import com.wopin.qingpaopao.command.ble.SwitchElectrolyzeCommand;
 import com.wopin.qingpaopao.utils.LeProxy;
 
 import java.util.ArrayList;
@@ -91,7 +91,7 @@ public class AndroidBleApiModel {
      */
     public void connect(BluetoothDevice bluetoothDevice) {
         mCurrentBluetoothDevice = bluetoothDevice;
-        addCommand(new ConnectDeviceCommand(bluetoothDevice));
+        addCommand(new BleConnectDeviceCommand(bluetoothDevice.getAddress()));
     }
 
     /**
@@ -101,7 +101,7 @@ public class AndroidBleApiModel {
         if (mCurrentBluetoothDevice != null) {
             String address = mCurrentBluetoothDevice.getAddress();
             mCurrentBluetoothDevice = null;
-            addCommand(new DisconnectDeviceCommand(address));
+            addCommand(new BleDisconnectDeviceCommand(address));
         }
     }
 

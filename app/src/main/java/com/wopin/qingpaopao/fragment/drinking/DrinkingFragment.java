@@ -46,7 +46,6 @@ public class DrinkingFragment extends BaseMainFragment<DrinkingPresenter> implem
         mDrinkingListView.setOnDrinkingListViewCallback(this);
         mDrinkingListView.setOnCupItemClickCallback(this);
         mDrinkingStartView = new DrinkingStartView();
-        mDrinkingStartView.setDrinkingPresenter(mPresenter);
         mDrinkingStartView.setOnDrinkingStartCallback(this);
         switchFragment(mDrinkingListView);
 
@@ -77,12 +76,13 @@ public class DrinkingFragment extends BaseMainFragment<DrinkingPresenter> implem
 
     @Override
     public void backToDrinkingStartView() {
+        mDrinkingStartView.setCurrentAddress(mPresenter.getCurrentAddress());
         switchFragment(mDrinkingStartView);
     }
 
     @Override
     public void onBluetoothDeviceFind(BluetoothDevice bluetoothDevice) {
-        mPresenter.connectACup(bluetoothDevice);
+        mPresenter.connectBleCup(bluetoothDevice.getAddress());
     }
 
     @Override
@@ -133,7 +133,7 @@ public class DrinkingFragment extends BaseMainFragment<DrinkingPresenter> implem
     @Override
     public void onCupItemDelete(CupListRsp.CupBean cupBean, int position) {
         if (cupBean.isConnecting() && cupBean.getType().equals(CupUpdateReq.BLE)) {
-            mPresenter.disconnectCurrentBleDevice();
+            mPresenter.disconnectBleCup();
         }
         mPresenter.deleteACup(cupBean.getUuid());
     }

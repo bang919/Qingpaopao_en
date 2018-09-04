@@ -6,7 +6,8 @@ import android.content.Context;
 import com.wopin.qingpaopao.bean.request.CupUpdateReq;
 import com.wopin.qingpaopao.bean.response.CupListRsp;
 import com.wopin.qingpaopao.bean.response.NormalRsp;
-import com.wopin.qingpaopao.model.AndroidBleApiModel;
+import com.wopin.qingpaopao.manager.BleManager;
+import com.wopin.qingpaopao.manager.Updater;
 import com.wopin.qingpaopao.model.DrinkingModel;
 import com.wopin.qingpaopao.view.DrinkingView;
 
@@ -16,67 +17,81 @@ import java.util.ArrayList;
 public class DrinkingPresenter extends BasePresenter<DrinkingView> {
 
     private DrinkingModel mDrinkingModel;
-    private AndroidBleApiModel mAndroidBleApiModel;
     private ArrayList<CupListRsp.CupBean> mCupBeans;
+    private final BleManager mBleManager;
+    private Updater<BleManager.BleUpdaterBean> mUpdater;
+
+    private BluetoothDevice mFirstTimeAddDevice;//会在onConnectDevice后清空
     private String mCurrentUuid;
+    private String mCurrentAddress;
 
     public DrinkingPresenter(Context context, DrinkingView view) {
         super(context, view);
         mDrinkingModel = new DrinkingModel();
-        mAndroidBleApiModel = new AndroidBleApiModel(context, new AndroidBleApiModel.AndroidBleApiModelCallback() {
+        mBleManager = BleManager.getInstance();
+        mUpdater = new Updater<BleManager.BleUpdaterBean>() {
             @Override
-            public void onConnectedBluetoothDevice(BluetoothDevice bluetoothDevice, String uuid) {
-                mCurrentUuid = uuid;
+            public void onConnectDevice(BleManager.BleUpdaterBean bleUpdaterBean) {
+                mCurrentAddress = bleUpdaterBean.getAddress();
+                mCurrentUuid = bleUpdaterBean.getUuid();
                 boolean needAdd = true;
                 if (mCupBeans != null) {
                     for (CupListRsp.CupBean cupBean : mCupBeans) {
-                        if (cupBean.getUuid().equals(uuid)) {
+                        if (cupBean.getUuid().equals(mCurrentUuid)) {
                             needAdd = false;
                         }
                     }
                 }
-                if (needAdd) {
-                    addOrUpdateACup(CupUpdateReq.BLE, uuid, bluetoothDevice.getName(), bluetoothDevice.getAddress(), true);
+                if (needAdd && mFirstTimeAddDevice != null) {
+                    addOrUpdateACup(CupUpdateReq.BLE, mCurrentUuid, mFirstTimeAddDevice.getName(), mCurrentAddress, true);
                 } else {
                     getCupList();
                 }
+                mFirstTimeAddDevice = null;
             }
 
             @Override
-            public void onDisConnectedBluetoothDevice(String uuid) {
-                if (uuid.equals(mCurrentUuid)) {
-                    mCurrentUuid = null;
-                }
+            public void onDissconnectDevice(BleManager.BleUpdaterBean bleUpdaterBean) {
+                mCurrentUuid = null;
+                mCurrentAddress = null;
                 getCupList();
             }
-        });
+
+            @Override
+            public void onDatasUpdate(BleManager.BleUpdaterBean bleUpdaterBean) {
+            }
+        };
+        mBleManager.addUpdater(mUpdater);
     }
 
     @Override
     public void destroy() {
-        mAndroidBleApiModel.destroy();
+        mBleManager.removeUpdater(mUpdater);
         super.destroy();
+    }
+
+    public String getCurrentAddress() {
+        return mCurrentAddress;
     }
 
     /**
      * 连接杯子
      */
-    public void connectACup(BluetoothDevice bluetoothDevice) {
-        mAndroidBleApiModel.connect(bluetoothDevice);
+    public void firstTimeAddBleCup(BluetoothDevice bluetoothDevice) {
+        mFirstTimeAddDevice = bluetoothDevice;
+        connectBleCup(bluetoothDevice.getAddress());
     }
 
-    /**
-     * 断开杯子连接
-     */
-    public void disconnectCurrentBleDevice() {
-        mAndroidBleApiModel.disconnectCurrentBleDevice();
+    public void connectBleCup(String address) {
+        mBleManager.connectDevice(address);
     }
 
-    /**
-     * 开/关杯子电解
-     */
-    public void switchCupElectrolyze(boolean electrolyze) {
-        mAndroidBleApiModel.switchCupElectrolyze(electrolyze);
+    public void disconnectBleCup() {
+        mBleManager.disconnectDevice(mCurrentAddress);
+    }
+
+    public void switchBleCupElectrolyze(boolean isOn) {
+        mBleManager.switchCupElectrolyze(mCurrentAddress, isOn);
     }
 
     public void getCupList() {
