@@ -29,6 +29,8 @@ public class DrinkingListView extends Fragment implements View.OnClickListener {
     private OnDrinkingListViewCallback mOnDrinkingListViewCallback;
     private CupListAdapter.OnCupItemClickCallback mOnCupItemClickCallback;
     private CupListAdapter mCupListAdapter;
+    private ArrayList<CupListRsp.CupBean> cupBeanList;
+    private CupListRsp.CupBean currentConnectCup;
 
     public void setOnDrinkingListViewCallback(OnDrinkingListViewCallback onDrinkingListViewCallback) {
         mOnDrinkingListViewCallback = onDrinkingListViewCallback;
@@ -62,7 +64,7 @@ public class DrinkingListView extends Fragment implements View.OnClickListener {
         PlusItemSlideCallback callback = new PlusItemSlideCallback(WItemTouchHelperPlus.SLIDE_ITEM_TYPE_SLIDECONTAINER);
         WItemTouchHelperPlus extension = new WItemTouchHelperPlus(callback);
         extension.attachToRecyclerView(mCupListRv);
-
+        setDatasUi();
     }
 
     @Override
@@ -80,8 +82,18 @@ public class DrinkingListView extends Fragment implements View.OnClickListener {
     }
 
     public void notifyCupList(ArrayList<CupListRsp.CupBean> cupBeanList, CupListRsp.CupBean currentConnectCup) {
-        mBackBtn.setVisibility(currentConnectCup != null ? View.VISIBLE : View.GONE);
-        mCupListAdapter.setCupBeans(cupBeanList);
+        this.cupBeanList = cupBeanList;
+        this.currentConnectCup = currentConnectCup;
+        setDatasUi();
+    }
+
+    private void setDatasUi() {
+        if (mBackBtn != null && currentConnectCup != null) {
+            mBackBtn.setVisibility(currentConnectCup != null ? View.VISIBLE : View.GONE);
+        }
+        if (mCupListAdapter != null && cupBeanList != null) {
+            mCupListAdapter.setCupBeans(cupBeanList);
+        }
     }
 
 

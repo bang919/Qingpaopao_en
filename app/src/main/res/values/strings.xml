@@ -112,5 +112,16 @@
     <string name="cup_color">水杯颜色</string>
     <string name="device_status">设备状态</string>
     <string name="bind">绑定</string>
+    <string name="clean_notice_title">清洗注意事项</string>
+    <string name="clean_notice_content">1.反清洗时长需 5分支，全程杯内红灯闪烁；\n
+    2.反清洗结束后，杯内红灯常亮，请立即关闭水杯，并将水倒掉；\n
+    3.电量低于20%时禁止使用反清洗功能。</string>
+    <string name="clean_notice_stop">不洗了</string>
+    <string name="clean_notice_know">知道了</string>
+    <string name="notice_warning">注意：清洗中，请勿关闭水杯</string>
+    <string name="close_clean">关闭清洗</string>
+    <string name="hint">提示</string>
+    <string name="clean_hint_content">1.水杯清洗完成，请倒掉水，重新加入可饮用水进行电解！\n
+    2.此窗口会在您重启水杯之后自动消失！</string>
 
 </resources>

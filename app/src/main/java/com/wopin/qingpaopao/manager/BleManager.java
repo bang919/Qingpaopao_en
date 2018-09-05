@@ -14,6 +14,7 @@ import com.ble.ble.BleService;
 import com.wopin.qingpaopao.command.IConnectDeviceCommand;
 import com.wopin.qingpaopao.command.ble.BleConnectDeviceCommand;
 import com.wopin.qingpaopao.command.ble.BleDisconnectDeviceCommand;
+import com.wopin.qingpaopao.command.ble.SwitchCleanCommand;
 import com.wopin.qingpaopao.command.ble.SwitchElectrolyzeCommand;
 import com.wopin.qingpaopao.common.MyApplication;
 import com.wopin.qingpaopao.utils.LeProxy;
@@ -116,7 +117,12 @@ public class BleManager extends ConnectManager<BleManager.BleUpdaterBean> {
             LocalBroadcastManager.getInstance(MyApplication.getMyApplicationContext()).unregisterReceiver(mReceiver);
         }
         if (mConn != null) {
-            MyApplication.getMyApplicationContext().unbindService(mConn);
+            try {
+
+                MyApplication.getMyApplicationContext().unbindService(mConn);
+            } catch (IllegalArgumentException e) {//可能会还没bindService
+                Log.d(TAG, "disconnectServer: " + e.getLocalizedMessage());
+            }
         }
         clearUpdaters();
     }
@@ -147,6 +153,12 @@ public class BleManager extends ConnectManager<BleManager.BleUpdaterBean> {
     public void switchCupElectrolyze(boolean isOn) {
         if (mCurrentAddress != null) {
             super.switchCupElectrolyze(new SwitchElectrolyzeCommand(mCurrentAddress, isOn));
+        }
+    }
+
+    public void switchCupClean(boolean isClean) {
+        if (mCurrentAddress != null) {
+            super.switchCupClean(new SwitchCleanCommand(mCurrentAddress, isClean));
         }
     }
 

@@ -3,6 +3,7 @@ package com.wopin.qingpaopao.manager;
 import com.wopin.qingpaopao.command.ICommand;
 import com.wopin.qingpaopao.command.IConnectDeviceCommand;
 import com.wopin.qingpaopao.command.IDisconnectDeviceCommand;
+import com.wopin.qingpaopao.command.ISwitchCleanCommand;
 import com.wopin.qingpaopao.command.ISwitchElectrolyzeCommand;
 
 import java.util.ArrayList;
@@ -73,6 +74,13 @@ public abstract class ConnectManager<T> {
      */
     public void switchCupElectrolyze(ISwitchElectrolyzeCommand iSwitchElectrolyzeCommand) {
         addCommand(iSwitchElectrolyzeCommand);
+    }
+
+    /**
+     * 开/关杯子清洗
+     */
+    public void switchCupClean(ISwitchCleanCommand iSwitchCleanCommand) {
+        addCommand(iSwitchCleanCommand);
     }
 
     public interface OnServerConnectCallback {

@@ -9,7 +9,7 @@
         android:layout_height="0dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:background="@drawable/bg_white_radius_10"
+        android:background="@drawable/bg_white_radius10_blackstroke"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHeight_percent="0.85"
         app:layout_constraintLeft_toLeftOf="parent"

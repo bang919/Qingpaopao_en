@@ -93,10 +93,6 @@ public class DrinkingPresenter extends BasePresenter<DrinkingView> {
         mBleManager.disconnectDevice();
     }
 
-    public void switchBleCupElectrolyze(boolean isOn) {
-        mBleManager.switchCupElectrolyze(isOn);
-    }
-
     public void getCupList() {
         subscribeNetworkTask(getClass().getSimpleName().concat("getCupList"), mDrinkingModel.getCupList(), new MyObserver<CupListRsp>() {
             @Override
