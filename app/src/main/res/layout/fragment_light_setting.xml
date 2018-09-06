@@ -48,9 +48,9 @@
 
     <ImageView
         android:id="@+id/btn_light"
-        android:layout_width="65dp"
-        android:layout_height="65dp"
-        android:src="@drawable/select_img_cup_light"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/select_img_cup_light3"
         app:layout_constraintBottom_toBottomOf="@id/picker"
         app:layout_constraintLeft_toLeftOf="@id/picker"
         app:layout_constraintRight_toRightOf="@id/picker"
