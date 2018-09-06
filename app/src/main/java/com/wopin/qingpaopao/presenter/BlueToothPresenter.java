@@ -9,17 +9,13 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.wopin.qingpaopao.R;
-import com.wopin.qingpaopao.utils.ToastUtils;
 
 import java.util.TreeMap;
 
@@ -29,6 +25,8 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class BlueToothPresenter {
+
+    private static final String TAG = "BlueToothPresenter";
 
     private static final int BLUETOOTH_OPEN_REQUEST_CODE = 0x142;
     private BlueToothPresenterCallback mBlueToothPresenterCallback;
@@ -60,7 +58,14 @@ public class BlueToothPresenter {
      * 反注册广播取消蓝牙的配对
      */
     public void destroy() {
-        mContext.unregisterReceiver(searchDevices);
+        try {
+            if (searchDevices != null) {
+                mContext.unregisterReceiver(searchDevices);
+                searchDevices = null;
+            }
+        } catch (Exception e) {
+            Log.d(TAG, "destroy: " + e.getLocalizedMessage());
+        }
         stopSearthBltDevice();
     }
 
@@ -157,14 +162,6 @@ public class BlueToothPresenter {
     }
 
     private void startSearthBltDevice() {
-        //开启位置
-        LocationManager m_location_manager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
-        if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ToastUtils.showShort("Neet Location permission.");
-            return;
-        }
-        Location lm = m_location_manager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-
         //开始搜索设备，当搜索到一个设备的时候就应该将它添加到设备集合中，保存起来
         //如果当前发现了新的设备，则停止继续扫描，当前扫描到的新设备会通过广播推向新的逻辑
         if (mBluetoothManagerAdapter.isDiscovering())

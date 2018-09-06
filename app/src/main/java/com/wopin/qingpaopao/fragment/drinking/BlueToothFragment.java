@@ -30,9 +30,13 @@ public class BlueToothFragment extends BaseBarDialogFragment implements BlueToot
 
     @Override
     public void onDestroy() {
+        destroy();
+        super.onDestroy();
+    }
+
+    public void destroy() {
         mBlueToothPresenter.destroy();
         mCircleIv.clearAnimation();
-        super.onDestroy();
     }
 
     @Override
@@ -71,6 +75,7 @@ public class BlueToothFragment extends BaseBarDialogFragment implements BlueToot
         mRandomTextLayout.setOnDeviceClickListener(new RandomTextLayout.OnDeviceClickListener() {
             @Override
             public void onBlueToothDeviceClick(BluetoothDevice bluetoothDevice, int position) {
+                destroy();
                 dismiss();
                 mOnDeviceClickListener.onBlueToothDeviceClick(bluetoothDevice, position);
             }

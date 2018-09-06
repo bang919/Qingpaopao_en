@@ -86,6 +86,7 @@ public class LeProxy {
 
     public boolean connect(String address, boolean autoConnect) {
         if (mBleService != null) {
+            mBleService.disconnectAll();
             return mBleService.connect(address, autoConnect);
         }
         return false;

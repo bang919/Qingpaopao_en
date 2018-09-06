@@ -1,10 +1,12 @@
 package com.wopin.qingpaopao.manager;
 
+import com.wopin.qingpaopao.command.IColorCommand;
 import com.wopin.qingpaopao.command.ICommand;
 import com.wopin.qingpaopao.command.IConnectDeviceCommand;
 import com.wopin.qingpaopao.command.IDisconnectDeviceCommand;
 import com.wopin.qingpaopao.command.ISwitchCleanCommand;
 import com.wopin.qingpaopao.command.ISwitchElectrolyzeCommand;
+import com.wopin.qingpaopao.command.ISwitchLightCommand;
 
 import java.util.ArrayList;
 
@@ -77,10 +79,24 @@ public abstract class ConnectManager<T> {
     }
 
     /**
+     * 开/关杯子灯
+     */
+    public void switchCupLight(ISwitchLightCommand iSwitchLightCommand) {
+        addCommand(iSwitchLightCommand);
+    }
+
+    /**
      * 开/关杯子清洗
      */
     public void switchCupClean(ISwitchCleanCommand iSwitchCleanCommand) {
         addCommand(iSwitchCleanCommand);
+    }
+
+    /**
+     * 改变颜色
+     */
+    public void setColor(IColorCommand iColorCommand) {
+        addCommand(iColorCommand);
     }
 
     public interface OnServerConnectCallback {

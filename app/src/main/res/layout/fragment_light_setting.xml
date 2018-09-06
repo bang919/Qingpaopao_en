@@ -5,13 +5,76 @@
     android:layout_height="match_parent"
     android:background="@mipmap/b_blue_p">
 
+    <TextView
+        android:id="@+id/bar_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="@string/light_setting"
+        android:textColor="@color/colorWhite"
+        android:textSize="28sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_light"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:scaleType="fitStart"
+        android:src="@drawable/select_img_cup_light2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bar_title" />
+
     <ImageView
         android:id="@+id/iv_back"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:scaleType="centerInside"
+        android:scaleType="center"
         android:src="@mipmap/m_back"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <com.larswerkman.holocolorpicker.ColorPicker
+        android:id="@+id/picker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/btn_light"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:src="@drawable/select_img_cup_light"
+        app:layout_constraintBottom_toBottomOf="@id/picker"
+        app:layout_constraintLeft_toLeftOf="@id/picker"
+        app:layout_constraintRight_toRightOf="@id/picker"
+        app:layout_constraintTop_toTopOf="@id/picker" />
+
+
+    <com.larswerkman.holocolorpicker.SVBar
+        android:id="@+id/svbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/picker" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5sp"
+        android:text="@string/brightness_setting"
+        android:textColor="@color/colorWhite"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/svbar" />
 
 </android.support.constraint.ConstraintLayout>

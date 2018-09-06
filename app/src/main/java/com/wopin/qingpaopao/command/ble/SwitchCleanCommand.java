@@ -13,6 +13,6 @@ public class SwitchCleanCommand extends ISwitchCleanCommand<String> {
     @Override
     public void execute() {
         String s = isClean() ? "AABBCC0103CCBBAA" : "AABBCC0104CCBBAA";
-        LeProxy.getInstance().queueSend(getTarget(), DataUtil.hexToByteArray(s));
+        LeProxy.getInstance().send(getTarget(), DataUtil.hexToByteArray(s));
     }
 }

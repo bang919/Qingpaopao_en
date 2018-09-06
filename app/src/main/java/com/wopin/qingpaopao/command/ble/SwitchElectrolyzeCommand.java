@@ -13,6 +13,6 @@ public class SwitchElectrolyzeCommand extends ISwitchElectrolyzeCommand<String> 
     @Override
     public void execute() {
         String s = isElectrolyze() ? "AABBCC0101CCBBAA" : "AABBCC0102CCBBAA";
-        LeProxy.getInstance().queueSend(getTarget(), DataUtil.hexToByteArray(s));
+        LeProxy.getInstance().send(getTarget(), DataUtil.hexToByteArray(s));
     }
 }

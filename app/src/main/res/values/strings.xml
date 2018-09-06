@@ -123,5 +123,7 @@
     <string name="hint">提示</string>
     <string name="clean_hint_content">1.水杯清洗完成，请倒掉水，重新加入可饮用水进行电解！\n
     2.此窗口会在您重启水杯之后自动消失！</string>
+    <string name="light_setting">灯光设置</string>
+    <string name="brightness_setting">灯光亮度调节</string>
 
 </resources>

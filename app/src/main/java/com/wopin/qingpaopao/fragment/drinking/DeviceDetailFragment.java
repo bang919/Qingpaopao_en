@@ -13,7 +13,7 @@ import com.wopin.qingpaopao.manager.BleManager;
 import com.wopin.qingpaopao.manager.Updater;
 import com.wopin.qingpaopao.presenter.BasePresenter;
 
-public class DeviceDetailFragment extends BaseBarDialogFragment {
+public class DeviceDetailFragment extends BaseBarDialogFragment implements View.OnClickListener {
 
     public static final String TAG = "DeviceDetailFragment";
     private CupListRsp.CupBean mCupBean;
@@ -59,6 +59,7 @@ public class DeviceDetailFragment extends BaseBarDialogFragment {
     @Override
     protected void initEvent() {
         mDeviceNameTv.setText(mCupBean.getName());
+        mDeviceNameTv.setOnClickListener(this);
         if (mCupBean.isConnecting()) {
             mDeviceStatusTv.setText(R.string.bind);
             mDeviceStatusTv.setTextColor(getContext().getResources().getColor(R.color.colorAccent));
@@ -91,5 +92,16 @@ public class DeviceDetailFragment extends BaseBarDialogFragment {
             mBleManager = null;
         }
         super.onDestroy();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.value_device_name:
+//                BluetoothManager bluetoothManager = (BluetoothManager) getContext().getSystemService(Context.BLUETOOTH_SERVICE);
+//                BluetoothAdapter adapter = bluetoothManager.getAdapter();
+//                adapter.setName("BigBang");
+                break;
+        }
     }
 }

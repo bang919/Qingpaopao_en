@@ -14,8 +14,10 @@ import com.ble.ble.BleService;
 import com.wopin.qingpaopao.command.IConnectDeviceCommand;
 import com.wopin.qingpaopao.command.ble.BleConnectDeviceCommand;
 import com.wopin.qingpaopao.command.ble.BleDisconnectDeviceCommand;
+import com.wopin.qingpaopao.command.ble.ColorCommand;
 import com.wopin.qingpaopao.command.ble.SwitchCleanCommand;
 import com.wopin.qingpaopao.command.ble.SwitchElectrolyzeCommand;
+import com.wopin.qingpaopao.command.ble.SwitchLightCommand;
 import com.wopin.qingpaopao.common.MyApplication;
 import com.wopin.qingpaopao.utils.LeProxy;
 
@@ -156,9 +158,21 @@ public class BleManager extends ConnectManager<BleManager.BleUpdaterBean> {
         }
     }
 
+    public void switchCupLight(boolean isLightOn) {
+        if (mCurrentAddress != null) {
+            super.switchCupLight(new SwitchLightCommand(mCurrentAddress, isLightOn));
+        }
+    }
+
     public void switchCupClean(boolean isClean) {
         if (mCurrentAddress != null) {
             super.switchCupClean(new SwitchCleanCommand(mCurrentAddress, isClean));
+        }
+    }
+
+    public void setColor(String color) {
+        if (mCurrentAddress != null) {
+            super.setColor(new ColorCommand(mCurrentAddress, color));
         }
     }
 

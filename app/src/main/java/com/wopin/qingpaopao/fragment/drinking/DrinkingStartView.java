@@ -93,7 +93,7 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
         BleManager bleManager = BleManager.getInstance();
         if (bleManager != null) {
             mSwitchElectrolyzeBtn.setSelected(start);
-            mSwitchElectrolyzeBtn.setText(start ? R.string.start_electrolysis : R.string.stop_electrolysis);
+            mSwitchElectrolyzeBtn.setText(start ? R.string.stop_electrolysis : R.string.start_electrolysis);
             bleManager.switchCupElectrolyze(start);
         }
         if (start) {
