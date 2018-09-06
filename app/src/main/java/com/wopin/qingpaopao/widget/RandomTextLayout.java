@@ -10,6 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.wopin.qingpaopao.R;
+import com.wopin.qingpaopao.utils.ToastUtils;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -19,6 +22,7 @@ public class RandomTextLayout extends ViewGroup {
     private ArrayList<Rect> mRects;
     private ArrayList<BluetoothDevice> mBluetoothDevices;
     private OnDeviceClickListener mOnDeviceClickListener;
+    private boolean isFull;
 
     public RandomTextLayout(Context context) {
         this(context, null);
@@ -41,7 +45,6 @@ public class RandomTextLayout extends ViewGroup {
         textView.setTextSize(20 + mRandom.nextInt(10));
         textView.setTextColor(Color.BLACK);
         textView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
-        textView.setPadding(10, 10, 10, 10);
         textView.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
         addView(textView);
         mBluetoothDevices.add(bluetoothDevice);
@@ -57,7 +60,13 @@ public class RandomTextLayout extends ViewGroup {
             View childAt = getChildAt(i);
             int cWidth = childAt.getMeasuredWidth();
             int cHeight = childAt.getMeasuredHeight();
-            setLocationView(screenWidth, screenHeight, childAt, cWidth, cHeight);
+
+            if (mRects.size() > i) {
+                Rect rect = mRects.get(i);
+                childAt.layout(rect.left, rect.top, rect.right, rect.bottom);
+            } else {
+                setLocationView(screenWidth, screenHeight, childAt, cWidth, cHeight, 10);
+            }
             final int finalI = i;
             childAt.setOnClickListener(new OnClickListener() {
                 @Override
@@ -70,11 +79,20 @@ public class RandomTextLayout extends ViewGroup {
         }
     }
 
-    private void setLocationView(int screenWidth, int screenHeight, View childAt, int cWidth, int cHeight) {
+    private void setLocationView(int screenWidth, int screenHeight, View childAt, int cWidth, int cHeight, int retryTime) {
+        if (isFull) {
+            return;
+        }
+        if (retryTime < 0) {
+            ToastUtils.showShort(R.string.device_too_much);
+            isFull = true;
+            return;
+        }
         int cl;
         int ct;
         int cr;
         int cb;
+
         int outr = screenWidth / 2;
         /*这里随机的是结束点*/
         int randomWidth = mRandom.nextInt(screenWidth);
@@ -91,7 +109,7 @@ public class RandomTextLayout extends ViewGroup {
         int distanceZ = (int) Math.sqrt(Math.pow(distanceX, 2) + Math.pow(distanceY, 2));
         if (cl < 0 || ct < 0 || distanceZ > outr) {
             /*这里应该重新获取点重新计算*/
-            setLocationView(screenWidth, screenHeight, childAt, cWidth, cHeight);
+            setLocationView(screenWidth, screenHeight, childAt, cWidth, cHeight, --retryTime);
             return;
         }
 
@@ -100,7 +118,7 @@ public class RandomTextLayout extends ViewGroup {
         for (int i = 0; i < mRects.size(); i++) {
             Rect rect = mRects.get(i);
             if (Rect.intersects(rect, currentRect)) {
-                setLocationView(screenWidth, screenHeight, childAt, cWidth, cHeight);
+                setLocationView(screenWidth, screenHeight, childAt, cWidth, cHeight, --retryTime);
                 return;
             }
         }

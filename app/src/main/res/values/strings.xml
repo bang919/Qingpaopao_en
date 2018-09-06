@@ -125,5 +125,6 @@
     2.此窗口会在您重启水杯之后自动消失！</string>
     <string name="light_setting">灯光设置</string>
     <string name="brightness_setting">灯光亮度调节</string>
+    <string name="device_too_much">哇，周边设备有点多，都放不下啦，施主请手动连接吧～</string>
 
 </resources>

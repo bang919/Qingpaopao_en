@@ -88,7 +88,7 @@ public class DrinkingListView extends Fragment implements View.OnClickListener {
     }
 
     private void setDatasUi() {
-        if (mBackBtn != null && currentConnectCup != null) {
+        if (mBackBtn != null) {
             mBackBtn.setVisibility(currentConnectCup != null ? View.VISIBLE : View.GONE);
         }
         if (mCupListAdapter != null && cupBeanList != null) {
