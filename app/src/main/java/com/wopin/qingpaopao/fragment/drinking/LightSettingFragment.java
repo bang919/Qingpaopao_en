@@ -1,5 +1,6 @@
 package com.wopin.qingpaopao.fragment.drinking;
 
+import android.text.TextUtils;
 import android.view.View;
 
 import com.larswerkman.holocolorpicker.ColorPicker;
@@ -14,6 +15,7 @@ public class LightSettingFragment extends BaseDialogFragment implements View.OnC
     public static final String TAG = "LightSettingFragment";
     private ColorPicker mColorPicker;
     private View mLightBtn, mLightIv;
+    private String mNowColor;
 
     @Override
     protected int getLayout() {
@@ -61,6 +63,9 @@ public class LightSettingFragment extends BaseDialogFragment implements View.OnC
                 mLightBtn.setSelected(isOn);
                 BleManager bleManager = BleManager.getInstance();
                 bleManager.switchCupLight(isOn);
+                if (!TextUtils.isEmpty(mNowColor)) {
+                    BleManager.getInstance().setColor(mNowColor);
+                }
                 break;
         }
     }
@@ -72,6 +77,7 @@ public class LightSettingFragment extends BaseDialogFragment implements View.OnC
         colorString = colorString.substring(4, 6)
                 .concat(colorString.substring(2, 4))
                 .concat(colorString.substring(0, 2));
+        mNowColor = colorString;
         BleManager.getInstance().setColor(colorString);
     }
 }
