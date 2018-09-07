@@ -66,7 +66,8 @@ public class DrinkingPresenter extends BasePresenter<DrinkingView> {
     private void parseData(String data) {
         if (data.startsWith("AA CC DD 01 ") && data.endsWith(" DD CC AA")) {//电量数据
             if (mCurrentOnlineCup != null) {
-                mCurrentOnlineCup.setElectric(data.replaceFirst("AA CC DD 01 ", "").replace(" DD CC AA", "").concat("%"));
+                String hexElectric = data.replaceFirst("AA CC DD 01 ", "").replace(" DD CC AA", "");
+                mCurrentOnlineCup.setElectric(Integer.valueOf(hexElectric, 16) + "%");
             }
         }
     }

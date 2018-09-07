@@ -63,7 +63,7 @@ public class DeviceDetailFragment extends BaseBarDialogFragment implements View.
         if (mCupBean.isConnecting()) {
             mDeviceStatusTv.setText(R.string.bind);
             mDeviceStatusTv.setTextColor(getContext().getResources().getColor(R.color.colorAccent));
-            mElectricTv.setText(TextUtils.isEmpty(mCupBean.getElectric()) ? "0" : mCupBean.getElectric());
+            mElectricTv.setText(TextUtils.isEmpty(mCupBean.getElectric()) ? "0%" : mCupBean.getElectric() + "%");
 
             mBleManager = BleManager.getInstance();
             mUpdater = new Updater<BleManager.BleUpdaterBean>() {
@@ -80,7 +80,8 @@ public class DeviceDetailFragment extends BaseBarDialogFragment implements View.
 
     private void parseData(String data) {
         if (data.startsWith("AA CC DD 01 ") && data.endsWith(" DD CC AA")) {//电量数据
-            mElectricTv.setText(data.replaceFirst("AA CC DD 01 ", "").replace(" DD CC AA", "").concat("%"));
+            String hexElectric = data.replaceFirst("AA CC DD 01 ", "").replace(" DD CC AA", "");
+            mElectricTv.setText(Integer.valueOf(hexElectric, 16) + "%");
         }
     }
 
