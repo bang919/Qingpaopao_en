@@ -114,7 +114,6 @@ public class BleManager extends ConnectManager<BleManager.BleUpdaterBean> {
 
     @Override
     public void disconnectServer() {
-        disconnectDevice();
         if (mReceiver != null) {
             LocalBroadcastManager.getInstance(MyApplication.getMyApplicationContext()).unregisterReceiver(mReceiver);
         }
