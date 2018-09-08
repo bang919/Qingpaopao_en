@@ -44,13 +44,13 @@ public class UserGuideFragment extends BaseBarDialogFragment implements MineList
     public void onListItemClick(int textResource, int position) {
         switch (textResource) {
             case R.string.help_center:
-                new HelpCenterFragment().show(getFragmentManager(), HelpCenterFragment.TAG);
+                new HelpCenterFragment().show(getChildFragmentManager(), HelpCenterFragment.TAG);
                 break;
             case R.string.service_center:
-                new ServiceCenterFragment().show(getFragmentManager(), ServiceCenterFragment.TAG);
+                new ServiceCenterFragment().show(getChildFragmentManager(), ServiceCenterFragment.TAG);
                 break;
             case R.string.system_using_introduce:
-                new SystemUsingIntroduceFragment().show(getFragmentManager(), SystemUsingIntroduceFragment.TAG);
+                new SystemUsingIntroduceFragment().show(getChildFragmentManager(), SystemUsingIntroduceFragment.TAG);
                 break;
         }
     }

@@ -23,11 +23,11 @@
     </style>
 
     <style name="animate_dialog_exit">
-        <item name="android:windowExitAnimation">@anim/anim_dialog_exit</item>
+        <item name="android:windowExitAnimation">@anim/anim_dialog_next_exit</item>
     </style>
 
     <style name="animate_dialog_enter_and_exit" parent="animate_dialog_exit">
-        <item name="android:windowEnterAnimation">@anim/anim_dialog_enter</item>
+        <item name="android:windowEnterAnimation">@anim/anim_dialog_next_enter</item>
     </style>
 
     <style name="LauncherActivity" parent="AppThemeLight">

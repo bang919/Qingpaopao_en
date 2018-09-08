@@ -74,6 +74,6 @@ public class ExploreFragment extends BaseMainFragment<ExplorePresenter> implemen
                 webViewUrl = "http://url.cn/5f1JsDp";
                 break;
         }
-        ExploreDetailFragment.build(webViewUrl).show(getFragmentManager(), ExploreDetailFragment.TAG);
+        ExploreDetailFragment.build(webViewUrl).show(getChildFragmentManager(), ExploreDetailFragment.TAG);
     }
 }

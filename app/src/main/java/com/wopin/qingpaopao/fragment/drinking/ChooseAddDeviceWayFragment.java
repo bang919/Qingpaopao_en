@@ -53,6 +53,8 @@ public class ChooseAddDeviceWayFragment extends BaseBarDialogFragment implements
                 blueToothFragment.show(getChildFragmentManager(), BlueToothFragment.TAG);
                 break;
             case R.id.add_wifi_layout:
+                WifiFragmentPageRoot wifiFragmentPageRoot = new WifiFragmentPageRoot();
+                wifiFragmentPageRoot.show(getChildFragmentManager(), WifiFragmentPageRoot.TAG);
                 break;
             case R.id.dont_know_version:
                 new DontKnowVersionFragment().show(getChildFragmentManager(), DontKnowVersionFragment.TAG);

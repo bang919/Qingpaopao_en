@@ -53,7 +53,7 @@ public class PersonInfoFragment extends BaseBarDialogFragment implements MineLis
                 break;
             case R.string.username:
                 EditUsernameFragment editUsernameFragment = new EditUsernameFragment();
-                editUsernameFragment.show(getFragmentManager(), EditUsernameFragment.TAG);
+                editUsernameFragment.show(getChildFragmentManager(), EditUsernameFragment.TAG);
                 editUsernameFragment.setOnBaseBarDialogFragmentCallback(new OnBaseBarDialogFragmentCallback() {
                     @Override
                     public void onDismiss() {

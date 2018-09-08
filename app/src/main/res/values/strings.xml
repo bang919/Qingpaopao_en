@@ -97,6 +97,16 @@
     <string name="add_device">添加设备</string>
     <string name="bluetooth_version">蓝牙版本</string>
     <string name="wifi_version">WIFI版本</string>
+    <string name="link_wifi">连接WIFI</string>
+    <string name="wifi_page_1_content1">通电后按图示操作\n\n
+    长按重置按钮，保持10秒左右\n
+    至指示灯变为黄色闪烁，即重置成功。</string>
+    <string name="wifi_page_1_content2">按图操作后，看到黄色闪烁转为七彩变换</string>
+    <string name="wifi_page_2_content">按扫描按键后\n
+    请用手机扫描水杯底部的二维码或手动连接</string>
+    <string name="next_step">下一步</string>
+    <string name="scan">扫描</string>
+    <string name="link_by_hand">手动连接</string>
     <string name="dont_know_version"><u>如何知道是什么版本?</u></string>
     <string name="cant_find_your_cup">没有找到你的水杯?<u>查找更多</u></string>
     <string name="not_support_bluetooth">该手机不支持蓝牙</string>
@@ -113,7 +123,7 @@
     <string name="device_status">设备状态</string>
     <string name="bind">绑定</string>
     <string name="clean_notice_title">清洗注意事项</string>
-    <string name="clean_notice_content">1.反清洗时长需 5分支，全程杯内红灯闪烁；\n
+    <string name="clean_notice_content">1.反清洗时长需5分钟，全程杯内红灯闪烁；\n
     2.反清洗结束后，杯内红灯常亮，请立即关闭水杯，并将水倒掉；\n
     3.电量低于20%时禁止使用反清洗功能。</string>
     <string name="clean_notice_stop">不洗了</string>
@@ -126,5 +136,6 @@
     <string name="light_setting">灯光设置</string>
     <string name="brightness_setting">灯光亮度调节</string>
     <string name="device_too_much">哇，周边设备有点多，都放不下啦，施主请手动连接吧～</string>
+    <string name="link_wifi_by_hand_course">跳出此app到手机设定——WiFi——选择H2-popo-301——然后再跳回此app</string>
 
 </resources>

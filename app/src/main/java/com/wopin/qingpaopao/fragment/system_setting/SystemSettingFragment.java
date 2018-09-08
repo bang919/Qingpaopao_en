@@ -7,7 +7,6 @@ import android.view.View;
 import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.adapter.MineListRvAdapter;
 import com.wopin.qingpaopao.fragment.BaseBarDialogFragment;
-import com.wopin.qingpaopao.fragment.user_guide.ServiceCenterFragment;
 import com.wopin.qingpaopao.presenter.BasePresenter;
 
 public class SystemSettingFragment extends BaseBarDialogFragment implements MineListRvAdapter.MineListRvCallback {
@@ -45,10 +44,10 @@ public class SystemSettingFragment extends BaseBarDialogFragment implements Mine
     public void onListItemClick(int textResource, int position) {
         switch (textResource) {
             case R.string.system_update:
-                new SystemUpdateFragment().show(getFragmentManager(), SystemUpdateFragment.TAG);
+                new SystemUpdateFragment().show(getChildFragmentManager(), SystemUpdateFragment.TAG);
                 break;
             case R.string.about_us:
-                new AboutUsFragment().show(getFragmentManager(), AboutUsFragment.TAG);
+                new AboutUsFragment().show(getChildFragmentManager(), AboutUsFragment.TAG);
                 break;
         }
     }

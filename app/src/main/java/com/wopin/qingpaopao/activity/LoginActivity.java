@@ -1,10 +1,10 @@
 package com.wopin.qingpaopao.activity;
 
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
 import com.wopin.qingpaopao.R;
+import com.wopin.qingpaopao.adapter.MyFragmentPageAdapter;
 import com.wopin.qingpaopao.bean.request.LoginReq;
 import com.wopin.qingpaopao.fragment.ForgetPasswordFragment;
 import com.wopin.qingpaopao.fragment.LoginViewFragment;
@@ -20,10 +20,10 @@ import cn.sharesdk.wechat.friends.Wechat;
 
 public class LoginActivity extends BaseActivity<LoginPresenter> implements LoginView, View.OnClickListener {
 
-    private Fragment currentFragment;
     private LoginViewFragment mLoginViewFragment;
     private RegisterViewFragment mRegisterViewFragment;
     private long doubleClickToExitTime;
+    private MyFragmentPageAdapter mMyFragmentPageAdapter;
 
     @Override
     protected int getLayout() {
@@ -65,7 +65,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         mRegisterViewFragment.setRegisterViewFragmentCallback(new RegisterViewFragment.RegisterViewFragmentCallback() {
             @Override
             public void onBackClick() {
-                switchFragment(mLoginViewFragment);
+                onBackPressed();
             }
 
             @Override
@@ -82,20 +82,10 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     }
 
     private void switchFragment(Fragment targetFragment) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        if (currentFragment != null) {
-            transaction.hide(currentFragment);
+        if (mMyFragmentPageAdapter == null) {
+            mMyFragmentPageAdapter = new MyFragmentPageAdapter(this, R.id.fragment_layout);
         }
-        if (!targetFragment.isAdded()) {
-            transaction
-                    .add(R.id.fragment_layout, targetFragment)
-                    .commit();
-        } else {
-            transaction
-                    .show(targetFragment)
-                    .commit();
-        }
-        currentFragment = targetFragment;
+        mMyFragmentPageAdapter.switchToFragment(targetFragment, true);
     }
 
 
@@ -121,10 +111,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public void onBackPressed() {
-        if (currentFragment instanceof RegisterViewFragment) {
-            switchFragment(mLoginViewFragment);
-            return;
-        }
         if (System.currentTimeMillis() - doubleClickToExitTime < 1000) {
             finish();
         } else {

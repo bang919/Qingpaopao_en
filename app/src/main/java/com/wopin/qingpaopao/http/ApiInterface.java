@@ -80,4 +80,7 @@ public interface ApiInterface {
 
     @GET("users/cupList")
     Observable<CupListRsp> getCupList();
+
+    @GET("users/attendance")
+    Observable<NormalRsp> attendance();
 }

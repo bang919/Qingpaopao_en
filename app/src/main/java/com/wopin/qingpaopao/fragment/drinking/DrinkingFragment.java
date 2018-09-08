@@ -105,7 +105,7 @@ public class DrinkingFragment extends BaseMainFragment<DrinkingPresenter> implem
 
     @Override
     public void onCupItemClick(CupListRsp.CupBean cupBean, int position) {
-        DeviceDetailFragment.getDeviceDetailFragment(cupBean).show(getFragmentManager(), DeviceDetailFragment.TAG);
+        DeviceDetailFragment.getDeviceDetailFragment(cupBean).show(getChildFragmentManager(), DeviceDetailFragment.TAG);
     }
 
 

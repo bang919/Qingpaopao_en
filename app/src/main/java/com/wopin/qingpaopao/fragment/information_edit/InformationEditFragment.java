@@ -46,16 +46,16 @@ public class InformationEditFragment extends BaseBarDialogFragment implements Mi
     public void onListItemClick(int textResource, int position) {
         switch (textResource) {
             case R.string.person_info:
-                new PersonInfoFragment().show(getFragmentManager(), PersonInfoFragment.TAG);
+                new PersonInfoFragment().show(getChildFragmentManager(), PersonInfoFragment.TAG);
                 break;
             case R.string.edit_bind_phone:
-                new BindPhoneNumberFragment().show(getFragmentManager(), BindPhoneNumberFragment.TAG);
+                new BindPhoneNumberFragment().show(getChildFragmentManager(), BindPhoneNumberFragment.TAG);
                 break;
             case R.string.edit_bind_third:
-                new ThirdBindFragment().show(getFragmentManager(), ThirdBindFragment.TAG);
+                new ThirdBindFragment().show(getChildFragmentManager(), ThirdBindFragment.TAG);
                 break;
             case R.string.edit_password:
-                new EditPasswordFragment().show(getFragmentManager(), EditPasswordFragment.TAG);
+                new EditPasswordFragment().show(getChildFragmentManager(), EditPasswordFragment.TAG);
                 break;
         }
     }

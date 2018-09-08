@@ -22,6 +22,7 @@ import com.wopin.qingpaopao.presenter.BasePresenter;
 import com.wopin.qingpaopao.presenter.LoginPresenter;
 import com.wopin.qingpaopao.utils.GlideUtils;
 import com.wopin.qingpaopao.utils.HttpUtil;
+import com.wopin.qingpaopao.utils.ToastUtils;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -101,7 +102,7 @@ public class MineFragment extends BaseMainFragment implements MineGridRvAdapter.
 
                     @Override
                     public void onMyError(String errorMessage) {
-
+                        ToastUtils.showShort(errorMessage);
                     }
                 });
     }
@@ -115,7 +116,7 @@ public class MineFragment extends BaseMainFragment implements MineGridRvAdapter.
                 break;
             case R.string.information_edit:
                 InformationEditFragment informationEditFragment = new InformationEditFragment();
-                informationEditFragment.show(getFragmentManager(), InformationEditFragment.TAG);
+                informationEditFragment.show(getChildFragmentManager(), InformationEditFragment.TAG);
                 informationEditFragment.setOnBaseBarDialogFragmentCallback(new BaseBarDialogFragment.OnBaseBarDialogFragmentCallback() {
                     @Override
                     public void onDismiss() {
@@ -130,10 +131,10 @@ public class MineFragment extends BaseMainFragment implements MineGridRvAdapter.
             case R.string.history_list:
                 break;
             case R.string.user_guide:
-                new UserGuideFragment().show(getFragmentManager(), UserGuideFragment.TAG);
+                new UserGuideFragment().show(getChildFragmentManager(), UserGuideFragment.TAG);
                 break;
             case R.string.system_setting:
-                new SystemSettingFragment().show(getFragmentManager(), SystemSettingFragment.TAG);
+                new SystemSettingFragment().show(getChildFragmentManager(), SystemSettingFragment.TAG);
                 break;
         }
     }
@@ -154,6 +155,20 @@ public class MineFragment extends BaseMainFragment implements MineGridRvAdapter.
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_sign_in://签到
+                HttpUtil.subscribeNetworkTask(
+                        HttpClient.getApiInterface().attendance().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()),
+                        new BasePresenter.MyObserver<NormalRsp>() {
+                            @Override
+                            public void onMyNext(NormalRsp normalRsp) {
+                                ToastUtils.showShort(normalRsp.getMsg());
+                            }
+
+                            @Override
+                            public void onMyError(String errorMessage) {
+                                ToastUtils.showShort(errorMessage);
+                            }
+                        }
+                );
                 break;
         }
     }
