@@ -5,7 +5,9 @@ import android.view.View;
 import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.adapter.MyFragmentPageAdapter;
 import com.wopin.qingpaopao.fragment.BaseBarDialogFragment;
+import com.wopin.qingpaopao.manager.WifiConnectManager;
 import com.wopin.qingpaopao.presenter.BasePresenter;
+import com.wopin.qingpaopao.utils.ToastUtils;
 
 public class WifiFragmentPageRoot extends BaseBarDialogFragment implements View.OnClickListener {
 
@@ -38,6 +40,7 @@ public class WifiFragmentPageRoot extends BaseBarDialogFragment implements View.
         WifiFragmentPage1 wifiFragmentPage1 = new WifiFragmentPage1();
         wifiFragmentPage1.setOnClickListener(this);
         mMyFragmentPageAdapter.switchToFragment(wifiFragmentPage1);
+
     }
 
     @Override
@@ -49,6 +52,16 @@ public class WifiFragmentPageRoot extends BaseBarDialogFragment implements View.
                 mMyFragmentPageAdapter.switchToFragment(wifiFragmentPage2, true);
                 break;
             case R.id.btn_scan://第二页扫描按钮
+                WifiFragmentPageScan wifiFragmentPageScan = new WifiFragmentPageScan();
+                wifiFragmentPageScan.setWifiScanCallback(new WifiFragmentPageScan.WifiScanCallback() {
+                    @Override
+                    public void onWifiScanCallback(String ssid, String password, String encryption) {
+                        ToastUtils.showLong(String.format(getString(R.string.trying_connect), ssid));
+                        WifiConnectManager.getInstance().connectDevice(ssid, password);
+                        getChildFragmentManager().popBackStackImmediate();//退出WifiFragmentPageScan
+                    }
+                });
+                mMyFragmentPageAdapter.switchToFragment(wifiFragmentPageScan, true);
                 break;
             case R.id.btn_link_by_hand://第二页手动连接按钮
                 new LinkWifiByhandFragment().show(getChildFragmentManager(), LinkWifiByhandFragment.TAG);

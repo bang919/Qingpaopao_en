@@ -7,7 +7,7 @@ import com.larswerkman.holocolorpicker.ColorPicker;
 import com.larswerkman.holocolorpicker.SVBar;
 import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.fragment.BaseDialogFragment;
-import com.wopin.qingpaopao.manager.BleManager;
+import com.wopin.qingpaopao.manager.BleConnectManager;
 import com.wopin.qingpaopao.presenter.BasePresenter;
 
 public class LightSettingFragment extends BaseDialogFragment implements View.OnClickListener, ColorPicker.OnColorChangedListener {
@@ -61,10 +61,10 @@ public class LightSettingFragment extends BaseDialogFragment implements View.OnC
                 boolean isOn = !v.isSelected();
                 mLightIv.setSelected(isOn);
                 mLightBtn.setSelected(isOn);
-                BleManager bleManager = BleManager.getInstance();
-                bleManager.switchCupLight(isOn);
+                BleConnectManager bleConnectManager = BleConnectManager.getInstance();
+                bleConnectManager.switchCupLight(isOn);
                 if (!TextUtils.isEmpty(mNowColor)) {
-                    BleManager.getInstance().setColor(mNowColor);
+                    BleConnectManager.getInstance().setColor(mNowColor);
                 }
                 break;
         }
@@ -78,6 +78,6 @@ public class LightSettingFragment extends BaseDialogFragment implements View.OnC
                 .concat(colorString.substring(2, 4))
                 .concat(colorString.substring(0, 2));
         mNowColor = colorString;
-        BleManager.getInstance().setColor(colorString);
+        BleConnectManager.getInstance().setColor(colorString);
     }
 }

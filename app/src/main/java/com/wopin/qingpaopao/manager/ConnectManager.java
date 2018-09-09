@@ -12,16 +12,16 @@ import java.util.ArrayList;
 
 public abstract class ConnectManager<T> {
 
-    private boolean isConnectToServer;
     private ArrayList<ICommand> mICommands = new ArrayList<>();
+    private OnServerConnectCallback mOnServerConnectCallback;
 
     private void addCommand(ICommand iCommand) {
         if (iCommand != null) {
             mICommands.add(iCommand);
         }
         //Check Connect
-        if (!isConnectToServer) {
-            isConnectToServer = connectToServer(new OnServerConnectCallback() {
+        if (mOnServerConnectCallback == null) {
+            mOnServerConnectCallback = new OnServerConnectCallback() {
                 @Override
                 public void onConnectServerCallback() {
                     execute();
@@ -29,19 +29,15 @@ public abstract class ConnectManager<T> {
 
                 @Override
                 public void onDisconnectServerCallback() {
-                    if (isConnectToServer) {
-                        disconnectServer();
-                        isConnectToServer = false;
-                    }
+                    disconnectServer();
                 }
-            });
-        } else {
-            execute();
+            };
         }
+        connectToServer(mOnServerConnectCallback);
     }
 
     private void execute() {
-        while (isConnectToServer && mICommands.size() > 0) {
+        while (mICommands.size() > 0) {
             ICommand remove = mICommands.remove(0);
             remove.execute();
         }
@@ -50,7 +46,7 @@ public abstract class ConnectManager<T> {
     /**
      * 连接到Ble/Wifi服务，在addComment的时候就回调用
      */
-    protected abstract boolean connectToServer(OnServerConnectCallback onServerConnectCallback);
+    protected abstract void connectToServer(OnServerConnectCallback onServerConnectCallback);
 
     /**
      * 断开连接，需要手动调用
@@ -74,7 +70,7 @@ public abstract class ConnectManager<T> {
     /**
      * 开/关杯子电解
      */
-    public void switchCupElectrolyze(ISwitchElectrolyzeCommand iSwitchElectrolyzeCommand) {
+    void switchCupElectrolyze(ISwitchElectrolyzeCommand iSwitchElectrolyzeCommand) {
         addCommand(iSwitchElectrolyzeCommand);
     }
 
@@ -88,7 +84,7 @@ public abstract class ConnectManager<T> {
     /**
      * 开/关杯子清洗
      */
-    public void switchCupClean(ISwitchCleanCommand iSwitchCleanCommand) {
+    void switchCupClean(ISwitchCleanCommand iSwitchCleanCommand) {
         addCommand(iSwitchCleanCommand);
     }
 

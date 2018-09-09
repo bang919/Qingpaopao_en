@@ -9,7 +9,7 @@ import com.ble.api.DataUtil;
 import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.bean.response.CupListRsp;
 import com.wopin.qingpaopao.fragment.BaseBarDialogFragment;
-import com.wopin.qingpaopao.manager.BleManager;
+import com.wopin.qingpaopao.manager.BleConnectManager;
 import com.wopin.qingpaopao.manager.Updater;
 import com.wopin.qingpaopao.presenter.BasePresenter;
 
@@ -21,8 +21,8 @@ public class DeviceDetailFragment extends BaseBarDialogFragment implements View.
     private TextView mDeviceNameTv;
     private TextView mCupColorTv;
     private TextView mDeviceStatusTv;
-    private BleManager mBleManager;
-    private Updater<BleManager.BleUpdaterBean> mUpdater;
+    private BleConnectManager mBleConnectManager;
+    private Updater<BleConnectManager.BleUpdaterBean> mUpdater;
 
     public static DeviceDetailFragment getDeviceDetailFragment(CupListRsp.CupBean cupBean) {
         DeviceDetailFragment deviceDetailFragment = new DeviceDetailFragment();
@@ -63,18 +63,18 @@ public class DeviceDetailFragment extends BaseBarDialogFragment implements View.
         if (mCupBean.isConnecting()) {
             mDeviceStatusTv.setText(R.string.bind);
             mDeviceStatusTv.setTextColor(getContext().getResources().getColor(R.color.colorAccent));
-            mElectricTv.setText(TextUtils.isEmpty(mCupBean.getElectric()) ? "0%" : mCupBean.getElectric() + "%");
+            mElectricTv.setText(TextUtils.isEmpty(mCupBean.getElectric()) ? "0%" : mCupBean.getElectric());
 
-            mBleManager = BleManager.getInstance();
-            mUpdater = new Updater<BleManager.BleUpdaterBean>() {
+            mBleConnectManager = BleConnectManager.getInstance();
+            mUpdater = new Updater<BleConnectManager.BleUpdaterBean>() {
                 @Override
-                public void onDatasUpdate(BleManager.BleUpdaterBean bleUpdaterBean) {
+                public void onDatasUpdate(BleConnectManager.BleUpdaterBean bleUpdaterBean) {
                     byte[] values = bleUpdaterBean.getValues();
                     String s = DataUtil.byteArrayToHex(values);
                     parseData(s);
                 }
             };
-            mBleManager.addUpdater(mUpdater);
+            mBleConnectManager.addUpdater(mUpdater);
         }
     }
 
@@ -87,10 +87,10 @@ public class DeviceDetailFragment extends BaseBarDialogFragment implements View.
 
     @Override
     public void onDestroy() {
-        if (mBleManager != null) {
-            mBleManager.removeUpdater(mUpdater);
+        if (mBleConnectManager != null) {
+            mBleConnectManager.removeUpdater(mUpdater);
             mUpdater = null;
-            mBleManager = null;
+            mBleConnectManager = null;
         }
         super.onDestroy();
     }
@@ -101,7 +101,7 @@ public class DeviceDetailFragment extends BaseBarDialogFragment implements View.
             case R.id.value_device_name:
 //                BluetoothManager bluetoothManager = (BluetoothManager) getContext().getSystemService(Context.BLUETOOTH_SERVICE);
 //                BluetoothAdapter adapter = bluetoothManager.getAdapter();
-//                adapter.setName("BigBang");
+//                adapter.setName("Hahahaha");
                 break;
         }
     }

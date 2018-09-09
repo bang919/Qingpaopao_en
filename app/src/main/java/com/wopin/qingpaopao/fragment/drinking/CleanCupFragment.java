@@ -6,7 +6,7 @@ import android.widget.TextView;
 
 import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.fragment.BaseDialogFragment;
-import com.wopin.qingpaopao.manager.BleManager;
+import com.wopin.qingpaopao.manager.BleConnectManager;
 import com.wopin.qingpaopao.presenter.BasePresenter;
 
 public class CleanCupFragment extends BaseDialogFragment implements View.OnClickListener {
@@ -59,17 +59,17 @@ public class CleanCupFragment extends BaseDialogFragment implements View.OnClick
             }
         };
         mHandler.postDelayed(mTimeRunnable, 1000);
-        BleManager bleManager = BleManager.getInstance();
-        if (bleManager != null) {
-            bleManager.switchCupClean(true);
+        BleConnectManager bleConnectManager = BleConnectManager.getInstance();
+        if (bleConnectManager != null) {
+            bleConnectManager.switchCupClean(true);
         }
     }
 
     private void stopClean() {
         mHandler.removeCallbacks(mTimeRunnable);
-        BleManager bleManager = BleManager.getInstance();
-        if (bleManager != null) {
-            bleManager.switchCupClean(false);
+        BleConnectManager bleConnectManager = BleConnectManager.getInstance();
+        if (bleConnectManager != null) {
+            bleConnectManager.switchCupClean(false);
         }
         dismiss();
     }

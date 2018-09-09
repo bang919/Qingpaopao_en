@@ -11,7 +11,6 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.ble.ble.BleService;
-import com.wopin.qingpaopao.command.IConnectDeviceCommand;
 import com.wopin.qingpaopao.command.ble.BleConnectDeviceCommand;
 import com.wopin.qingpaopao.command.ble.BleDisconnectDeviceCommand;
 import com.wopin.qingpaopao.command.ble.ColorCommand;
@@ -21,10 +20,10 @@ import com.wopin.qingpaopao.command.ble.SwitchLightCommand;
 import com.wopin.qingpaopao.common.MyApplication;
 import com.wopin.qingpaopao.utils.LeProxy;
 
-public class BleManager extends ConnectManager<BleManager.BleUpdaterBean> {
+public class BleConnectManager extends ConnectManager<BleConnectManager.BleUpdaterBean> {
 
-    private static final String TAG = "BleManager";
-    private static BleManager mBlemanager;
+    private static final String TAG = "BleConnectManager";
+    private static BleConnectManager mBlemanager;
     private ServiceConnection mConn;
     private BroadcastReceiver mReceiver;
     private boolean hadConnectOneDevice;
@@ -32,19 +31,19 @@ public class BleManager extends ConnectManager<BleManager.BleUpdaterBean> {
     private String mCurrentUuid;
     private String mCurrentAddress;
 
-    private BleManager() {
-        connectDevice((IConnectDeviceCommand) null);//开启服务
+    private BleConnectManager() {
+
     }
 
-    public static BleManager getInstance() {
+    public static BleConnectManager getInstance() {
         if (mBlemanager == null) {
-            mBlemanager = new BleManager();
+            mBlemanager = new BleConnectManager();
         }
         return mBlemanager;
     }
 
     @Override
-    protected boolean connectToServer(final ConnectManager.OnServerConnectCallback onServerConnectCallback) {
+    protected void connectToServer(final ConnectManager.OnServerConnectCallback onServerConnectCallback) {
         if (mReceiver == null) {
             mReceiver = new BroadcastReceiver() {
                 @Override
@@ -80,9 +79,10 @@ public class BleManager extends ConnectManager<BleManager.BleUpdaterBean> {
                     }
                 }
             };
+            LocalBroadcastManager.getInstance(MyApplication.getMyApplicationContext()).registerReceiver(mReceiver, makeFilter());
         }
 
-        LocalBroadcastManager.getInstance(MyApplication.getMyApplicationContext()).registerReceiver(mReceiver, makeFilter());
+
         if (mConn == null) {
             mConn = new ServiceConnection() {
                 @Override
@@ -98,9 +98,14 @@ public class BleManager extends ConnectManager<BleManager.BleUpdaterBean> {
                     Log.d(TAG, "onServiceDisconnected: BleManagerDisconnected");
                 }
             };
+            boolean success = MyApplication.getMyApplicationContext().bindService(new Intent(MyApplication.getMyApplicationContext(), BleService.class),
+                    mConn, Context.BIND_AUTO_CREATE);
+            if (!success) {
+                onServerConnectCallback.onDisconnectServerCallback();
+            }
+        } else {
+            onServerConnectCallback.onConnectServerCallback();
         }
-        return MyApplication.getMyApplicationContext().bindService(new Intent(MyApplication.getMyApplicationContext(), BleService.class),
-                mConn, Context.BIND_AUTO_CREATE);
     }
 
     private IntentFilter makeFilter() {
@@ -116,11 +121,13 @@ public class BleManager extends ConnectManager<BleManager.BleUpdaterBean> {
     public void disconnectServer() {
         if (mReceiver != null) {
             LocalBroadcastManager.getInstance(MyApplication.getMyApplicationContext()).unregisterReceiver(mReceiver);
+            mReceiver = null;
         }
         if (mConn != null) {
             try {
 
                 MyApplication.getMyApplicationContext().unbindService(mConn);
+                mConn = null;
             } catch (IllegalArgumentException e) {//可能会还没bindService
                 Log.d(TAG, "disconnectServer: " + e.getLocalizedMessage());
             }
@@ -130,10 +137,6 @@ public class BleManager extends ConnectManager<BleManager.BleUpdaterBean> {
 
     public String getCurrentUuid() {
         return mCurrentUuid;
-    }
-
-    public String getCurrentAddress() {
-        return mCurrentAddress;
     }
 
     /**

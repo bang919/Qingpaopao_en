@@ -12,7 +12,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.wopin.qingpaopao.R;
-import com.wopin.qingpaopao.manager.BleManager;
+import com.wopin.qingpaopao.manager.BleConnectManager;
 
 public class DrinkingStartView extends Fragment implements View.OnClickListener {
     private View mRootView;
@@ -90,11 +90,11 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
     }
 
     private void switchSeekbarMinusRunnable(boolean start) {
-        BleManager bleManager = BleManager.getInstance();
-        if (bleManager != null) {
+        BleConnectManager bleConnectManager = BleConnectManager.getInstance();
+        if (bleConnectManager != null) {
             mSwitchElectrolyzeBtn.setSelected(start);
             mSwitchElectrolyzeBtn.setText(start ? R.string.stop_electrolysis : R.string.start_electrolysis);
-            bleManager.switchCupElectrolyze(start);
+            bleConnectManager.switchCupElectrolyze(start);
         }
         if (start) {
             mHandler.postDelayed(mSeekbarMinusRunnable, 1000);

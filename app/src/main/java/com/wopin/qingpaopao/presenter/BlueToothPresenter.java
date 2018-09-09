@@ -19,9 +19,11 @@ import com.wopin.qingpaopao.R;
 
 import java.util.TreeMap;
 
+import io.reactivex.ObservableSource;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 public class BlueToothPresenter {
@@ -125,7 +127,17 @@ public class BlueToothPresenter {
         } else if (mFragment != null) {
             rxPermissions = new RxPermissions(mFragment);
         }
-        rxPermissions.request(Manifest.permission.ACCESS_FINE_LOCATION)
+        final RxPermissions finalRxPermissions = rxPermissions;
+        rxPermissions.request(Manifest.permission.ACCESS_COARSE_LOCATION)
+                .flatMap(new Function<Boolean, ObservableSource<Boolean>>() {
+                    @Override
+                    public ObservableSource<Boolean> apply(Boolean aBoolean) throws Exception {
+                        if (!aBoolean) {
+                            throw new Exception(mContext.getString(R.string.need_permission));
+                        }
+                        return finalRxPermissions.request(Manifest.permission.ACCESS_FINE_LOCATION);
+                    }
+                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Boolean>() {

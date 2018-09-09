@@ -8,7 +8,8 @@ import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.adapter.MainViewPagerAdapter;
 import com.wopin.qingpaopao.common.Constants;
 import com.wopin.qingpaopao.fragment.BaseMainFragment;
-import com.wopin.qingpaopao.manager.BleManager;
+import com.wopin.qingpaopao.manager.BleConnectManager;
+import com.wopin.qingpaopao.manager.WifiConnectManager;
 import com.wopin.qingpaopao.presenter.MainPresenter;
 import com.wopin.qingpaopao.utils.ToastUtils;
 import com.wopin.qingpaopao.view.MainView;
@@ -37,7 +38,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
 
     @Override
     protected void onDestroy() {
-        BleManager.getInstance().disconnectServer();
+        BleConnectManager.getInstance().disconnectServer();
+        WifiConnectManager.getInstance().disconnectServer();
         super.onDestroy();
     }
 

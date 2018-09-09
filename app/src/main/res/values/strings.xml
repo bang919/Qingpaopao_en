@@ -137,5 +137,7 @@
     <string name="brightness_setting">灯光亮度调节</string>
     <string name="device_too_much">哇，周边设备有点多，都放不下啦，施主请手动连接吧～</string>
     <string name="link_wifi_by_hand_course">跳出此app到手机设定——WiFi——选择H2-popo-301——然后再跳回此app</string>
+    <string name="trying_connect">正在连接设备：%s</string>
+    <string name="failure_connect_wifi">连接设备失败</string>
 
 </resources>
