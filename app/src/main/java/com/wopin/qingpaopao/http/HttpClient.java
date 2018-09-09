@@ -62,6 +62,7 @@ public class HttpClient {
             Retrofit retrofit = new Retrofit.Builder()
                     .client(mOkHttpClient)
                     .baseUrl(BuildConfig.basicUrlHttps)
+                    .addConverterFactory(NotJsonResponseConverterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .build();

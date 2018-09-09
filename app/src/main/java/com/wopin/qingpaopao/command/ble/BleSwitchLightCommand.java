@@ -4,9 +4,9 @@ import com.ble.api.DataUtil;
 import com.wopin.qingpaopao.command.ISwitchLightCommand;
 import com.wopin.qingpaopao.utils.LeProxy;
 
-public class SwitchLightCommand extends ISwitchLightCommand<String> {
+public class BleSwitchLightCommand extends ISwitchLightCommand<String> {
 
-    public SwitchLightCommand(String target, boolean isLightOn) {
+    public BleSwitchLightCommand(String target, boolean isLightOn) {
         super(target, isLightOn);
     }
 

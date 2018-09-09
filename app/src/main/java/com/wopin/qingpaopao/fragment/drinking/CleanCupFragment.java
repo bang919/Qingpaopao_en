@@ -6,8 +6,8 @@ import android.widget.TextView;
 
 import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.fragment.BaseDialogFragment;
-import com.wopin.qingpaopao.manager.BleConnectManager;
 import com.wopin.qingpaopao.presenter.BasePresenter;
+import com.wopin.qingpaopao.presenter.DrinkingPresenter;
 
 public class CleanCupFragment extends BaseDialogFragment implements View.OnClickListener {
 
@@ -16,6 +16,11 @@ public class CleanCupFragment extends BaseDialogFragment implements View.OnClick
     private Runnable mTimeRunnable;
     private int mTimeStamp;
     private TextView mCleanTimeTv;
+    private DrinkingPresenter mDrinkingPresenter;
+
+    public void setDrinkingPresenter(DrinkingPresenter drinkingPresenter) {
+        mDrinkingPresenter = drinkingPresenter;
+    }
 
     @Override
     protected int getLayout() {
@@ -29,6 +34,7 @@ public class CleanCupFragment extends BaseDialogFragment implements View.OnClick
 
     @Override
     public void onDestroy() {
+        mDrinkingPresenter = null;
         mHandler.removeCallbacks(mTimeRunnable);
         super.onDestroy();
     }
@@ -59,17 +65,15 @@ public class CleanCupFragment extends BaseDialogFragment implements View.OnClick
             }
         };
         mHandler.postDelayed(mTimeRunnable, 1000);
-        BleConnectManager bleConnectManager = BleConnectManager.getInstance();
-        if (bleConnectManager != null) {
-            bleConnectManager.switchCupClean(true);
+        if (mDrinkingPresenter != null) {
+            mDrinkingPresenter.switchCupClean(true);
         }
     }
 
     private void stopClean() {
         mHandler.removeCallbacks(mTimeRunnable);
-        BleConnectManager bleConnectManager = BleConnectManager.getInstance();
-        if (bleConnectManager != null) {
-            bleConnectManager.switchCupClean(false);
+        if (mDrinkingPresenter != null) {
+            mDrinkingPresenter.switchCupClean(false);
         }
         dismiss();
     }

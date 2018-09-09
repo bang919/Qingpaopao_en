@@ -4,9 +4,9 @@ import com.ble.api.DataUtil;
 import com.wopin.qingpaopao.command.ISwitchCleanCommand;
 import com.wopin.qingpaopao.utils.LeProxy;
 
-public class SwitchCleanCommand extends ISwitchCleanCommand<String> {
+public class BleSwitchCleanCommand extends ISwitchCleanCommand<String> {
 
-    public SwitchCleanCommand(String target, boolean clean) {
+    public BleSwitchCleanCommand(String target, boolean clean) {
         super(target, clean);
     }
 

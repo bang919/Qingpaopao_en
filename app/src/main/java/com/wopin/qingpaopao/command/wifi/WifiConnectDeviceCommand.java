@@ -7,11 +7,11 @@ import com.wopin.qingpaopao.command.IConnectDeviceCommand;
 
 import java.util.List;
 
-public class WifiConnectDeviceComment extends IConnectDeviceCommand<WifiConfiguration> {
+public class WifiConnectDeviceCommand extends IConnectDeviceCommand<WifiConfiguration> {
 
     private WifiManager wifiManager;
 
-    public WifiConnectDeviceComment(WifiManager wifiManager, WifiConfiguration target) {
+    public WifiConnectDeviceCommand(WifiManager wifiManager, WifiConfiguration target) {
         super(target);
         this.wifiManager = wifiManager;
     }
@@ -31,5 +31,6 @@ public class WifiConnectDeviceComment extends IConnectDeviceCommand<WifiConfigur
         int networkId = wifiManager.addNetwork(getTarget());
         wifiManager.enableNetwork(networkId, true);
         wifiManager.reconnect();
+        wifiManager = null;
     }
 }

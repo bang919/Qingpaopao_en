@@ -7,8 +7,8 @@ import com.larswerkman.holocolorpicker.ColorPicker;
 import com.larswerkman.holocolorpicker.SVBar;
 import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.fragment.BaseDialogFragment;
-import com.wopin.qingpaopao.manager.BleConnectManager;
 import com.wopin.qingpaopao.presenter.BasePresenter;
+import com.wopin.qingpaopao.presenter.DrinkingPresenter;
 
 public class LightSettingFragment extends BaseDialogFragment implements View.OnClickListener, ColorPicker.OnColorChangedListener {
 
@@ -16,6 +16,17 @@ public class LightSettingFragment extends BaseDialogFragment implements View.OnC
     private ColorPicker mColorPicker;
     private View mLightBtn, mLightIv;
     private String mNowColor;
+    private DrinkingPresenter mDrinkingPresenter;
+
+    public void setDrinkingPresenter(DrinkingPresenter drinkingPresenter) {
+        mDrinkingPresenter = drinkingPresenter;
+    }
+
+    @Override
+    public void onDestroy() {
+        mDrinkingPresenter = null;
+        super.onDestroy();
+    }
 
     @Override
     protected int getLayout() {
@@ -61,10 +72,9 @@ public class LightSettingFragment extends BaseDialogFragment implements View.OnC
                 boolean isOn = !v.isSelected();
                 mLightIv.setSelected(isOn);
                 mLightBtn.setSelected(isOn);
-                BleConnectManager bleConnectManager = BleConnectManager.getInstance();
-                bleConnectManager.switchCupLight(isOn);
+                mDrinkingPresenter.switchCupLight(isOn);
                 if (!TextUtils.isEmpty(mNowColor)) {
-                    BleConnectManager.getInstance().setColor(mNowColor);
+                    mDrinkingPresenter.setColor(mNowColor);
                 }
                 break;
         }
@@ -74,10 +84,7 @@ public class LightSettingFragment extends BaseDialogFragment implements View.OnC
     public void onColorChanged(int color) {
         String s = Integer.toHexString(color);
         String colorString = s.toUpperCase().replaceFirst("FF", "");
-        colorString = colorString.substring(4, 6)
-                .concat(colorString.substring(2, 4))
-                .concat(colorString.substring(0, 2));
         mNowColor = colorString;
-        BleConnectManager.getInstance().setColor(colorString);
+        mDrinkingPresenter.setColor(colorString);
     }
 }

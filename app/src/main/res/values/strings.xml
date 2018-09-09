@@ -97,6 +97,7 @@
     <string name="add_device">添加设备</string>
     <string name="bluetooth_version">蓝牙版本</string>
     <string name="wifi_version">WIFI版本</string>
+    <string name="link">连接</string>
     <string name="link_wifi">连接WIFI</string>
     <string name="wifi_page_1_content1">通电后按图示操作\n\n
     长按重置按钮，保持10秒左右\n
@@ -139,5 +140,9 @@
     <string name="link_wifi_by_hand_course">跳出此app到手机设定——WiFi——选择H2-popo-301——然后再跳回此app</string>
     <string name="trying_connect">正在连接设备：%s</string>
     <string name="failure_connect_wifi">连接设备失败</string>
+    <string name="success_connect_wifi">连接设备成功，正在获取wifi列表信息</string>
+    <string name="click_to_choose_wifi">点击选择WIFI网络</string>
+    <string name="wifi_password">WIFI密码</string>
+    <string name="success_setting_wifi">设备连接WIFI成功</string>
 
 </resources>

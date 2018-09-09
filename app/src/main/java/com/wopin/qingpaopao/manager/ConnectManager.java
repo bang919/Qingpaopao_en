@@ -53,6 +53,11 @@ public abstract class ConnectManager<T> {
      */
     public abstract void disconnectServer();
 
+    public void destroy() {
+        clearUpdaters();
+        disconnectServer();
+    }
+
     /**
      * 连接设备
      */

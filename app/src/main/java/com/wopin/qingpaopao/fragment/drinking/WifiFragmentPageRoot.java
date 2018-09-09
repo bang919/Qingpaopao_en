@@ -4,15 +4,22 @@ import android.view.View;
 
 import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.adapter.MyFragmentPageAdapter;
+import com.wopin.qingpaopao.bean.response.WifiRsp;
 import com.wopin.qingpaopao.fragment.BaseBarDialogFragment;
 import com.wopin.qingpaopao.manager.WifiConnectManager;
 import com.wopin.qingpaopao.presenter.BasePresenter;
 import com.wopin.qingpaopao.utils.ToastUtils;
+import com.wopin.qingpaopao.view.WifiSettingSuccessListener;
 
 public class WifiFragmentPageRoot extends BaseBarDialogFragment implements View.OnClickListener {
 
     public static final String TAG = "WifiFragmentPageRoot";
     private MyFragmentPageAdapter mMyFragmentPageAdapter;
+    private WifiSettingSuccessListener mWifiSettingSuccessListener;
+
+    public void setWifiSettingSuccessListener(WifiSettingSuccessListener wifiSettingSuccessListener) {
+        mWifiSettingSuccessListener = wifiSettingSuccessListener;
+    }
 
     @Override
     protected String setBarTitle() {
@@ -49,6 +56,13 @@ public class WifiFragmentPageRoot extends BaseBarDialogFragment implements View.
             case R.id.next_step_btn://第一页按了next
                 WifiFragmentPage2 wifiFragmentPage2 = new WifiFragmentPage2();
                 wifiFragmentPage2.setOnClickListener(this);
+                wifiFragmentPage2.setWifiSettingSuccessListener(new WifiSettingSuccessListener() {
+                    @Override
+                    public void onWifiSettingSuccess(WifiRsp wifiRsp) {
+                        mWifiSettingSuccessListener.onWifiSettingSuccess(wifiRsp);
+                        dismiss();
+                    }
+                });
                 mMyFragmentPageAdapter.switchToFragment(wifiFragmentPage2, true);
                 break;
             case R.id.btn_scan://第二页扫描按钮
@@ -68,6 +82,4 @@ public class WifiFragmentPageRoot extends BaseBarDialogFragment implements View.
                 break;
         }
     }
-
-
 }

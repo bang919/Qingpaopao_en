@@ -13,10 +13,10 @@ import android.util.Log;
 import com.ble.ble.BleService;
 import com.wopin.qingpaopao.command.ble.BleConnectDeviceCommand;
 import com.wopin.qingpaopao.command.ble.BleDisconnectDeviceCommand;
-import com.wopin.qingpaopao.command.ble.ColorCommand;
-import com.wopin.qingpaopao.command.ble.SwitchCleanCommand;
-import com.wopin.qingpaopao.command.ble.SwitchElectrolyzeCommand;
-import com.wopin.qingpaopao.command.ble.SwitchLightCommand;
+import com.wopin.qingpaopao.command.ble.BleColorCommand;
+import com.wopin.qingpaopao.command.ble.BleSwitchCleanCommand;
+import com.wopin.qingpaopao.command.ble.BleSwitchElectrolyzeCommand;
+import com.wopin.qingpaopao.command.ble.BleSwitchLightCommand;
 import com.wopin.qingpaopao.common.MyApplication;
 import com.wopin.qingpaopao.utils.LeProxy;
 
@@ -132,7 +132,6 @@ public class BleConnectManager extends ConnectManager<BleConnectManager.BleUpdat
                 Log.d(TAG, "disconnectServer: " + e.getLocalizedMessage());
             }
         }
-        clearUpdaters();
     }
 
     public String getCurrentUuid() {
@@ -156,25 +155,25 @@ public class BleConnectManager extends ConnectManager<BleConnectManager.BleUpdat
 
     public void switchCupElectrolyze(boolean isOn) {
         if (mCurrentAddress != null) {
-            super.switchCupElectrolyze(new SwitchElectrolyzeCommand(mCurrentAddress, isOn));
+            super.switchCupElectrolyze(new BleSwitchElectrolyzeCommand(mCurrentAddress, isOn));
         }
     }
 
     public void switchCupLight(boolean isLightOn) {
         if (mCurrentAddress != null) {
-            super.switchCupLight(new SwitchLightCommand(mCurrentAddress, isLightOn));
+            super.switchCupLight(new BleSwitchLightCommand(mCurrentAddress, isLightOn));
         }
     }
 
     public void switchCupClean(boolean isClean) {
         if (mCurrentAddress != null) {
-            super.switchCupClean(new SwitchCleanCommand(mCurrentAddress, isClean));
+            super.switchCupClean(new BleSwitchCleanCommand(mCurrentAddress, isClean));
         }
     }
 
     public void setColor(String color) {
         if (mCurrentAddress != null) {
-            super.setColor(new ColorCommand(mCurrentAddress, color));
+            super.setColor(new BleColorCommand(mCurrentAddress, color));
         }
     }
 

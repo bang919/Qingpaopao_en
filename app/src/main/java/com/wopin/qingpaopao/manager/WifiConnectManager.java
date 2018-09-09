@@ -10,7 +10,7 @@ import android.net.wifi.WifiManager;
 import android.os.Handler;
 import android.util.Log;
 
-import com.wopin.qingpaopao.command.wifi.WifiConnectDeviceComment;
+import com.wopin.qingpaopao.command.wifi.WifiConnectDeviceCommand;
 import com.wopin.qingpaopao.common.MyApplication;
 import com.wopin.qingpaopao.utils.WifiConenctUtil;
 
@@ -98,7 +98,6 @@ public class WifiConnectManager extends ConnectManager<WifiConnectManager.WifiUp
             MyApplication.getMyApplicationContext().unregisterReceiver(mWifiConnectBroadcastReceiver);
             mWifiConnectBroadcastReceiver = null;
         }
-        clearUpdaters();
         if (mBeforeConnectionInfo != null) {
             wifiManager.enableNetwork(mBeforeConnectionInfo.getNetworkId(), true);//重新连接之前的wifi
         }
@@ -150,7 +149,7 @@ public class WifiConnectManager extends ConnectManager<WifiConnectManager.WifiUp
     public void connectDevice(String ssid, String password) {
         tryingConnectWifiBean = new WifiUpdaterBean();
         tryingConnectWifiBean.setSsid(ssid);
-        super.connectDevice(new WifiConnectDeviceComment(wifiManager, WifiConenctUtil.createWifiInfo(wifiManager, ssid, password)));
+        super.connectDevice(new WifiConnectDeviceCommand(wifiManager, WifiConenctUtil.createWifiInfo(wifiManager, ssid, password)));
     }
 
     public void disconnectDevice() {

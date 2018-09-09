@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,17 +12,25 @@ import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.manager.Updater;
 import com.wopin.qingpaopao.manager.WifiConnectManager;
 import com.wopin.qingpaopao.utils.ToastUtils;
+import com.wopin.qingpaopao.view.WifiSettingSuccessListener;
 
 public class WifiFragmentPage2 extends Fragment {
 
     private View.OnClickListener mOnClickListener;
+    private WifiSettingSuccessListener mWifiSettingSuccessListener;
+    private Updater<WifiConnectManager.WifiUpdaterBean> mUpdater;
 
     public void setOnClickListener(View.OnClickListener onClickListener) {
         mOnClickListener = onClickListener;
     }
 
+    public void setWifiSettingSuccessListener(WifiSettingSuccessListener wifiSettingSuccessListener) {
+        mWifiSettingSuccessListener = wifiSettingSuccessListener;
+    }
+
     @Override
     public void onDestroy() {
+        WifiConnectManager.getInstance().removeUpdater(mUpdater);
         WifiConnectManager.getInstance().disconnectServer();
         super.onDestroy();
     }
@@ -40,7 +47,7 @@ public class WifiFragmentPage2 extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        WifiConnectManager.getInstance().addUpdater(new Updater<WifiConnectManager.WifiUpdaterBean>() {
+        mUpdater = new Updater<WifiConnectManager.WifiUpdaterBean>() {
 
             @Override
             public void onDissconnectDevice(WifiConnectManager.WifiUpdaterBean wifiUpdaterBean) {
@@ -49,9 +56,11 @@ public class WifiFragmentPage2 extends Fragment {
 
             @Override
             public void onConnectDevice(WifiConnectManager.WifiUpdaterBean wifiUpdaterBean) {
-                //TODO 填写密码
-                Log.d("bigbang", "WifiConnectManager  onConnectDevice");
+                WifiFragmentPageChooseList wifiFragmentPageChooseList = new WifiFragmentPageChooseList();
+                wifiFragmentPageChooseList.setWifiSettingSuccessListener(mWifiSettingSuccessListener);
+                wifiFragmentPageChooseList.show(getChildFragmentManager(), WifiFragmentPageChooseList.TAG);
             }
-        });
+        };
+        WifiConnectManager.getInstance().addUpdater(mUpdater);
     }
 }

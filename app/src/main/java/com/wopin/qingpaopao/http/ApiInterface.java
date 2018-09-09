@@ -11,6 +11,7 @@ import com.wopin.qingpaopao.bean.response.NormalRsp;
 import com.wopin.qingpaopao.bean.response.ThirdBindRsp;
 
 import io.reactivex.Observable;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -83,4 +84,10 @@ public interface ApiInterface {
 
     @GET("users/attendance")
     Observable<NormalRsp> attendance();
+
+    @POST("http://172.16.0.123/wopin_wifi")
+    Observable<String> getWifiList(@Body RequestBody requestBody);
+
+    @POST("http://172.16.0.123/wopin_wifi")
+    Observable<String> sendWifiConfigToCup(@Body RequestBody requestBody);
 }

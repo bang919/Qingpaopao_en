@@ -4,11 +4,13 @@ import android.bluetooth.BluetoothDevice;
 import android.view.View;
 
 import com.wopin.qingpaopao.R;
+import com.wopin.qingpaopao.bean.response.WifiRsp;
 import com.wopin.qingpaopao.fragment.BaseBarDialogFragment;
 import com.wopin.qingpaopao.presenter.BasePresenter;
+import com.wopin.qingpaopao.view.WifiSettingSuccessListener;
 import com.wopin.qingpaopao.widget.RandomTextLayout;
 
-public class ChooseAddDeviceWayFragment extends BaseBarDialogFragment implements View.OnClickListener, RandomTextLayout.OnDeviceClickListener {
+public class ChooseAddDeviceWayFragment extends BaseBarDialogFragment implements View.OnClickListener, RandomTextLayout.OnDeviceClickListener, WifiSettingSuccessListener {
 
     public static final String TAG = "ChooseAddDeviceWayFragment";
     private DrinkingListView.OnDrinkingListViewCallback mOnDrinkingListViewCallback;
@@ -54,6 +56,7 @@ public class ChooseAddDeviceWayFragment extends BaseBarDialogFragment implements
                 break;
             case R.id.add_wifi_layout:
                 WifiFragmentPageRoot wifiFragmentPageRoot = new WifiFragmentPageRoot();
+                wifiFragmentPageRoot.setWifiSettingSuccessListener(this);
                 wifiFragmentPageRoot.show(getChildFragmentManager(), WifiFragmentPageRoot.TAG);
                 break;
             case R.id.dont_know_version:
@@ -70,4 +73,11 @@ public class ChooseAddDeviceWayFragment extends BaseBarDialogFragment implements
         }
     }
 
+    @Override
+    public void onWifiSettingSuccess(WifiRsp wifiRsp) {
+        if (mOnDrinkingListViewCallback != null) {
+            mOnDrinkingListViewCallback.onWifiDeviceFind(wifiRsp);
+            dismiss();
+        }
+    }
 }

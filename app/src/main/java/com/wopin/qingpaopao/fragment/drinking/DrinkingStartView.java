@@ -12,7 +12,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.wopin.qingpaopao.R;
-import com.wopin.qingpaopao.manager.BleConnectManager;
+import com.wopin.qingpaopao.presenter.DrinkingPresenter;
 
 public class DrinkingStartView extends Fragment implements View.OnClickListener {
     private View mRootView;
@@ -25,8 +25,10 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
     private Handler mHandler;
     private boolean isSeekbarOntouch;
     private Runnable mSeekbarMinusRunnable;
+    private DrinkingPresenter mDrinkingPresenter;
 
-    public void setOnDrinkingStartCallback(OnDrinkingStartCallback onDrinkingStartCallback) {
+    public void setPresenterAndCallback(DrinkingPresenter drinkingPresenter, OnDrinkingStartCallback onDrinkingStartCallback) {
+        mDrinkingPresenter = drinkingPresenter;
         mOnDrinkingStartCallback = onDrinkingStartCallback;
     }
 
@@ -90,11 +92,10 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
     }
 
     private void switchSeekbarMinusRunnable(boolean start) {
-        BleConnectManager bleConnectManager = BleConnectManager.getInstance();
-        if (bleConnectManager != null) {
+        if (mDrinkingPresenter != null) {
             mSwitchElectrolyzeBtn.setSelected(start);
             mSwitchElectrolyzeBtn.setText(start ? R.string.stop_electrolysis : R.string.start_electrolysis);
-            bleConnectManager.switchCupElectrolyze(start);
+            mDrinkingPresenter.switchCupElectrolyze(start);
         }
         if (start) {
             mHandler.postDelayed(mSeekbarMinusRunnable, 1000);
@@ -105,6 +106,7 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
 
     @Override
     public void onDestroy() {
+        mDrinkingPresenter = null;
         mHandler.removeCallbacks(mSeekbarMinusRunnable);
         mHandler = null;
         super.onDestroy();
@@ -123,10 +125,14 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
                 switchSeekbarMinusRunnable(!v.isSelected());
                 break;
             case R.id.iv_light_setting:
-                new LightSettingFragment().show(getChildFragmentManager(), LightSettingFragment.TAG);
+                LightSettingFragment lightSettingFragment = new LightSettingFragment();
+                lightSettingFragment.setDrinkingPresenter(mDrinkingPresenter);
+                lightSettingFragment.show(getChildFragmentManager(), LightSettingFragment.TAG);
                 break;
             case R.id.iv_cup_clean:
-                new CleanCupFragment().show(getChildFragmentManager(), CleanCupFragment.TAG);
+                CleanCupFragment cleanCupFragment = new CleanCupFragment();
+                cleanCupFragment.setDrinkingPresenter(mDrinkingPresenter);
+                cleanCupFragment.show(getChildFragmentManager(), CleanCupFragment.TAG);
                 break;
         }
     }

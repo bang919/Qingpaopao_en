@@ -10,6 +10,7 @@ import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.adapter.CupListAdapter;
 import com.wopin.qingpaopao.bean.request.CupUpdateReq;
 import com.wopin.qingpaopao.bean.response.CupListRsp;
+import com.wopin.qingpaopao.bean.response.WifiRsp;
 import com.wopin.qingpaopao.fragment.BaseMainFragment;
 import com.wopin.qingpaopao.presenter.BlueToothPresenter;
 import com.wopin.qingpaopao.presenter.DrinkingPresenter;
@@ -46,7 +47,7 @@ public class DrinkingFragment extends BaseMainFragment<DrinkingPresenter> implem
         mDrinkingListView.setOnDrinkingListViewCallback(this);
         mDrinkingListView.setOnCupItemClickCallback(this);
         mDrinkingStartView = new DrinkingStartView();
-        mDrinkingStartView.setOnDrinkingStartCallback(this);
+        mDrinkingStartView.setPresenterAndCallback(mPresenter, this);
         switchFragment(mDrinkingListView);
 
         mPresenter.getCupList();
@@ -83,6 +84,12 @@ public class DrinkingFragment extends BaseMainFragment<DrinkingPresenter> implem
     public void onBluetoothDeviceFind(BluetoothDevice bluetoothDevice) {
         //这里是从新搜索出来的Device，所以调用firstTimeAddBleCup
         mPresenter.firstTimeAddBleCup(bluetoothDevice);
+    }
+
+    @Override
+    public void onWifiDeviceFind(WifiRsp wifiRsp) {
+        mPresenter.firstTimeAddBleCup(wifiRsp);
+        ToastUtils.showShort(R.string.success_setting_wifi);
     }
 
     @Override
