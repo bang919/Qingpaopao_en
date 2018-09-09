@@ -63,6 +63,7 @@ public class WifiFragmentPageChooseList extends BaseBarDialogFragment<WifiPageCh
         ToastUtils.showShort(getString(R.string.success_connect_wifi));
         setProgressbarVis(true);
         mPresenter.getWifiList();
+        mProgressBar.requestFocus();
     }
 
     @Override

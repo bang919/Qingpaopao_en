@@ -29,10 +29,10 @@ public class WifiFragmentPage2 extends Fragment {
     }
 
     @Override
-    public void onDestroy() {
+    public void onDestroyView() {
         WifiConnectManager.getInstance().removeUpdater(mUpdater);
         WifiConnectManager.getInstance().disconnectServer();
-        super.onDestroy();
+        super.onDestroyView();
     }
 
     @Nullable
