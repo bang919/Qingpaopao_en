@@ -88,6 +88,9 @@ public class WifiFragmentPageChooseList extends BaseBarDialogFragment<WifiPageCh
 
     @Override
     public void onClick(View v) {
+        if (mProgressBar.getVisibility() == View.VISIBLE) {
+            return;
+        }
         switch (v.getId()) {
             case R.id.tv_click_to_choose_wifi://选择wifi按钮
                 WifiFragmentPageChooseListDialog wifiFragmentPageChooseListDialog = WifiFragmentPageChooseListDialog.getInstance(wifiRsps);

@@ -69,7 +69,7 @@ public class WifiCupPostModel {
                 }).flatMap(new Function<Integer, ObservableSource<Long>>() {
                     @Override
                     public ObservableSource<Long> apply(Integer integer) throws Exception {
-                        return Observable.timer(5, TimeUnit.SECONDS);
+                        return Observable.timer(2, TimeUnit.SECONDS);
                     }
                 });
             }
