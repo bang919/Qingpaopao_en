@@ -120,7 +120,6 @@ public class WifiConnectManager extends ConnectManager<WifiConnectManager.WifiUp
                 mHandler.removeCallbacks(mDisconnectRunnable);
                 onConnectDevice(tryingConnectWifiBean);
                 tryingConnectWifiBean = null;
-                disconnectServer();
             }
         } else if (state == NetworkInfo.DetailedState.CONNECTING) {//连接中...
             Log.d(TAG, "连接中...");

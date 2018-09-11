@@ -4,7 +4,7 @@ import android.view.View;
 
 import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.adapter.MyFragmentPageAdapter;
-import com.wopin.qingpaopao.bean.response.WifiRsp;
+import com.wopin.qingpaopao.bean.response.WifiConfigToCupRsp;
 import com.wopin.qingpaopao.fragment.BaseBarDialogFragment;
 import com.wopin.qingpaopao.manager.WifiConnectManager;
 import com.wopin.qingpaopao.presenter.BasePresenter;
@@ -58,8 +58,8 @@ public class WifiFragmentPageRoot extends BaseBarDialogFragment implements View.
                 wifiFragmentPage2.setOnClickListener(this);
                 wifiFragmentPage2.setWifiSettingSuccessListener(new WifiSettingSuccessListener() {
                     @Override
-                    public void onWifiSettingSuccess(WifiRsp wifiRsp) {
-                        mWifiSettingSuccessListener.onWifiSettingSuccess(wifiRsp);
+                    public void onWifiSettingSuccess(WifiConfigToCupRsp wifiConfigToCupRsp) {
+                        mWifiSettingSuccessListener.onWifiSettingSuccess(wifiConfigToCupRsp);
                         dismiss();
                     }
                 });

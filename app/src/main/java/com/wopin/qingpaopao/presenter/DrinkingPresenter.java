@@ -6,10 +6,10 @@ import android.content.Context;
 import com.ble.api.DataUtil;
 import com.wopin.qingpaopao.bean.request.CupUpdateReq;
 import com.wopin.qingpaopao.bean.response.CupListRsp;
-import com.wopin.qingpaopao.bean.response.DrinkListTotalRsp;
 import com.wopin.qingpaopao.bean.response.DrinkListTodayRsp;
+import com.wopin.qingpaopao.bean.response.DrinkListTotalRsp;
 import com.wopin.qingpaopao.bean.response.NormalRsp;
-import com.wopin.qingpaopao.bean.response.WifiRsp;
+import com.wopin.qingpaopao.bean.response.WifiConfigToCupRsp;
 import com.wopin.qingpaopao.manager.BleConnectManager;
 import com.wopin.qingpaopao.manager.MqttConnectManager;
 import com.wopin.qingpaopao.manager.Updater;
@@ -92,7 +92,7 @@ public class DrinkingPresenter extends BasePresenter<DrinkingView> {
                 String message = mqttUpdaterBean.getMessage();
                 String[] split = message.split(":");
                 if (split.length == 2 && split[0].equals("P") && mCurrentOnlineCup != null) {
-                    mCurrentOnlineCup.setElectric(split[1].concat("%"));
+                    mCurrentOnlineCup.setElectric(split[1].substring(0, 2).concat("%"));
                 }
             }
         };
@@ -123,8 +123,8 @@ public class DrinkingPresenter extends BasePresenter<DrinkingView> {
         mFirstTimeAddDevice = device;
         if (device instanceof BluetoothDevice) {
             BleConnectManager.getInstance().connectDevice(((BluetoothDevice) device).getAddress());
-        } else if (device instanceof WifiRsp) {
-            MqttConnectManager.getInstance().connectDevice(((WifiRsp) device).getEssid());
+        } else if (device instanceof WifiConfigToCupRsp) {
+            MqttConnectManager.getInstance().connectDevice(((WifiConfigToCupRsp) device).getDevice_id());
         }
     }
 

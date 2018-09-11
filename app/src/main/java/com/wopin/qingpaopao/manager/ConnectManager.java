@@ -14,32 +14,37 @@ public abstract class ConnectManager<T> {
 
     private ArrayList<ICommand> mICommands = new ArrayList<>();
     private OnServerConnectCallback mOnServerConnectCallback;
+    private byte[] b = new byte[0];
 
     private void addCommand(ICommand iCommand) {
-        if (iCommand != null) {
-            mICommands.add(iCommand);
-        }
-        //Check Connect
-        if (mOnServerConnectCallback == null) {
-            mOnServerConnectCallback = new OnServerConnectCallback() {
-                @Override
-                public void onConnectServerCallback() {
-                    execute();
-                }
+        synchronized (b) {
+            if (iCommand != null) {
+                mICommands.add(iCommand);
+            }
+            //Check Connect
+            if (mOnServerConnectCallback == null) {
+                mOnServerConnectCallback = new OnServerConnectCallback() {
+                    @Override
+                    public void onConnectServerCallback() {
+                        execute();
+                    }
 
-                @Override
-                public void onDisconnectServerCallback() {
-                    disconnectServer();
-                }
-            };
+                    @Override
+                    public void onDisconnectServerCallback() {
+                        disconnectServer();
+                    }
+                };
+            }
+            connectToServer(mOnServerConnectCallback);
         }
-        connectToServer(mOnServerConnectCallback);
     }
 
     private void execute() {
-        while (mICommands.size() > 0) {
-            ICommand remove = mICommands.remove(0);
-            remove.execute();
+        synchronized (b) {
+            while (mICommands.size() > 0) {
+                ICommand remove = mICommands.remove(0);
+                remove.execute();
+            }
         }
     }
 

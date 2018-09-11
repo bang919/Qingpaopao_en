@@ -76,7 +76,7 @@ public class WifiFragmentPageChooseList extends BaseBarDialogFragment<WifiPageCh
     public void onWifiConfigToCupRsp(WifiConfigToCupRsp wifiConfigToCupRsp) {
         ToastUtils.showShort(R.string.success_setting_wifi);
         setProgressbarVis(false);
-        mWifiSettingSuccessListener.onWifiSettingSuccess(mCurrentWifiRsp);
+        mWifiSettingSuccessListener.onWifiSettingSuccess(wifiConfigToCupRsp);
         dismiss();
     }
 

@@ -15,7 +15,7 @@ import android.widget.Button;
 import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.adapter.CupListAdapter;
 import com.wopin.qingpaopao.bean.response.CupListRsp;
-import com.wopin.qingpaopao.bean.response.WifiRsp;
+import com.wopin.qingpaopao.bean.response.WifiConfigToCupRsp;
 import com.wopin.qingpaopao.widget.PlusItemSlideCallback;
 import com.wopin.qingpaopao.widget.WItemTouchHelperPlus;
 
@@ -103,6 +103,6 @@ public class DrinkingListView extends Fragment implements View.OnClickListener {
 
         void onBluetoothDeviceFind(BluetoothDevice bluetoothDevice);
 
-        void onWifiDeviceFind(WifiRsp wifiRsp);
+        void onWifiDeviceFind(WifiConfigToCupRsp wifiConfigToCupRsp);
     }
 }

@@ -145,5 +145,6 @@
     <string name="click_to_choose_wifi">点击选择WIFI网络</string>
     <string name="wifi_password">WIFI密码</string>
     <string name="success_setting_wifi">设备连接WIFI成功</string>
+    <string name="failure_to_mqtt">连接Mqtt失败</string>
 
 </resources>

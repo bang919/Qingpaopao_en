@@ -4,7 +4,7 @@ import android.bluetooth.BluetoothDevice;
 import android.view.View;
 
 import com.wopin.qingpaopao.R;
-import com.wopin.qingpaopao.bean.response.WifiRsp;
+import com.wopin.qingpaopao.bean.response.WifiConfigToCupRsp;
 import com.wopin.qingpaopao.fragment.BaseBarDialogFragment;
 import com.wopin.qingpaopao.presenter.BasePresenter;
 import com.wopin.qingpaopao.view.WifiSettingSuccessListener;
@@ -74,9 +74,9 @@ public class ChooseAddDeviceWayFragment extends BaseBarDialogFragment implements
     }
 
     @Override
-    public void onWifiSettingSuccess(WifiRsp wifiRsp) {
+    public void onWifiSettingSuccess(WifiConfigToCupRsp wifiConfigToCupRsp) {
         if (mOnDrinkingListViewCallback != null) {
-            mOnDrinkingListViewCallback.onWifiDeviceFind(wifiRsp);
+            mOnDrinkingListViewCallback.onWifiDeviceFind(wifiConfigToCupRsp);
             dismiss();
         }
     }

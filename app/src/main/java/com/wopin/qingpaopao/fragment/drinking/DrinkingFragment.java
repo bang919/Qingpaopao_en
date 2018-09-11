@@ -10,9 +10,9 @@ import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.adapter.CupListAdapter;
 import com.wopin.qingpaopao.bean.request.CupUpdateReq;
 import com.wopin.qingpaopao.bean.response.CupListRsp;
-import com.wopin.qingpaopao.bean.response.DrinkListTotalRsp;
 import com.wopin.qingpaopao.bean.response.DrinkListTodayRsp;
-import com.wopin.qingpaopao.bean.response.WifiRsp;
+import com.wopin.qingpaopao.bean.response.DrinkListTotalRsp;
+import com.wopin.qingpaopao.bean.response.WifiConfigToCupRsp;
 import com.wopin.qingpaopao.fragment.BaseMainFragment;
 import com.wopin.qingpaopao.presenter.BlueToothPresenter;
 import com.wopin.qingpaopao.presenter.DrinkingPresenter;
@@ -90,8 +90,8 @@ public class DrinkingFragment extends BaseMainFragment<DrinkingPresenter> implem
     }
 
     @Override
-    public void onWifiDeviceFind(WifiRsp wifiRsp) {
-        mPresenter.firstTimeAddBleCup(wifiRsp);
+    public void onWifiDeviceFind(WifiConfigToCupRsp wifiConfigToCupRsp) {
+        mPresenter.firstTimeAddBleCup(wifiConfigToCupRsp);
         ToastUtils.showShort(R.string.success_setting_wifi);
     }
 

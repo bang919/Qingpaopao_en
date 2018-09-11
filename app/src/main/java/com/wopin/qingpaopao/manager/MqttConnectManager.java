@@ -1,10 +1,16 @@
 package com.wopin.qingpaopao.manager;
 
+import com.wopin.qingpaopao.R;
+import com.wopin.qingpaopao.bean.response.CupListRsp;
 import com.wopin.qingpaopao.command.mqtt.MqttColorCommand;
 import com.wopin.qingpaopao.command.mqtt.MqttConnectDeviceCommand;
 import com.wopin.qingpaopao.command.mqtt.MqttSwitchCleanCommand;
 import com.wopin.qingpaopao.command.mqtt.MqttSwitchElectrolyzeCommand;
 import com.wopin.qingpaopao.command.mqtt.MqttSwitchLightCommand;
+import com.wopin.qingpaopao.http.HttpClient;
+import com.wopin.qingpaopao.presenter.BasePresenter;
+import com.wopin.qingpaopao.utils.HttpUtil;
+import com.wopin.qingpaopao.utils.ToastUtils;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
@@ -13,6 +19,13 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.persist.MqttDefaultFilePersistence;
+
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.functions.BiFunction;
+import io.reactivex.functions.Function;
 
 public class MqttConnectManager extends ConnectManager<MqttConnectManager.MqttUpdaterBean> {
 
@@ -24,6 +37,7 @@ public class MqttConnectManager extends ConnectManager<MqttConnectManager.MqttUp
     private static final String clientId = "clientId";
 
     private MqttClient client;
+    private boolean hadConnectOneDevice;
     private MqttUpdaterBean mCurrentMqttUpdaterBean;
 
     private MqttConnectManager() {
@@ -39,6 +53,46 @@ public class MqttConnectManager extends ConnectManager<MqttConnectManager.MqttUp
 
     @Override
     protected void connectToServer(final OnServerConnectCallback onServerConnectCallback) {
+        //Check Network
+        if (client == null) {
+            HttpUtil.subscribeNetworkTask(
+                    HttpClient.getApiInterface().getCupList()
+                            .timeout(5, TimeUnit.SECONDS)
+                            .retryWhen(new Function<Observable<Throwable>, ObservableSource<Long>>() {
+                                @Override
+                                public ObservableSource<Long> apply(Observable<Throwable> throwableObservable) throws Exception {
+                                    return throwableObservable.zipWith(Observable.range(1, 10), new BiFunction<Throwable, Integer, Integer>() {
+                                        @Override
+                                        public Integer apply(Throwable throwable, Integer integer) throws Exception {
+                                            return integer;
+                                        }
+                                    }).flatMap(new Function<Integer, ObservableSource<Long>>() {
+                                        @Override
+                                        public ObservableSource<Long> apply(Integer integer) throws Exception {
+                                            return Observable.timer(2, TimeUnit.SECONDS);
+                                        }
+                                    });
+                                }
+                            })
+                    , new BasePresenter.MyObserver<CupListRsp>() {
+                        @Override
+                        public void onMyNext(CupListRsp cupListRsp) {
+                            haveNetworkToConnectMqtt(onServerConnectCallback);
+                        }
+
+                        @Override
+                        public void onMyError(String errorMessage) {
+                            ToastUtils.showShort(R.string.failure_to_mqtt);
+                            onServerConnectCallback.onDisconnectServerCallback();
+                        }
+                    });
+        } else {
+            onServerConnectCallback.onConnectServerCallback();
+        }
+
+    }
+
+    private void haveNetworkToConnectMqtt(final OnServerConnectCallback onServerConnectCallback) {
         try {
             if (client == null) {
                 MqttConnectOptions conOpt = new MqttConnectOptions();
@@ -60,10 +114,13 @@ public class MqttConnectManager extends ConnectManager<MqttConnectManager.MqttUp
                     @Override
                     public void messageArrived(String topic, MqttMessage message) throws Exception {
                         //收到消息
-                        topic = topic.substring(0, topic.lastIndexOf("-D"));
                         MqttUpdaterBean t = new MqttUpdaterBean();
                         t.setSsid(topic);
                         t.setMessage(message.toString());
+                        if (!hadConnectOneDevice) {
+                            onConnectDevice(t);
+                            hadConnectOneDevice = true;
+                        }
                         onDatasUpdate(t);
                     }
 
@@ -93,6 +150,20 @@ public class MqttConnectManager extends ConnectManager<MqttConnectManager.MqttUp
         }
     }
 
+    public boolean subscribe(String topicName) {
+        boolean flag = false;
+
+        if (client != null && client.isConnected()) {
+            try {
+                client.subscribe(topicName, 0);
+                flag = true;
+            } catch (MqttException e) {
+
+            }
+        }
+        return flag;
+    }
+
     public boolean publish(String topicName, String message) {
         boolean flag = false;
         byte[] payload = message.getBytes();
@@ -105,7 +176,7 @@ public class MqttConnectManager extends ConnectManager<MqttConnectManager.MqttUp
             // it has been delivered to the server meeting the specified
             // quality of service.
             try {
-                client.publish(topicName, mqttMessage);
+                client.publish(topicName + "-D", mqttMessage);
                 flag = true;
             } catch (MqttException e) {
 
@@ -128,7 +199,7 @@ public class MqttConnectManager extends ConnectManager<MqttConnectManager.MqttUp
     public void connectDevice(String ssid) {
         mCurrentMqttUpdaterBean = new MqttUpdaterBean();
         mCurrentMqttUpdaterBean.setSsid(ssid);
-        super.connectDevice(new MqttConnectDeviceCommand(client, ssid));
+        super.connectDevice(new MqttConnectDeviceCommand(ssid));
     }
 
     public void disconnectDevice() {
