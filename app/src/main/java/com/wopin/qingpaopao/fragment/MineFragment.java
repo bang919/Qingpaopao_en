@@ -12,12 +12,15 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.adapter.MineGridRvAdapter;
 import com.wopin.qingpaopao.adapter.MineListRvAdapter;
+import com.wopin.qingpaopao.bean.response.DrinkListTotalRsp;
+import com.wopin.qingpaopao.bean.response.DrinkListTodayRsp;
 import com.wopin.qingpaopao.bean.response.LoginRsp;
 import com.wopin.qingpaopao.bean.response.NormalRsp;
 import com.wopin.qingpaopao.fragment.information_edit.InformationEditFragment;
 import com.wopin.qingpaopao.fragment.system_setting.SystemSettingFragment;
 import com.wopin.qingpaopao.fragment.user_guide.UserGuideFragment;
 import com.wopin.qingpaopao.http.HttpClient;
+import com.wopin.qingpaopao.model.DrinkingModel;
 import com.wopin.qingpaopao.presenter.BasePresenter;
 import com.wopin.qingpaopao.presenter.LoginPresenter;
 import com.wopin.qingpaopao.utils.GlideUtils;
@@ -92,19 +95,40 @@ public class MineFragment extends BaseMainFragment implements MineGridRvAdapter.
     }
 
     private void getDrinkList() {
-        HttpUtil.subscribeNetworkTask(
-                HttpClient.getApiInterface().getDrinkList().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()),
-                new BasePresenter.MyObserver<NormalRsp>() {
-                    @Override
-                    public void onMyNext(NormalRsp normalRsp) {
-
+        DrinkingModel drinkingModel = new DrinkingModel();
+        HttpUtil.subscribeNetworkTask(drinkingModel.getDrinkList(), new BasePresenter.MyObserver<DrinkListTotalRsp>() {
+            @Override
+            public void onMyNext(DrinkListTotalRsp drinkListTotalRsp) {
+                int count = 0;
+                if (drinkListTotalRsp != null && drinkListTotalRsp.getResult() != null) {
+                    for (DrinkListTotalRsp.ResultBean resultBean : drinkListTotalRsp.getResult()) {
+                        count += resultBean.getDrinks().size();
                     }
+                }
+                mTotalDrinkTv.setText(String.format(getString(R.string.cup), count));
+            }
 
-                    @Override
-                    public void onMyError(String errorMessage) {
-                        ToastUtils.showShort(errorMessage);
-                    }
-                });
+            @Override
+            public void onMyError(String errorMessage) {
+                ToastUtils.showShort(errorMessage);
+            }
+        });
+
+        HttpUtil.subscribeNetworkTask(drinkingModel.getTodayDrinkList(), new BasePresenter.MyObserver<DrinkListTodayRsp>() {
+            @Override
+            public void onMyNext(DrinkListTodayRsp drinkListRsp) {
+                int count = 0;
+                if (drinkListRsp != null && drinkListRsp.getResult() != null) {
+                    count = drinkListRsp.getResult().getDrinks().size();
+                }
+                mCurrentDrinkTv.setText(String.format(getString(R.string.cup), count));
+            }
+
+            @Override
+            public void onMyError(String errorMessage) {
+                ToastUtils.showShort(errorMessage);
+            }
+        });
     }
 
     @Override
@@ -160,7 +184,7 @@ public class MineFragment extends BaseMainFragment implements MineGridRvAdapter.
                         new BasePresenter.MyObserver<NormalRsp>() {
                             @Override
                             public void onMyNext(NormalRsp normalRsp) {
-                                ToastUtils.showShort(normalRsp.getMsg());
+                                ToastUtils.showShort(getString(R.string.sign_in_success));
                             }
 
                             @Override

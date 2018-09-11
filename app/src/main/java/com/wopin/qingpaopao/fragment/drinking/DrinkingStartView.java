@@ -12,6 +12,8 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.wopin.qingpaopao.R;
+import com.wopin.qingpaopao.bean.response.DrinkListTotalRsp;
+import com.wopin.qingpaopao.bean.response.DrinkListTodayRsp;
 import com.wopin.qingpaopao.presenter.DrinkingPresenter;
 
 public class DrinkingStartView extends Fragment implements View.OnClickListener {
@@ -26,10 +28,44 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
     private boolean isSeekbarOntouch;
     private Runnable mSeekbarMinusRunnable;
     private DrinkingPresenter mDrinkingPresenter;
+    private DrinkListTodayRsp mDrinkListTodayRsp;
+    private DrinkListTotalRsp mDrinkListTotalRsp;
 
     public void setPresenterAndCallback(DrinkingPresenter drinkingPresenter, OnDrinkingStartCallback onDrinkingStartCallback) {
         mDrinkingPresenter = drinkingPresenter;
         mOnDrinkingStartCallback = onDrinkingStartCallback;
+    }
+
+    public void setTodayDrink(DrinkListTodayRsp drinkListTodayRsp) {
+        mDrinkListTodayRsp = drinkListTodayRsp;
+        setTodayDrink();
+    }
+
+    private void setTodayDrink() {
+        int count = 0;
+        if (mDrinkListTodayRsp != null && mDrinkListTodayRsp.getResult() != null) {
+            count = mDrinkListTodayRsp.getResult().getDrinks().size();
+        }
+        if (getContext() != null) {
+            mCurrentDrinkTV.setText(String.format(getString(R.string.cup), count));
+        }
+    }
+
+    public void setTotalDrink(DrinkListTotalRsp drinkListTotalRsp) {
+        mDrinkListTotalRsp = drinkListTotalRsp;
+        setTotalDrink();
+    }
+
+    private void setTotalDrink() {
+        int count = 0;
+        if (mDrinkListTotalRsp != null && mDrinkListTotalRsp.getResult() != null) {
+            for (DrinkListTotalRsp.ResultBean resultBean : mDrinkListTotalRsp.getResult()) {
+                count += resultBean.getDrinks().size();
+            }
+        }
+        if (getContext() != null) {
+            mTotalDrinkTV.setText(String.format(getString(R.string.cup), count));
+        }
     }
 
     @Nullable
@@ -37,7 +73,7 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.view_drinking_start, container, false);
         mCurrentDrinkTV = mRootView.findViewById(R.id.number_current_drink_quantity);
-        mCurrentDrinkTV = mRootView.findViewById(R.id.number_total_drink_quantity);
+        mTotalDrinkTV = mRootView.findViewById(R.id.number_total_drink_quantity);
         mTimeTv = mRootView.findViewById(R.id.tv_time);
         mSeekBar = mRootView.findViewById(R.id.seek_bar);
         return mRootView;
@@ -89,6 +125,8 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
             }
         });
         mSeekBar.setProgress(5 * 60);
+        setTodayDrink();
+        setTotalDrink();
     }
 
     private void switchSeekbarMinusRunnable(boolean start) {

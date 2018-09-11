@@ -6,6 +6,8 @@ import android.content.Context;
 import com.ble.api.DataUtil;
 import com.wopin.qingpaopao.bean.request.CupUpdateReq;
 import com.wopin.qingpaopao.bean.response.CupListRsp;
+import com.wopin.qingpaopao.bean.response.DrinkListTotalRsp;
+import com.wopin.qingpaopao.bean.response.DrinkListTodayRsp;
 import com.wopin.qingpaopao.bean.response.NormalRsp;
 import com.wopin.qingpaopao.bean.response.WifiRsp;
 import com.wopin.qingpaopao.manager.BleConnectManager;
@@ -150,6 +152,10 @@ public class DrinkingPresenter extends BasePresenter<DrinkingView> {
                 MqttConnectManager.getInstance().switchCupElectrolyze(isOn);
             }
         }
+        if (isOn) {
+            mDrinkingModel.drink().subscribe();
+//            HttpUtil.handlerObserver()
+        }
     }
 
     /**
@@ -244,5 +250,30 @@ public class DrinkingPresenter extends BasePresenter<DrinkingView> {
                         mView.onError(errorMessage);
                     }
                 });
+    }
+
+    public void getDrinkCount() {
+        subscribeNetworkTask(getClass().getSimpleName().concat("getDrinkList"), mDrinkingModel.getDrinkList(), new MyObserver<DrinkListTotalRsp>() {
+            @Override
+            public void onMyNext(DrinkListTotalRsp drinkListTotalRsp) {
+                mView.onTotalDrink(drinkListTotalRsp);
+            }
+
+            @Override
+            public void onMyError(String errorMessage) {
+                mView.onError(errorMessage);
+            }
+        });
+        subscribeNetworkTask(getClass().getSimpleName().concat("getTodayDrinkList"), mDrinkingModel.getTodayDrinkList(), new MyObserver<DrinkListTodayRsp>() {
+            @Override
+            public void onMyNext(DrinkListTodayRsp drinkListTodayRsp) {
+                mView.onTodayDrink(drinkListTodayRsp);
+            }
+
+            @Override
+            public void onMyError(String errorMessage) {
+                mView.onError(errorMessage);
+            }
+        });
     }
 }

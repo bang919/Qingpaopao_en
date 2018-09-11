@@ -16,12 +16,15 @@ public class WifiConenctUtil {
      * 创建wifi配置文件
      */
     public static WifiConfiguration createWifiInfo(WifiManager wifiManager, String ssid, String password) {
-        WifiConfiguration conf = new WifiConfiguration();
-        conf.SSID = String.format("\"%s\"", ssid);
-        conf.preSharedKey = String.format("\"%s\"", password);
-        return conf;
-
-        /*WifiConfiguration config = new WifiConfiguration();
+//        WifiConfiguration conf = new WifiConfiguration();
+//        conf.SSID = String.format("\"%s\"", ssid);
+//        conf.preSharedKey = String.format("\"%s\"", password);
+//        return conf;
+        WifiConfiguration exsits = isExsits(wifiManager, ssid);
+        if (exsits != null) {
+            return exsits;
+        }
+        WifiConfiguration config = new WifiConfiguration();
         config.allowedAuthAlgorithms.clear();
         config.allowedGroupCiphers.clear();
         config.allowedKeyManagement.clear();
@@ -59,7 +62,18 @@ public class WifiConenctUtil {
             config.allowedProtocols.set(WifiConfiguration.Protocol.WPA);
             config.status = WifiConfiguration.Status.ENABLED;
         }
-        return config;*/
+        return config;
+    }
+
+    // 查看以前是否也配置过这个网络
+    private static WifiConfiguration isExsits(WifiManager wifiManager, String SSID) {
+        List<WifiConfiguration> existingConfigs = wifiManager.getConfiguredNetworks();
+        for (WifiConfiguration existingConfig : existingConfigs) {
+            if (existingConfig.SSID.equals("\"" + SSID + "\"")) {
+                return existingConfig;
+            }
+        }
+        return null;
     }
 
     /**

@@ -10,6 +10,8 @@ import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.adapter.CupListAdapter;
 import com.wopin.qingpaopao.bean.request.CupUpdateReq;
 import com.wopin.qingpaopao.bean.response.CupListRsp;
+import com.wopin.qingpaopao.bean.response.DrinkListTotalRsp;
+import com.wopin.qingpaopao.bean.response.DrinkListTodayRsp;
 import com.wopin.qingpaopao.bean.response.WifiRsp;
 import com.wopin.qingpaopao.fragment.BaseMainFragment;
 import com.wopin.qingpaopao.presenter.BlueToothPresenter;
@@ -77,6 +79,7 @@ public class DrinkingFragment extends BaseMainFragment<DrinkingPresenter> implem
 
     @Override
     public void backToDrinkingStartView() {
+        mPresenter.getDrinkCount();
         switchFragment(mDrinkingStartView);
     }
 
@@ -95,6 +98,17 @@ public class DrinkingFragment extends BaseMainFragment<DrinkingPresenter> implem
     @Override
     public void onCupList(ArrayList<CupListRsp.CupBean> cupBeanList, CupListRsp.CupBean currentConnectCup) {
         mDrinkingListView.notifyCupList(cupBeanList, currentConnectCup);
+    }
+
+    @Override
+    public void onTodayDrink(DrinkListTodayRsp drinkListTodayRsp) {
+        mDrinkingStartView.setTodayDrink(drinkListTodayRsp);
+
+    }
+
+    @Override
+    public void onTotalDrink(DrinkListTotalRsp drinkListTotalRsp) {
+        mDrinkingStartView.setTotalDrink(drinkListTotalRsp);
     }
 
     @Override
