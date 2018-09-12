@@ -1,6 +1,8 @@
 package com.wopin.qingpaopao.bean.request;
 
-public class ThirdReq {
+import java.io.Serializable;
+
+public class ThirdReq implements Serializable {
 
     /**
      * userName : bigbang

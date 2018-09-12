@@ -2,7 +2,9 @@ package com.wopin.qingpaopao.bean.request;
 
 import com.wopin.qingpaopao.utils.EncryptionUtil;
 
-public class LoginReq {
+import java.io.Serializable;
+
+public class LoginReq implements Serializable {
 
     /**
      * phone : 15989082970

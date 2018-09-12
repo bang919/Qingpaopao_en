@@ -146,5 +146,11 @@
     <string name="wifi_password">WIFI密码</string>
     <string name="success_setting_wifi">设备连接WIFI成功</string>
     <string name="failure_to_mqtt">连接Mqtt失败</string>
+    <string name="score_market">积分商城</string>
+    <string name="old_change_new">以旧换新</string>
+    <string name="numerous_goods">众筹</string>
+    <string name="my_orders">我的订单</string>
+    <string name="known_error">未知错误</string>
+    <string name="score_change">积分兑换：%s积分</string>
 
 </resources>

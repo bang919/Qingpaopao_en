@@ -3,6 +3,7 @@ package com.wopin.qingpaopao.presenter;
 import android.content.Context;
 
 import com.wopin.qingpaopao.bean.request.LoginReq;
+import com.wopin.qingpaopao.bean.request.ThirdReq;
 import com.wopin.qingpaopao.bean.response.LoginRsp;
 import com.wopin.qingpaopao.bean.response.NormalRsp;
 import com.wopin.qingpaopao.common.Constants;
@@ -26,6 +27,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
     }
 
     public void sendVerifyCode(String phoneNumber) {
+        mView.onLoading();
         subscribeNetworkTask(getClass().getName().concat("sendVerifyCode"), mLoginModel.sendVerifyCode(phoneNumber), new MyObserver<NormalRsp>() {
             @Override
             public void onMyNext(NormalRsp normalRsp) {
@@ -40,6 +42,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
     }
 
     public void register(final LoginReq loginReq) {
+        mView.onLoading();
         subscribeNetworkTask(getClass().getName().concat("register"), mLoginModel.register(loginReq), new MyObserver<NormalRsp>() {
             @Override
             public void onMyNext(NormalRsp normalRsp) {
@@ -54,15 +57,14 @@ public class LoginPresenter extends BasePresenter<LoginView> {
         });
     }
 
-    public void login(final String phoneNumber, String password) {
-        LoginReq loginReq = new LoginReq();
-        loginReq.setPhone(phoneNumber);
-        loginReq.setPassword(password);
+    public void login(final LoginReq loginReq) {
+        mView.onLoading();
         subscribeNetworkTask(getClass().getName().concat("login"), mLoginModel.login(loginReq), new MyObserver<LoginRsp>() {
             @Override
             public void onMyNext(LoginRsp loginResponseBean) {
                 updateLoginMessage(loginResponseBean);
-                SPUtils.put(MyApplication.getMyApplicationContext(), Constants.USERNAME, phoneNumber);
+                SPUtils.putObject(MyApplication.getMyApplicationContext(), Constants.LOGIN_REQUEST, loginReq);
+                SPUtils.put(MyApplication.getMyApplicationContext(), Constants.USERNAME, loginReq.getPhone());
                 mView.onLoginSuccess();
             }
 
@@ -74,6 +76,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
     }
 
     public void loginByThird(final Platform platform) {
+        mView.onLoading();
         mThirdLoginModel.loginByThird(platform, new ThirdLoginModel.ThirdLoginCallback() {
             @Override
             public void onThirdSuccess(String platformName, String userName, String userId, String userIcon) {
@@ -87,9 +90,16 @@ public class LoginPresenter extends BasePresenter<LoginView> {
         });
     }
 
-    private void loginByThird(String platformName, String userName, String userId, String userIcon) {
-        final String observerTag = getClass().getName() + "loginByThird";
-        subscribeNetworkTask(observerTag, mLoginModel.loginByThird(platformName, userName, userId, userIcon), new MyObserver<LoginRsp>() {
+    public void loginByThird(String platformName, String userName, String userId, String userIcon) {
+        mView.onLoading();
+        String observerTag = getClass().getName() + "loginByThird";
+        ThirdReq thirdReq = new ThirdReq();
+        thirdReq.setKey(userId);
+        thirdReq.setUserName(userName);
+        thirdReq.setType(platformName);
+        thirdReq.setIcon(userIcon);
+        SPUtils.putObject(MyApplication.getMyApplicationContext(), Constants.THIRD_REQUEST, thirdReq);
+        subscribeNetworkTask(observerTag, mLoginModel.loginByThird(thirdReq), new MyObserver<LoginRsp>() {
             @Override
             public void onMyNext(LoginRsp loginRsp) {
                 updateLoginMessage(loginRsp);
@@ -127,6 +137,8 @@ public class LoginPresenter extends BasePresenter<LoginView> {
      * Logout a RegisterAndLoginResBean account
      */
     public static void logout() {
+        SPUtils.remove(MyApplication.getMyApplicationContext(), Constants.LOGIN_REQUEST);
+        SPUtils.remove(MyApplication.getMyApplicationContext(), Constants.THIRD_REQUEST);
         SPUtils.remove(MyApplication.getMyApplicationContext(), Constants.LOGIN_BEAN);
     }
 }

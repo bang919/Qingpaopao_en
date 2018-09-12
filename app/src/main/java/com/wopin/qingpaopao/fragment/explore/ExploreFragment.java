@@ -15,6 +15,7 @@ import com.wopin.qingpaopao.view.ExploreView;
 public class ExploreFragment extends BaseMainFragment<ExplorePresenter> implements ExploreView, ExploreListAdapter.ExploreListItemClick {
 
     private RecyclerView mExploreRv;
+    private View mLoadingView;
     private ExploreListAdapter mExploreListAdapter;
 
     @Override
@@ -30,6 +31,11 @@ public class ExploreFragment extends BaseMainFragment<ExplorePresenter> implemen
     @Override
     protected void initView(View rootView) {
         mExploreRv = rootView.findViewById(R.id.rv_explore_list);
+        mLoadingView = rootView.findViewById(R.id.progress_bar_layout);
+    }
+
+    private void setLoadingVisibility(boolean isVisibility) {
+        mLoadingView.setVisibility(isVisibility ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -45,12 +51,20 @@ public class ExploreFragment extends BaseMainFragment<ExplorePresenter> implemen
     }
 
     @Override
+    public void onLoading() {
+        setLoadingVisibility(true);
+    }
+
+    @Override
     public void onExploreList(ExploreListRsp exploreListRsp) {
+        setLoadingVisibility(false);
         mExploreListAdapter.setDatas(exploreListRsp.getPosts());
+        onDataRefreshFinish(true);
     }
 
     @Override
     public void onError(String errorMsg) {
+        setLoadingVisibility(false);
         ToastUtils.showShort(errorMsg);
     }
 

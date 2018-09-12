@@ -23,6 +23,7 @@ import java.util.ArrayList;
 
 public class DrinkingFragment extends BaseMainFragment<DrinkingPresenter> implements DrinkingView, CupListAdapter.OnCupItemClickCallback, DrinkingListView.OnDrinkingListViewCallback, DrinkingStartView.OnDrinkingStartCallback {
 
+    private View mRootView;
     private DrinkingListView mDrinkingListView;
     private DrinkingStartView mDrinkingStartView;
     private Fragment currentFragment;
@@ -40,7 +41,11 @@ public class DrinkingFragment extends BaseMainFragment<DrinkingPresenter> implem
 
     @Override
     protected void initView(View rootView) {
+        mRootView = rootView;
+    }
 
+    private void setLoadingVisibility(boolean isVisibility) {
+        mRootView.findViewById(R.id.progress_bar_layout).setVisibility(isVisibility ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -96,7 +101,13 @@ public class DrinkingFragment extends BaseMainFragment<DrinkingPresenter> implem
     }
 
     @Override
+    public void onLoading() {
+        setLoadingVisibility(true);
+    }
+
+    @Override
     public void onCupList(ArrayList<CupListRsp.CupBean> cupBeanList, CupListRsp.CupBean currentConnectCup) {
+        setLoadingVisibility(false);
         mDrinkingListView.notifyCupList(cupBeanList, currentConnectCup);
     }
 
@@ -113,6 +124,7 @@ public class DrinkingFragment extends BaseMainFragment<DrinkingPresenter> implem
 
     @Override
     public void onError(String errorMsg) {
+        setLoadingVisibility(false);
         ToastUtils.showShort(errorMsg);
     }
 

@@ -16,6 +16,7 @@ public class ExplorePresenter extends BasePresenter<ExploreView> {
     }
 
     public void listExplores() {
+        mView.onLoading();
         subscribeNetworkTask(getClass().getSimpleName().concat("ExplorePresenter"), mExploreModel.listExplores(), new MyObserver<ExploreListRsp>() {
             @Override
             public void onMyNext(ExploreListRsp exploreListRsp) {

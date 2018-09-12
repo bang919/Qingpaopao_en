@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 
 import com.ble.api.DataUtil;
+import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.bean.request.CupUpdateReq;
 import com.wopin.qingpaopao.bean.response.CupListRsp;
 import com.wopin.qingpaopao.bean.response.DrinkListTodayRsp;
@@ -121,10 +122,13 @@ public class DrinkingPresenter extends BasePresenter<DrinkingView> {
      */
     public <T> void firstTimeAddBleCup(T device) {
         mFirstTimeAddDevice = device;
-        if (device instanceof BluetoothDevice) {
+        if (device instanceof BluetoothDevice) {//连接没有失败的回调，暂时不加loading，以后可以加个超时
             BleConnectManager.getInstance().connectDevice(((BluetoothDevice) device).getAddress());
         } else if (device instanceof WifiConfigToCupRsp) {
+            mView.onLoading();
             MqttConnectManager.getInstance().connectDevice(((WifiConfigToCupRsp) device).getDevice_id());
+        } else {
+            mView.onError(mContext.getString(R.string.known_error));
         }
     }
 

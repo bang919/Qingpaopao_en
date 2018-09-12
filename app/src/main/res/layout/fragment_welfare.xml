@@ -1,10 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <View
+        android:id="@+id/top_view"
+        android:layout_width="0dp"
+        android:layout_height="24dp"
+        android:background="@color/colorPrimary" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_banner"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="12:7"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/top_view" />
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorWhite"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rv_banner" />
+
+    <ImageView
+        android:id="@+id/iv_score_market"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="welfare" />
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="2dp"
+        android:src="@mipmap/r_shop"
+        app:layout_constraintBottom_toTopOf="@id/tv_score_market"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@id/line" />
+
+    <TextView
+        android:id="@+id/tv_score_market"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:text="@string/score_market"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="@id/line"
+        app:layout_constraintLeft_toLeftOf="@id/iv_score_market"
+        app:layout_constraintRight_toRightOf="@id/iv_score_market"
+        app:layout_constraintTop_toBottomOf="@id/iv_score_market" />
+
+    <ImageView
+        android:id="@+id/iv_old_change_new"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/r_phone"
+        app:layout_constraintBottom_toBottomOf="@id/iv_score_market"
+        app:layout_constraintLeft_toRightOf="@+id/iv_score_market"
+        app:layout_constraintRight_toLeftOf="@id/iv_numerous_goods"
+        app:layout_constraintTop_toTopOf="@id/iv_score_market" />
+
+    <TextView
+        android:id="@+id/tv_old_change_new"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="@string/old_change_new"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_score_market"
+        app:layout_constraintLeft_toLeftOf="@id/iv_old_change_new"
+        app:layout_constraintRight_toRightOf="@id/iv_old_change_new"
+        app:layout_constraintTop_toBottomOf="@id/iv_old_change_new" />
+
+    <ImageView
+        android:id="@+id/iv_numerous_goods"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/r_third_hex"
+        app:layout_constraintBottom_toBottomOf="@id/iv_score_market"
+        app:layout_constraintLeft_toRightOf="@+id/iv_old_change_new"
+        app:layout_constraintRight_toLeftOf="@id/iv_my_orders"
+        app:layout_constraintTop_toTopOf="@id/iv_score_market" />
+
+    <TextView
+        android:id="@+id/tv_numerous_goods"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="@string/numerous_goods"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_score_market"
+        app:layout_constraintLeft_toLeftOf="@id/iv_numerous_goods"
+        app:layout_constraintRight_toRightOf="@id/iv_numerous_goods"
+        app:layout_constraintTop_toBottomOf="@id/iv_numerous_goods" />
+
+    <ImageView
+        android:id="@+id/iv_my_orders"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20dp"
+        android:src="@mipmap/r_text"
+        app:layout_constraintBottom_toBottomOf="@id/iv_score_market"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/iv_score_market" />
+
+    <TextView
+        android:id="@+id/tv_my_orders"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="@string/my_orders"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_score_market"
+        app:layout_constraintLeft_toLeftOf="@id/iv_my_orders"
+        app:layout_constraintRight_toRightOf="@id/iv_my_orders"
+        app:layout_constraintTop_toBottomOf="@id/iv_my_orders" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_score_market_list"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line" />
+
+    <RelativeLayout
+        android:id="@+id/progress_bar_layout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/colorHalfBlack"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:indeterminateDrawable="@drawable/bg_pb_loading" />
+    </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

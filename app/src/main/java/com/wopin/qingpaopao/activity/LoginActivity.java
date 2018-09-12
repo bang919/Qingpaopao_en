@@ -6,10 +6,13 @@ import android.view.View;
 import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.adapter.MyFragmentPageAdapter;
 import com.wopin.qingpaopao.bean.request.LoginReq;
+import com.wopin.qingpaopao.bean.request.ThirdReq;
+import com.wopin.qingpaopao.common.Constants;
 import com.wopin.qingpaopao.fragment.ForgetPasswordFragment;
 import com.wopin.qingpaopao.fragment.LoginViewFragment;
 import com.wopin.qingpaopao.fragment.RegisterViewFragment;
 import com.wopin.qingpaopao.presenter.LoginPresenter;
+import com.wopin.qingpaopao.utils.SPUtils;
 import com.wopin.qingpaopao.utils.ToastUtils;
 import com.wopin.qingpaopao.view.LoginView;
 
@@ -42,6 +45,10 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         findViewById(R.id.iv_weibo).setOnClickListener(this);
     }
 
+    private void setLoadingVisibility(boolean isVisibility) {
+        findViewById(R.id.progress_bar_layout).setVisibility(isVisibility ? View.VISIBLE : View.GONE);
+    }
+
     @Override
     protected void initData() {
         mLoginViewFragment = new LoginViewFragment();
@@ -53,7 +60,10 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
             @Override
             public void login(String phoneNumber, String password) {
-                mPresenter.login(phoneNumber, password);
+                LoginReq loginReq = new LoginReq();
+                loginReq.setPhone(phoneNumber);
+                loginReq.setPassword(password);
+                mPresenter.login(loginReq);
             }
 
             @Override
@@ -91,7 +101,17 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     protected void initEvent() {
-
+        try {
+            LoginReq loginReq = SPUtils.getObject(this, Constants.LOGIN_REQUEST);
+            ThirdReq thirdReq = SPUtils.getObject(this, Constants.THIRD_REQUEST);
+            if (loginReq != null) {
+                mPresenter.login(loginReq);
+            } else if (thirdReq != null) {
+                mPresenter.loginByThird(thirdReq.getType(), thirdReq.getUserName(), thirdReq.getKey(), thirdReq.getIcon());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -120,13 +140,20 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     }
 
     @Override
+    public void onLoading() {
+        setLoadingVisibility(true);
+    }
+
+    @Override
     public void onSendVerifyCodeComplete() {
+        setLoadingVisibility(false);
         ToastUtils.showShort(R.string.verification_code_had_send);
         mRegisterViewFragment.startTimer();
     }
 
     @Override
     public void onRegisterSuccess() {
+        setLoadingVisibility(false);
         ToastUtils.showShort(R.string.register_success);
         mRegisterViewFragment.cancelTimer();
         mLoginViewFragment.resetPhoneNumber();
@@ -135,12 +162,14 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public void onLoginSuccess() {
+        setLoadingVisibility(false);
         jumpToActivity(MainActivity.class);
         finish();
     }
 
     @Override
     public void onError(String errorMsg) {
+        setLoadingVisibility(false);
         ToastUtils.showShort(errorMsg);
     }
 }

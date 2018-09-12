@@ -53,14 +53,7 @@ public class LoginModel {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<LoginRsp> loginByThird(String platformName, String userName, String userId, String iconUrl) {
-        final ThirdReq thirdReq = new ThirdReq();
-        thirdReq.setKey(userId);
-        thirdReq.setUserName(userName);
-        thirdReq.setType(platformName);
-        thirdReq.setIcon(iconUrl);
-
-
+    public Observable<LoginRsp> loginByThird(final ThirdReq thirdReq) {
         return HttpClient.getApiInterface()
                 .thirdLogin(thirdReq)
                 .map(new Function<LoginRsp, LoginRsp>() {
