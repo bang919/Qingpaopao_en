@@ -77,9 +77,6 @@ public class WifiFragmentPageRoot extends BaseBarDialogFragment implements View.
                 });
                 mMyFragmentPageAdapter.switchToFragment(wifiFragmentPageScan, true);
                 break;
-            case R.id.btn_link_by_hand://第二页手动连接按钮
-                new LinkWifiByhandFragment().show(getChildFragmentManager(), LinkWifiByhandFragment.TAG);
-                break;
         }
     }
 }

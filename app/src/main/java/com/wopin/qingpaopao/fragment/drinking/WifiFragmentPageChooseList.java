@@ -23,7 +23,6 @@ public class WifiFragmentPageChooseList extends BaseBarDialogFragment<WifiPageCh
     private TextView mChooseWifiTv;
     private EditText mPasswordEt;
     private View mProgressBar;
-    private WifiRsp mCurrentWifiRsp;
     private WifiSettingSuccessListener mWifiSettingSuccessListener;
 
     public void setWifiSettingSuccessListener(WifiSettingSuccessListener wifiSettingSuccessListener) {
@@ -106,7 +105,6 @@ public class WifiFragmentPageChooseList extends BaseBarDialogFragment<WifiPageCh
     @Override
     public void onWifiChoose(WifiRsp wifiRsp) {
         //点击选择了一个wifi
-        mCurrentWifiRsp = wifiRsp;
         mChooseWifiTv.setTextColor(Color.BLACK);
         mChooseWifiTv.setText(wifiRsp.getEssid());
     }

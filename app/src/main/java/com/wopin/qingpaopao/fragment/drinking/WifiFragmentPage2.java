@@ -14,7 +14,7 @@ import com.wopin.qingpaopao.manager.WifiConnectManager;
 import com.wopin.qingpaopao.utils.ToastUtils;
 import com.wopin.qingpaopao.view.WifiSettingSuccessListener;
 
-public class WifiFragmentPage2 extends Fragment {
+public class WifiFragmentPage2 extends Fragment implements View.OnClickListener {
 
     private View.OnClickListener mOnClickListener;
     private WifiSettingSuccessListener mWifiSettingSuccessListener;
@@ -45,7 +45,7 @@ public class WifiFragmentPage2 extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_wifi_page_2, container, false);
         rootView.findViewById(R.id.btn_scan).setOnClickListener(mOnClickListener);
-        rootView.findViewById(R.id.btn_link_by_hand).setOnClickListener(mOnClickListener);
+        rootView.findViewById(R.id.btn_link_by_hand).setOnClickListener(this);
         return rootView;
     }
 
@@ -61,11 +61,31 @@ public class WifiFragmentPage2 extends Fragment {
 
             @Override
             public void onConnectDevice(WifiConnectManager.WifiUpdaterBean wifiUpdaterBean) {
-                WifiFragmentPageChooseList wifiFragmentPageChooseList = new WifiFragmentPageChooseList();
-                wifiFragmentPageChooseList.setWifiSettingSuccessListener(mWifiSettingSuccessListener);
-                wifiFragmentPageChooseList.show(getChildFragmentManager(), WifiFragmentPageChooseList.TAG);
+                jumpToWifiChooseListFragment();
             }
         };
         WifiConnectManager.getInstance().addUpdater(mUpdater);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_link_by_hand://第二页手动连接按钮
+                LinkWifiByhandFragment linkWifiByhandFragment = new LinkWifiByhandFragment();
+                linkWifiByhandFragment.setLinkWifiByhandCallback(new LinkWifiByhandFragment.LinkWifiByhandCallback() {
+                    @Override
+                    public void onWifiLinkByhand() {
+                        jumpToWifiChooseListFragment();
+                    }
+                });
+                linkWifiByhandFragment.show(getChildFragmentManager(), LinkWifiByhandFragment.TAG);
+                break;
+        }
+    }
+
+    private void jumpToWifiChooseListFragment() {
+        WifiFragmentPageChooseList wifiFragmentPageChooseList = new WifiFragmentPageChooseList();
+        wifiFragmentPageChooseList.setWifiSettingSuccessListener(mWifiSettingSuccessListener);
+        wifiFragmentPageChooseList.show(getChildFragmentManager(), WifiFragmentPageChooseList.TAG);
     }
 }
