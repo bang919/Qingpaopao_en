@@ -152,5 +152,10 @@
     <string name="my_orders">我的订单</string>
     <string name="known_error">未知错误</string>
     <string name="score_change">积分兑换：%s积分</string>
+    <string name="commodity_details">商品详情</string>
+    <string name="go_to_buy">去购买</string>
+    <string name="price_float">¥ %.2f</string>
+    <string name="overflow_value">超值档：</string>
+    <string name="percent_float">%.2f%%</string>
 
 </resources>

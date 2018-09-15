@@ -19,6 +19,7 @@ public abstract class BaseDialogFragment<P extends BasePresenter> extends Dialog
     protected P mPresenter;
     //是否已启动过。。用来修复一个bug：DialogFragment打开Activity，再返回DialogFragment会出现Fragment启动动画（-1.第一次进入，0.resume进入只设置animate_dialog_exit，1.多次resume）
     private int hadMeet = -1;
+    private View mLoadingView;
 
     public BaseDialogFragment() {
         setStyle(0, R.style.FullScreenLightDialog);
@@ -44,6 +45,17 @@ public abstract class BaseDialogFragment<P extends BasePresenter> extends Dialog
      */
     protected abstract void initEvent();
 
+    public void setLoadingVisibility(boolean isVisibility) {
+        mLoadingView.setVisibility(isVisibility ? View.VISIBLE : View.GONE);
+    }
+
+    public boolean isLoadingVisibility() {
+        if (mLoadingView.getVisibility() == View.VISIBLE) {
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -65,10 +77,15 @@ public abstract class BaseDialogFragment<P extends BasePresenter> extends Dialog
         getDialog().getWindow().setWindowAnimations(R.style.animate_dialog_enter_and_exit);
 
         View rootView = inflater.inflate(getLayout(), container, false);
+        addLoadingView(rootView);
         onViewPagerFragmentCreate(rootView);
         return rootView;
     }
 
+    private void addLoadingView(View rootView) {
+        mLoadingView = LayoutInflater.from(rootView.getContext()).inflate(R.layout.loading_layout, (ViewGroup) rootView, false);
+        ((ViewGroup) rootView).addView(mLoadingView);
+    }
 
     protected void onViewPagerFragmentCreate(View rootView) {
         mPresenter = initPresenter();

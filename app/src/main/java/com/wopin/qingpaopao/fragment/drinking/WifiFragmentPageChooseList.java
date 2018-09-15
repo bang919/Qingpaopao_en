@@ -22,7 +22,6 @@ public class WifiFragmentPageChooseList extends BaseBarDialogFragment<WifiPageCh
     private ArrayList<WifiRsp> wifiRsps;
     private TextView mChooseWifiTv;
     private EditText mPasswordEt;
-    private View mProgressBar;
     private WifiSettingSuccessListener mWifiSettingSuccessListener;
 
     public void setWifiSettingSuccessListener(WifiSettingSuccessListener wifiSettingSuccessListener) {
@@ -48,33 +47,27 @@ public class WifiFragmentPageChooseList extends BaseBarDialogFragment<WifiPageCh
     protected void initView(View rootView) {
         mChooseWifiTv = rootView.findViewById(R.id.tv_click_to_choose_wifi);
         mPasswordEt = rootView.findViewById(R.id.et_wifi_password);
-        mProgressBar = rootView.findViewById(R.id.progress_bar_layout);
         rootView.findViewById(R.id.tv_click_to_choose_wifi).setOnClickListener(this);
         rootView.findViewById(R.id.bt_link).setOnClickListener(this);
-    }
-
-    public void setProgressbarVis(boolean isVisibility) {
-        mProgressBar.setVisibility(isVisibility ? View.VISIBLE : View.GONE);
     }
 
     @Override
     protected void initEvent() {
         ToastUtils.showShort(getString(R.string.success_connect_wifi));
-        setProgressbarVis(true);
+        setLoadingVisibility(true);
         mPresenter.getWifiList();
-        mProgressBar.requestFocus();
     }
 
     @Override
     public void onWifiListResponse(ArrayList<WifiRsp> wifiRsps) {
         this.wifiRsps = wifiRsps;
-        setProgressbarVis(false);
+        setLoadingVisibility(false);
     }
 
     @Override
     public void onWifiConfigToCupRsp(WifiConfigToCupRsp wifiConfigToCupRsp) {
         ToastUtils.showShort(R.string.success_setting_wifi);
-        setProgressbarVis(false);
+        setLoadingVisibility(false);
         mWifiSettingSuccessListener.onWifiSettingSuccess(wifiConfigToCupRsp);
         dismiss();
     }
@@ -82,12 +75,12 @@ public class WifiFragmentPageChooseList extends BaseBarDialogFragment<WifiPageCh
     @Override
     public void onError(String errorMsg) {
         ToastUtils.showShort(errorMsg);
-        setProgressbarVis(false);
+        setLoadingVisibility(false);
     }
 
     @Override
     public void onClick(View v) {
-        if (mProgressBar.getVisibility() == View.VISIBLE) {
+        if (isLoadingVisibility()) {
             return;
         }
         switch (v.getId()) {

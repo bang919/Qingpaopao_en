@@ -1,8 +1,11 @@
 package com.wopin.qingpaopao.bean.response;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
-public class ProductContent {
+public class ProductContent implements Parcelable {
 
     /**
      * id : 127
@@ -18,10 +21,10 @@ public class ProductContent {
      * featured : false
      * catalog_visibility : visible
      * description : <p>&nbsp;</p>
-     <p><img class="alignnone size-medium wp-image-135" src="https://wifi.h2popo.com/wp-content/uploads/2018/07/富氢水杯详情页-01_01-253x300.jpg" alt="" width="253" height="300" /><img class="alignnone size-medium wp-image-132" src="https://wifi.h2popo.com/wp-content/uploads/2018/07/富氢水杯详情页-01_06-288x300.jpg" alt="" width="288" height="300" /><img class="alignnone size-medium wp-image-128" src="https://wifi.h2popo.com/wp-content/uploads/2018/07/富氢水杯详情页-01_07-300x272.jpg" alt="" width="300" height="272" /> <img class="alignnone size-medium wp-image-129" src="https://wifi.h2popo.com/wp-content/uploads/2018/07/富氢水杯详情页-01_08-278x300.jpg" alt="" width="278" height="300" /> <img class="alignnone size-medium wp-image-130" src="https://wifi.h2popo.com/wp-content/uploads/2018/07/富氢水杯详情页-01_04-300x287.jpg" alt="" width="300" height="287" /> <img class="alignnone size-medium wp-image-131" src="https://wifi.h2popo.com/wp-content/uploads/2018/07/富氢水杯详情页-01_05-300x267.jpg" alt="" width="300" height="267" />  <img class="alignnone size-medium wp-image-133" src="https://wifi.h2popo.com/wp-content/uploads/2018/07/富氢水杯详情页-01_02-300x270.jpg" alt="" width="300" height="270" /> <img class="alignnone size-medium wp-image-134" src="https://wifi.h2popo.com/wp-content/uploads/2018/07/富氢水杯详情页-01_03-300x115.jpg" alt="" width="300" height="115" /></p>
-
+     * <p><img class="alignnone size-medium wp-image-135" src="https://wifi.h2popo.com/wp-content/uploads/2018/07/富氢水杯详情页-01_01-253x300.jpg" alt="" width="253" height="300" /><img class="alignnone size-medium wp-image-132" src="https://wifi.h2popo.com/wp-content/uploads/2018/07/富氢水杯详情页-01_06-288x300.jpg" alt="" width="288" height="300" /><img class="alignnone size-medium wp-image-128" src="https://wifi.h2popo.com/wp-content/uploads/2018/07/富氢水杯详情页-01_07-300x272.jpg" alt="" width="300" height="272" /> <img class="alignnone size-medium wp-image-129" src="https://wifi.h2popo.com/wp-content/uploads/2018/07/富氢水杯详情页-01_08-278x300.jpg" alt="" width="278" height="300" /> <img class="alignnone size-medium wp-image-130" src="https://wifi.h2popo.com/wp-content/uploads/2018/07/富氢水杯详情页-01_04-300x287.jpg" alt="" width="300" height="287" /> <img class="alignnone size-medium wp-image-131" src="https://wifi.h2popo.com/wp-content/uploads/2018/07/富氢水杯详情页-01_05-300x267.jpg" alt="" width="300" height="267" />  <img class="alignnone size-medium wp-image-133" src="https://wifi.h2popo.com/wp-content/uploads/2018/07/富氢水杯详情页-01_02-300x270.jpg" alt="" width="300" height="270" /> <img class="alignnone size-medium wp-image-134" src="https://wifi.h2popo.com/wp-content/uploads/2018/07/富氢水杯详情页-01_03-300x115.jpg" alt="" width="300" height="115" /></p>
+     * <p>
      * short_description : <p>wopin 点解水杯  E款</p>
-
+     * <p>
      * sku :
      * price : 999
      * regular_price : 999
@@ -137,11 +140,73 @@ public class ProductContent {
     private List<CategoriesBean> categories;
     private List<?> tags;
     private List<ImagesBean> images;
-    private List<?> attributes;
-    private List<?> default_attributes;
+    private List<AttributeBean> attributes;
+    private List<AttributeBean> default_attributes;
     private List<?> variations;
     private List<?> grouped_products;
     private List<MetaDataBean> meta_data;
+
+    protected ProductContent(Parcel in) {
+        id = in.readInt();
+        name = in.readString();
+        slug = in.readString();
+        permalink = in.readString();
+        date_created = in.readString();
+        date_created_gmt = in.readString();
+        date_modified = in.readString();
+        date_modified_gmt = in.readString();
+        type = in.readString();
+        status = in.readString();
+        featured = in.readByte() != 0;
+        catalog_visibility = in.readString();
+        description = in.readString();
+        short_description = in.readString();
+        sku = in.readString();
+        price = in.readString();
+        regular_price = in.readString();
+        sale_price = in.readString();
+        price_html = in.readString();
+        on_sale = in.readByte() != 0;
+        purchasable = in.readByte() != 0;
+        total_sales = in.readInt();
+        virtual = in.readByte() != 0;
+        downloadable = in.readByte() != 0;
+        download_limit = in.readInt();
+        download_expiry = in.readInt();
+        external_url = in.readString();
+        button_text = in.readString();
+        tax_status = in.readString();
+        tax_class = in.readString();
+        manage_stock = in.readByte() != 0;
+        in_stock = in.readByte() != 0;
+        backorders = in.readString();
+        backorders_allowed = in.readByte() != 0;
+        backordered = in.readByte() != 0;
+        sold_individually = in.readByte() != 0;
+        weight = in.readString();
+        shipping_required = in.readByte() != 0;
+        shipping_taxable = in.readByte() != 0;
+        shipping_class = in.readString();
+        shipping_class_id = in.readInt();
+        reviews_allowed = in.readByte() != 0;
+        average_rating = in.readString();
+        rating_count = in.readInt();
+        parent_id = in.readInt();
+        purchase_note = in.readString();
+        menu_order = in.readInt();
+    }
+
+    public static final Creator<ProductContent> CREATOR = new Creator<ProductContent>() {
+        @Override
+        public ProductContent createFromParcel(Parcel in) {
+            return new ProductContent(in);
+        }
+
+        @Override
+        public ProductContent[] newArray(int size) {
+            return new ProductContent[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -631,19 +696,19 @@ public class ProductContent {
         this.images = images;
     }
 
-    public List<?> getAttributes() {
+    public List<AttributeBean> getAttributes() {
         return attributes;
     }
 
-    public void setAttributes(List<?> attributes) {
+    public void setAttributes(List<AttributeBean> attributes) {
         this.attributes = attributes;
     }
 
-    public List<?> getDefault_attributes() {
+    public List<AttributeBean> getDefault_attributes() {
         return default_attributes;
     }
 
-    public void setDefault_attributes(List<?> default_attributes) {
+    public void setDefault_attributes(List<AttributeBean> default_attributes) {
         this.default_attributes = default_attributes;
     }
 
@@ -669,6 +734,62 @@ public class ProductContent {
 
     public void setMeta_data(List<MetaDataBean> meta_data) {
         this.meta_data = meta_data;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(name);
+        dest.writeString(slug);
+        dest.writeString(permalink);
+        dest.writeString(date_created);
+        dest.writeString(date_created_gmt);
+        dest.writeString(date_modified);
+        dest.writeString(date_modified_gmt);
+        dest.writeString(type);
+        dest.writeString(status);
+        dest.writeByte((byte) (featured ? 1 : 0));
+        dest.writeString(catalog_visibility);
+        dest.writeString(description);
+        dest.writeString(short_description);
+        dest.writeString(sku);
+        dest.writeString(price);
+        dest.writeString(regular_price);
+        dest.writeString(sale_price);
+        dest.writeString(price_html);
+        dest.writeByte((byte) (on_sale ? 1 : 0));
+        dest.writeByte((byte) (purchasable ? 1 : 0));
+        dest.writeInt(total_sales);
+        dest.writeByte((byte) (virtual ? 1 : 0));
+        dest.writeByte((byte) (downloadable ? 1 : 0));
+        dest.writeInt(download_limit);
+        dest.writeInt(download_expiry);
+        dest.writeString(external_url);
+        dest.writeString(button_text);
+        dest.writeString(tax_status);
+        dest.writeString(tax_class);
+        dest.writeByte((byte) (manage_stock ? 1 : 0));
+        dest.writeByte((byte) (in_stock ? 1 : 0));
+        dest.writeString(backorders);
+        dest.writeByte((byte) (backorders_allowed ? 1 : 0));
+        dest.writeByte((byte) (backordered ? 1 : 0));
+        dest.writeByte((byte) (sold_individually ? 1 : 0));
+        dest.writeString(weight);
+        dest.writeByte((byte) (shipping_required ? 1 : 0));
+        dest.writeByte((byte) (shipping_taxable ? 1 : 0));
+        dest.writeString(shipping_class);
+        dest.writeInt(shipping_class_id);
+        dest.writeByte((byte) (reviews_allowed ? 1 : 0));
+        dest.writeString(average_rating);
+        dest.writeInt(rating_count);
+        dest.writeInt(parent_id);
+        dest.writeString(purchase_note);
+        dest.writeInt(menu_order);
     }
 
     public static class DimensionsBean {
@@ -889,6 +1010,73 @@ public class ProductContent {
 
         public void setPosition(int position) {
             this.position = position;
+        }
+    }
+
+    public static class AttributeBean {
+
+        /**
+         * id : 0
+         * name : 2350
+         * position : 0
+         * visible : true
+         * variation : false
+         * options : ["智能骑行旅行箱一个"]
+         */
+
+        private int id;
+        private String name;
+        private int position;
+        private boolean visible;
+        private boolean variation;
+        private List<String> options;
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public int getPosition() {
+            return position;
+        }
+
+        public void setPosition(int position) {
+            this.position = position;
+        }
+
+        public boolean isVisible() {
+            return visible;
+        }
+
+        public void setVisible(boolean visible) {
+            this.visible = visible;
+        }
+
+        public boolean isVariation() {
+            return variation;
+        }
+
+        public void setVariation(boolean variation) {
+            this.variation = variation;
+        }
+
+        public List<String> getOptions() {
+            return options;
+        }
+
+        public void setOptions(List<String> options) {
+            this.options = options;
         }
     }
 

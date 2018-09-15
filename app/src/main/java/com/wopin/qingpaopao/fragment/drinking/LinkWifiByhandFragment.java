@@ -1,6 +1,5 @@
 package com.wopin.qingpaopao.fragment.drinking;
 
-import android.util.Log;
 import android.view.View;
 
 import com.wopin.qingpaopao.R;
@@ -76,7 +75,6 @@ public class LinkWifiByhandFragment extends BaseBarDialogFragment {
 
     @Override
     public void onDestroy() {
-        Log.d("bigbang", "onDestroy");
         if (mDisposable != null) {
             mDisposable.dispose();
             mDisposable = null;

@@ -18,6 +18,11 @@ import java.util.ArrayList;
 public class ScoreMarketContentAdapter extends RecyclerView.Adapter<ScoreMarketContentAdapter.ScoreMarketContentViewHolder> {
 
     private ArrayList<ProductContent> mProductContents;
+    private ScoreMarketContentClick mScoreMarketContentClick;
+
+    public void setScoreMarketContentClick(ScoreMarketContentClick scoreMarketContentClick) {
+        mScoreMarketContentClick = scoreMarketContentClick;
+    }
 
     public void setProductContents(ArrayList<ProductContent> productContents) {
         mProductContents = productContents;
@@ -32,7 +37,7 @@ public class ScoreMarketContentAdapter extends RecyclerView.Adapter<ScoreMarketC
 
     @Override
     public void onBindViewHolder(@NonNull ScoreMarketContentViewHolder holder, int position) {
-        ProductContent productContent = mProductContents.get(position);
+        final ProductContent productContent = mProductContents.get(position);
         String description = productContent.getDescription();
         int indexStart = description.indexOf("http");
         int indexEnd = description.indexOf(".jpg");
@@ -42,6 +47,14 @@ public class ScoreMarketContentAdapter extends RecyclerView.Adapter<ScoreMarketC
         }
         holder.mTitle.setText(productContent.getName());
         holder.mScoreTv.setText(String.format(holder.mScoreTv.getContext().getString(R.string.score_change), productContent.getPrice()));
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mScoreMarketContentClick != null) {
+                    mScoreMarketContentClick.onScoreMarketContentClick(productContent);
+                }
+            }
+        });
     }
 
     @Override
@@ -61,5 +74,9 @@ public class ScoreMarketContentAdapter extends RecyclerView.Adapter<ScoreMarketC
             mTitle = itemView.findViewById(R.id.tv_item_scoremarket_content_title);
             mScoreTv = itemView.findViewById(R.id.tv_item_scoremarket_content_content);
         }
+    }
+
+    public interface ScoreMarketContentClick {
+        void onScoreMarketContentClick(ProductContent productContent);
     }
 }

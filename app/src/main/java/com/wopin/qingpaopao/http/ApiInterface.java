@@ -4,6 +4,7 @@ package com.wopin.qingpaopao.http;
 import com.wopin.qingpaopao.bean.request.CupUpdateReq;
 import com.wopin.qingpaopao.bean.request.LoginReq;
 import com.wopin.qingpaopao.bean.request.ThirdReq;
+import com.wopin.qingpaopao.bean.response.CrowdfundingOrderTotalRsp;
 import com.wopin.qingpaopao.bean.response.CupListRsp;
 import com.wopin.qingpaopao.bean.response.DrinkListTodayRsp;
 import com.wopin.qingpaopao.bean.response.DrinkListTotalRsp;
@@ -110,4 +111,7 @@ public interface ApiInterface {
 
     @GET("https://wifi.h2popo.com/wp-json/wc/v2/products/?consumer_key=ck_ba448661d94412faeaf3b8ab899b9294a967865c&consumer_secret=cs_45a5c655c2b07589e93a0466674af4afd4ef4abe")
     Observable<ArrayList<ProductContent>> getProductContent(@Query("category") String id);
+
+    @POST("goods/crowdfundingOrderTotalMoney")
+    Observable<CrowdfundingOrderTotalRsp> crowdfundingOrderTotalMoney(@Body RequestBody requestBody);
 }

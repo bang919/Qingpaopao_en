@@ -13,13 +13,17 @@ import com.wopin.qingpaopao.adapter.WelfareBannerAdapter;
 import com.wopin.qingpaopao.bean.response.ProductBanner;
 import com.wopin.qingpaopao.bean.response.ProductContent;
 import com.wopin.qingpaopao.fragment.BaseMainFragment;
+import com.wopin.qingpaopao.fragment.welfare.numerousgoods.NumerousGoodsListFragment;
+import com.wopin.qingpaopao.fragment.welfare.oldchangenew.OldChangeNewListFragment;
+import com.wopin.qingpaopao.fragment.welfare.scoremarket.ScoreMarketContentDetailFragment;
+import com.wopin.qingpaopao.fragment.welfare.scoremarket.ScoreMarketListFragment;
 import com.wopin.qingpaopao.presenter.WelfarePresenter;
 import com.wopin.qingpaopao.utils.ToastUtils;
 import com.wopin.qingpaopao.widget.WelfareView;
 
 import java.util.ArrayList;
 
-public class WelfareFragment extends BaseMainFragment<WelfarePresenter> implements View.OnClickListener, WelfareView {
+public class WelfareFragment extends BaseMainFragment<WelfarePresenter> implements View.OnClickListener, WelfareView, ScoreMarketContentAdapter.ScoreMarketContentClick {
 
     private RecyclerView mBannerRv;
     private RecyclerView mScoreMarketRv;
@@ -62,6 +66,7 @@ public class WelfareFragment extends BaseMainFragment<WelfarePresenter> implemen
         mScoreMarketRv.setLayoutManager(new GridLayoutManager(getContext(), 2));
         mScoreMarketContentAdapter = new ScoreMarketContentAdapter();
         mScoreMarketRv.setAdapter(mScoreMarketContentAdapter);
+        mScoreMarketContentAdapter.setScoreMarketContentClick(this);
         RecyclerView.ItemDecoration itemDecoration = new RecyclerView.ItemDecoration() {
             @Override
             public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
@@ -83,10 +88,13 @@ public class WelfareFragment extends BaseMainFragment<WelfarePresenter> implemen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_score_market:
+                new ScoreMarketListFragment().show(getChildFragmentManager(), ScoreMarketListFragment.TAG);
                 break;
             case R.id.iv_old_change_new:
+                new OldChangeNewListFragment().show(getChildFragmentManager(), OldChangeNewListFragment.TAG);
                 break;
             case R.id.iv_numerous_goods:
+                new NumerousGoodsListFragment().show(getChildFragmentManager(), NumerousGoodsListFragment.TAG);
                 break;
             case R.id.iv_my_orders:
                 break;
@@ -118,5 +126,10 @@ public class WelfareFragment extends BaseMainFragment<WelfarePresenter> implemen
     public void onError(String error) {
         setLoadingVisibility(false);
         ToastUtils.showShort(error);
+    }
+
+    @Override
+    public void onScoreMarketContentClick(ProductContent productContent) {
+        ScoreMarketContentDetailFragment.build(productContent).show(getChildFragmentManager(), ScoreMarketContentDetailFragment.TAG);
     }
 }
