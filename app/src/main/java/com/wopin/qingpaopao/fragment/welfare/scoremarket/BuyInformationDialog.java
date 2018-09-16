@@ -33,6 +33,7 @@ public class BuyInformationDialog extends DialogFragment implements View.OnClick
     private TextView mAddressTv;
     private LoginRsp.ResultBean.AddressListBean mCurrentAddress;
     private BuyInformationDialogCallback mBuyInformationDialogCallback;
+    private ProductContent mProductContent;
 
     public static BuyInformationDialog build(ProductContent productContent) {
         BuyInformationDialog buyInformationDialog = new BuyInformationDialog();
@@ -78,11 +79,10 @@ public class BuyInformationDialog extends DialogFragment implements View.OnClick
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        ProductContent productContent = getArguments().getParcelable(TAG);
+        mProductContent = getArguments().getParcelable(TAG);
         LoginRsp accountMessage = LoginPresenter.getAccountMessage();
         ((TextView) mRootView.findViewById(R.id.tv_own_score_value))
                 .setText(String.format(getString(R.string.score_number), "" + accountMessage.getResult().getScores()));
-        ((TextView) mRootView.findViewById(R.id.tv_need_pay_value)).setText(String.format(getString(R.string.score_number), productContent.getPrice()));
 
         ArrayList<LoginRsp.ResultBean.AddressListBean> addressList = LoginPresenter.getAccountMessage().getResult().getAddressList();
         if (addressList != null) {
@@ -93,6 +93,7 @@ public class BuyInformationDialog extends DialogFragment implements View.OnClick
                 }
             }
         }
+        notifyTotalScore();
     }
 
     @Override
@@ -103,10 +104,12 @@ public class BuyInformationDialog extends DialogFragment implements View.OnClick
                 break;
             case R.id.btn_add:
                 mBuyCountTv.setText(String.valueOf(++mBuyCount));
+                notifyTotalScore();
                 break;
             case R.id.btn_minus:
                 if (mBuyCount > 1) {
                     mBuyCountTv.setText(String.valueOf(--mBuyCount));
+                    notifyTotalScore();
                 }
                 break;
             case R.id.btn_change_at_once:
@@ -124,6 +127,11 @@ public class BuyInformationDialog extends DialogFragment implements View.OnClick
                 addressListFragment.show(getChildFragmentManager(), AddressListFragment.TAG);
                 break;
         }
+    }
+
+    private void notifyTotalScore() {
+        int priceEach = Integer.valueOf(mProductContent.getPrice());
+        ((TextView) mRootView.findViewById(R.id.tv_need_pay_value)).setText(String.format(getString(R.string.score_number), String.valueOf(priceEach * mBuyCount)));
     }
 
     @Override
