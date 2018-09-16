@@ -1,8 +1,10 @@
 package com.wopin.qingpaopao.http;
 
 
+import com.wopin.qingpaopao.bean.request.AddressBean;
 import com.wopin.qingpaopao.bean.request.CupUpdateReq;
 import com.wopin.qingpaopao.bean.request.LoginReq;
+import com.wopin.qingpaopao.bean.request.ScoreMarketPayment;
 import com.wopin.qingpaopao.bean.request.ThirdReq;
 import com.wopin.qingpaopao.bean.response.CrowdfundingOrderTotalRsp;
 import com.wopin.qingpaopao.bean.response.CupListRsp;
@@ -42,6 +44,9 @@ public interface ApiInterface {
 
     @POST("users/login")
     Observable<LoginRsp> login(@Body LoginReq loginReq);
+
+    @GET("users/getUserData")
+    Observable<LoginRsp> getUserData();
 
     @POST("users/logout")
     Observable<NormalRsp> logout();
@@ -114,4 +119,13 @@ public interface ApiInterface {
 
     @POST("goods/crowdfundingOrderTotalMoney")
     Observable<CrowdfundingOrderTotalRsp> crowdfundingOrderTotalMoney(@Body RequestBody requestBody);
+
+    @POST("users/addOrUpdateAddress")
+    Observable<NormalRsp> addOrUpdateAddress(@Body AddressBean addressBean);
+
+    @POST("users/setDefaultAddress")
+    Observable<NormalRsp> setDefaultAddress(@Body AddressBean addressBean);
+
+    @POST("goods/payMentScores")
+    Observable<NormalRsp> payMentScores(@Body ScoreMarketPayment scoreMarketPayment);
 }

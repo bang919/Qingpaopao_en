@@ -3,6 +3,7 @@ package com.wopin.qingpaopao.common;
 import android.app.Application;
 import android.content.Context;
 
+import com.lljjcoder.style.citylist.utils.CityListLoader;
 import com.mob.MobSDK;
 
 
@@ -18,6 +19,7 @@ public class MyApplication extends Application {
     public void onCreate() {
         super.onCreate();
         MobSDK.init(this);
+        CityListLoader.getInstance().loadProData(this);
         mApplicationContext = getApplicationContext();
     }
 

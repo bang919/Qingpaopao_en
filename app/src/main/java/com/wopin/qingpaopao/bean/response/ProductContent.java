@@ -3,6 +3,7 @@ package com.wopin.qingpaopao.bean.response;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProductContent implements Parcelable {
@@ -139,7 +140,7 @@ public class ProductContent implements Parcelable {
     private List<?> cross_sell_ids;
     private List<CategoriesBean> categories;
     private List<?> tags;
-    private List<ImagesBean> images;
+    private ArrayList<ImagesBean> images;
     private List<AttributeBean> attributes;
     private List<AttributeBean> default_attributes;
     private List<?> variations;
@@ -688,11 +689,11 @@ public class ProductContent implements Parcelable {
         this.tags = tags;
     }
 
-    public List<ImagesBean> getImages() {
+    public ArrayList<ImagesBean> getImages() {
         return images;
     }
 
-    public void setImages(List<ImagesBean> images) {
+    public void setImages(ArrayList<ImagesBean> images) {
         this.images = images;
     }
 

@@ -1,13 +1,15 @@
 package com.wopin.qingpaopao.bean.response;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class LoginRsp extends NormalRsp implements Serializable {
     private static final long serialVersionUID = 15943528961L;
 
+
     /**
-     * result : {"_id":"5b819f0591297b561a79eeaa","phone":15989082970,"drinks":0,"scores":0,"userName":"15989082970","userPwd":"e10adc3949ba59abbe56e057f20f883e","__v":0,"addressList":[],"cartList":[],"cupList":[],"fansList":[],"followList":[]}
+     * result : {"_id":"5b819f0591297b561a79eeaa","phone":15989082970,"drinks":5,"scores":2004,"userName":"yuskkw","userPwd":"e10adc3949ba59abbe56e057f20f883e","__v":2,"collectBlogList":[],"likeCommentList":[],"lastAttendance":"20180911","addressList":[{"addressId":"KtfH9L1xSxbz4sq3","userName":"","address1":"选择地区","address2":"","tel":null,"isDefault":false,"_id":"5b9e26eb0510dc68797d3ea1"}],"cartList":[],"cupList":[],"fansList":[],"followList":[]}
      */
 
     private ResultBean result;
@@ -25,12 +27,15 @@ public class LoginRsp extends NormalRsp implements Serializable {
         /**
          * _id : 5b819f0591297b561a79eeaa
          * phone : 15989082970
-         * drinks : 0
-         * scores : 0
-         * userName : 15989082970
+         * drinks : 5
+         * scores : 2004
+         * userName : yuskkw
          * userPwd : e10adc3949ba59abbe56e057f20f883e
-         * __v : 0
-         * addressList : []
+         * __v : 2
+         * collectBlogList : []
+         * likeCommentList : []
+         * lastAttendance : 20180911
+         * addressList : [{"addressId":"KtfH9L1xSxbz4sq3","userName":"","address1":"选择地区","address2":"","tel":null,"isDefault":false,"_id":"5b9e26eb0510dc68797d3ea1"}]
          * cartList : []
          * cupList : []
          * fansList : []
@@ -45,7 +50,10 @@ public class LoginRsp extends NormalRsp implements Serializable {
         private String userPwd;
         private String icon;
         private int __v;
-        private List<?> addressList;
+        private String lastAttendance;
+        private List<?> collectBlogList;
+        private List<?> likeCommentList;
+        private ArrayList<AddressListBean> addressList;
         private List<?> cartList;
         private List<?> cupList;
         private List<?> fansList;
@@ -115,11 +123,35 @@ public class LoginRsp extends NormalRsp implements Serializable {
             this.icon = icon;
         }
 
-        public List<?> getAddressList() {
+        public String getLastAttendance() {
+            return lastAttendance;
+        }
+
+        public void setLastAttendance(String lastAttendance) {
+            this.lastAttendance = lastAttendance;
+        }
+
+        public List<?> getCollectBlogList() {
+            return collectBlogList;
+        }
+
+        public void setCollectBlogList(List<?> collectBlogList) {
+            this.collectBlogList = collectBlogList;
+        }
+
+        public List<?> getLikeCommentList() {
+            return likeCommentList;
+        }
+
+        public void setLikeCommentList(List<?> likeCommentList) {
+            this.likeCommentList = likeCommentList;
+        }
+
+        public ArrayList<AddressListBean> getAddressList() {
             return addressList;
         }
 
-        public void setAddressList(List<?> addressList) {
+        public void setAddressList(ArrayList<AddressListBean> addressList) {
             this.addressList = addressList;
         }
 
@@ -153,6 +185,83 @@ public class LoginRsp extends NormalRsp implements Serializable {
 
         public void setFollowList(List<?> followList) {
             this.followList = followList;
+        }
+
+        public static class AddressListBean implements Serializable {
+            private static final long serialVersionUID = 15942628961L;
+            /**
+             * addressId : KtfH9L1xSxbz4sq3
+             * userName :
+             * address1 : 选择地区
+             * address2 :
+             * tel : null
+             * isDefault : false
+             * _id : 5b9e26eb0510dc68797d3ea1
+             */
+
+            private String addressId;
+            private String userName;
+            private String address1;
+            private String address2;
+            private String tel;
+            private boolean isDefault;
+            private String _id;
+
+            public String getAddressId() {
+                return addressId;
+            }
+
+            public void setAddressId(String addressId) {
+                this.addressId = addressId;
+            }
+
+            public String getUserName() {
+                return userName;
+            }
+
+            public void setUserName(String userName) {
+                this.userName = userName;
+            }
+
+            public String getAddress1() {
+                return address1;
+            }
+
+            public void setAddress1(String address1) {
+                this.address1 = address1;
+            }
+
+            public String getAddress2() {
+                return address2;
+            }
+
+            public void setAddress2(String address2) {
+                this.address2 = address2;
+            }
+
+            public String getTel() {
+                return tel;
+            }
+
+            public void setTel(String tel) {
+                this.tel = tel;
+            }
+
+            public boolean isIsDefault() {
+                return isDefault;
+            }
+
+            public void setIsDefault(boolean isDefault) {
+                this.isDefault = isDefault;
+            }
+
+            public String get_id() {
+                return _id;
+            }
+
+            public void set_id(String _id) {
+                this._id = _id;
+            }
         }
     }
 }

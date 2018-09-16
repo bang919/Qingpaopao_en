@@ -3,6 +3,8 @@ package com.wopin.qingpaopao.presenter;
 import android.content.Context;
 import android.util.Log;
 
+import com.wopin.qingpaopao.bean.response.LoginRsp;
+import com.wopin.qingpaopao.http.HttpClient;
 import com.wopin.qingpaopao.utils.HttpUtil;
 
 import java.util.HashMap;
@@ -11,7 +13,10 @@ import java.util.Map;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by bigbang on 2017/5/18.
@@ -129,5 +134,14 @@ public class BasePresenter<V> {
         void onMyNext(T t);
 
         void onMyError(String errorMessage);
+    }
+
+    public void refreshPersonMessage() {
+        subscribeNetworkTask(HttpClient.getApiInterface().getUserData().doOnNext(new Consumer<LoginRsp>() {
+            @Override
+            public void accept(LoginRsp loginRsp) throws Exception {
+                LoginPresenter.updateLoginMessage(loginRsp);
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()));
     }
 }
