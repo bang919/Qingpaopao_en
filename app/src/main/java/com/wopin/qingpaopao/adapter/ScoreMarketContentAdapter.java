@@ -38,13 +38,7 @@ public class ScoreMarketContentAdapter extends RecyclerView.Adapter<ScoreMarketC
     @Override
     public void onBindViewHolder(@NonNull ScoreMarketContentViewHolder holder, int position) {
         final ProductContent productContent = mProductContents.get(position);
-        String description = productContent.getDescription();
-        int indexStart = description.indexOf("http");
-        int indexEnd = description.indexOf(".jpg");
-        if (indexStart != -1 && indexEnd != -1) {
-            String image = description.substring(indexStart, indexEnd + 4);
-            GlideUtils.loadImage(holder.mImageView, -1, image, new CenterCrop());
-        }
+        GlideUtils.loadImage(holder.mImageView, -1, productContent.getDescriptionImage(), new CenterCrop());
         holder.mTitle.setText(productContent.getName());
         holder.mScoreTv.setText(String.format(holder.mScoreTv.getContext().getString(R.string.score_change), productContent.getPrice()));
         holder.itemView.setOnClickListener(new View.OnClickListener() {

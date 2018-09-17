@@ -53,12 +53,7 @@ public class ScoreMarketContentDetailFragment extends BaseBarDialogFragment<Scor
         mProductContent = getArguments().getParcelable(TAG);
 
         String description = mProductContent.getDescription();
-        int indexStart = description.indexOf("http");
-        int indexEnd = description.indexOf(".jpg");
-        if (indexStart != -1 && indexEnd != -1) {
-            mImage = description.substring(indexStart, indexEnd + 4);
-            GlideUtils.loadImage((ImageView) rootView.findViewById(R.id.iv_top_img), -1, mImage, new CenterCrop());
-        }
+        GlideUtils.loadImage((ImageView) rootView.findViewById(R.id.iv_top_img), -1, mProductContent.getDescriptionImage(), new CenterCrop());
         ((TextView) rootView.findViewById(R.id.tv_title)).setText(mProductContent.getName());
         ((TextView) rootView.findViewById(R.id.tv_score)).setText(String.format(getString(R.string.score_number), mProductContent.getPrice()));
         ((TextView) rootView.findViewById(R.id.tv_reference_price)).setText(String.format(getString(R.string.market_reference_price_value), mProductContent.getRegular_price()));

@@ -40,13 +40,7 @@ public class OldChangeNewListAdapter extends RecyclerView.Adapter<OldChangeNewLi
     @Override
     public void onBindViewHolder(@NonNull OldChangeNewViewHolder holder, int position) {
         final ProductContent productContent = mOldChangeNewDatas.get(position);
-        String description = productContent.getDescription();
-        int indexStart = description.indexOf("http");
-        int indexEnd = description.indexOf(".jpg");
-        if (indexStart != -1 && indexEnd != -1) {
-            String image = description.substring(indexStart, indexEnd + 4);
-            GlideUtils.loadImage(holder.mImageView, -1, image, new CenterCrop());
-        }
+        GlideUtils.loadImage(holder.mImageView, -1, productContent.getDescriptionImage(), new CenterCrop());
         holder.mTitleTv.setText(productContent.getName());
         holder.mPriceTv.setText(String.format(holder.mPriceTv.getContext().getString(R.string.price_float), Float.parseFloat(productContent.getPrice())));
         holder.mSubTitleTv.setText(Html.fromHtml(productContent.getShort_description()));

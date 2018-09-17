@@ -309,6 +309,20 @@ public class ProductContent implements Parcelable {
         return description;
     }
 
+    public String getDescriptionImage() {
+        String image = "";
+        int indexStart = description.indexOf("http");
+        int indexEnd = description.indexOf(".jpg");
+        int indexPngEnd = description.indexOf(".png");
+        if (indexPngEnd != -1 && indexPngEnd < indexEnd) {
+            indexEnd = indexPngEnd;
+        }
+        if (indexStart != -1 && indexEnd != -1) {
+            image = description.substring(indexStart, indexEnd + 4);
+        }
+        return image;
+    }
+
     public void setDescription(String description) {
         this.description = description;
     }
