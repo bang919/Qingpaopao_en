@@ -12,6 +12,7 @@ import com.wopin.qingpaopao.adapter.WelfareBannerAdapter;
 import com.wopin.qingpaopao.bean.response.ProductBanner;
 import com.wopin.qingpaopao.bean.response.ProductContent;
 import com.wopin.qingpaopao.fragment.BaseBarDialogFragment;
+import com.wopin.qingpaopao.fragment.welfare.scoremarket.ScoreMarketContentDetailFragment;
 import com.wopin.qingpaopao.presenter.WelfarePresenter;
 import com.wopin.qingpaopao.utils.ToastUtils;
 import com.wopin.qingpaopao.widget.WelfareView;
@@ -99,11 +100,6 @@ public class OldChangeNewListFragment extends BaseBarDialogFragment<WelfarePrese
 
     @Override
     public void onItemClick(ProductContent productContent) {
-
-    }
-
-    @Override
-    public void onGotoBuyClick(ProductContent productContent) {
-
+        OldChangeNewContentDetailFragment.build(productContent).show(getChildFragmentManager(), ScoreMarketContentDetailFragment.TAG);
     }
 }

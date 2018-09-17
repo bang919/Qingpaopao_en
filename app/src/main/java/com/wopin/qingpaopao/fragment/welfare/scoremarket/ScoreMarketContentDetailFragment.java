@@ -51,12 +51,11 @@ public class ScoreMarketContentDetailFragment extends BaseBarDialogFragment<Scor
     protected void initView(View rootView) {
         mProductContent = getArguments().getParcelable(TAG);
 
-        String description = mProductContent.getDescription();
         GlideUtils.loadImage((ImageView) rootView.findViewById(R.id.iv_top_img), -1, mProductContent.getDescriptionImage(), new CenterCrop());
         ((TextView) rootView.findViewById(R.id.tv_title)).setText(mProductContent.getName());
         ((TextView) rootView.findViewById(R.id.tv_score)).setText(String.format(getString(R.string.score_number), mProductContent.getPrice()));
         ((TextView) rootView.findViewById(R.id.tv_reference_price)).setText(String.format(getString(R.string.market_reference_price_value), mProductContent.getRegular_price()));
-        ((TextView) rootView.findViewById(R.id.tv_count)).setText(String.format(getString(R.string.residue_count), 666));
+        ((TextView) rootView.findViewById(R.id.tv_count)).setText(String.format(getString(R.string.residue_count), Integer.valueOf(mProductContent.getSku())));
 
         mGoodsDetailRv = rootView.findViewById(R.id.rv_goods_detail);
         rootView.findViewById(R.id.btn_i_want_to_change).setOnClickListener(this);

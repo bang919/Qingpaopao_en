@@ -181,5 +181,8 @@
     <string name="address_detail_hint">为准确送达请具体到街道门牌号</string>
     <string name="default_address">默认</string>
     <string name="exchange_success">兑换成功</string>
+    <string name="old_cup_to_new_cup">以旧换新机型</string>
+    <string name="old_cup_to_new_cup_support">支持先拖旧后购买/先购买后拖旧</string>
+    <string name="choose_old_to_new_produce">请选择以旧换新的产品</string>
 
 </resources>

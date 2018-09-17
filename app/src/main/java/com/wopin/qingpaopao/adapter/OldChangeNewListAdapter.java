@@ -6,7 +6,6 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -52,14 +51,6 @@ public class OldChangeNewListAdapter extends RecyclerView.Adapter<OldChangeNewLi
                 }
             }
         });
-        holder.mGotoBuyBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mOldChangeNewClickListener != null) {
-                    mOldChangeNewClickListener.onGotoBuyClick(productContent);
-                }
-            }
-        });
     }
 
     @Override
@@ -73,7 +64,7 @@ public class OldChangeNewListAdapter extends RecyclerView.Adapter<OldChangeNewLi
         private TextView mTitleTv;
         private TextView mSubTitleTv;
         private TextView mPriceTv;
-        private Button mGotoBuyBtn;
+        private TextView mGotoBuyBtn;
 
         public OldChangeNewViewHolder(View itemView) {
             super(itemView);
@@ -87,7 +78,5 @@ public class OldChangeNewListAdapter extends RecyclerView.Adapter<OldChangeNewLi
 
     public interface OldChangeNewClickListener {
         void onItemClick(ProductContent productContent);
-
-        void onGotoBuyClick(ProductContent productContent);
     }
 }

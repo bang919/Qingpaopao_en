@@ -2,6 +2,7 @@ package com.wopin.qingpaopao.bean.response;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -336,7 +337,7 @@ public class ProductContent implements Parcelable {
     }
 
     public String getSku() {
-        return sku;
+        return TextUtils.isEmpty(sku) ? "0" : sku;
     }
 
     public void setSku(String sku) {
