@@ -23,7 +23,6 @@ public class ScoreMarketContentDetailFragment extends BaseBarDialogFragment<Scor
     public static final String TAG = "ScoreMarketContentDetailFragment";
     private ProductContent mProductContent;
     private RecyclerView mGoodsDetailRv;
-    private String mImage;
 
     public static ScoreMarketContentDetailFragment build(ProductContent productContent) {
         ScoreMarketContentDetailFragment scoreMarketContentDetailFragment = new ScoreMarketContentDetailFragment();
@@ -87,7 +86,7 @@ public class ScoreMarketContentDetailFragment extends BaseBarDialogFragment<Scor
 
     @Override
     public void OnBuyInformation(int number, String addressId) {
-        mPresenter.payMentScores(addressId, mProductContent.getName(), mImage, mProductContent.getId(),
+        mPresenter.payMentScores(addressId, mProductContent.getName(), mProductContent.getDescriptionImage(), mProductContent.getId(),
                 number, Integer.valueOf(mProductContent.getPrice()));
     }
 
