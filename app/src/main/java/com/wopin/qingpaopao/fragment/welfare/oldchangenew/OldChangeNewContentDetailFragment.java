@@ -61,7 +61,7 @@ public class OldChangeNewContentDetailFragment extends BaseBarDialogFragment<Old
 
         mGoodsDetailRv = rootView.findViewById(R.id.rv_goods_detail);
         rootView.findViewById(R.id.choose_old_to_new_produce).setOnClickListener(this);
-        rootView.findViewById(R.id.btn_i_want_to_change).setOnClickListener(this);
+        rootView.findViewById(R.id.btn_i_want_to_buy).setOnClickListener(this);
     }
 
     @Override
@@ -85,7 +85,7 @@ public class OldChangeNewContentDetailFragment extends BaseBarDialogFragment<Old
         switch (v.getId()) {
             case R.id.choose_old_to_new_produce:
                 break;
-            case R.id.btn_i_want_to_change:
+            case R.id.btn_i_want_to_buy:
                 break;
         }
     }

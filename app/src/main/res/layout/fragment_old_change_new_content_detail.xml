@@ -157,11 +157,11 @@
     </ScrollView>
 
     <Button
-        android:id="@+id/btn_i_want_to_change"
+        android:id="@+id/btn_i_want_to_buy"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:background="@color/colorRed"
-        android:text="@string/i_want_to_change"
+        android:text="@string/i_want_to_buy"
         android:textColor="@color/colorWhite"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"

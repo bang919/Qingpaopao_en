@@ -184,5 +184,7 @@
     <string name="old_cup_to_new_cup">以旧换新机型</string>
     <string name="old_cup_to_new_cup_support">支持先拖旧后购买/先购买后拖旧</string>
     <string name="choose_old_to_new_produce">请选择以旧换新的产品</string>
+    <string name="i_want_to_buy">我要购买</string>
+    <string name="buy_at_once">立即购买</string>
 
 </resources>
