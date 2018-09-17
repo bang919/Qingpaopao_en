@@ -205,9 +205,9 @@ public class MqttConnectManager extends ConnectManager<MqttConnectManager.MqttUp
     public void disconnectDevice() {
     }
 
-    public void switchCupElectrolyze(boolean isOn) {
+    public void switchCupElectrolyze(int time) {
         if (mCurrentMqttUpdaterBean != null) {
-            super.switchCupElectrolyze(new MqttSwitchElectrolyzeCommand(mCurrentMqttUpdaterBean.getSsid(), isOn));
+            super.switchCupElectrolyze(new MqttSwitchElectrolyzeCommand(mCurrentMqttUpdaterBean.getSsid(), time));
         }
     }
 

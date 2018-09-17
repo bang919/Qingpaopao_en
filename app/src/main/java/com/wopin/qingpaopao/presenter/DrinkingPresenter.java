@@ -148,15 +148,15 @@ public class DrinkingPresenter extends BasePresenter<DrinkingView> {
     /**
      * 开关电解
      */
-    public void switchCupElectrolyze(boolean isOn) {
+    public void switchCupElectrolyze(int time) {
         if (mCurrentOnlineCup != null) {
             if (mCurrentOnlineCup.getType().equals(CupUpdateReq.BLE)) {//Ble
-                BleConnectManager.getInstance().switchCupElectrolyze(isOn);
+                BleConnectManager.getInstance().switchCupElectrolyze(time);
             } else {//Wifi
-                MqttConnectManager.getInstance().switchCupElectrolyze(isOn);
+                MqttConnectManager.getInstance().switchCupElectrolyze(time);
             }
         }
-        if (isOn) {
+        if (time > 0) {
             mDrinkingModel.drink().subscribe();
 //            HttpUtil.handlerObserver()
         }

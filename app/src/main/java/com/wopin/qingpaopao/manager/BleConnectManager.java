@@ -153,9 +153,9 @@ public class BleConnectManager extends ConnectManager<BleConnectManager.BleUpdat
         }
     }
 
-    public void switchCupElectrolyze(boolean isOn) {
+    public void switchCupElectrolyze(int time) {
         if (mCurrentAddress != null) {
-            super.switchCupElectrolyze(new BleSwitchElectrolyzeCommand(mCurrentAddress, isOn));
+            super.switchCupElectrolyze(new BleSwitchElectrolyzeCommand(mCurrentAddress, time));
         }
     }
 

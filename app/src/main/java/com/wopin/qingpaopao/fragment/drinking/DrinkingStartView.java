@@ -133,7 +133,7 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
         if (mDrinkingPresenter != null) {
             mSwitchElectrolyzeBtn.setSelected(start);
             mSwitchElectrolyzeBtn.setText(start ? R.string.stop_electrolysis : R.string.start_electrolysis);
-            mDrinkingPresenter.switchCupElectrolyze(start);
+            mDrinkingPresenter.switchCupElectrolyze(start ? mSeekBar.getProgress() : 0);
         }
         if (start) {
             mHandler.postDelayed(mSeekbarMinusRunnable, 1000);

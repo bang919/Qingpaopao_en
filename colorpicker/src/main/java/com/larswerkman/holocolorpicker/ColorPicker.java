@@ -623,7 +623,9 @@ public class ColorPicker extends View {
                     mAngle = (float) Math.atan2(y - mSlopY, x - mSlopX);
                     mPointerColor.setColor(calculateColor(mAngle));
 
-                    setNewCenterColor(mCenterNewColor = calculateColor(mAngle));
+                    if (mOpacityBar == null && mValueBar == null && mSaturationBar == null && mSVbar == null) {
+                        setNewCenterColor(mCenterNewColor = calculateColor(mAngle));
+                    }
 
                     if (mOpacityBar != null) {
                         mOpacityBar.setColor(mColor);

@@ -14,12 +14,11 @@ public class BleColorCommand extends IColorCommand<String> {
     public void execute() {
         String colorString = getColor();
 
-        LeProxy.getInstance().send(getTarget(), DataUtil.hexToByteArray(
-                "AABBDD".concat(
-                        colorString.substring(4, 6)
-                                .concat(colorString.substring(2, 4))
-                                .concat(colorString.substring(0, 2))
-                ).concat("DDAA")
-        ));
+        String color = "AABBDD".concat(
+                colorString.substring(4, 6)
+                        .concat(colorString.substring(2, 4))
+                        .concat(colorString.substring(0, 2))
+        ).concat("DDAA");
+        LeProxy.getInstance().send(getTarget(), DataUtil.hexToByteArray(color));
     }
 }
