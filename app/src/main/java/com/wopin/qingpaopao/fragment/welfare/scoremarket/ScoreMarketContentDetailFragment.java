@@ -20,6 +20,7 @@ import com.wopin.qingpaopao.presenter.ScoreMarketContentDetailPresenter;
 import com.wopin.qingpaopao.utils.GlideUtils;
 import com.wopin.qingpaopao.utils.ToastUtils;
 import com.wopin.qingpaopao.view.ScoreMarketContentDetailView;
+import com.wopin.qingpaopao.widget.RecyclerViewAdDotLayout;
 
 import java.util.ArrayList;
 
@@ -28,6 +29,7 @@ public class ScoreMarketContentDetailFragment extends BaseBarDialogFragment<Scor
     public static final String TAG = "ScoreMarketContentDetailFragment";
     private ProductContent mProductContent;
     private RecyclerView mGoodsDetailRv;
+    private RecyclerViewAdDotLayout mRecyclerViewAdDotLayout;
 
     public static ScoreMarketContentDetailFragment build(ProductContent productContent) {
         ScoreMarketContentDetailFragment scoreMarketContentDetailFragment = new ScoreMarketContentDetailFragment();
@@ -74,6 +76,7 @@ public class ScoreMarketContentDetailFragment extends BaseBarDialogFragment<Scor
         ((TextView) rootView.findViewById(R.id.tv_count)).setText(String.format(getString(R.string.residue_count), Integer.valueOf(mProductContent.getSku())));
 
         mGoodsDetailRv = rootView.findViewById(R.id.rv_goods_top_detail);
+        mRecyclerViewAdDotLayout = rootView.findViewById(R.id.rv_advertising_decorate);
         rootView.findViewById(R.id.btn_i_want_to_change).setOnClickListener(this);
     }
 
@@ -84,6 +87,8 @@ public class ScoreMarketContentDetailFragment extends BaseBarDialogFragment<Scor
         ScoreMarketContentDetailAdapter scoreMarketContentDetailAdapter = new ScoreMarketContentDetailAdapter();
         scoreMarketContentDetailAdapter.setScoreMarketContentDetails(mProductContent.getImages());
         mGoodsDetailRv.setAdapter(scoreMarketContentDetailAdapter);
+        mRecyclerViewAdDotLayout.attendToRecyclerView(mGoodsDetailRv);
+        mRecyclerViewAdDotLayout.setDotCount(mProductContent.getImages().size());
         PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
         pagerSnapHelper.attachToRecyclerView(mGoodsDetailRv);
     }

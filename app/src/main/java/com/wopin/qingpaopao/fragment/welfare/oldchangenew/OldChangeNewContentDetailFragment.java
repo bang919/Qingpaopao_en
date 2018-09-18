@@ -24,6 +24,7 @@ import com.wopin.qingpaopao.presenter.OldChangeNewContentDetailPresenter;
 import com.wopin.qingpaopao.utils.GlideUtils;
 import com.wopin.qingpaopao.utils.ToastUtils;
 import com.wopin.qingpaopao.view.OldChangeNewContentDetailView;
+import com.wopin.qingpaopao.widget.RecyclerViewAdDotLayout;
 
 import java.util.ArrayList;
 
@@ -34,6 +35,7 @@ public class OldChangeNewContentDetailFragment extends BaseBarDialogFragment<Old
     private ProductContent mOldProduct;
     private RecyclerView mGoodsDetailRv;
     private Spinner mChooseOldSpinner;
+    private RecyclerViewAdDotLayout mRecyclerViewAdDotLayout;
 
     public static OldChangeNewContentDetailFragment build(ProductContent productContent) {
         OldChangeNewContentDetailFragment oldChangeNewContentDetailFragment = new OldChangeNewContentDetailFragment();
@@ -82,6 +84,7 @@ public class OldChangeNewContentDetailFragment extends BaseBarDialogFragment<Old
 
         mGoodsDetailRv = rootView.findViewById(R.id.rv_goods_top_detail);
         mChooseOldSpinner = rootView.findViewById(R.id.choose_old_to_new_produce);
+        mRecyclerViewAdDotLayout = rootView.findViewById(R.id.rv_advertising_decorate);
         rootView.findViewById(R.id.btn_i_want_to_buy).setOnClickListener(this);
     }
 
@@ -92,6 +95,8 @@ public class OldChangeNewContentDetailFragment extends BaseBarDialogFragment<Old
         ScoreMarketContentDetailAdapter scoreMarketContentDetailAdapter = new ScoreMarketContentDetailAdapter();
         scoreMarketContentDetailAdapter.setScoreMarketContentDetails(mProductContent.getImages());
         mGoodsDetailRv.setAdapter(scoreMarketContentDetailAdapter);
+        mRecyclerViewAdDotLayout.attendToRecyclerView(mGoodsDetailRv);
+        mRecyclerViewAdDotLayout.setDotCount(mProductContent.getImages().size());
         PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
         pagerSnapHelper.attachToRecyclerView(mGoodsDetailRv);
 
