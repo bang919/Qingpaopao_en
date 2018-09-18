@@ -4,7 +4,7 @@ package com.wopin.qingpaopao.http;
 import com.wopin.qingpaopao.bean.request.AddressBean;
 import com.wopin.qingpaopao.bean.request.CupUpdateReq;
 import com.wopin.qingpaopao.bean.request.LoginReq;
-import com.wopin.qingpaopao.bean.request.ScoreMarketPayment;
+import com.wopin.qingpaopao.bean.request.PaymentBean;
 import com.wopin.qingpaopao.bean.request.ThirdReq;
 import com.wopin.qingpaopao.bean.response.CrowdfundingOrderTotalRsp;
 import com.wopin.qingpaopao.bean.response.CupListRsp;
@@ -127,5 +127,8 @@ public interface ApiInterface {
     Observable<NormalRsp> setDefaultAddress(@Body AddressBean addressBean);
 
     @POST("goods/payMentScores")
-    Observable<NormalRsp> payMentScores(@Body ScoreMarketPayment scoreMarketPayment);
+    Observable<NormalRsp> payMentScores(@Body PaymentBean paymentBean);
+
+    @POST("goods/payMentExchange")
+    Observable<NormalRsp> payMentExchange(@Body PaymentBean paymentBean);
 }

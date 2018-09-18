@@ -8,7 +8,7 @@
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_i_want_to_change"
+        app:layout_constraintBottom_toTopOf="@+id/btn_i_want_to_buy"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -17,8 +17,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/iv_top_img"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_goods_top_detail"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 app:layout_constraintDimensionRatio="1:1"
@@ -36,7 +36,7 @@
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/iv_top_img" />
+                app:layout_constraintTop_toBottomOf="@id/rv_goods_top_detail" />
 
             <TextView
                 android:id="@+id/tv_subtitle"
@@ -96,7 +96,7 @@
                 app:layout_constraintBottom_toBottomOf="@id/tv_old"
                 app:layout_constraintRight_toRightOf="@id/tv_count" />
 
-            <TextView
+            <Spinner
                 android:id="@+id/choose_old_to_new_produce"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -104,10 +104,8 @@
                 android:background="@drawable/bg_white2_radius10"
                 android:paddingBottom="5dp"
                 android:paddingLeft="15dp"
+                android:paddingRight="15dp"
                 android:paddingTop="5dp"
-                android:text="@string/choose_old_to_new_produce"
-                android:textColor="@color/colorBlack"
-                android:textSize="16sp"
                 app:layout_constraintLeft_toLeftOf="@id/tv_old"
                 app:layout_constraintRight_toRightOf="@id/tv_count"
                 app:layout_constraintTop_toBottomOf="@id/tv_old" />
@@ -142,13 +140,13 @@
                 app:layout_constraintLeft_toLeftOf="@id/tv_price"
                 app:layout_constraintTop_toBottomOf="@id/line2" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rv_goods_detail"
+            <LinearLayout
+                android:id="@+id/rv_goods_detail_linearlayout"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:orientation="vertical"
                 android:paddingBottom="1dp"
-                app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_goods_detail" />

@@ -24,9 +24,9 @@ import com.wopin.qingpaopao.utils.ToastUtils;
 
 import java.util.ArrayList;
 
-public class BuyInformationDialog extends DialogFragment implements View.OnClickListener, AddressListFragment.AddressListClickCallback {
+public class EnchangeScoreMarketProduceDialog extends DialogFragment implements View.OnClickListener, AddressListFragment.AddressListClickCallback {
 
-    public static final String TAG = "BuyInformationDialog";
+    public static final String TAG = "EnchangeScoreMarketProduceDialog";
     private View mRootView;
     private TextView mBuyCountTv;
     private int mBuyCount;
@@ -35,12 +35,12 @@ public class BuyInformationDialog extends DialogFragment implements View.OnClick
     private BuyInformationDialogCallback mBuyInformationDialogCallback;
     private ProductContent mProductContent;
 
-    public static BuyInformationDialog build(ProductContent productContent) {
-        BuyInformationDialog buyInformationDialog = new BuyInformationDialog();
+    public static EnchangeScoreMarketProduceDialog build(ProductContent productContent) {
+        EnchangeScoreMarketProduceDialog enchangeScoreMarketProduceDialog = new EnchangeScoreMarketProduceDialog();
         Bundle args = new Bundle();
         args.putParcelable(TAG, productContent);
-        buyInformationDialog.setArguments(args);
-        return buyInformationDialog;
+        enchangeScoreMarketProduceDialog.setArguments(args);
+        return enchangeScoreMarketProduceDialog;
     }
 
     public void setBuyInformationDialogCallback(BuyInformationDialogCallback buyInformationDialogCallback) {
@@ -64,7 +64,7 @@ public class BuyInformationDialog extends DialogFragment implements View.OnClick
         lp.gravity = Gravity.BOTTOM;
         window.setAttributes(lp);
 
-        mRootView = inflater.inflate(R.layout.dialog_buy_information, container, false);
+        mRootView = inflater.inflate(R.layout.dialog_enchange_score_market_produce, container, false);
         mBuyCountTv = mRootView.findViewById(R.id.tv_number);
         mBuyCount = Integer.valueOf(mBuyCountTv.getText().toString());
         mAddressTv = mRootView.findViewById(R.id.tv_receiver_address_value);

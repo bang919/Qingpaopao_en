@@ -1,6 +1,6 @@
 package com.wopin.qingpaopao.bean.request;
 
-public class ScoreMarketPayment {
+public class PaymentBean {
 
     /**
      * addressId : aabc
@@ -17,6 +17,7 @@ public class ScoreMarketPayment {
     private int goodsId;
     private int num;
     private int singlePrice;
+    private int offerPrice;
 
     public String getAddressId() {
         return addressId;
@@ -64,5 +65,13 @@ public class ScoreMarketPayment {
 
     public void setSinglePrice(int singlePrice) {
         this.singlePrice = singlePrice;
+    }
+
+    public int getOfferPrice() {
+        return offerPrice;
+    }
+
+    public void setOfferPrice(int offerPrice) {
+        this.offerPrice = offerPrice;
     }
 }

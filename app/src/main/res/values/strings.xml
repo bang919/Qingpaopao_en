@@ -154,6 +154,7 @@
     <string name="known_error">未知错误</string>
     <string name="score_change">积分兑换：%s积分</string>
     <string name="score_number">%s积分</string>
+    <string name="price_number">%s元</string>
     <string name="residue_count">剩余%d件</string>
     <string name="market_reference_price_value">市场参考价值：%s元</string>
     <string name="commodity_details">商品详情</string>
@@ -181,10 +182,12 @@
     <string name="address_detail_hint">为准确送达请具体到街道门牌号</string>
     <string name="default_address">默认</string>
     <string name="exchange_success">兑换成功</string>
-    <string name="old_cup_to_new_cup">以旧换新机型</string>
+    <string name="buy_success">购买成功</string>
+    <string name="old_cup_to_new_cup">选择以旧换新机型</string>
     <string name="old_cup_to_new_cup_support">支持先拖旧后购买/先购买后拖旧</string>
-    <string name="choose_old_to_new_produce">请选择以旧换新的产品</string>
+    <string name="choose_old_to_new_produce">&lt;&#8212;&#8212; 未选择 &#8212;&#8212;&gt;</string>
     <string name="i_want_to_buy">我要购买</string>
     <string name="buy_at_once">立即购买</string>
+    <string name="produce_price">产品价格</string>
 
 </resources>

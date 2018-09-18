@@ -1,15 +1,21 @@
 package com.wopin.qingpaopao.fragment.welfare.oldchangenew;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.CenterInside;
 import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.adapter.ScoreMarketContentDetailAdapter;
 import com.wopin.qingpaopao.bean.response.ProductContent;
@@ -19,11 +25,15 @@ import com.wopin.qingpaopao.utils.GlideUtils;
 import com.wopin.qingpaopao.utils.ToastUtils;
 import com.wopin.qingpaopao.view.OldChangeNewContentDetailView;
 
-public class OldChangeNewContentDetailFragment extends BaseBarDialogFragment<OldChangeNewContentDetailPresenter> implements OldChangeNewContentDetailView, View.OnClickListener {
+import java.util.ArrayList;
+
+public class OldChangeNewContentDetailFragment extends BaseBarDialogFragment<OldChangeNewContentDetailPresenter> implements OldChangeNewContentDetailView, View.OnClickListener, BuyOldChangeNewProduceDialog.BuyOldChangeNewCallback {
 
     public static final String TAG = "OldChangeNewContentDetailFragment";
     private ProductContent mProductContent;
+    private ProductContent mOldProduct;
     private RecyclerView mGoodsDetailRv;
+    private Spinner mChooseOldSpinner;
 
     public static OldChangeNewContentDetailFragment build(ProductContent productContent) {
         OldChangeNewContentDetailFragment oldChangeNewContentDetailFragment = new OldChangeNewContentDetailFragment();
@@ -52,15 +62,26 @@ public class OldChangeNewContentDetailFragment extends BaseBarDialogFragment<Old
     protected void initView(View rootView) {
         mProductContent = getArguments().getParcelable(TAG);
 
-        GlideUtils.loadImage((ImageView) rootView.findViewById(R.id.iv_top_img), -1, mProductContent.getDescriptionImage(), new CenterCrop());
+        ArrayList<String> descriptionImage = mProductContent.getDescriptionImage();
+        LinearLayout detailLinearLayout = rootView.findViewById(R.id.rv_goods_detail_linearlayout);
+        WindowManager wm = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+        int width = wm.getDefaultDisplay().getWidth();
+        for (final String image : descriptionImage) {
+            final ImageView imageView = new ImageView(getContext());
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(width, width);
+            imageView.setLayoutParams(layoutParams);
+            detailLinearLayout.addView(imageView);
+            GlideUtils.loadImage(imageView, -1, image, new CenterInside());
+        }
+
         ((TextView) rootView.findViewById(R.id.tv_title)).setText(mProductContent.getName());
         ((TextView) rootView.findViewById(R.id.tv_subtitle)).setText(Html.fromHtml(mProductContent.getShort_description()));
         ((TextView) rootView.findViewById(R.id.tv_price)).setText(String.format(getString(R.string.score_number), mProductContent.getPrice()));
         ((TextView) rootView.findViewById(R.id.tv_count)).setText(String.format(getString(R.string.residue_count),
                 Integer.valueOf(mProductContent.getSku())));
 
-        mGoodsDetailRv = rootView.findViewById(R.id.rv_goods_detail);
-        rootView.findViewById(R.id.choose_old_to_new_produce).setOnClickListener(this);
+        mGoodsDetailRv = rootView.findViewById(R.id.rv_goods_top_detail);
+        mChooseOldSpinner = rootView.findViewById(R.id.choose_old_to_new_produce);
         rootView.findViewById(R.id.btn_i_want_to_buy).setOnClickListener(this);
     }
 
@@ -73,20 +94,62 @@ public class OldChangeNewContentDetailFragment extends BaseBarDialogFragment<Old
         mGoodsDetailRv.setAdapter(scoreMarketContentDetailAdapter);
         PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
         pagerSnapHelper.attachToRecyclerView(mGoodsDetailRv);
+
+        setLoadingVisibility(true);
+        mPresenter.getOldGoodList();
+    }
+
+    @Override
+    public void onOldGoodsList(final ArrayList<ProductContent> oldGoodsList) {
+        setLoadingVisibility(false);
+        ArrayList<String> datas = new ArrayList<>();
+        datas.add(getString(R.string.choose_old_to_new_produce));
+        for (ProductContent productContent : oldGoodsList) {
+            datas.add(productContent.getName() + " " + productContent.getPrice() + "元");
+        }
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, datas);
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mChooseOldSpinner.setAdapter(arrayAdapter);
+        mChooseOldSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position != 0) {
+                    mOldProduct = oldGoodsList.get(position - 1);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+    @Override
+    public void onPayMentExchangeSubmit() {
+        ToastUtils.showShort(R.string.buy_success);
+        dismiss();
     }
 
     @Override
     public void onError(String errorSting) {
+        setLoadingVisibility(false);
         ToastUtils.showShort(errorSting);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.choose_old_to_new_produce:
-                break;
             case R.id.btn_i_want_to_buy:
+                BuyOldChangeNewProduceDialog build = BuyOldChangeNewProduceDialog.build(mProductContent, mOldProduct);
+                build.setBuyOldChangeNewCallback(this);
+                build.show(getChildFragmentManager(), BuyOldChangeNewProduceDialog.TAG);
                 break;
         }
+    }
+
+    @Override
+    public void OnBuyInformation(int number, String addressId) {
+        mPresenter.payMentExchange(addressId, mProductContent.getName(), mProductContent.getDescriptionImage().size() == 0 ? null : mProductContent.getDescriptionImage().get(0), mProductContent.getId(), number, Integer.valueOf(mProductContent.getPrice()), mOldProduct == null ? 0 : Integer.valueOf(mOldProduct.getPrice()));
     }
 }

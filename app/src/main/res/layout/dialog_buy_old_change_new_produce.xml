@@ -41,10 +41,10 @@
 
     <TextView
         android:id="@+id/btn_add"
-        android:layout_width="30dp"
+        android:layout_width="35dp"
         android:layout_height="30dp"
         android:layout_marginRight="15dp"
-        android:background="@drawable/bg_circle_stroke_black"
+        android:background="@drawable/shape_count_btn_right_radius"
         android:gravity="center"
         android:text="+"
         android:textColor="@color/colorBlack"
@@ -56,7 +56,8 @@
     <TextView
         android:id="@+id/tv_number"
         android:layout_width="50dp"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
+        android:background="@drawable/shape_count_btn_middle"
         android:gravity="center"
         android:text="1"
         android:textColor="@color/colorBlack"
@@ -67,9 +68,9 @@
 
     <TextView
         android:id="@+id/btn_minus"
-        android:layout_width="30dp"
+        android:layout_width="35dp"
         android:layout_height="30dp"
-        android:background="@drawable/bg_circle_stroke_black"
+        android:background="@drawable/shape_count_btn_left_radius"
         android:gravity="center"
         android:text="-"
         android:textColor="@color/colorBlack"
@@ -79,26 +80,49 @@
         app:layout_constraintTop_toTopOf="@id/tv_buy_count" />
 
     <TextView
-        android:id="@+id/tv_own_score_key"
+        android:id="@+id/tv_produce_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:text="@string/own_score"
+        android:text="@string/produce_price"
         android:textColor="@color/colorBlack"
         android:textSize="18sp"
         app:layout_constraintLeft_toLeftOf="@id/tv_buy_count"
         app:layout_constraintTop_toBottomOf="@id/tv_buy_count" />
 
     <TextView
-        android:id="@+id/tv_own_score_value"
+        android:id="@+id/tv_produce_price_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="15dp"
-        android:text="@string/score"
+        android:text="@string/price_number"
         android:textColor="@color/colorBlack"
         android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="@id/tv_own_score_key"
+        app:layout_constraintBottom_toBottomOf="@id/tv_produce_price"
+        app:layout_constraintRight_toRightOf="@id/btn_add" />
+
+    <TextView
+        android:id="@+id/tv_old_change_new_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:text="@string/old_change_new"
+        android:textColor="@color/colorBlack"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="@id/tv_buy_count"
+        app:layout_constraintTop_toBottomOf="@id/tv_produce_price" />
+
+    <TextView
+        android:id="@+id/tv_old_change_new_price_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:text="@string/price_number"
+        android:textColor="@color/colorBlack"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_old_change_new_price"
         app:layout_constraintRight_toRightOf="@id/btn_add" />
 
     <TextView
@@ -109,8 +133,8 @@
         android:text="@string/receiver_address"
         android:textColor="@color/colorBlack"
         android:textSize="18sp"
-        app:layout_constraintLeft_toLeftOf="@id/tv_own_score_key"
-        app:layout_constraintTop_toBottomOf="@id/tv_own_score_key" />
+        app:layout_constraintLeft_toLeftOf="@id/tv_old_change_new_price"
+        app:layout_constraintTop_toBottomOf="@id/tv_old_change_new_price" />
 
     <TextView
         android:id="@+id/tv_receiver_address_value"
@@ -125,7 +149,7 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@id/tv_receiver_address_key"
         app:layout_constraintLeft_toRightOf="@id/tv_receiver_address_key"
-        app:layout_constraintRight_toRightOf="@id/tv_own_score_value"
+        app:layout_constraintRight_toRightOf="@id/tv_produce_price_value"
         app:layout_constraintTop_toTopOf="@id/tv_receiver_address_key" />
 
     <ImageView
@@ -146,7 +170,7 @@
         android:text="@string/need_pay"
         android:textColor="@color/colorBlack"
         android:textSize="18sp"
-        app:layout_constraintLeft_toLeftOf="@id/tv_own_score_key"
+        app:layout_constraintLeft_toLeftOf="@id/tv_produce_price"
         app:layout_constraintTop_toBottomOf="@id/tv_receiver_address_key" />
 
     <TextView
@@ -160,12 +184,12 @@
         app:layout_constraintLeft_toRightOf="@id/tv_need_pay_key" />
 
     <Button
-        android:id="@+id/btn_change_at_once"
+        android:id="@+id/btn_buy_at_once"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginTop="20dp"
         android:background="@color/colorRed"
-        android:text="@string/change_at_once"
+        android:text="@string/buy_at_once"
         android:textColor="@color/colorWhite"
         android:textSize="20sp"
         app:layout_constraintLeft_toLeftOf="parent"

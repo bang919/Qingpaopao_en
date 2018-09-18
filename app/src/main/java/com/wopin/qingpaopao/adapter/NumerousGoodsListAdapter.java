@@ -56,7 +56,7 @@ public class NumerousGoodsListAdapter extends RecyclerView.Adapter<NumerousGoods
             ((Disposable) tag).dispose();
         }
         final ProductContent productContent = mOldChangeNewDatas.get(position);
-        GlideUtils.loadImage(holder.mImageView, -1, productContent.getDescriptionImage(), new CenterCrop());
+        GlideUtils.loadImage(holder.mImageView, -1, productContent.getDescriptionImage().size() == 0 ? null : productContent.getDescriptionImage().get(0), new CenterCrop());
         holder.mTitleTv.setText(productContent.getName());
         List<ProductContent.AttributeBean> attributes = productContent.getAttributes();
         if (attributes != null && attributes.size() > 0) {

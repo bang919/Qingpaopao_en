@@ -147,6 +147,7 @@ public class ProductContent implements Parcelable {
     private List<?> variations;
     private List<?> grouped_products;
     private List<MetaDataBean> meta_data;
+    private ArrayList<String> descriptionImages;
 
     protected ProductContent(Parcel in) {
         id = in.readInt();
@@ -196,6 +197,64 @@ public class ProductContent implements Parcelable {
         parent_id = in.readInt();
         purchase_note = in.readString();
         menu_order = in.readInt();
+        descriptionImages = in.createStringArrayList();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(name);
+        dest.writeString(slug);
+        dest.writeString(permalink);
+        dest.writeString(date_created);
+        dest.writeString(date_created_gmt);
+        dest.writeString(date_modified);
+        dest.writeString(date_modified_gmt);
+        dest.writeString(type);
+        dest.writeString(status);
+        dest.writeByte((byte) (featured ? 1 : 0));
+        dest.writeString(catalog_visibility);
+        dest.writeString(description);
+        dest.writeString(short_description);
+        dest.writeString(sku);
+        dest.writeString(price);
+        dest.writeString(regular_price);
+        dest.writeString(sale_price);
+        dest.writeString(price_html);
+        dest.writeByte((byte) (on_sale ? 1 : 0));
+        dest.writeByte((byte) (purchasable ? 1 : 0));
+        dest.writeInt(total_sales);
+        dest.writeByte((byte) (virtual ? 1 : 0));
+        dest.writeByte((byte) (downloadable ? 1 : 0));
+        dest.writeInt(download_limit);
+        dest.writeInt(download_expiry);
+        dest.writeString(external_url);
+        dest.writeString(button_text);
+        dest.writeString(tax_status);
+        dest.writeString(tax_class);
+        dest.writeByte((byte) (manage_stock ? 1 : 0));
+        dest.writeByte((byte) (in_stock ? 1 : 0));
+        dest.writeString(backorders);
+        dest.writeByte((byte) (backorders_allowed ? 1 : 0));
+        dest.writeByte((byte) (backordered ? 1 : 0));
+        dest.writeByte((byte) (sold_individually ? 1 : 0));
+        dest.writeString(weight);
+        dest.writeByte((byte) (shipping_required ? 1 : 0));
+        dest.writeByte((byte) (shipping_taxable ? 1 : 0));
+        dest.writeString(shipping_class);
+        dest.writeInt(shipping_class_id);
+        dest.writeByte((byte) (reviews_allowed ? 1 : 0));
+        dest.writeString(average_rating);
+        dest.writeInt(rating_count);
+        dest.writeInt(parent_id);
+        dest.writeString(purchase_note);
+        dest.writeInt(menu_order);
+        dest.writeStringList(descriptionImages);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<ProductContent> CREATOR = new Creator<ProductContent>() {
@@ -310,18 +369,30 @@ public class ProductContent implements Parcelable {
         return description;
     }
 
-    public String getDescriptionImage() {
-        String image = "";
-        int indexStart = description.indexOf("http");
-        int indexEnd = description.indexOf(".jpg");
-        int indexPngEnd = description.indexOf(".png");
-        if (indexPngEnd != -1 && indexPngEnd < indexEnd) {
-            indexEnd = indexPngEnd;
+    public void initDescriptionImages() {
+        descriptionImages = new ArrayList<>();
+        int indexStart;
+        while ((indexStart = description.indexOf("http")) > 0) {
+            String image = "";
+
+            int indexEnd = description.indexOf(".jpg");
+            int indexPngEnd = description.indexOf(".png");
+            if (indexPngEnd != -1 && indexPngEnd < indexEnd) {
+                indexEnd = indexPngEnd;
+            }
+            if (indexEnd != -1) {
+                image = description.substring(indexStart, indexEnd + 4);
+            }
+            descriptionImages.add(image);
+            description = description.substring(indexEnd + 4);
         }
-        if (indexStart != -1 && indexEnd != -1) {
-            image = description.substring(indexStart, indexEnd + 4);
+    }
+
+    public ArrayList<String> getDescriptionImage() {
+        if (descriptionImages == null) {
+            initDescriptionImages();
         }
-        return image;
+        return descriptionImages;
     }
 
     public void setDescription(String description) {
@@ -750,62 +821,6 @@ public class ProductContent implements Parcelable {
 
     public void setMeta_data(List<MetaDataBean> meta_data) {
         this.meta_data = meta_data;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(id);
-        dest.writeString(name);
-        dest.writeString(slug);
-        dest.writeString(permalink);
-        dest.writeString(date_created);
-        dest.writeString(date_created_gmt);
-        dest.writeString(date_modified);
-        dest.writeString(date_modified_gmt);
-        dest.writeString(type);
-        dest.writeString(status);
-        dest.writeByte((byte) (featured ? 1 : 0));
-        dest.writeString(catalog_visibility);
-        dest.writeString(description);
-        dest.writeString(short_description);
-        dest.writeString(sku);
-        dest.writeString(price);
-        dest.writeString(regular_price);
-        dest.writeString(sale_price);
-        dest.writeString(price_html);
-        dest.writeByte((byte) (on_sale ? 1 : 0));
-        dest.writeByte((byte) (purchasable ? 1 : 0));
-        dest.writeInt(total_sales);
-        dest.writeByte((byte) (virtual ? 1 : 0));
-        dest.writeByte((byte) (downloadable ? 1 : 0));
-        dest.writeInt(download_limit);
-        dest.writeInt(download_expiry);
-        dest.writeString(external_url);
-        dest.writeString(button_text);
-        dest.writeString(tax_status);
-        dest.writeString(tax_class);
-        dest.writeByte((byte) (manage_stock ? 1 : 0));
-        dest.writeByte((byte) (in_stock ? 1 : 0));
-        dest.writeString(backorders);
-        dest.writeByte((byte) (backorders_allowed ? 1 : 0));
-        dest.writeByte((byte) (backordered ? 1 : 0));
-        dest.writeByte((byte) (sold_individually ? 1 : 0));
-        dest.writeString(weight);
-        dest.writeByte((byte) (shipping_required ? 1 : 0));
-        dest.writeByte((byte) (shipping_taxable ? 1 : 0));
-        dest.writeString(shipping_class);
-        dest.writeInt(shipping_class_id);
-        dest.writeByte((byte) (reviews_allowed ? 1 : 0));
-        dest.writeString(average_rating);
-        dest.writeInt(rating_count);
-        dest.writeInt(parent_id);
-        dest.writeString(purchase_note);
-        dest.writeInt(menu_order);
     }
 
     public static class DimensionsBean {

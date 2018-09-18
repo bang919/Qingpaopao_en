@@ -8,10 +8,10 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class ScoreMarketContentDetailModel {
+public class OldChangeNewContentDetailModel {
 
-    public Observable<NormalRsp> payMentScores(PaymentBean paymentBean) {
-        return HttpClient.getApiInterface().payMentScores(paymentBean)
+    public Observable<NormalRsp> payMentExchange(PaymentBean paymentBean) {
+        return HttpClient.getApiInterface().payMentExchange(paymentBean)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
