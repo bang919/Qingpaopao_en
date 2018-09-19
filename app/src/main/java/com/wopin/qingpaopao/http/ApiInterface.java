@@ -106,10 +106,10 @@ public interface ApiInterface {
     @POST("users/attendance")
     Observable<NormalRsp> attendance();
 
-    @POST("http://172.16.0.123/wopin_wifi")
+    @POST("http://172.16.0.1/wopin_wifi")
     Observable<String> getWifiList(@Body RequestBody requestBody);
 
-    @POST("http://172.16.0.123/wopin_wifi")
+    @POST("http://172.16.0.1/wopin_wifi")
     Observable<String> sendWifiConfigToCup(@Body RequestBody requestBody);
 
     @GET("https://wifi.h2popo.com/wp-json/wc/v2/products/categories/{id}?consumer_key=ck_ba448661d94412faeaf3b8ab899b9294a967865c&consumer_secret=cs_45a5c655c2b07589e93a0466674af4afd4ef4abe")
