@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.wopin.qingpaopao.R;
-import com.wopin.qingpaopao.bean.response.CrowdfundingOrderTotalRsp;
+import com.wopin.qingpaopao.bean.response.CrowdfundingOrderTotalMoneyRsp;
 import com.wopin.qingpaopao.bean.response.ProductContent;
 import com.wopin.qingpaopao.model.WelfareModel;
 import com.wopin.qingpaopao.utils.GlideUtils;
@@ -24,38 +24,38 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class NumerousGoodsListAdapter extends RecyclerView.Adapter<NumerousGoodsListAdapter.OldChangeNewViewHolder> {
+public class CrowdFundingListAdapter extends RecyclerView.Adapter<CrowdFundingListAdapter.CrowdFundingViewHolder> {
 
-    private ArrayList<ProductContent> mOldChangeNewDatas;
-    private OldChangeNewClickListener mOldChangeNewClickListener;
+    private ArrayList<ProductContent> mCrowdFundingDatas;
+    private CrowdFundingListAdapterCallback mCrowdFundingListAdapterCallback;
     private WelfareModel mWelfareModel;
 
-    public NumerousGoodsListAdapter() {
+    public CrowdFundingListAdapter() {
         mWelfareModel = new WelfareModel();
     }
 
-    public void setOldChangeNewDatas(ArrayList<ProductContent> oldChangeNewDatas) {
-        mOldChangeNewDatas = oldChangeNewDatas;
+    public void setCrowdFundingDatas(ArrayList<ProductContent> numberousGoodsDatas) {
+        mCrowdFundingDatas = numberousGoodsDatas;
         notifyDataSetChanged();
     }
 
-    public void setOldChangeNewClickListener(OldChangeNewClickListener oldChangeNewClickListener) {
-        mOldChangeNewClickListener = oldChangeNewClickListener;
+    public void setCrowdFundingListAdapterCallback(CrowdFundingListAdapterCallback crowdFundingListAdapterCallback) {
+        mCrowdFundingListAdapterCallback = crowdFundingListAdapterCallback;
     }
 
     @NonNull
     @Override
-    public OldChangeNewViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new OldChangeNewViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rv_numerous_goods_list, parent, false));
+    public CrowdFundingViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new CrowdFundingViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_rv_crowd_funding_list, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final OldChangeNewViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final CrowdFundingViewHolder holder, int position) {
         Object tag = holder.itemView.getTag();
         if (tag != null && tag instanceof Disposable) {
             ((Disposable) tag).dispose();
         }
-        final ProductContent productContent = mOldChangeNewDatas.get(position);
+        final ProductContent productContent = mCrowdFundingDatas.get(position);
         GlideUtils.loadImage(holder.mImageView, -1, productContent.getDescriptionImage().size() == 0 ? null : productContent.getDescriptionImage().get(0), new CenterCrop());
         holder.mTitleTv.setText(productContent.getName());
         List<ProductContent.AttributeBean> attributes = productContent.getAttributes();
@@ -66,8 +66,8 @@ public class NumerousGoodsListAdapter extends RecyclerView.Adapter<NumerousGoods
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mOldChangeNewClickListener != null) {
-                    mOldChangeNewClickListener.onItemClick(productContent);
+                if (mCrowdFundingListAdapterCallback != null) {
+                    mCrowdFundingListAdapterCallback.onItemClick(productContent);
                 }
             }
         });
@@ -76,17 +76,17 @@ public class NumerousGoodsListAdapter extends RecyclerView.Adapter<NumerousGoods
         mWelfareModel.crowdfundingOrderTotalMoney(productContent.getId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<CrowdfundingOrderTotalRsp>() {
+                .subscribe(new Observer<CrowdfundingOrderTotalMoneyRsp>() {
                     @Override
                     public void onSubscribe(Disposable d) {
                         holder.itemView.setTag(d);
                     }
 
                     @Override
-                    public void onNext(CrowdfundingOrderTotalRsp crowdfundingOrderTotalRsp) {
-                        if (holder.mProgressBar.getContext() != null && crowdfundingOrderTotalRsp.getResult() != null) {
+                    public void onNext(CrowdfundingOrderTotalMoneyRsp crowdfundingOrderTotalMoneyRsp) {
+                        if (holder.mProgressBar.getContext() != null && crowdfundingOrderTotalMoneyRsp.getResult() != null) {
                             float currentPrice = 0;
-                            for (CrowdfundingOrderTotalRsp.ResultBean r : crowdfundingOrderTotalRsp.getResult()) {
+                            for (CrowdfundingOrderTotalMoneyRsp.ResultBean r : crowdfundingOrderTotalMoneyRsp.getResult()) {
                                 currentPrice += r.getTotalPrice();
                             }
                             float percent = currentPrice / Float.valueOf(productContent.getPrice()) * 100;
@@ -111,10 +111,10 @@ public class NumerousGoodsListAdapter extends RecyclerView.Adapter<NumerousGoods
 
     @Override
     public int getItemCount() {
-        return mOldChangeNewDatas == null ? 0 : mOldChangeNewDatas.size();
+        return mCrowdFundingDatas == null ? 0 : mCrowdFundingDatas.size();
     }
 
-    class OldChangeNewViewHolder extends RecyclerView.ViewHolder {
+    class CrowdFundingViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView mImageView;
         private TextView mTitleTv;
@@ -122,7 +122,7 @@ public class NumerousGoodsListAdapter extends RecyclerView.Adapter<NumerousGoods
         private TextView mPriceTv;
         private TextView mPercentTv;
 
-        public OldChangeNewViewHolder(View itemView) {
+        public CrowdFundingViewHolder(View itemView) {
             super(itemView);
             mImageView = itemView.findViewById(R.id.iv_item);
             mTitleTv = itemView.findViewById(R.id.tv_title);
@@ -132,9 +132,7 @@ public class NumerousGoodsListAdapter extends RecyclerView.Adapter<NumerousGoods
         }
     }
 
-    public interface OldChangeNewClickListener {
+    public interface CrowdFundingListAdapterCallback {
         void onItemClick(ProductContent productContent);
-
-        void onGotoBuyClick(ProductContent productContent);
     }
 }

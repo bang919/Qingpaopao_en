@@ -13,7 +13,7 @@ import com.wopin.qingpaopao.adapter.WelfareBannerAdapter;
 import com.wopin.qingpaopao.bean.response.ProductBanner;
 import com.wopin.qingpaopao.bean.response.ProductContent;
 import com.wopin.qingpaopao.fragment.BaseMainFragment;
-import com.wopin.qingpaopao.fragment.welfare.numerousgoods.NumerousGoodsListFragment;
+import com.wopin.qingpaopao.fragment.welfare.crowdfunding.CrowdFundingListFragment;
 import com.wopin.qingpaopao.fragment.welfare.oldchangenew.OldChangeNewListFragment;
 import com.wopin.qingpaopao.fragment.welfare.scoremarket.ScoreMarketContentDetailFragment;
 import com.wopin.qingpaopao.fragment.welfare.scoremarket.ScoreMarketListFragment;
@@ -48,7 +48,7 @@ public class WelfareFragment extends BaseMainFragment<WelfarePresenter> implemen
         mLoadingView = rootView.findViewById(R.id.progress_bar_layout);
         rootView.findViewById(R.id.iv_score_market).setOnClickListener(this);
         rootView.findViewById(R.id.iv_old_change_new).setOnClickListener(this);
-        rootView.findViewById(R.id.iv_numerous_goods).setOnClickListener(this);
+        rootView.findViewById(R.id.iv_crowd_funding).setOnClickListener(this);
         rootView.findViewById(R.id.iv_my_orders).setOnClickListener(this);
     }
 
@@ -93,8 +93,8 @@ public class WelfareFragment extends BaseMainFragment<WelfarePresenter> implemen
             case R.id.iv_old_change_new:
                 new OldChangeNewListFragment().show(getChildFragmentManager(), OldChangeNewListFragment.TAG);
                 break;
-            case R.id.iv_numerous_goods:
-                new NumerousGoodsListFragment().show(getChildFragmentManager(), NumerousGoodsListFragment.TAG);
+            case R.id.iv_crowd_funding:
+                new CrowdFundingListFragment().show(getChildFragmentManager(), CrowdFundingListFragment.TAG);
                 break;
             case R.id.iv_my_orders:
                 break;

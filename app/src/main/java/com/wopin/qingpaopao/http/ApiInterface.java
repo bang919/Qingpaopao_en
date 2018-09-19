@@ -6,7 +6,8 @@ import com.wopin.qingpaopao.bean.request.CupUpdateReq;
 import com.wopin.qingpaopao.bean.request.LoginReq;
 import com.wopin.qingpaopao.bean.request.PaymentBean;
 import com.wopin.qingpaopao.bean.request.ThirdReq;
-import com.wopin.qingpaopao.bean.response.CrowdfundingOrderTotalRsp;
+import com.wopin.qingpaopao.bean.response.CrowdfundingOrderTotalMoneyRsp;
+import com.wopin.qingpaopao.bean.response.CrowdfundingOrderTotalPeopleRsp;
 import com.wopin.qingpaopao.bean.response.CupListRsp;
 import com.wopin.qingpaopao.bean.response.DrinkListTodayRsp;
 import com.wopin.qingpaopao.bean.response.DrinkListTotalRsp;
@@ -118,7 +119,10 @@ public interface ApiInterface {
     Observable<ArrayList<ProductContent>> getProductContent(@Query("category") String id);
 
     @POST("goods/crowdfundingOrderTotalMoney")
-    Observable<CrowdfundingOrderTotalRsp> crowdfundingOrderTotalMoney(@Body RequestBody requestBody);
+    Observable<CrowdfundingOrderTotalMoneyRsp> crowdfundingOrderTotalMoney(@Body RequestBody requestBody);
+
+    @POST("goods/crowdfundingOrderTotalPeople")
+    Observable<CrowdfundingOrderTotalPeopleRsp> crowdfundingOrderTotalPeople(@Body RequestBody requestBody);
 
     @POST("users/addOrUpdateAddress")
     Observable<NormalRsp> addOrUpdateAddress(@Body AddressBean addressBean);
@@ -131,4 +135,7 @@ public interface ApiInterface {
 
     @POST("goods/payMentExchange")
     Observable<NormalRsp> payMentExchange(@Body PaymentBean paymentBean);
+
+    @POST("goods/payMentCrowdfunding")
+    Observable<NormalRsp> payMentCrowdfunding(@Body PaymentBean paymentBean);
 }

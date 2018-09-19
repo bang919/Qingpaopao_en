@@ -2,7 +2,7 @@ package com.wopin.qingpaopao.bean.response;
 
 import java.util.List;
 
-public class CrowdfundingOrderTotalRsp {
+public class CrowdfundingOrderTotalMoneyRsp {
 
 
     /**

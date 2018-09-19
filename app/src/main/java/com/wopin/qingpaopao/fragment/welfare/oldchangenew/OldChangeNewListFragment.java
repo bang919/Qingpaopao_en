@@ -100,6 +100,6 @@ public class OldChangeNewListFragment extends BaseBarDialogFragment<WelfarePrese
 
     @Override
     public void onItemClick(ProductContent productContent) {
-        OldChangeNewContentDetailFragment.build(productContent).show(getChildFragmentManager(), ScoreMarketContentDetailFragment.TAG);
+        OldChangeNewContentDetailFragment.build(productContent).show(getChildFragmentManager(), OldChangeNewContentDetailFragment.TAG);
     }
 }

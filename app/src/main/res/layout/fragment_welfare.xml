@@ -59,7 +59,7 @@
         android:src="@mipmap/r_phone"
         app:layout_constraintBottom_toBottomOf="@id/iv_score_market"
         app:layout_constraintLeft_toRightOf="@+id/iv_score_market"
-        app:layout_constraintRight_toLeftOf="@id/iv_numerous_goods"
+        app:layout_constraintRight_toLeftOf="@id/iv_crowd_funding"
         app:layout_constraintTop_toTopOf="@id/iv_score_market" />
 
     <TextView
@@ -75,7 +75,7 @@
         app:layout_constraintTop_toBottomOf="@id/iv_old_change_new" />
 
     <ImageView
-        android:id="@+id/iv_numerous_goods"
+        android:id="@+id/iv_crowd_funding"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@mipmap/r_third_hex"
@@ -85,16 +85,16 @@
         app:layout_constraintTop_toTopOf="@id/iv_score_market" />
 
     <TextView
-        android:id="@+id/tv_numerous_goods"
+        android:id="@+id/tv_crowd_funding"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:text="@string/numerous_goods"
+        android:text="@string/crowd_funding"
         android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="@id/tv_score_market"
-        app:layout_constraintLeft_toLeftOf="@id/iv_numerous_goods"
-        app:layout_constraintRight_toRightOf="@id/iv_numerous_goods"
-        app:layout_constraintTop_toBottomOf="@id/iv_numerous_goods" />
+        app:layout_constraintLeft_toLeftOf="@id/iv_crowd_funding"
+        app:layout_constraintRight_toRightOf="@id/iv_crowd_funding"
+        app:layout_constraintTop_toBottomOf="@id/iv_crowd_funding" />
 
     <ImageView
         android:id="@+id/iv_my_orders"

@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_i_want_to_support"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_goods_top_detail"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.wopin.qingpaopao.widget.RecyclerViewAdDotLayout
+                android:id="@+id/rv_advertising_decorate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="25dp"
+                app:layout_constraintBottom_toBottomOf="@id/rv_goods_top_detail"
+                app:layout_constraintLeft_toLeftOf="@id/rv_goods_top_detail"
+                app:layout_constraintRight_toRightOf="@id/rv_goods_top_detail" />
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="14dp"
+                android:textColor="@color/colorBlack"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/rv_goods_top_detail" />
+
+            <TextView
+                android:id="@+id/tv_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/colorWhite4"
+                android:textSize="14sp"
+                app:layout_constraintLeft_toLeftOf="@id/tv_title"
+                app:layout_constraintTop_toBottomOf="@id/tv_title" />
+
+
+            <TextView
+                android:id="@+id/target_price_key"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/target_price"
+                android:textColor="@color/colorBlack"
+                android:textSize="16sp"
+                app:layout_constraintLeft_toLeftOf="@id/tv_subtitle"
+                app:layout_constraintTop_toBottomOf="@id/tv_subtitle" />
+
+            <TextView
+                android:id="@+id/target_price_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:textColor="@color/colorRed"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="@id/target_price_key"
+                app:layout_constraintLeft_toRightOf="@id/target_price_key" />
+
+            <TextView
+                android:id="@+id/tv_already_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:text="@string/already_price"
+                android:textColor="@color/colorBlack"
+                android:textSize="14sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/tv_leave_time"
+                app:layout_constraintTop_toBottomOf="@id/target_price_key" />
+
+            <TextView
+                android:id="@+id/tv_already_price_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:textColor="@color/colorRed"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toTopOf="@id/tv_already_price"
+                app:layout_constraintLeft_toLeftOf="@id/tv_already_price"
+                app:layout_constraintRight_toRightOf="@id/tv_already_price" />
+
+            <TextView
+                android:id="@+id/tv_leave_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="50dp"
+                android:text="@string/leave_time"
+                android:textColor="@color/colorBlack"
+                android:textSize="14sp"
+                app:layout_constraintLeft_toRightOf="@id/tv_already_price"
+                app:layout_constraintRight_toLeftOf="@id/tv_support_count"
+                app:layout_constraintTop_toBottomOf="@id/target_price_key" />
+
+            <TextView
+                android:id="@+id/tv_leave_time_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:textColor="@color/colorAccent3"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toTopOf="@id/tv_leave_time"
+                app:layout_constraintLeft_toLeftOf="@id/tv_leave_time"
+                app:layout_constraintRight_toRightOf="@id/tv_leave_time" />
+
+            <TextView
+                android:id="@+id/tv_support_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:text="@string/support_count"
+                android:textColor="@color/colorBlack"
+                android:textSize="14sp"
+                app:layout_constraintLeft_toRightOf="@id/tv_leave_time"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/target_price_key" />
+
+            <TextView
+                android:id="@+id/tv_support_count_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:textColor="@color/colorAccent3"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toTopOf="@id/tv_support_count"
+                app:layout_constraintLeft_toLeftOf="@id/tv_support_count"
+                app:layout_constraintRight_toRightOf="@id/tv_support_count" />
+
+            <ProgressBar
+                android:id="@+id/progress_bar_percent"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="0dp"
+                android:layout_height="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="15dp"
+                android:max="100"
+                android:progressDrawable="@drawable/crowd_funding_progressbar"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_already_price" />
+
+            <TextView
+                android:id="@+id/bar_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_white_radius10_blackstroke"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textColor="@color/colorAccent"
+                android:textSize="12dp"
+                app:layout_constraintBottom_toBottomOf="@id/progress_bar_percent"
+                app:layout_constraintLeft_toLeftOf="@id/progress_bar_percent"
+                app:layout_constraintRight_toRightOf="@id/progress_bar_percent"
+                app:layout_constraintTop_toTopOf="@id/progress_bar_percent" />
+
+            <View
+                android:id="@+id/line"
+                android:layout_width="0dp"
+                android:layout_height="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorWhite3"
+                app:layout_constraintTop_toBottomOf="@id/progress_bar_percent" />
+
+            <TextView
+                android:id="@+id/tv_goods_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/goods_detail"
+                android:textColor="@color/colorBlack"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toLeftOf="@id/tv_title"
+                app:layout_constraintTop_toBottomOf="@id/line" />
+
+            <LinearLayout
+                android:id="@+id/rv_goods_detail_linearlayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:paddingBottom="1dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_goods_detail" />
+
+        </android.support.constraint.ConstraintLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btn_i_want_to_support"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="@color/colorRed"
+        android:text="@string/i_want_to_support"
+        android:textColor="@color/colorWhite"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

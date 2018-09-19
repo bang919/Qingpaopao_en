@@ -32,7 +32,7 @@ public class WelfarePresenter extends BasePresenter<WelfareView> {
         getWelfareProduct(16);
     }
 
-    public void getNumerousGoods() {
+    public void getCrowdFundings() {
         getWelfareProduct(17);
     }
 

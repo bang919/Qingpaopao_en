@@ -1,4 +1,4 @@
-package com.wopin.qingpaopao.fragment.welfare.numerousgoods;
+package com.wopin.qingpaopao.fragment.welfare.crowdfunding;
 
 import android.graphics.Rect;
 import android.support.v7.widget.LinearLayoutManager;
@@ -7,7 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.wopin.qingpaopao.R;
-import com.wopin.qingpaopao.adapter.NumerousGoodsListAdapter;
+import com.wopin.qingpaopao.adapter.CrowdFundingListAdapter;
 import com.wopin.qingpaopao.adapter.WelfareBannerAdapter;
 import com.wopin.qingpaopao.bean.response.ProductBanner;
 import com.wopin.qingpaopao.bean.response.ProductContent;
@@ -18,17 +18,17 @@ import com.wopin.qingpaopao.widget.WelfareView;
 
 import java.util.ArrayList;
 
-public class NumerousGoodsListFragment extends BaseBarDialogFragment<WelfarePresenter> implements WelfareView, NumerousGoodsListAdapter.OldChangeNewClickListener {
+public class CrowdFundingListFragment extends BaseBarDialogFragment<WelfarePresenter> implements WelfareView, CrowdFundingListAdapter.CrowdFundingListAdapterCallback {
 
-    public static final String TAG = "NumerousGoodsListFragment";
+    public static final String TAG = "CrowdFundingListFragment";
     private RecyclerView mBannerRv;
     private RecyclerView mListRv;
     private WelfareBannerAdapter mWelfareBannerAdapter;
-    private NumerousGoodsListAdapter mNumerousGoodsListAdapter;
+    private CrowdFundingListAdapter mCrowdFundingListAdapter;
 
     @Override
     protected String setBarTitle() {
-        return getString(R.string.numerous_goods);
+        return getString(R.string.crowd_funding);
     }
 
     @Override
@@ -55,9 +55,9 @@ public class NumerousGoodsListFragment extends BaseBarDialogFragment<WelfarePres
         PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
         pagerSnapHelper.attachToRecyclerView(mBannerRv);
         mListRv.setLayoutManager(new LinearLayoutManager(getContext()));
-        mNumerousGoodsListAdapter = new NumerousGoodsListAdapter();
-        mListRv.setAdapter(mNumerousGoodsListAdapter);
-        mNumerousGoodsListAdapter.setOldChangeNewClickListener(this);
+        mCrowdFundingListAdapter = new CrowdFundingListAdapter();
+        mListRv.setAdapter(mCrowdFundingListAdapter);
+        mCrowdFundingListAdapter.setCrowdFundingListAdapterCallback(this);
         RecyclerView.ItemDecoration itemDecoration = new RecyclerView.ItemDecoration() {
             @Override
             public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
@@ -68,7 +68,7 @@ public class NumerousGoodsListFragment extends BaseBarDialogFragment<WelfarePres
             }
         };
         mListRv.addItemDecoration(itemDecoration);
-        mPresenter.getNumerousGoods();
+        mPresenter.getCrowdFundings();
     }
 
     @Override
@@ -78,7 +78,7 @@ public class NumerousGoodsListFragment extends BaseBarDialogFragment<WelfarePres
 
     @Override
     public void onProductContentList(ArrayList<ProductContent> productContents) {
-        mNumerousGoodsListAdapter.setOldChangeNewDatas(productContents);
+        mCrowdFundingListAdapter.setCrowdFundingDatas(productContents);
     }
 
     @Override
@@ -99,11 +99,6 @@ public class NumerousGoodsListFragment extends BaseBarDialogFragment<WelfarePres
 
     @Override
     public void onItemClick(ProductContent productContent) {
-
-    }
-
-    @Override
-    public void onGotoBuyClick(ProductContent productContent) {
-
+        CrowdFundingDetailFragment.build(productContent).show(getChildFragmentManager(), CrowdFundingDetailFragment.TAG);
     }
 }

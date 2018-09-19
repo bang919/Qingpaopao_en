@@ -101,7 +101,7 @@ public class ProductContent implements Parcelable {
     private String sale_price;
     private Object date_on_sale_from;
     private Object date_on_sale_from_gmt;
-    private Object date_on_sale_to;
+    private String date_on_sale_to;
     private Object date_on_sale_to_gmt;
     private String price_html;
     private boolean on_sale;
@@ -455,11 +455,11 @@ public class ProductContent implements Parcelable {
         this.date_on_sale_from_gmt = date_on_sale_from_gmt;
     }
 
-    public Object getDate_on_sale_to() {
+    public String getDate_on_sale_to() {
         return date_on_sale_to;
     }
 
-    public void setDate_on_sale_to(Object date_on_sale_to) {
+    public void setDate_on_sale_to(String date_on_sale_to) {
         this.date_on_sale_to = date_on_sale_to;
     }
 

@@ -16,4 +16,14 @@ public class TimeFormatUtils {
         }
         return "error time format";
     }
+
+    public static int getDaysDifference(String targetDay) throws ParseException {
+        //2018-12-28T00:00:00
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        long targetTime = simpleDateFormat.parse(targetDay).getTime();
+        String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date(System.currentTimeMillis()));
+        long todayTime = simpleDateFormat.parse(today).getTime();
+        int days = (int) ((targetTime - todayTime) / 1000 / 60 / 60 / 24);
+        return Math.max(0, days);
+    }
 }

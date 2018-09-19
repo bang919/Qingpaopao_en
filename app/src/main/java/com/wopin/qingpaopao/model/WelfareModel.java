@@ -1,6 +1,7 @@
 package com.wopin.qingpaopao.model;
 
-import com.wopin.qingpaopao.bean.response.CrowdfundingOrderTotalRsp;
+import com.wopin.qingpaopao.bean.response.CrowdfundingOrderTotalMoneyRsp;
+import com.wopin.qingpaopao.bean.response.CrowdfundingOrderTotalPeopleRsp;
 import com.wopin.qingpaopao.bean.response.ProductBanner;
 import com.wopin.qingpaopao.bean.response.ProductContent;
 import com.wopin.qingpaopao.http.HttpClient;
@@ -17,9 +18,17 @@ import okhttp3.RequestBody;
 public class WelfareModel {
 
 
-    public Observable<CrowdfundingOrderTotalRsp> crowdfundingOrderTotalMoney(int goodsId) {
+    public Observable<CrowdfundingOrderTotalMoneyRsp> crowdfundingOrderTotalMoney(int goodsId) {
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), "{\"goodsId\":\"" + goodsId + "\"}");
         return HttpClient.getApiInterface().crowdfundingOrderTotalMoney(requestBody)
+                .retry(2)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<CrowdfundingOrderTotalPeopleRsp> crowdfundingOrderTotalPeople(int goodsId) {
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), "{\"goodsId\":\"" + goodsId + "\"}");
+        return HttpClient.getApiInterface().crowdfundingOrderTotalPeople(requestBody)
                 .retry(2)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());

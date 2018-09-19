@@ -38,7 +38,7 @@
         android:layout_marginBottom="10dp"
         android:layout_marginRight="8dp"
         android:max="100"
-        android:progressDrawable="@drawable/numerous_goods_progressbar"
+        android:progressDrawable="@drawable/crowd_funding_progressbar"
         app:layout_constraintBottom_toTopOf="@id/tv_price"
         app:layout_constraintLeft_toLeftOf="@id/tv_title"
         app:layout_constraintRight_toRightOf="@id/tv_title"

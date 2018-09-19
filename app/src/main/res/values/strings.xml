@@ -149,12 +149,13 @@
     <string name="failure_to_mqtt">连接Mqtt失败</string>
     <string name="score_market">积分商城</string>
     <string name="old_change_new">以旧换新</string>
-    <string name="numerous_goods">众筹</string>
+    <string name="crowd_funding">众筹</string>
     <string name="my_orders">我的订单</string>
     <string name="known_error">未知错误</string>
     <string name="score_change">积分兑换：%s积分</string>
     <string name="score_number">%s积分</string>
     <string name="price_number">%s元</string>
+    <string name="day_number">%s天</string>
     <string name="residue_count">剩余%d件</string>
     <string name="market_reference_price_value">市场参考价值：%s元</string>
     <string name="commodity_details">商品详情</string>
@@ -182,6 +183,7 @@
     <string name="address_detail_hint">为准确送达请具体到街道门牌号</string>
     <string name="default_address">默认</string>
     <string name="exchange_success">兑换成功</string>
+    <string name="submit_success">提交成功</string>
     <string name="buy_success">购买成功</string>
     <string name="old_cup_to_new_cup">选择以旧换新机型</string>
     <string name="old_cup_to_new_cup_support">支持先拖旧后购买/先购买后拖旧</string>
@@ -189,5 +191,14 @@
     <string name="i_want_to_buy">我要购买</string>
     <string name="buy_at_once">立即购买</string>
     <string name="produce_price">产品价格</string>
+    <string name="target_price">目标金额:</string>
+    <string name="already_price">已筹金额</string>
+    <string name="leave_time">剩余时间</string>
+    <string name="support_count">支持人数</string>
+    <string name="i_want_to_support">我要支持</string>
+    <string name="support_at_once">立即支持</string>
+    <string name="choose_grade">选择档位</string>
+    <string name="grade_explain">配送费用：免运费\n预计回报发送时间：项目众筹成功后30天内
+    </string>
 
 </resources>
