@@ -15,6 +15,7 @@ import com.wopin.qingpaopao.bean.response.ProductContent;
 import com.wopin.qingpaopao.fragment.BaseMainFragment;
 import com.wopin.qingpaopao.fragment.welfare.crowdfunding.CrowdFundingListFragment;
 import com.wopin.qingpaopao.fragment.welfare.oldchangenew.OldChangeNewListFragment;
+import com.wopin.qingpaopao.fragment.welfare.order.MyOrderFragment;
 import com.wopin.qingpaopao.fragment.welfare.scoremarket.ScoreMarketContentDetailFragment;
 import com.wopin.qingpaopao.fragment.welfare.scoremarket.ScoreMarketListFragment;
 import com.wopin.qingpaopao.presenter.WelfarePresenter;
@@ -97,6 +98,7 @@ public class WelfareFragment extends BaseMainFragment<WelfarePresenter> implemen
                 new CrowdFundingListFragment().show(getChildFragmentManager(), CrowdFundingListFragment.TAG);
                 break;
             case R.id.iv_my_orders:
+                new MyOrderFragment().show(getChildFragmentManager(), MyOrderFragment.TAG);
                 break;
         }
     }

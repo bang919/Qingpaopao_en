@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv_score_change"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_my_order_btn_left_radius"
+        android:gravity="center"
+        android:padding="2dp"
+        android:text="@string/score_change"
+        android:textColor="@drawable/select_text_textcolor_bluetowhite"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_old_change_new"
+        app:layout_constraintRight_toLeftOf="@id/tv_old_change_new" />
+
+    <TextView
+        android:id="@+id/tv_old_change_new"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/shape_my_order_btn_middle"
+        android:gravity="center"
+        android:padding="2dp"
+        android:text="@string/old_change_new"
+        android:textColor="@drawable/select_text_textcolor_bluetowhite"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_crowd_funding"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_my_order_btn_right_radius"
+        android:gravity="center"
+        android:padding="2dp"
+        android:text="@string/crowd_funding"
+        android:textColor="@drawable/select_text_textcolor_bluetowhite"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_old_change_new"
+        app:layout_constraintLeft_toRightOf="@id/tv_old_change_new" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_order_list"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_old_change_new" />
+</android.support.constraint.ConstraintLayout>

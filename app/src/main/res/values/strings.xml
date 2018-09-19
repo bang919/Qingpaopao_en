@@ -152,7 +152,7 @@
     <string name="crowd_funding">众筹</string>
     <string name="my_orders">我的订单</string>
     <string name="known_error">未知错误</string>
-    <string name="score_change">积分兑换：%s积分</string>
+    <string name="score_change_count">积分兑换：%s积分</string>
     <string name="score_number">%s积分</string>
     <string name="price_number">%s元</string>
     <string name="day_number">%s天</string>
@@ -198,7 +198,17 @@
     <string name="i_want_to_support">我要支持</string>
     <string name="support_at_once">立即支持</string>
     <string name="choose_grade">选择档位</string>
-    <string name="grade_explain">配送费用：免运费\n预计回报发送时间：项目众筹成功后30天内
-    </string>
+    <string name="grade_explain">配送费用：免运费\n预计回报发送时间：项目众筹成功后30天内</string>
+    <string name="my_order">我的订单</string>
+    <string name="score_change">积分兑换</string>
+    <string name="had_receive">确认收货</string>
+    <string name="order_id">订单编号：%s</string>
+    <string name="order_time">订单时间：%s</string>
+    <string name="number_x">x%s</string>
+    <string name="recycle_way">回收方式:\t\t邮寄回收</string>
+    <string name="recycle_price"><![CDATA[回收报价:\t\t<font color="#ff0000">%s元</font>]]></string>
+    <string name="need_pay_price"><![CDATA[应付金额:\t\t<font color="#ff0000">%s元</font>]]></string>
+    <string name="check_order">查看订单</string>
+    <string name="input_order_message">填写快递信息</string>
 
 </resources>

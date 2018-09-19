@@ -14,6 +14,7 @@ import com.wopin.qingpaopao.bean.response.DrinkListTotalRsp;
 import com.wopin.qingpaopao.bean.response.ExploreListRsp;
 import com.wopin.qingpaopao.bean.response.LoginRsp;
 import com.wopin.qingpaopao.bean.response.NormalRsp;
+import com.wopin.qingpaopao.bean.response.OrderResponse;
 import com.wopin.qingpaopao.bean.response.ProductBanner;
 import com.wopin.qingpaopao.bean.response.ProductContent;
 import com.wopin.qingpaopao.bean.response.ThirdBindRsp;
@@ -138,4 +139,13 @@ public interface ApiInterface {
 
     @POST("goods/payMentCrowdfunding")
     Observable<NormalRsp> payMentCrowdfunding(@Body PaymentBean paymentBean);
+
+    @GET("goods/scoresOrderList")
+    Observable<OrderResponse> getScoresOrder();
+
+    @GET("goods/exchangeOrderList")
+    Observable<OrderResponse> getExchangeOrder();
+
+    @GET("goods/crowdfundingOrderList")
+    Observable<OrderResponse> getCrowdfundingOrder();
 }
