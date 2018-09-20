@@ -222,6 +222,7 @@
     <string name="pay_way">收款方式：微信支付</string>
     <string name="follow_order">流程跟踪</string>
     <string name="remove_order">取消订单</string>
+    <string name="payment">付款</string>
     <string name="search_express">查快递</string>
 
 </resources>

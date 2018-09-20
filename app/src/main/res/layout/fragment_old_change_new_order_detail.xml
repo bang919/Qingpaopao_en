@@ -155,4 +155,19 @@
         app:layout_constraintRight_toLeftOf="@id/btn_follow_order"
         app:layout_constraintTop_toBottomOf="@id/layout_4" />
 
+    <Button
+        android:id="@+id/payment"
+        android:layout_width="100dp"
+        android:layout_height="28dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/bg_white_radius10_blackstroke"
+        android:gravity="center"
+        android:text="@string/payment"
+        android:textColor="@color/colorBlack"
+        android:textSize="14sp"
+        android:visibility="gone"
+        app:layout_constraintRight_toLeftOf="@id/remove_order"
+        app:layout_constraintTop_toBottomOf="@id/layout_4" />
+
 </android.support.constraint.ConstraintLayout>

@@ -19,6 +19,7 @@ public class OldChangeNewOrderDetailFragment extends BaseBarDialogFragment imple
     public static final String TAG = "OldChangeNewOrderDetailFragment";
     private Button mFollowOrderBtn;
     private Button mRemoveOrderBtn;
+    private Button mPaymentBtn;
     private OldChangeNewOrderDetailCallback mOldChangeNewOrderDetailCallback;
     private OrderResponse.OrderBean mOrderBean;
 
@@ -64,10 +65,13 @@ public class OldChangeNewOrderDetailFragment extends BaseBarDialogFragment imple
 
         mFollowOrderBtn = rootView.findViewById(R.id.btn_follow_order);
         mRemoveOrderBtn = rootView.findViewById(R.id.remove_order);
+        mPaymentBtn = rootView.findViewById(R.id.payment);
 
         if (mOrderBean.getOrderStatus().equals("等待付款")) {
             mRemoveOrderBtn.setVisibility(View.VISIBLE);
             mRemoveOrderBtn.setOnClickListener(this);
+            mPaymentBtn.setVisibility(View.VISIBLE);
+            mPaymentBtn.setOnClickListener(this);
         } else if (mOrderBean.getOrderStatus().equals("待发货")) {
         } else if (mOrderBean.getOrderStatus().equals("已发货")) {
             mFollowOrderBtn.setVisibility(View.VISIBLE);
@@ -83,7 +87,7 @@ public class OldChangeNewOrderDetailFragment extends BaseBarDialogFragment imple
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.remove_order:
+            case R.id.remove_order://删除订单
                 if (mOldChangeNewOrderDetailCallback != null) {
                     new NormalDialog(getContext(), getString(R.string.confirm), getString(R.string.cancel), getString(R.string.remove_order), new View.OnClickListener() {
                         @Override
@@ -94,8 +98,10 @@ public class OldChangeNewOrderDetailFragment extends BaseBarDialogFragment imple
                     }, null).show();
                 }
                 break;
-            case R.id.btn_follow_order:
+            case R.id.btn_follow_order://查看物流
                 OldChangeNewOrderFollowOrderFragment.build(mOrderBean.getOrderId()).show(getChildFragmentManager(), OldChangeNewOrderFollowOrderFragment.TAG);
+                break;
+            case R.id.payment://付款
                 break;
         }
     }
