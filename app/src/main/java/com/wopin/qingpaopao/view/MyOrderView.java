@@ -12,5 +12,7 @@ public interface MyOrderView {
 
     void onDataResponseSuccess();
 
+    void onDataRefresh();
+
     void onError(String errorMessage);
 }

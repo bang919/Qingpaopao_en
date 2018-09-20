@@ -1,5 +1,6 @@
 package com.wopin.qingpaopao.bean.response;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class OrderResponse {
@@ -38,7 +39,7 @@ public class OrderResponse {
         this.result = result;
     }
 
-    public static class OrderBean {
+    public static class OrderBean implements Serializable {
         /**
          * _id : 5ba1162be76a104389daa0f0
          * orderId : 6220201809182313475
@@ -68,6 +69,8 @@ public class OrderResponse {
         private String singlePrice;
         private String orderStatus;
         private String createDate;
+        private String expressReturnId;
+        private String expressReturnName;
         private long createTime;
         private int __v;
 
@@ -147,6 +150,11 @@ public class OrderResponse {
             return singlePrice;
         }
 
+        public int getFinalPrice() {
+            return Integer.valueOf(singlePrice == null ? "0" : singlePrice) * Integer.valueOf(num == null ? "0" : num)
+                    - Integer.valueOf(offerPrice == null ? "0" : offerPrice);
+        }
+
         public void setSinglePrice(String singlePrice) {
             this.singlePrice = singlePrice;
         }
@@ -175,6 +183,22 @@ public class OrderResponse {
             this.createTime = createTime;
         }
 
+        public String getExpressReturnId() {
+            return expressReturnId;
+        }
+
+        public void setExpressReturnId(String expressReturnId) {
+            this.expressReturnId = expressReturnId;
+        }
+
+        public String getExpressReturnName() {
+            return expressReturnName;
+        }
+
+        public void setExpressReturnName(String expressReturnName) {
+            this.expressReturnName = expressReturnName;
+        }
+
         public int get__v() {
             return __v;
         }
@@ -183,7 +207,7 @@ public class OrderResponse {
             this.__v = __v;
         }
 
-        public static class AddressBean {
+        public static class AddressBean implements Serializable {
             /**
              * _id : 5b9e314de659266b8d416f76
              * isDefault : true

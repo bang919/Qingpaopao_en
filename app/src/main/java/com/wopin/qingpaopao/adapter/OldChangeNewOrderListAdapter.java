@@ -22,6 +22,11 @@ public class OldChangeNewOrderListAdapter extends RecyclerView.Adapter<OldChange
 
 
     private ArrayList<OrderResponse.OrderBean> mOrderBeans;
+    private OldChangeNewOrderListAdapterCalblack mOldChangeNewOrderListAdapterCalblack;
+
+    public void setOldChangeNewOrderListAdapterCalblack(OldChangeNewOrderListAdapterCalblack oldChangeNewOrderListAdapterCalblack) {
+        mOldChangeNewOrderListAdapterCalblack = oldChangeNewOrderListAdapterCalblack;
+    }
 
     public void setOrderBeans(ArrayList<OrderResponse.OrderBean> orderBeans) {
         mOrderBeans = orderBeans;
@@ -36,7 +41,7 @@ public class OldChangeNewOrderListAdapter extends RecyclerView.Adapter<OldChange
 
     @Override
     public void onBindViewHolder(@NonNull OldChangeNewOrderViewHolder holder, int position) {
-        OrderResponse.OrderBean orderBean = mOrderBeans.get(position);
+        final OrderResponse.OrderBean orderBean = mOrderBeans.get(position);
         Context context = holder.itemView.getContext();
         holder.mOrderTime.setText(String.format(context.getString(R.string.order_time), orderBean.getCreateDate()));
         holder.mOrderStatus.setText(orderBean.getOrderStatus());
@@ -46,6 +51,22 @@ public class OldChangeNewOrderListAdapter extends RecyclerView.Adapter<OldChange
         int needPay = Integer.valueOf(orderBean.getSinglePrice()) - Integer.valueOf(orderBean.getOfferPrice());
         holder.mNeedPayPrice.setText(Html.fromHtml(context.getString(R.string.need_pay_price, String.valueOf(needPay))));
         holder.mOrderNumber.setText(String.format(context.getString(R.string.number_x), orderBean.getNum()));
+        holder.mInputOrderMessageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mOldChangeNewOrderListAdapterCalblack != null) {
+                    mOldChangeNewOrderListAdapterCalblack.onSetTrackingNumberBtnClick(orderBean);
+                }
+            }
+        });
+        holder.mCheckOrderBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mOldChangeNewOrderListAdapterCalblack != null) {
+                    mOldChangeNewOrderListAdapterCalblack.onOrderDetailBtnClick(orderBean);
+                }
+            }
+        });
     }
 
     @Override
@@ -77,5 +98,11 @@ public class OldChangeNewOrderListAdapter extends RecyclerView.Adapter<OldChange
             mCheckOrderBtn = itemView.findViewById(R.id.btn_check_order);
             mInputOrderMessageBtn = itemView.findViewById(R.id.btn_input_order_message);
         }
+    }
+
+    public interface OldChangeNewOrderListAdapterCalblack {
+        void onSetTrackingNumberBtnClick(OrderResponse.OrderBean orderBean);
+
+        void onOrderDetailBtnClick(OrderResponse.OrderBean orderBean);
     }
 }

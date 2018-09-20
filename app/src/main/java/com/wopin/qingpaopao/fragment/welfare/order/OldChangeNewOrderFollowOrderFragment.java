@@ -1,4 +1,4 @@
-package com.wopin.qingpaopao.fragment.explore;
+package com.wopin.qingpaopao.fragment.welfare.order;
 
 import android.net.http.SslError;
 import android.os.Bundle;
@@ -12,17 +12,17 @@ import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.fragment.BaseBarDialogFragment;
 import com.wopin.qingpaopao.presenter.BasePresenter;
 
-public class ExploreDetailFragment extends BaseBarDialogFragment {
+public class OldChangeNewOrderFollowOrderFragment extends BaseBarDialogFragment {
 
-    public static final String TAG = "ExploreDetailFragment";
+    public static final String TAG = "OldChangeNewOrderFollowOrderFragment";
     private WebView mDetailWebView;
 
-    public static ExploreDetailFragment build(String webViewUrl) {
-        ExploreDetailFragment exploreDetailFragment = new ExploreDetailFragment();
+    public static OldChangeNewOrderFollowOrderFragment build(String searchOrderid) {
+        OldChangeNewOrderFollowOrderFragment oldChangeNewOrderFollowOrderFragment = new OldChangeNewOrderFollowOrderFragment();
         Bundle args = new Bundle();
-        args.putString(TAG, webViewUrl);
-        exploreDetailFragment.setArguments(args);
-        return exploreDetailFragment;
+        args.putString(TAG, searchOrderid);
+        oldChangeNewOrderFollowOrderFragment.setArguments(args);
+        return oldChangeNewOrderFollowOrderFragment;
     }
 
     @Override
@@ -34,7 +34,7 @@ public class ExploreDetailFragment extends BaseBarDialogFragment {
 
     @Override
     protected String setBarTitle() {
-        return getString(R.string.explore);
+        return getString(R.string.search_express);
     }
 
     @Override
@@ -54,7 +54,8 @@ public class ExploreDetailFragment extends BaseBarDialogFragment {
 
     @Override
     protected void initEvent() {
-        String webViewUrl = getArguments().getString(TAG);
+        String searchOrderid = getArguments().getString(TAG);
+        String webViewUrl = "http://m.kuaidi100.com/result.jsp?nu=".concat(searchOrderid);
         mDetailWebView.loadUrl(webViewUrl);
         WebSettings settings = mDetailWebView.getSettings();
         // 如果访问的页面中要与Javascript交互，则webview必须设置支持Javascript

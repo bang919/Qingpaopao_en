@@ -146,6 +146,7 @@
     <string name="click_to_choose_wifi">点击选择WIFI网络</string>
     <string name="wifi_password">WIFI密码</string>
     <string name="success_setting_wifi">设备连接WIFI成功</string>
+    <string name="disconnect">断开连接</string>
     <string name="failure_to_mqtt">连接Mqtt失败</string>
     <string name="score_market">积分商城</string>
     <string name="old_change_new">以旧换新</string>
@@ -176,6 +177,7 @@
     <string name="need_choose_address">需要先选择地址</string>
     <string name="new_add">新增</string>
     <string name="consignee">收货人</string>
+    <string name="consignee_key">收货人: %s</string>
     <string name="please_input_real_name">请输入真实姓名</string>
     <string name="area">所在地区</string>
     <string name="choose_area">选择地区</string>
@@ -184,6 +186,7 @@
     <string name="default_address">默认</string>
     <string name="exchange_success">兑换成功</string>
     <string name="submit_success">提交成功</string>
+    <string name="cancel_success">取消成功</string>
     <string name="buy_success">购买成功</string>
     <string name="old_cup_to_new_cup">选择以旧换新机型</string>
     <string name="old_cup_to_new_cup_support">支持先拖旧后购买/先购买后拖旧</string>
@@ -210,5 +213,15 @@
     <string name="need_pay_price"><![CDATA[应付金额:\t\t<font color="#ff0000">%s元</font>]]></string>
     <string name="check_order">查看订单</string>
     <string name="input_order_message">填写快递信息</string>
+    <string name="tracking_number">快递单号</string>
+    <string name="please_input_tracking_number">请填入快递单号</string>
+    <string name="affirm_tracking_number">确认发货</string>
+    <string name="order_detail">订单详情</string>
+    <string name="order_detail_tips">请将订单中的及其邮寄，寄送后请在您的订单中填写快递单号</string>
+    <string name="receiver_message">收件人 ： %s\t %s\n%s</string>
+    <string name="pay_way">收款方式：微信支付</string>
+    <string name="follow_order">流程跟踪</string>
+    <string name="remove_order">取消订单</string>
+    <string name="search_express">查快递</string>
 
 </resources>

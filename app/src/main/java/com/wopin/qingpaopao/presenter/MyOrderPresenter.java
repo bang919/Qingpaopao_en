@@ -2,8 +2,12 @@ package com.wopin.qingpaopao.presenter;
 
 import android.content.Context;
 
+import com.wopin.qingpaopao.R;
+import com.wopin.qingpaopao.bean.request.TrackingNumberSettingBean;
+import com.wopin.qingpaopao.bean.response.NormalRsp;
 import com.wopin.qingpaopao.bean.response.OrderResponse;
 import com.wopin.qingpaopao.model.MyOrderModel;
+import com.wopin.qingpaopao.utils.ToastUtils;
 import com.wopin.qingpaopao.view.MyOrderView;
 
 import io.reactivex.Observable;
@@ -66,4 +70,39 @@ public class MyOrderPresenter extends BasePresenter<MyOrderView> {
                     }
                 });
     }
+
+    public void exchangeOrderUpdate(String orderId, String trackingNumber) {
+        TrackingNumberSettingBean trackingNumberSettingBean = new TrackingNumberSettingBean();
+        trackingNumberSettingBean.setOrderId(orderId);
+        trackingNumberSettingBean.setExpressId(trackingNumber);
+        subscribeNetworkTask(getClass().getSimpleName().concat("exchangeOrderUpdate"), mMyOrderModel.exchangeOrderUpdate(trackingNumberSettingBean),
+                new MyObserver<NormalRsp>() {
+                    @Override
+                    public void onMyNext(NormalRsp normalRsp) {
+                        ToastUtils.showShort(R.string.submit_success);
+                        mView.onDataRefresh();
+                    }
+
+                    @Override
+                    public void onMyError(String errorMessage) {
+                        mView.onError(errorMessage);
+                    }
+                });
+    }
+
+    public void deleteOrder(String orderId) {
+        subscribeNetworkTask(getClass().getSimpleName().concat("deleteOrder"), mMyOrderModel.deleteOrder(orderId), new MyObserver<NormalRsp>() {
+            @Override
+            public void onMyNext(NormalRsp normalRsp) {
+                ToastUtils.showShort(R.string.cancel_success);
+                mView.onDataRefresh();
+            }
+
+            @Override
+            public void onMyError(String errorMessage) {
+                mView.onError(errorMessage);
+            }
+        });
+    }
+
 }

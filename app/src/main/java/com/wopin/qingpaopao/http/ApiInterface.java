@@ -6,6 +6,7 @@ import com.wopin.qingpaopao.bean.request.CupUpdateReq;
 import com.wopin.qingpaopao.bean.request.LoginReq;
 import com.wopin.qingpaopao.bean.request.PaymentBean;
 import com.wopin.qingpaopao.bean.request.ThirdReq;
+import com.wopin.qingpaopao.bean.request.TrackingNumberSettingBean;
 import com.wopin.qingpaopao.bean.response.CrowdfundingOrderTotalMoneyRsp;
 import com.wopin.qingpaopao.bean.response.CrowdfundingOrderTotalPeopleRsp;
 import com.wopin.qingpaopao.bean.response.CupListRsp;
@@ -148,4 +149,10 @@ public interface ApiInterface {
 
     @GET("goods/crowdfundingOrderList")
     Observable<OrderResponse> getCrowdfundingOrder();
+
+    @POST("goods/exchangeOrderUpdate")
+    Observable<NormalRsp> exchangeOrderUpdate(@Body TrackingNumberSettingBean trackingNumberSettingBean);
+
+    @POST("goods/deleteOrder")
+    Observable<NormalRsp> deleteOrder(@Body RequestBody requestBody);
 }

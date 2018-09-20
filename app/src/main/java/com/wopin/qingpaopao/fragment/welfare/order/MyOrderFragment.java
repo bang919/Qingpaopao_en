@@ -71,6 +71,32 @@ public class MyOrderFragment extends BaseBarDialogFragment<MyOrderPresenter> imp
     protected void initEvent() {
         mPresenter.getOrderListDatas();
         setLoadingVisibility(true);
+        mOldChangeNewOrderListAdapter.setOldChangeNewOrderListAdapterCalblack(new OldChangeNewOrderListAdapter.OldChangeNewOrderListAdapterCalblack() {
+            @Override
+            public void onSetTrackingNumberBtnClick(final OrderResponse.OrderBean orderBean) {
+
+                SetTrackingNumberFragment setTrackingNumberFragment = SetTrackingNumberFragment.build(orderBean.getExpressReturnId());
+                setTrackingNumberFragment.setTrackingNumberSettingCallback(new SetTrackingNumberFragment.TrackingNumberSettingCallback() {
+                    @Override
+                    public void onTrackingNumberSetting(String trackingNumber) {
+                        mPresenter.exchangeOrderUpdate(orderBean.getOrderId(), trackingNumber);
+                    }
+                });
+                setTrackingNumberFragment.show(getChildFragmentManager(), SetTrackingNumberFragment.TAG);
+            }
+
+            @Override
+            public void onOrderDetailBtnClick(final OrderResponse.OrderBean orderBean) {
+                OldChangeNewOrderDetailFragment oldChangeNewOrderDetailFragment = OldChangeNewOrderDetailFragment.build(orderBean);
+                oldChangeNewOrderDetailFragment.setOldChangeNewOrderDetailCallback(new OldChangeNewOrderDetailFragment.OldChangeNewOrderDetailCallback() {
+                    @Override
+                    public void onRemoveOrderBtnClick() {
+                        mPresenter.deleteOrder(orderBean.getOrderId());
+                    }
+                });
+                oldChangeNewOrderDetailFragment.show(getChildFragmentManager(), OldChangeNewOrderDetailFragment.TAG);
+            }
+        });
     }
 
     @Override
@@ -115,6 +141,12 @@ public class MyOrderFragment extends BaseBarDialogFragment<MyOrderPresenter> imp
     @Override
     public void onDataResponseSuccess() {
         setLoadingVisibility(false);
+    }
+
+    @Override
+    public void onDataRefresh() {
+        setLoadingVisibility(true);
+        mPresenter.getOrderListDatas();
     }
 
     @Override

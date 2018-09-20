@@ -1,5 +1,6 @@
 package com.wopin.qingpaopao.adapter;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.bean.response.CupListRsp;
+import com.wopin.qingpaopao.dialog.NormalDialog;
 
 import java.util.ArrayList;
 
@@ -54,7 +56,19 @@ public class CupListAdapter extends RecyclerView.Adapter<CupListAdapter.CupListH
         holder.mLightIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mOnCupItemClickCallback.onCupItemTurn(cupBean, !holder.mLightIv.isSelected());
+                if (holder.mLightIv.isSelected()) {
+                    Context context = holder.itemView.getContext();
+                    //弹窗询问是否断开连接
+                    new NormalDialog(context, context.getString(R.string.confirm), context.getString(R.string.cancel), context.getString(R.string.disconnect),
+                            new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    mOnCupItemClickCallback.onCupItemTurn(cupBean, !holder.mLightIv.isSelected());
+                                }
+                            }, null).show();
+                } else {
+                    mOnCupItemClickCallback.onCupItemTurn(cupBean, !holder.mLightIv.isSelected());
+                }
             }
         });
     }
