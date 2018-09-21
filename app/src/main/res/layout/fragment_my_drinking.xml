@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv_today"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_my_order_btn_left_radius"
+        android:gravity="center"
+        android:padding="2dp"
+        android:text="@string/today"
+        android:textColor="@drawable/select_text_textcolor_bluetowhite"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_this_week"
+        app:layout_constraintRight_toLeftOf="@id/tv_this_week" />
+
+    <TextView
+        android:id="@+id/tv_this_week"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/shape_my_order_btn_middle"
+        android:gravity="center"
+        android:padding="2dp"
+        android:text="@string/this_week"
+        android:textColor="@drawable/select_text_textcolor_bluetowhite"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_this_month"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_my_order_btn_right_radius"
+        android:gravity="center"
+        android:padding="2dp"
+        android:text="@string/this_month"
+        android:textColor="@drawable/select_text_textcolor_bluetowhite"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_this_week"
+        app:layout_constraintLeft_toRightOf="@id/tv_this_week" />
+
+    <TextView
+        android:id="@+id/tv_table_head"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:textColor="@color/colorBlack"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_today" />
+
+    <TextView
+        android:id="@+id/drinking_quantity"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="2dp"
+        android:background="@color/colorWhite"
+        android:gravity="center_vertical"
+        android:paddingLeft="20dp"
+        android:textColor="@color/colorBlack"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_table_head" />
+
+    <TextView
+        android:id="@+id/value_drinking_quantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:text="@string/cup"
+        android:textColor="@color/colorWhite3"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toBottomOf="@id/drinking_quantity"
+        app:layout_constraintRight_toRightOf="@id/drinking_quantity"
+        app:layout_constraintTop_toTopOf="@id/drinking_quantity" />
+
+    <TextView
+        android:id="@+id/drinking_time"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="1dp"
+        android:background="@color/colorWhite"
+        android:gravity="center_vertical"
+        android:paddingLeft="20dp"
+        android:textColor="@color/colorBlack"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/drinking_quantity" />
+
+    <TextView
+        android:id="@+id/value_drinking_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:text="--"
+        android:textColor="@color/colorWhite3"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toBottomOf="@id/drinking_time"
+        app:layout_constraintRight_toRightOf="@id/drinking_time"
+        app:layout_constraintTop_toTopOf="@id/drinking_time" />
+
+
+    <TextView
+        android:id="@+id/tv_drinking_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:textColor="@color/colorBlack"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/drinking_time" />
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/line_chart"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_drinking_status" />
+</android.support.constraint.ConstraintLayout>

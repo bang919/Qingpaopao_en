@@ -1,8 +1,9 @@
 package com.wopin.qingpaopao.bean.response;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class DrinkListTodayRsp {
+public class DrinkListTodayRsp implements Serializable {
 
     /**
      * status : 0
@@ -38,7 +39,7 @@ public class DrinkListTodayRsp {
         this.result = result;
     }
 
-    public static class ResultBean {
+    public static class ResultBean implements Serializable {
         /**
          * _id : 5b96884c1c6a360f2907a99f
          * userId : 5b819f0591297b561a79eeaa

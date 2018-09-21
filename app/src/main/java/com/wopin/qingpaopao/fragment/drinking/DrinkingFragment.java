@@ -144,7 +144,7 @@ public class DrinkingFragment extends BaseMainFragment<DrinkingPresenter> implem
 
     @Override
     public void onCupItemDelete(CupListRsp.CupBean cupBean, int position) {
-        if (cupBean.isConnecting() && cupBean.getType().equals(Constants.BLE)) {
+        if (cupBean.isConnecting()) {
             mPresenter.disconnectCup();
         }
         mPresenter.deleteACup(cupBean.getUuid());

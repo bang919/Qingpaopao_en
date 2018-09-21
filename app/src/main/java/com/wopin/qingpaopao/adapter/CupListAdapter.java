@@ -34,6 +34,7 @@ public class CupListAdapter extends RecyclerView.Adapter<CupListAdapter.CupListH
     public void setCupBeans(ArrayList<CupListRsp.CupBean> cupBeans) {
         mCupBeans = cupBeans;
         notifyDataSetChanged();
+        handler.removeCallbacks(runnable);
         handler.postDelayed(runnable, 5000);
     }
 

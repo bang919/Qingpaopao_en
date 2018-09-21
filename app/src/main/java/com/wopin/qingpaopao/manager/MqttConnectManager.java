@@ -6,6 +6,7 @@ import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.bean.response.CupListRsp;
 import com.wopin.qingpaopao.command.mqtt.MqttColorCommand;
 import com.wopin.qingpaopao.command.mqtt.MqttConnectDeviceCommand;
+import com.wopin.qingpaopao.command.mqtt.MqttDisconnectDeviceCommand;
 import com.wopin.qingpaopao.command.mqtt.MqttSwitchCleanCommand;
 import com.wopin.qingpaopao.command.mqtt.MqttSwitchElectrolyzeCommand;
 import com.wopin.qingpaopao.command.mqtt.MqttSwitchLightCommand;
@@ -182,6 +183,20 @@ public class MqttConnectManager extends ConnectManager<MqttConnectManager.MqttUp
         return flag;
     }
 
+    public boolean unsubscribe(String topicName) {
+        boolean flag = false;
+
+        if (client != null && client.isConnected()) {
+            try {
+                client.unsubscribe(topicName);
+                flag = true;
+            } catch (MqttException e) {
+
+            }
+        }
+        return flag;
+    }
+
     public boolean publish(String topicName, String message) {
         boolean flag = false;
         byte[] payload = message.getBytes();
@@ -221,6 +236,11 @@ public class MqttConnectManager extends ConnectManager<MqttConnectManager.MqttUp
     }
 
     public void disconnectDevice() {
+        if (mCurrentMqttUpdaterBean != null) {
+            super.disconnectDevice(new MqttDisconnectDeviceCommand(mCurrentMqttUpdaterBean.getSsid()));
+            mHandler.removeCallbacks(mDisconnectRunnable);
+            mHandler.post(mDisconnectRunnable);
+        }
     }
 
     public void switchCupElectrolyze(int time) {

@@ -224,5 +224,14 @@
     <string name="remove_order">取消订单</string>
     <string name="payment">付款</string>
     <string name="search_express">查快递</string>
+    <string name="today">今天</string>
+    <string name="this_week">本周</string>
+    <string name="this_month">本月</string>
+    <string name="drinking_statistics">%s喝水统计</string>
+    <string name="drinking_quantity">喝水量</string>
+    <string name="total_drinking_quantity">总喝水量</string>
+    <string name="last_drinking_time">最后一次喝水时间</string>
+    <string name="drinking_status">%s喝水状况</string>
+    <string name="reach_day_count">达标天数</string>
 
 </resources>

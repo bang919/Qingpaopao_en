@@ -112,4 +112,6 @@ dependencies {
     implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.0.2'
     //地区选择器
     implementation 'liji.library.dev:citypickerview:3.1.13'
+    //MPAndroidChart表格
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
 }

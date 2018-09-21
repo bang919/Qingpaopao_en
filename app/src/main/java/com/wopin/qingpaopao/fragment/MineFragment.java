@@ -12,11 +12,12 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.adapter.MineGridRvAdapter;
 import com.wopin.qingpaopao.adapter.MineListRvAdapter;
-import com.wopin.qingpaopao.bean.response.DrinkListTotalRsp;
 import com.wopin.qingpaopao.bean.response.DrinkListTodayRsp;
+import com.wopin.qingpaopao.bean.response.DrinkListTotalRsp;
 import com.wopin.qingpaopao.bean.response.LoginRsp;
 import com.wopin.qingpaopao.bean.response.NormalRsp;
 import com.wopin.qingpaopao.fragment.information_edit.InformationEditFragment;
+import com.wopin.qingpaopao.fragment.my_drinking.MyDrinkingFragment;
 import com.wopin.qingpaopao.fragment.system_setting.SystemSettingFragment;
 import com.wopin.qingpaopao.fragment.user_guide.UserGuideFragment;
 import com.wopin.qingpaopao.http.HttpClient;
@@ -39,6 +40,8 @@ public class MineFragment extends BaseMainFragment implements MineGridRvAdapter.
     private TextView mScoreTv;
     private TextView mCurrentDrinkTv;
     private TextView mTotalDrinkTv;
+    private DrinkListTodayRsp mDrinkListTodayRsp;
+    private DrinkListTotalRsp mDrinkListTotalRsp;
 
     @Override
     protected int getLayout() {
@@ -99,6 +102,7 @@ public class MineFragment extends BaseMainFragment implements MineGridRvAdapter.
         HttpUtil.subscribeNetworkTask(drinkingModel.getDrinkList(), new BasePresenter.MyObserver<DrinkListTotalRsp>() {
             @Override
             public void onMyNext(DrinkListTotalRsp drinkListTotalRsp) {
+                mDrinkListTotalRsp = drinkListTotalRsp;
                 int count = 0;
                 if (drinkListTotalRsp != null && drinkListTotalRsp.getResult() != null) {
                     for (DrinkListTotalRsp.ResultBean resultBean : drinkListTotalRsp.getResult()) {
@@ -117,6 +121,7 @@ public class MineFragment extends BaseMainFragment implements MineGridRvAdapter.
         HttpUtil.subscribeNetworkTask(drinkingModel.getTodayDrinkList(), new BasePresenter.MyObserver<DrinkListTodayRsp>() {
             @Override
             public void onMyNext(DrinkListTodayRsp drinkListRsp) {
+                mDrinkListTodayRsp = drinkListRsp;
                 int count = 0;
                 if (drinkListRsp != null && drinkListRsp.getResult() != null) {
                     count = drinkListRsp.getResult().getDrinks().size();
@@ -135,6 +140,7 @@ public class MineFragment extends BaseMainFragment implements MineGridRvAdapter.
     public void onGridItemClick(int textResource, int position) {
         switch (textResource) {
             case R.string.my_drinking:
+                MyDrinkingFragment.build(mDrinkListTodayRsp, mDrinkListTotalRsp).show(getChildFragmentManager(), MyDrinkingFragment.TAG);
                 break;
             case R.string.my_health:
                 break;
