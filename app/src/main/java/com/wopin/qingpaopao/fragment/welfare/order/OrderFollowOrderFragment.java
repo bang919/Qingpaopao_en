@@ -9,20 +9,21 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.wopin.qingpaopao.R;
+import com.wopin.qingpaopao.bean.response.OrderResponse;
 import com.wopin.qingpaopao.fragment.BaseBarDialogFragment;
 import com.wopin.qingpaopao.presenter.BasePresenter;
 
-public class OldChangeNewOrderFollowOrderFragment extends BaseBarDialogFragment {
+public class OrderFollowOrderFragment extends BaseBarDialogFragment {
 
-    public static final String TAG = "OldChangeNewOrderFollowOrderFragment";
+    public static final String TAG = "OrderFollowOrderFragment";
     private WebView mDetailWebView;
 
-    public static OldChangeNewOrderFollowOrderFragment build(String searchOrderid) {
-        OldChangeNewOrderFollowOrderFragment oldChangeNewOrderFollowOrderFragment = new OldChangeNewOrderFollowOrderFragment();
+    public static OrderFollowOrderFragment build(OrderResponse.OrderBean orderBean) {
+        OrderFollowOrderFragment orderFollowOrderFragment = new OrderFollowOrderFragment();
         Bundle args = new Bundle();
-        args.putString(TAG, searchOrderid);
-        oldChangeNewOrderFollowOrderFragment.setArguments(args);
-        return oldChangeNewOrderFollowOrderFragment;
+        args.putString(TAG, orderBean.getOrderId());
+        orderFollowOrderFragment.setArguments(args);
+        return orderFollowOrderFragment;
     }
 
     @Override

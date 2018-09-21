@@ -99,7 +99,7 @@ public class OldChangeNewOrderDetailFragment extends BaseBarDialogFragment imple
                 }
                 break;
             case R.id.btn_follow_order://查看物流
-                OldChangeNewOrderFollowOrderFragment.build(mOrderBean.getOrderId()).show(getChildFragmentManager(), OldChangeNewOrderFollowOrderFragment.TAG);
+                OrderFollowOrderFragment.build(mOrderBean).show(getChildFragmentManager(), OrderFollowOrderFragment.TAG);
                 break;
             case R.id.payment://付款
                 break;

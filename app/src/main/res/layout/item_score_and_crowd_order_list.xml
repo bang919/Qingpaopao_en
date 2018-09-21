@@ -74,16 +74,46 @@
         app:layout_constraintTop_toBottomOf="@id/tv_order_number" />
 
     <Button
-        android:id="@+id/btn_had_receive"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/btn_follow_order"
+        android:layout_width="100dp"
+        android:layout_height="28dp"
         android:layout_marginTop="5dp"
         android:background="@drawable/bg_white_radius10_blackstroke"
-        android:text="@string/had_receive"
+        android:text="@string/follow_order"
         android:textColor="@color/colorBlack"
         android:textSize="14sp"
         android:visibility="gone"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_order_time" />
+
+    <Button
+        android:id="@+id/remove_order"
+        android:layout_width="100dp"
+        android:layout_height="28dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/bg_white_radius10_blackstroke"
+        android:gravity="center"
+        android:text="@string/remove_order"
+        android:textColor="@color/colorBlack"
+        android:textSize="14sp"
+        android:visibility="gone"
+        app:layout_constraintRight_toLeftOf="@id/btn_follow_order"
+        app:layout_constraintTop_toBottomOf="@id/tv_order_time" />
+
+    <Button
+        android:id="@+id/payment"
+        android:layout_width="100dp"
+        android:layout_height="28dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/bg_white_radius10_blackstroke"
+        android:gravity="center"
+        android:text="@string/payment"
+        android:textColor="@color/colorBlack"
+        android:textSize="14sp"
+        android:visibility="gone"
+        app:layout_constraintRight_toLeftOf="@id/remove_order"
         app:layout_constraintTop_toBottomOf="@id/tv_order_time" />
 
 </android.support.constraint.ConstraintLayout>

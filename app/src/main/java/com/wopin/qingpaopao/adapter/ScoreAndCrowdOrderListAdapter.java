@@ -20,6 +20,11 @@ import java.util.ArrayList;
 public abstract class ScoreAndCrowdOrderListAdapter extends RecyclerView.Adapter<ScoreAndCrowdOrderListAdapter.ScoreAndCrowdOrderViewHolder> {
 
     private ArrayList<OrderResponse.OrderBean> mOrderBeans;
+    private ScoreAndCrowdOrderListAdapterCallback mScoreAndCrowdOrderListAdapterCallback;
+
+    public void setScoreAndCrowdOrderListAdapterCallback(ScoreAndCrowdOrderListAdapterCallback scoreAndCrowdOrderListAdapterCallback) {
+        mScoreAndCrowdOrderListAdapterCallback = scoreAndCrowdOrderListAdapterCallback;
+    }
 
     public void setOrderBeans(ArrayList<OrderResponse.OrderBean> orderBeans) {
         mOrderBeans = orderBeans;
@@ -34,8 +39,8 @@ public abstract class ScoreAndCrowdOrderListAdapter extends RecyclerView.Adapter
 
     @Override
     public void onBindViewHolder(@NonNull ScoreAndCrowdOrderViewHolder holder, int position) {
-        OrderResponse.OrderBean orderBean = mOrderBeans.get(position);
-        Context context = holder.itemView.getContext();
+        final OrderResponse.OrderBean orderBean = mOrderBeans.get(position);
+        final Context context = holder.itemView.getContext();
         holder.mOrderId.setText(String.format(context.getString(R.string.order_id), orderBean.get_id()));
         holder.mOrderStatus.setText(orderBean.getOrderStatus());
         GlideUtils.loadImage(holder.mOrderImage, -1, orderBean.getImage(), new CenterCrop());
@@ -43,6 +48,42 @@ public abstract class ScoreAndCrowdOrderListAdapter extends RecyclerView.Adapter
         holder.mOrderScore.setText(String.format(context.getString(getPriceFormat()), orderBean.getSinglePrice()));
         holder.mOrderNumber.setText(String.format(context.getString(R.string.number_x), orderBean.getNum()));
         holder.mOrderTime.setText(orderBean.getCreateDate());
+
+        holder.mRemoveOrderBtn.setVisibility(View.GONE);
+        holder.mPaymentBtn.setVisibility(View.GONE);
+        holder.mFollowOrderBtn.setVisibility(View.GONE);
+
+        if (orderBean.getOrderStatus().equals("等待付款")) {
+            holder.mRemoveOrderBtn.setVisibility(View.VISIBLE);
+            holder.mPaymentBtn.setVisibility(View.VISIBLE);
+            holder.mRemoveOrderBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mScoreAndCrowdOrderListAdapterCallback != null) {
+                        mScoreAndCrowdOrderListAdapterCallback.onRemoveOrderBtnClick(orderBean);
+                    }
+                }
+            });
+            holder.mPaymentBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mScoreAndCrowdOrderListAdapterCallback != null) {
+                        mScoreAndCrowdOrderListAdapterCallback.onPaymentOrderBtnClick(orderBean);
+                    }
+                }
+            });
+        } else if (orderBean.getOrderStatus().equals("待发货")) {
+        } else if (orderBean.getOrderStatus().equals("已发货")) {
+            holder.mFollowOrderBtn.setVisibility(View.VISIBLE);
+            holder.mFollowOrderBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mScoreAndCrowdOrderListAdapterCallback != null) {
+                        mScoreAndCrowdOrderListAdapterCallback.onFollwOrderBtnClick(orderBean);
+                    }
+                }
+            });
+        }
     }
 
     public abstract int getPriceFormat();
@@ -61,7 +102,9 @@ public abstract class ScoreAndCrowdOrderListAdapter extends RecyclerView.Adapter
         private TextView mOrderScore;
         private TextView mOrderNumber;
         private TextView mOrderTime;
-        private Button mHadReceiveBtn;
+        private Button mFollowOrderBtn;
+        private Button mRemoveOrderBtn;
+        private Button mPaymentBtn;
 
         public ScoreAndCrowdOrderViewHolder(View itemView) {
             super(itemView);
@@ -72,7 +115,17 @@ public abstract class ScoreAndCrowdOrderListAdapter extends RecyclerView.Adapter
             mOrderScore = itemView.findViewById(R.id.tv_order_score);
             mOrderNumber = itemView.findViewById(R.id.tv_order_number);
             mOrderTime = itemView.findViewById(R.id.tv_order_time);
-            mHadReceiveBtn = itemView.findViewById(R.id.btn_had_receive);
+            mFollowOrderBtn = itemView.findViewById(R.id.btn_follow_order);
+            mRemoveOrderBtn = itemView.findViewById(R.id.remove_order);
+            mPaymentBtn = itemView.findViewById(R.id.payment);
         }
+    }
+
+    public interface ScoreAndCrowdOrderListAdapterCallback {
+        void onFollwOrderBtnClick(OrderResponse.OrderBean orderBean);
+
+        void onRemoveOrderBtnClick(OrderResponse.OrderBean orderBean);
+
+        void onPaymentOrderBtnClick(OrderResponse.OrderBean orderBean);
     }
 }

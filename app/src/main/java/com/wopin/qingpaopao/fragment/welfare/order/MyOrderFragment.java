@@ -8,6 +8,7 @@ import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.adapter.OldChangeNewOrderListAdapter;
 import com.wopin.qingpaopao.adapter.ScoreAndCrowdOrderListAdapter;
 import com.wopin.qingpaopao.bean.response.OrderResponse;
+import com.wopin.qingpaopao.dialog.NormalDialog;
 import com.wopin.qingpaopao.fragment.BaseBarDialogFragment;
 import com.wopin.qingpaopao.presenter.MyOrderPresenter;
 import com.wopin.qingpaopao.utils.ToastUtils;
@@ -71,6 +72,43 @@ public class MyOrderFragment extends BaseBarDialogFragment<MyOrderPresenter> imp
     protected void initEvent() {
         mPresenter.getOrderListDatas();
         setLoadingVisibility(true);
+        mScoreMarketOrderAdapter.setScoreAndCrowdOrderListAdapterCallback(new ScoreAndCrowdOrderListAdapter.ScoreAndCrowdOrderListAdapterCallback() {
+            @Override
+            public void onFollwOrderBtnClick(OrderResponse.OrderBean orderBean) {
+                OrderFollowOrderFragment.build(orderBean).show(getChildFragmentManager(), OrderFollowOrderFragment.TAG);
+            }
+
+            @Override
+            public void onRemoveOrderBtnClick(OrderResponse.OrderBean orderBean) {
+                //ScoreMarket不能删除订单
+            }
+
+            @Override
+            public void onPaymentOrderBtnClick(OrderResponse.OrderBean orderBean) {
+                //ScoreMarket不用付款
+            }
+        });
+        mCrowdfundingOrderAdapter.setScoreAndCrowdOrderListAdapterCallback(new ScoreAndCrowdOrderListAdapter.ScoreAndCrowdOrderListAdapterCallback() {
+            @Override
+            public void onFollwOrderBtnClick(OrderResponse.OrderBean orderBean) {
+                OrderFollowOrderFragment.build(orderBean).show(getChildFragmentManager(), OrderFollowOrderFragment.TAG);
+            }
+
+            @Override
+            public void onRemoveOrderBtnClick(final OrderResponse.OrderBean orderBean) {
+                new NormalDialog(getContext(), getString(R.string.confirm), getString(R.string.cancel), getString(R.string.remove_order), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mPresenter.deleteOrder(orderBean.getOrderId());
+                    }
+                }, null).show();
+            }
+
+            @Override
+            public void onPaymentOrderBtnClick(OrderResponse.OrderBean orderBean) {
+
+            }
+        });
         mOldChangeNewOrderListAdapter.setOldChangeNewOrderListAdapterCalblack(new OldChangeNewOrderListAdapter.OldChangeNewOrderListAdapterCalblack() {
             @Override
             public void onSetTrackingNumberBtnClick(final OrderResponse.OrderBean orderBean) {
