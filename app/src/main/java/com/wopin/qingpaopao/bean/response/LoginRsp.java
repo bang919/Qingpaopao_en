@@ -1,5 +1,7 @@
 package com.wopin.qingpaopao.bean.response;
 
+import android.text.TextUtils;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -276,19 +278,19 @@ public class LoginRsp extends NormalRsp implements Serializable {
         public static class ProfilesBean implements Serializable {
             private static final long serialVersionUID = 159454618961L;
 
-            private String height = "0";
-            private String weight = "0";
-            private String age = "0";
-            private String blood_sugar_full = "0";
-            private String blood_sugar_hugry = "0";
-            private String blood_lipid_all = "0";//总胆固醇
+            private String height;
+            private String weight;
+            private String age;
+            private String blood_sugar_full;
+            private String blood_sugar_hugry;
+            private String blood_lipid_all;//总胆固醇
             private String blood_lipid = "0";//胆固醇脂
-            private String blood_lipid_TG = "0";//甘油三酯
-            private String blood_pressure = "0";
-            private String blood_pressure_press = "0";
+            private String blood_lipid_TG;//甘油三酯
+            private String blood_pressure;
+            private String blood_pressure_press;
 
             public String getHeight() {
-                return height;
+                return TextUtils.isEmpty(height) ? "0" : height;
             }
 
             public void setHeight(String height) {
@@ -296,7 +298,7 @@ public class LoginRsp extends NormalRsp implements Serializable {
             }
 
             public String getWeight() {
-                return weight;
+                return TextUtils.isEmpty(weight) ? "0" : weight;
             }
 
             public void setWeight(String weight) {
@@ -304,7 +306,7 @@ public class LoginRsp extends NormalRsp implements Serializable {
             }
 
             public String getAge() {
-                return age;
+                return TextUtils.isEmpty(age) ? "0" : age;
             }
 
             public void setAge(String age) {
@@ -312,7 +314,7 @@ public class LoginRsp extends NormalRsp implements Serializable {
             }
 
             public String getBlood_sugar_full() {
-                return blood_sugar_full;
+                return TextUtils.isEmpty(blood_sugar_full) ? "0" : blood_sugar_full;
             }
 
             public void setBlood_sugar_full(String blood_sugar_full) {
@@ -320,7 +322,7 @@ public class LoginRsp extends NormalRsp implements Serializable {
             }
 
             public String getBlood_sugar_hugry() {
-                return blood_sugar_hugry;
+                return TextUtils.isEmpty(blood_sugar_hugry) ? "0" : blood_sugar_hugry;
             }
 
             public void setBlood_sugar_hugry(String blood_sugar_hugry) {
@@ -328,7 +330,7 @@ public class LoginRsp extends NormalRsp implements Serializable {
             }
 
             public String getBlood_lipid_all() {
-                return blood_lipid_all;
+                return TextUtils.isEmpty(blood_lipid_all) ? "0" : blood_lipid_all;
             }
 
             public void setBlood_lipid_all(String blood_lipid_all) {
@@ -336,7 +338,7 @@ public class LoginRsp extends NormalRsp implements Serializable {
             }
 
             public String getBlood_lipid() {
-                return blood_lipid;
+                return TextUtils.isEmpty(blood_lipid) ? "0" : blood_lipid;
             }
 
             public void setBlood_lipid(String blood_lipid) {
@@ -344,7 +346,7 @@ public class LoginRsp extends NormalRsp implements Serializable {
             }
 
             public String getBlood_lipid_TG() {
-                return blood_lipid_TG;
+                return TextUtils.isEmpty(blood_lipid_TG) ? "0" : blood_lipid_TG;
             }
 
             public void setBlood_lipid_TG(String blood_lipid_TG) {
@@ -352,7 +354,7 @@ public class LoginRsp extends NormalRsp implements Serializable {
             }
 
             public String getBlood_pressure() {
-                return blood_pressure;
+                return TextUtils.isEmpty(blood_pressure) ? "0" : blood_pressure;
             }
 
             public void setBlood_pressure(String blood_pressure) {
@@ -360,7 +362,7 @@ public class LoginRsp extends NormalRsp implements Serializable {
             }
 
             public String getBlood_pressure_press() {
-                return blood_pressure_press;
+                return TextUtils.isEmpty(blood_pressure_press) ? "0" : blood_pressure_press;
             }
 
             public void setBlood_pressure_press(String blood_pressure_press) {
