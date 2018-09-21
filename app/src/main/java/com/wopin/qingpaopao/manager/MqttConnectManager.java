@@ -26,8 +26,10 @@ import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 public class MqttConnectManager extends ConnectManager<MqttConnectManager.MqttUpdaterBean> {
 
@@ -68,6 +70,8 @@ public class MqttConnectManager extends ConnectManager<MqttConnectManager.MqttUp
         if (client == null) {
             HttpUtil.subscribeNetworkTask(
                     HttpClient.getApiInterface().getCupList()
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
                             .timeout(5, TimeUnit.SECONDS)
                             .retryWhen(new Function<Observable<Throwable>, ObservableSource<Long>>() {
                                 @Override
