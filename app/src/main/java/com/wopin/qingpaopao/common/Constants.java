@@ -8,6 +8,10 @@ public class Constants {
 
     public final static int NULL_COLOR = -1;//状态栏不需要颜色的常量
 
+
+    public static final String WIFI = "WIFI";
+    public static final String BLE = "BLE";
+
     //SP
     public final static String LOGIN_REQUEST = "login request";
     public final static String THIRD_REQUEST = "third request";

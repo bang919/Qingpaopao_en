@@ -5,12 +5,12 @@ import android.content.Context;
 
 import com.ble.api.DataUtil;
 import com.wopin.qingpaopao.R;
-import com.wopin.qingpaopao.bean.request.CupUpdateReq;
 import com.wopin.qingpaopao.bean.response.CupListRsp;
 import com.wopin.qingpaopao.bean.response.DrinkListTodayRsp;
 import com.wopin.qingpaopao.bean.response.DrinkListTotalRsp;
 import com.wopin.qingpaopao.bean.response.NormalRsp;
 import com.wopin.qingpaopao.bean.response.WifiConfigToCupRsp;
+import com.wopin.qingpaopao.common.Constants;
 import com.wopin.qingpaopao.manager.BleConnectManager;
 import com.wopin.qingpaopao.manager.MqttConnectManager;
 import com.wopin.qingpaopao.manager.Updater;
@@ -45,7 +45,7 @@ public class DrinkingPresenter extends BasePresenter<DrinkingView> {
                     }
                 }
                 if (needAdd && mFirstTimeAddDevice != null) {
-                    addOrUpdateACup(CupUpdateReq.BLE, bleUpdaterBean.getUuid(), ((BluetoothDevice) mFirstTimeAddDevice).getName(), bleUpdaterBean.getAddress(), true);
+                    addOrUpdateACup(Constants.BLE, bleUpdaterBean.getUuid(), ((BluetoothDevice) mFirstTimeAddDevice).getName(), bleUpdaterBean.getAddress(), true);
                 } else {
                     getCupList();
                 }
@@ -76,7 +76,7 @@ public class DrinkingPresenter extends BasePresenter<DrinkingView> {
                     }
                 }
                 if (needAdd && mFirstTimeAddDevice != null) {
-                    addOrUpdateACup(CupUpdateReq.WIFI, mqttUpdaterBean.getSsid(), mqttUpdaterBean.getSsid(), null, true);
+                    addOrUpdateACup(Constants.WIFI, mqttUpdaterBean.getSsid(), mqttUpdaterBean.getSsid(), null, true);
                 } else {
                     getCupList();
                 }
@@ -118,9 +118,9 @@ public class DrinkingPresenter extends BasePresenter<DrinkingView> {
     }
 
     /**
-     * 连接杯子
+     * 第一次手动连接杯子
      */
-    public <T> void firstTimeAddBleCup(T device) {
+    public <T> void firstTimeAddCup(T device) {
         mFirstTimeAddDevice = device;
         if (device instanceof BluetoothDevice) {//连接没有失败的回调，暂时不加loading，以后可以加个超时
             BleConnectManager.getInstance().connectDevice(((BluetoothDevice) device).getAddress());
@@ -133,14 +133,28 @@ public class DrinkingPresenter extends BasePresenter<DrinkingView> {
     }
 
     /**
+     * 点击list连接杯子
+     */
+    public void connectCup(CupListRsp.CupBean cupBean) {
+        if (cupBean.getType().equals(Constants.BLE)) {
+            BleConnectManager.getInstance().connectDevice(cupBean.getAddress());
+        } else if (cupBean.getType().equals(Constants.WIFI)) {
+            mView.onLoading();
+            MqttConnectManager.getInstance().connectDevice(cupBean.getUuid());
+        } else {
+            mView.onError(mContext.getString(R.string.known_error));
+        }
+    }
+
+    /**
      * 断开杯子连接
      */
-    public void disconnectBleCup() {
+    public void disconnectCup() {
         if (mCurrentOnlineCup != null) {
-            if (mCurrentOnlineCup.getType().equals(CupUpdateReq.BLE)) {//Ble
+            if (mCurrentOnlineCup.getType().equals(Constants.BLE)) {//Ble
                 BleConnectManager.getInstance().disconnectDevice();
             } else {//Wifi
-
+                MqttConnectManager.getInstance().disconnectDevice();
             }
         }
     }
@@ -150,7 +164,7 @@ public class DrinkingPresenter extends BasePresenter<DrinkingView> {
      */
     public void switchCupElectrolyze(int time) {
         if (mCurrentOnlineCup != null) {
-            if (mCurrentOnlineCup.getType().equals(CupUpdateReq.BLE)) {//Ble
+            if (mCurrentOnlineCup.getType().equals(Constants.BLE)) {//Ble
                 BleConnectManager.getInstance().switchCupElectrolyze(time);
             } else {//Wifi
                 MqttConnectManager.getInstance().switchCupElectrolyze(time);
@@ -167,7 +181,7 @@ public class DrinkingPresenter extends BasePresenter<DrinkingView> {
      */
     public void switchCupLight(boolean isLightOn) {
         if (mCurrentOnlineCup != null) {
-            if (mCurrentOnlineCup.getType().equals(CupUpdateReq.BLE)) {//Ble
+            if (mCurrentOnlineCup.getType().equals(Constants.BLE)) {//Ble
                 BleConnectManager.getInstance().switchCupLight(isLightOn);
             } else {//Wifi
                 MqttConnectManager.getInstance().switchCupLight(isLightOn);
@@ -180,7 +194,7 @@ public class DrinkingPresenter extends BasePresenter<DrinkingView> {
      */
     public void switchCupClean(boolean isClean) {
         if (mCurrentOnlineCup != null) {
-            if (mCurrentOnlineCup.getType().equals(CupUpdateReq.BLE)) {//Ble
+            if (mCurrentOnlineCup.getType().equals(Constants.BLE)) {//Ble
                 BleConnectManager.getInstance().switchCupClean(isClean);
             } else {//Wifi
                 MqttConnectManager.getInstance().switchCupClean(isClean);
@@ -193,7 +207,7 @@ public class DrinkingPresenter extends BasePresenter<DrinkingView> {
      */
     public void setColor(String color) {
         if (mCurrentOnlineCup != null) {
-            if (mCurrentOnlineCup.getType().equals(CupUpdateReq.BLE)) {//Ble
+            if (mCurrentOnlineCup.getType().equals(Constants.BLE)) {//Ble
                 BleConnectManager.getInstance().setColor(color);
             } else {//Wifi
                 MqttConnectManager.getInstance().setColor(color);

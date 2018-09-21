@@ -43,6 +43,7 @@ public class CupListRsp extends NormalRsp {
         private String firstRegisterTime;
         private String registerTime;
         private String uuid;
+        private String address;
         private int produceScores;
         private int __v;
         private boolean isConnecting;
@@ -56,6 +57,7 @@ public class CupListRsp extends NormalRsp {
             firstRegisterTime = in.readString();
             registerTime = in.readString();
             uuid = in.readString();
+            address = in.readString();
             produceScores = in.readInt();
             __v = in.readInt();
             isConnecting = in.readByte() != 0;
@@ -71,6 +73,7 @@ public class CupListRsp extends NormalRsp {
             dest.writeString(firstRegisterTime);
             dest.writeString(registerTime);
             dest.writeString(uuid);
+            dest.writeString(address);
             dest.writeInt(produceScores);
             dest.writeInt(__v);
             dest.writeByte((byte) (isConnecting ? 1 : 0));
@@ -148,6 +151,14 @@ public class CupListRsp extends NormalRsp {
 
         public void setUuid(String uuid) {
             this.uuid = uuid;
+        }
+
+        public String getAddress() {
+            return address;
+        }
+
+        public void setAddress(String address) {
+            this.address = address;
         }
 
         public int getProduceScores() {

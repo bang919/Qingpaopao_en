@@ -8,11 +8,11 @@ import android.view.View;
 
 import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.adapter.CupListAdapter;
-import com.wopin.qingpaopao.bean.request.CupUpdateReq;
 import com.wopin.qingpaopao.bean.response.CupListRsp;
 import com.wopin.qingpaopao.bean.response.DrinkListTodayRsp;
 import com.wopin.qingpaopao.bean.response.DrinkListTotalRsp;
 import com.wopin.qingpaopao.bean.response.WifiConfigToCupRsp;
+import com.wopin.qingpaopao.common.Constants;
 import com.wopin.qingpaopao.fragment.BaseMainFragment;
 import com.wopin.qingpaopao.presenter.BlueToothPresenter;
 import com.wopin.qingpaopao.presenter.DrinkingPresenter;
@@ -91,12 +91,12 @@ public class DrinkingFragment extends BaseMainFragment<DrinkingPresenter> implem
     @Override
     public void onBluetoothDeviceFind(BluetoothDevice bluetoothDevice) {
         //这里是从新搜索出来的Device，所以调用firstTimeAddBleCup
-        mPresenter.firstTimeAddBleCup(bluetoothDevice);
+        mPresenter.firstTimeAddCup(bluetoothDevice);
     }
 
     @Override
     public void onWifiDeviceFind(WifiConfigToCupRsp wifiConfigToCupRsp) {
-        mPresenter.firstTimeAddBleCup(wifiConfigToCupRsp);
+        mPresenter.firstTimeAddCup(wifiConfigToCupRsp);
         ToastUtils.showShort(R.string.success_setting_wifi);
     }
 
@@ -144,18 +144,18 @@ public class DrinkingFragment extends BaseMainFragment<DrinkingPresenter> implem
 
     @Override
     public void onCupItemDelete(CupListRsp.CupBean cupBean, int position) {
-        if (cupBean.isConnecting() && cupBean.getType().equals(CupUpdateReq.BLE)) {
-            mPresenter.disconnectBleCup();
+        if (cupBean.isConnecting() && cupBean.getType().equals(Constants.BLE)) {
+            mPresenter.disconnectCup();
         }
         mPresenter.deleteACup(cupBean.getUuid());
     }
 
     @Override
     public void onCupItemTurn(CupListRsp.CupBean cupBean, boolean isOn) {
-        if (cupBean.getType().equals(CupUpdateReq.BLE)) {
-            mPresenter.disconnectBleCup();
+        if (cupBean.getType().equals(Constants.BLE)) {
+            mPresenter.disconnectCup();
             if (isOn) {
-//                mPresenter.connectBleCup(cupBean.getAddress());
+                mPresenter.connectCup(cupBean);
             }
         }
     }

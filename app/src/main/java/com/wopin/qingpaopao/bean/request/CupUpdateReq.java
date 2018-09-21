@@ -8,8 +8,6 @@ public class CupUpdateReq {
      * name : hello
      * add : true
      */
-    public static final String WIFI = "WIFI";
-    public static final String BLE = "BLE";
     private String type;
     private String uuid;
     private String name;
