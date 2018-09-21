@@ -58,6 +58,7 @@ public class LoginRsp extends NormalRsp implements Serializable {
         private List<?> cupList;
         private List<?> fansList;
         private List<?> followList;
+        private ProfilesBean profiles;
 
         public String get_id() {
             return _id;
@@ -187,6 +188,14 @@ public class LoginRsp extends NormalRsp implements Serializable {
             this.followList = followList;
         }
 
+        public ProfilesBean getProfiles() {
+            return profiles;
+        }
+
+        public void setProfiles(ProfilesBean profiles) {
+            this.profiles = profiles;
+        }
+
         public static class AddressListBean implements Serializable {
             private static final long serialVersionUID = 15942628961L;
             /**
@@ -261,6 +270,101 @@ public class LoginRsp extends NormalRsp implements Serializable {
 
             public void set_id(String _id) {
                 this._id = _id;
+            }
+        }
+
+        public static class ProfilesBean implements Serializable {
+            private static final long serialVersionUID = 159454618961L;
+
+            private String height = "0";
+            private String weight = "0";
+            private String age = "0";
+            private String blood_sugar_full = "0";
+            private String blood_sugar_hugry = "0";
+            private String blood_lipid_all = "0";//总胆固醇
+            private String blood_lipid = "0";//胆固醇脂
+            private String blood_lipid_TG = "0";//甘油三酯
+            private String blood_pressure = "0";
+            private String blood_pressure_press = "0";
+
+            public String getHeight() {
+                return height;
+            }
+
+            public void setHeight(String height) {
+                this.height = height;
+            }
+
+            public String getWeight() {
+                return weight;
+            }
+
+            public void setWeight(String weight) {
+                this.weight = weight;
+            }
+
+            public String getAge() {
+                return age;
+            }
+
+            public void setAge(String age) {
+                this.age = age;
+            }
+
+            public String getBlood_sugar_full() {
+                return blood_sugar_full;
+            }
+
+            public void setBlood_sugar_full(String blood_sugar_full) {
+                this.blood_sugar_full = blood_sugar_full;
+            }
+
+            public String getBlood_sugar_hugry() {
+                return blood_sugar_hugry;
+            }
+
+            public void setBlood_sugar_hugry(String blood_sugar_hugry) {
+                this.blood_sugar_hugry = blood_sugar_hugry;
+            }
+
+            public String getBlood_lipid_all() {
+                return blood_lipid_all;
+            }
+
+            public void setBlood_lipid_all(String blood_lipid_all) {
+                this.blood_lipid_all = blood_lipid_all;
+            }
+
+            public String getBlood_lipid() {
+                return blood_lipid;
+            }
+
+            public void setBlood_lipid(String blood_lipid) {
+                this.blood_lipid = blood_lipid;
+            }
+
+            public String getBlood_lipid_TG() {
+                return blood_lipid_TG;
+            }
+
+            public void setBlood_lipid_TG(String blood_lipid_TG) {
+                this.blood_lipid_TG = blood_lipid_TG;
+            }
+
+            public String getBlood_pressure() {
+                return blood_pressure;
+            }
+
+            public void setBlood_pressure(String blood_pressure) {
+                this.blood_pressure = blood_pressure;
+            }
+
+            public String getBlood_pressure_press() {
+                return blood_pressure_press;
+            }
+
+            public void setBlood_pressure_press(String blood_pressure_press) {
+                this.blood_pressure_press = blood_pressure_press;
             }
         }
     }

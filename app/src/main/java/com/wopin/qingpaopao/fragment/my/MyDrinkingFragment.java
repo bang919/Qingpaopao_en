@@ -1,4 +1,4 @@
-package com.wopin.qingpaopao.fragment.my_drinking;
+package com.wopin.qingpaopao.fragment.my;
 
 import android.os.Bundle;
 import android.support.v4.util.ArrayMap;

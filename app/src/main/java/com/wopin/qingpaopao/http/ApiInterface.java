@@ -2,6 +2,7 @@ package com.wopin.qingpaopao.http;
 
 
 import com.wopin.qingpaopao.bean.request.AddressBean;
+import com.wopin.qingpaopao.bean.request.BodyProfilesBean;
 import com.wopin.qingpaopao.bean.request.CupUpdateReq;
 import com.wopin.qingpaopao.bean.request.LoginReq;
 import com.wopin.qingpaopao.bean.request.PaymentBean;
@@ -155,4 +156,7 @@ public interface ApiInterface {
 
     @POST("goods/deleteOrder")
     Observable<NormalRsp> deleteOrder(@Body RequestBody requestBody);
+
+    @POST("users/updateBodyProfiles")
+    Observable<LoginRsp> updateBodyProfiles(@Body BodyProfilesBean bodyProfilesBean);
 }

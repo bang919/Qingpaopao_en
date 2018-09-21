@@ -17,7 +17,8 @@ import com.wopin.qingpaopao.bean.response.DrinkListTotalRsp;
 import com.wopin.qingpaopao.bean.response.LoginRsp;
 import com.wopin.qingpaopao.bean.response.NormalRsp;
 import com.wopin.qingpaopao.fragment.information_edit.InformationEditFragment;
-import com.wopin.qingpaopao.fragment.my_drinking.MyDrinkingFragment;
+import com.wopin.qingpaopao.fragment.my.MyDrinkingFragment;
+import com.wopin.qingpaopao.fragment.my.MyHealthFragment;
 import com.wopin.qingpaopao.fragment.system_setting.SystemSettingFragment;
 import com.wopin.qingpaopao.fragment.user_guide.UserGuideFragment;
 import com.wopin.qingpaopao.http.HttpClient;
@@ -143,6 +144,7 @@ public class MineFragment extends BaseMainFragment implements MineGridRvAdapter.
                 MyDrinkingFragment.build(mDrinkListTodayRsp, mDrinkListTotalRsp).show(getChildFragmentManager(), MyDrinkingFragment.TAG);
                 break;
             case R.string.my_health:
+                new MyHealthFragment().show(getChildFragmentManager(), MyHealthFragment.TAG);
                 break;
             case R.string.information_edit:
                 InformationEditFragment informationEditFragment = new InformationEditFragment();
