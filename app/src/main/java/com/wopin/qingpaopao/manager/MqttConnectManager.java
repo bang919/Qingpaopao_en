@@ -1,5 +1,7 @@
 package com.wopin.qingpaopao.manager;
 
+import android.os.Handler;
+
 import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.bean.response.CupListRsp;
 import com.wopin.qingpaopao.command.mqtt.MqttColorCommand;
@@ -39,9 +41,18 @@ public class MqttConnectManager extends ConnectManager<MqttConnectManager.MqttUp
     private MqttClient client;
     private boolean hadConnectOneDevice;
     private MqttUpdaterBean mCurrentMqttUpdaterBean;
+    private Handler mHandler;
+    private Runnable mDisconnectRunnable = new Runnable() {
+        @Override
+        public void run() {
+            hadConnectOneDevice = false;
+            onDissconnectDevice(mCurrentMqttUpdaterBean);
+            mCurrentMqttUpdaterBean = null;
+        }
+    };
 
     private MqttConnectManager() {
-
+        mHandler = new Handler();
     }
 
     public static MqttConnectManager getInstance() {
@@ -122,6 +133,8 @@ public class MqttConnectManager extends ConnectManager<MqttConnectManager.MqttUp
                             hadConnectOneDevice = true;
                         }
                         onDatasUpdate(t);
+                        mHandler.removeCallbacks(mDisconnectRunnable);
+                        mHandler.postDelayed(mDisconnectRunnable, 20000);
                     }
 
                     @Override
@@ -140,6 +153,7 @@ public class MqttConnectManager extends ConnectManager<MqttConnectManager.MqttUp
 
     @Override
     public void disconnectServer() {
+        mHandler.removeCallbacks(mDisconnectRunnable);
         if (client != null) {
             try {
                 client.disconnect();
