@@ -157,6 +157,8 @@ public class DrinkingFragment extends BaseMainFragment<DrinkingPresenter> implem
             if (isOn) {
                 mPresenter.connectCup(cupBean);
             }
+        } else if (cupBean.getType().equals(Constants.WIFI)) {
+            mPresenter.connectCup(cupBean);
         }
     }
 

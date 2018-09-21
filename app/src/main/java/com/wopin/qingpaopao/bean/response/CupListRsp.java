@@ -192,5 +192,6 @@ public class CupListRsp extends NormalRsp {
         public void setElectric(String electric) {
             this.electric = electric;
         }
+
     }
 }

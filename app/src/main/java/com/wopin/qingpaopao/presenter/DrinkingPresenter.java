@@ -2,6 +2,7 @@ package com.wopin.qingpaopao.presenter;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
+import android.util.Log;
 
 import com.ble.api.DataUtil;
 import com.wopin.qingpaopao.R;
@@ -92,8 +93,13 @@ public class DrinkingPresenter extends BasePresenter<DrinkingView> {
             public void onDatasUpdate(MqttConnectManager.MqttUpdaterBean mqttUpdaterBean) {
                 String message = mqttUpdaterBean.getMessage();
                 String[] split = message.split(":");
-                if (split.length == 2 && split[0].equals("P") && mCurrentOnlineCup != null) {
+                if ( split[0].equals("P") && mCurrentOnlineCup != null) {
                     mCurrentOnlineCup.setElectric(split[1].substring(0, 2).concat("%"));
+                } else if (split[2].equals("H") && mCurrentOnlineCup != null) {
+                    //Update hydro timer  --> if split[4] == M and split[5] == 0
+                    //Update clean timer --> if split[4] == M and split[5] == 1
+                    //If hydro timer == 0 and split[5] == 0 --> Hydro Finish
+                    //If hydro timer == 0 and split[5] == 1 --> Clean Finish
                 }
             }
         };

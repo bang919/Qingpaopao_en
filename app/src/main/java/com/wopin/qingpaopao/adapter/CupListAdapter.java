@@ -1,9 +1,11 @@
 package com.wopin.qingpaopao.adapter;
 
 import android.content.Context;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +14,9 @@ import android.widget.TextView;
 
 import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.bean.response.CupListRsp;
+import com.wopin.qingpaopao.common.Constants;
 import com.wopin.qingpaopao.dialog.NormalDialog;
+import com.wopin.qingpaopao.manager.MqttConnectManager;
 
 import java.util.ArrayList;
 
@@ -21,6 +25,8 @@ public class CupListAdapter extends RecyclerView.Adapter<CupListAdapter.CupListH
     private ArrayList<CupListRsp.CupBean> mCupBeans;
     private OnCupItemClickCallback mOnCupItemClickCallback;
 
+    private Handler handler = new Handler();
+
     public void setOnCupItemClickCallback(OnCupItemClickCallback onCupItemClickCallback) {
         mOnCupItemClickCallback = onCupItemClickCallback;
     }
@@ -28,6 +34,7 @@ public class CupListAdapter extends RecyclerView.Adapter<CupListAdapter.CupListH
     public void setCupBeans(ArrayList<CupListRsp.CupBean> cupBeans) {
         mCupBeans = cupBeans;
         notifyDataSetChanged();
+        handler.postDelayed(runnable, 5000);
     }
 
     @NonNull
@@ -101,4 +108,20 @@ public class CupListAdapter extends RecyclerView.Adapter<CupListAdapter.CupListH
 
         void onCupItemTurn(CupListRsp.CupBean cupBean, boolean isOn);
     }
+
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+        for (CupListRsp.CupBean cupBean : mCupBeans) {
+            if (cupBean.getType().equals(Constants.WIFI))
+            {
+                if (!cupBean.isConnecting()) {
+                    Log.d("CupListAdapter", "trying to reconnect the wifi module " + cupBean.getUuid());
+                    MqttConnectManager.getInstance().connectDevice(cupBean.getUuid());
+                }
+            }
+        }
+        handler.postDelayed(runnable, 5000);
+        }
+    };
 }
