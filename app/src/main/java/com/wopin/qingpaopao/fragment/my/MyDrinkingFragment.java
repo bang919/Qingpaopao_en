@@ -122,7 +122,7 @@ public class MyDrinkingFragment extends BaseBarDialogFragment implements View.On
         mLineChart.getAxisLeft().addLimitLine(new LimitLine(8));
         mLineChart.getAxisLeft().setAxisMinimum(0);
 
-        mLineChart.getLegend().setPosition(Legend.LegendPosition.ABOVE_CHART_CENTER);
+        mLineChart.getLegend().setPosition(Legend.LegendPosition.ABOVE_CHART_RIGHT);
     }
 
     @Override
