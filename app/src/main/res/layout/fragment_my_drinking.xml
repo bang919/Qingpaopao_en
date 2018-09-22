@@ -124,6 +124,7 @@
         android:id="@+id/line_chart"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_margin="15dp"
         android:layout_marginTop="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

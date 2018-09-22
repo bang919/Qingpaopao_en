@@ -7,11 +7,16 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.IValueFormatter;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.bean.response.DrinkListTodayRsp;
 import com.wopin.qingpaopao.bean.response.DrinkListTotalRsp;
@@ -44,6 +49,7 @@ public class MyDrinkingFragment extends BaseBarDialogFragment implements View.On
 
     private ArrayList<Entry> weekEntrys;
     private ArrayList<Entry> monthEntrys;
+    private IValueFormatter mF;
 
     public static MyDrinkingFragment build(DrinkListTodayRsp drinkListTodayRsp, DrinkListTotalRsp drinkListTotalRsp) {
         MyDrinkingFragment myDrinkingFragment = new MyDrinkingFragment();
@@ -110,9 +116,13 @@ public class MyDrinkingFragment extends BaseBarDialogFragment implements View.On
         mLineChart.getDescription().setEnabled(false);
         mLineChart.setDrawGridBackground(false);
 
-        Legend legend = mLineChart.getLegend();
-        legend.setForm(Legend.LegendForm.CIRCLE);
-        legend.setPosition(Legend.LegendPosition.ABOVE_CHART_CENTER);
+        mLineChart.getXAxis().setGranularity(1);
+        mLineChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
+
+        mLineChart.getAxisLeft().addLimitLine(new LimitLine(8));
+        mLineChart.getAxisLeft().setAxisMinimum(0);
+
+        mLineChart.getLegend().setPosition(Legend.LegendPosition.ABOVE_CHART_CENTER);
     }
 
     @Override
@@ -120,6 +130,12 @@ public class MyDrinkingFragment extends BaseBarDialogFragment implements View.On
 
         weekEntrys = new ArrayList<>();
         monthEntrys = new ArrayList<>();
+        mF = new IValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+                return String.valueOf((int) value);
+            }
+        };
         DrinkListTodayRsp drinkListTodayRsp = (DrinkListTodayRsp) getArguments().getSerializable(DRINKING_TODAY);
         DrinkListTotalRsp drinkListTotalRsp = (DrinkListTotalRsp) getArguments().getSerializable(DRINKING_TOTAL);
         if (drinkListTodayRsp != null && drinkListTodayRsp.getResult() != null) {
@@ -148,7 +164,7 @@ public class MyDrinkingFragment extends BaseBarDialogFragment implements View.On
                 DrinkListTotalRsp.ResultBean resultBean = totalDrinksMap.get(dateKey);
                 int day = resultBean == null ? 0 : resultBean.getDrinks().size();
                 if (dayNeedWeek > 0) {
-                    weekEntrys.add(0, new Entry(dayNeedWeek, day));
+                    weekEntrys.add(0, new Entry(dayNeedWeek - 1, day));
                     mWeekDrinkCount += day;
                     if (resultBean != null && resultBean.get__v() + 1 >= resultBean.getTarget()) {
                         mWeekReachDays++;
@@ -156,7 +172,7 @@ public class MyDrinkingFragment extends BaseBarDialogFragment implements View.On
                     dayNeedWeek--;
                 }
                 if (dayNeedMonth > 0) {
-                    monthEntrys.add(0, new Entry(dayNeedMonth, day));
+                    monthEntrys.add(0, new Entry(dayNeedMonth - 1, day));
                     mMonthDrinkCount += day;
                     if (resultBean != null && resultBean.get__v() + 1 >= resultBean.getTarget()) {
                         mMonthReachDays++;
@@ -197,9 +213,28 @@ public class MyDrinkingFragment extends BaseBarDialogFragment implements View.On
                 mLineChart.setVisibility(View.VISIBLE);
 
                 LineData data = new LineData();
-                data.addDataSet(new LineDataSet(weekEntrys, null));
-                XAxis xAxis = mLineChart.getXAxis();
-                xAxis.setLabelCount(weekEntrys.size());
+                data.addDataSet(new LineDataSet(weekEntrys, getString(R.string.drink_every_title)));
+                data.setValueFormatter(mF);
+                mLineChart.getXAxis().setValueFormatter(new IAxisValueFormatter() {
+                    @Override
+                    public String getFormattedValue(float value, AxisBase axis) {
+                        String s = "星期天";
+                        if (value <= 0) {
+                            s = "星期一";
+                        } else if (value <= 1) {
+                            s = "星期二";
+                        } else if (value <= 2) {
+                            s = "星期三";
+                        } else if (value <= 3) {
+                            s = "星期四";
+                        } else if (value <= 4) {
+                            s = "星期五";
+                        } else if (value <= 5) {
+                            s = "星期六";
+                        }
+                        return s;
+                    }
+                });
                 mLineChart.setData(data);
                 mLineChart.invalidate();
                 break;
@@ -216,8 +251,14 @@ public class MyDrinkingFragment extends BaseBarDialogFragment implements View.On
                 mLineChart.setVisibility(View.VISIBLE);
 
                 LineData data2 = new LineData();
-                data2.addDataSet(new LineDataSet(monthEntrys, null));
-                mLineChart.getXAxis().setLabelCount(monthEntrys.size());
+                data2.addDataSet(new LineDataSet(monthEntrys, getString(R.string.drink_every_title)));
+                data2.setValueFormatter(mF);
+                mLineChart.getXAxis().setValueFormatter(new IAxisValueFormatter() {
+                    @Override
+                    public String getFormattedValue(float value, AxisBase axis) {
+                        return String.valueOf((int) (value + 1));
+                    }
+                });
                 mLineChart.setData(data2);
                 mLineChart.invalidate();
                 break;
