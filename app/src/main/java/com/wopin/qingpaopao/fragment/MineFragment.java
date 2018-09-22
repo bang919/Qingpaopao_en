@@ -240,8 +240,7 @@ public class MineFragment extends BaseMainFragment implements MineGridRvAdapter.
         oks.setTitleUrl("http://wifi.h2popo.com:8081/downloadApp");
         // text是分享文本，所有平台都需要这个字段
         oks.setText("一杯好水改变生活轨迹");
-        // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
-        oks.setImagePath("https://is3-ssl.mzstatic.com/image/thumb/Purple118/v4/f4/1c/64/f41c64d3-21e4-6e66-26d4-9b48872fd3c9/AppIcon-1x_U007emarketing-85-220-3.png/230x0w.jpg");//确保SDcard下面存在此张图片
+        oks.setImageUrl("https://is3-ssl.mzstatic.com/image/thumb/Purple118/v4/f4/1c/64/f41c64d3-21e4-6e66-26d4-9b48872fd3c9/AppIcon-1x_U007emarketing-85-220-3.png/230x0w.jpg");//确保SDcard下面存在此张图片
         // url仅在微信（包括好友和朋友圈）中使用
         oks.setUrl("http://wifi.h2popo.com:8081/downloadApp");
         // comment是我对这条分享的评论，仅在人人网和QQ空间使用
