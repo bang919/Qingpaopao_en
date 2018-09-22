@@ -34,6 +34,7 @@ import com.wopin.qingpaopao.utils.ToastUtils;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import cn.sharesdk.onekeyshare.OnekeyShare;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -170,6 +171,7 @@ public class MineFragment extends BaseMainFragment implements MineGridRvAdapter.
                 });
                 break;
             case R.string.invite_friends:
+                showShare();
                 break;
             case R.string.focus_subtitle:
                 break;
@@ -223,5 +225,33 @@ public class MineFragment extends BaseMainFragment implements MineGridRvAdapter.
     private String getTodayTime() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         return simpleDateFormat.format(new Date());
+    }
+
+    private void showShare() {
+        OnekeyShare oks = new OnekeyShare();
+        //关闭sso授权
+        oks.disableSSOWhenAuthorize();
+
+// 分享时Notification的图标和文字  2.5.9以后的版本不调用此方法
+        //oks.setNotification(R.drawable.ic_launcher, getString(R.string.app_name));
+        // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
+        oks.setTitle("邀请您一起");
+        // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
+        oks.setTitleUrl("http://wifi.h2popo.com:8081/downloadApp");
+        // text是分享文本，所有平台都需要这个字段
+        oks.setText("一杯好水改变生活轨迹");
+        // imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
+        oks.setImagePath("https://is3-ssl.mzstatic.com/image/thumb/Purple118/v4/f4/1c/64/f41c64d3-21e4-6e66-26d4-9b48872fd3c9/AppIcon-1x_U007emarketing-85-220-3.png/230x0w.jpg");//确保SDcard下面存在此张图片
+        // url仅在微信（包括好友和朋友圈）中使用
+        oks.setUrl("http://wifi.h2popo.com:8081/downloadApp");
+        // comment是我对这条分享的评论，仅在人人网和QQ空间使用
+//        oks.setComment("我是测试评论文本");
+        // site是分享此内容的网站名称，仅在QQ空间使用
+        oks.setSite(getString(R.string.app_name));
+        // siteUrl是分享此内容的网站地址，仅在QQ空间使用
+        oks.setSiteUrl("http://wifi.h2popo.com:8081/downloadApp");
+
+// 启动分享GUI
+        oks.show(getContext());
     }
 }

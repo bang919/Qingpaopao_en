@@ -6,6 +6,7 @@ import android.widget.TextView;
 import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.fragment.BaseBarDialogFragment;
 import com.wopin.qingpaopao.presenter.BasePresenter;
+import com.wopin.qingpaopao.utils.StringUtils;
 
 public class AboutUsFragment extends BaseBarDialogFragment {
 
@@ -29,7 +30,7 @@ public class AboutUsFragment extends BaseBarDialogFragment {
     @Override
     protected void initView(View rootView) {
         TextView textView = rootView.findViewById(R.id.textview);
-        textView.setText(R.string.app_synopsis);
+        textView.setText(StringUtils.getAssetsTex("about_us.txt", getContext()));
     }
 
     @Override
