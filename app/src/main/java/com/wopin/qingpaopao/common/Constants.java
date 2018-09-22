@@ -17,4 +17,5 @@ public class Constants {
     public final static String THIRD_REQUEST = "third request";
     public final static String LOGIN_BEAN = "login bean";
     public final static String USERNAME = "username";
+    public final static String SIGN_IN_DATA = "sign in data";
 }

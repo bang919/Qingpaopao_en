@@ -140,5 +140,6 @@ public class LoginPresenter extends BasePresenter<LoginView> {
         SPUtils.remove(MyApplication.getMyApplicationContext(), Constants.LOGIN_REQUEST);
         SPUtils.remove(MyApplication.getMyApplicationContext(), Constants.THIRD_REQUEST);
         SPUtils.remove(MyApplication.getMyApplicationContext(), Constants.LOGIN_BEAN);
+        SPUtils.remove(MyApplication.getMyApplicationContext(), Constants.SIGN_IN_DATA);
     }
 }

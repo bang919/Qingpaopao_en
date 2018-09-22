@@ -16,6 +16,7 @@ import com.wopin.qingpaopao.bean.response.DrinkListTodayRsp;
 import com.wopin.qingpaopao.bean.response.DrinkListTotalRsp;
 import com.wopin.qingpaopao.bean.response.LoginRsp;
 import com.wopin.qingpaopao.bean.response.NormalRsp;
+import com.wopin.qingpaopao.common.Constants;
 import com.wopin.qingpaopao.fragment.information_edit.InformationEditFragment;
 import com.wopin.qingpaopao.fragment.my.MyDrinkingFragment;
 import com.wopin.qingpaopao.fragment.my.MyHealthFragment;
@@ -27,7 +28,11 @@ import com.wopin.qingpaopao.presenter.BasePresenter;
 import com.wopin.qingpaopao.presenter.LoginPresenter;
 import com.wopin.qingpaopao.utils.GlideUtils;
 import com.wopin.qingpaopao.utils.HttpUtil;
+import com.wopin.qingpaopao.utils.SPUtils;
 import com.wopin.qingpaopao.utils.ToastUtils;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -43,6 +48,7 @@ public class MineFragment extends BaseMainFragment implements MineGridRvAdapter.
     private TextView mTotalDrinkTv;
     private DrinkListTodayRsp mDrinkListTodayRsp;
     private DrinkListTotalRsp mDrinkListTotalRsp;
+    private TextView mSignInTv;
 
     @Override
     protected int getLayout() {
@@ -76,7 +82,14 @@ public class MineFragment extends BaseMainFragment implements MineGridRvAdapter.
         mCurrentDrinkTv = rootView.findViewById(R.id.number_current_drink_quantity);
         mTotalDrinkTv = rootView.findViewById(R.id.number_total_drink_quantity);
 
-        rootView.findViewById(R.id.tv_sign_in).setOnClickListener(this);
+        mSignInTv = rootView.findViewById(R.id.tv_sign_in);
+        String recordTime = (String) SPUtils.get(getContext(), Constants.SIGN_IN_DATA, "");
+        String todayTime = getTodayTime();
+        if (todayTime.equals(recordTime)) {
+            mSignInTv.setText(R.string.had_sign_in);
+        } else {
+            mSignInTv.setOnClickListener(this);
+        }
     }
 
     @Override
@@ -192,6 +205,8 @@ public class MineFragment extends BaseMainFragment implements MineGridRvAdapter.
                         new BasePresenter.MyObserver<NormalRsp>() {
                             @Override
                             public void onMyNext(NormalRsp normalRsp) {
+                                SPUtils.put(getContext(), Constants.SIGN_IN_DATA, getTodayTime());
+                                mSignInTv.setText(R.string.had_sign_in);
                                 ToastUtils.showShort(getString(R.string.sign_in_success));
                             }
 
@@ -203,5 +218,10 @@ public class MineFragment extends BaseMainFragment implements MineGridRvAdapter.
                 );
                 break;
         }
+    }
+
+    private String getTodayTime() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        return simpleDateFormat.format(new Date());
     }
 }

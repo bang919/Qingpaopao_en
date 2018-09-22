@@ -44,6 +44,7 @@
     <string name="mine">我的</string>
     <string name="score">积分</string>
     <string name="sign_in"><u>签到</u></string>
+    <string name="had_sign_in">已签到</string>
     <string name="sign_in_success">签到成功</string>
     <string name="current_drink_quantity">当前喝水量</string>
     <string name="total_drink_quantity">累计喝水量</string>
