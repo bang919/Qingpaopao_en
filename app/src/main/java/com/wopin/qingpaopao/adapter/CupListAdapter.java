@@ -3,7 +3,6 @@ package com.wopin.qingpaopao.adapter;
 import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -38,6 +37,13 @@ public class CupListAdapter extends RecyclerView.Adapter<CupListAdapter.CupListH
         handler.postDelayed(runnable, 5000);
     }
 
+    public void removeOneItem(int position) {
+        if (mOnCupItemClickCallback != null) {
+            mOnCupItemClickCallback.onCupItemDelete(mCupBeans.get(position), position);
+            notifyItemRemoved(position);
+        }
+    }
+
     @NonNull
     @Override
     public CupListHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -53,12 +59,6 @@ public class CupListAdapter extends RecyclerView.Adapter<CupListAdapter.CupListH
             @Override
             public void onClick(View v) {
                 mOnCupItemClickCallback.onCupItemClick(cupBean, position);
-            }
-        });
-        holder.mDeleteBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mOnCupItemClickCallback.onCupItemDelete(cupBean, position);
             }
         });
         holder.mLightIv.setOnClickListener(new View.OnClickListener() {
@@ -88,17 +88,13 @@ public class CupListAdapter extends RecyclerView.Adapter<CupListAdapter.CupListH
 
     public class CupListHolder extends RecyclerView.ViewHolder {
 
-        public ConstraintLayout mLayout;
         public TextView mNameTv;
         public ImageView mLightIv;
-        public TextView mDeleteBtn;
 
         public CupListHolder(View itemView) {
             super(itemView);
-            mLayout = itemView.findViewById(R.id.cup_layout);
             mNameTv = itemView.findViewById(R.id.tv_name);
             mLightIv = itemView.findViewById(R.id.iv_light);
-            mDeleteBtn = itemView.findViewById(R.id.tv_delete);
         }
     }
 
@@ -113,16 +109,15 @@ public class CupListAdapter extends RecyclerView.Adapter<CupListAdapter.CupListH
     private Runnable runnable = new Runnable() {
         @Override
         public void run() {
-        for (CupListRsp.CupBean cupBean : mCupBeans) {
-            if (cupBean.getType().equals(Constants.WIFI))
-            {
-                if (!cupBean.isConnecting()) {
-                    Log.d("CupListAdapter", "trying to reconnect the wifi module " + cupBean.getUuid());
-                    MqttConnectManager.getInstance().connectDevice(cupBean.getUuid());
+            for (CupListRsp.CupBean cupBean : mCupBeans) {
+                if (cupBean.getType().equals(Constants.WIFI)) {
+                    if (!cupBean.isConnecting()) {
+                        Log.d("CupListAdapter", "trying to reconnect the wifi module " + cupBean.getUuid());
+                        MqttConnectManager.getInstance().connectDevice(cupBean.getUuid());
+                    }
                 }
             }
-        }
-        handler.postDelayed(runnable, 5000);
+            handler.postDelayed(runnable, 5000);
         }
     };
 }

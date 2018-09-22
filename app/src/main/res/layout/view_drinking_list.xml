@@ -25,7 +25,7 @@
         app:layout_constraintBottom_toBottomOf="@id/actionbar_title"
         app:layout_constraintLeft_toLeftOf="parent" />
 
-    <android.support.v7.widget.RecyclerView
+    <com.yanzhenjie.recyclerview.swipe.SwipeMenuRecyclerView
         android:id="@+id/rv_device_list"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

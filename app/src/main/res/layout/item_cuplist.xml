@@ -1,62 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="75dp"
-    android:layout_marginBottom="10dp">
+    android:layout_marginBottom="10dp"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/iv_cup"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_centerVertical="true"
+        android:layout_margin="20dp"
+        android:scaleType="centerInside"
+        android:src="@mipmap/pc_cup" />
 
     <TextView
-        android:id="@+id/tv_delete"
-        android:layout_width="100dp"
-        android:layout_height="match_parent"
-        android:background="@color/colorRed"
-        android:gravity="center"
-        android:text="@string/delete"
-        android:textColor="@color/colorWhite"
-        android:textSize="20sp"
-        app:layout_constraintRight_toRightOf="parent" />
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@id/iv_cup"
+        android:gravity="center_vertical"
+        android:text="abc"
+        android:textColor="@color/colorAccent"
+        android:textSize="18sp" />
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/cup_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorWhite"
-        android:tag="slide_flag">
-
-        <ImageView
-            android:id="@+id/iv_cup"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_margin="20dp"
-            android:scaleType="centerInside"
-            android:src="@mipmap/pc_cup"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:textColor="@color/colorAccent"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/iv_cup"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <ImageView
-            android:id="@+id/iv_light"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginRight="10dp"
-            android:padding="10dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/select_img_cup_light"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </android.support.constraint.ConstraintLayout>
+    <ImageView
+        android:id="@+id/iv_light"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:padding="10dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/select_img_cup_light" />
 
 
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>
