@@ -6,9 +6,11 @@ import com.wopin.qingpaopao.bean.request.BodyProfilesBean;
 import com.wopin.qingpaopao.bean.request.CupUpdateReq;
 import com.wopin.qingpaopao.bean.request.LoginReq;
 import com.wopin.qingpaopao.bean.request.PaymentBean;
+import com.wopin.qingpaopao.bean.request.SendCommentReq;
 import com.wopin.qingpaopao.bean.request.ThirdReq;
 import com.wopin.qingpaopao.bean.request.TrackingNumberSettingBean;
 import com.wopin.qingpaopao.bean.response.BlogPostRsp;
+import com.wopin.qingpaopao.bean.response.CommentRsp;
 import com.wopin.qingpaopao.bean.response.CrowdfundingOrderTotalMoneyRsp;
 import com.wopin.qingpaopao.bean.response.CrowdfundingOrderTotalPeopleRsp;
 import com.wopin.qingpaopao.bean.response.CupListRsp;
@@ -97,6 +99,12 @@ public interface ApiInterface {
 
     @POST("blog/searchPosts")
     Observable<ExploreListRsp> searchExplores(@Body RequestBody requestBody);
+
+    @GET("blog/postComments/{id}")
+    Observable<CommentRsp> getComments(@Path("id") String exploreid);
+
+    @POST("blog/newComment")
+    Observable<NormalRsp> sendComment(@Body SendCommentReq sendCommentReq);
 
     @GET("blog/post/{id}")
     Observable<BlogPostRsp> getBlogPost(@Path("id") String exploreid);

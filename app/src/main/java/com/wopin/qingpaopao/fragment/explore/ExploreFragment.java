@@ -27,6 +27,12 @@ public class ExploreFragment extends BaseMainFragment<ExplorePresenter> implemen
     private ExploreListAdapter mExploreListAdapter;
 
     @Override
+    public void onViewPagerFragmentPause() {
+        super.onViewPagerFragmentPause();
+        setLoadingVisibility(false);
+    }
+
+    @Override
     protected int getLayout() {
         return R.layout.fragment_explore;
     }
@@ -45,7 +51,9 @@ public class ExploreFragment extends BaseMainFragment<ExplorePresenter> implemen
     }
 
     private void setLoadingVisibility(boolean isVisibility) {
-        mLoadingView.setVisibility(isVisibility ? View.VISIBLE : View.GONE);
+        if (mLoadingView != null) {
+            mLoadingView.setVisibility(isVisibility ? View.VISIBLE : View.GONE);
+        }
     }
 
     @Override

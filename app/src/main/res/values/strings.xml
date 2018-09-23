@@ -261,5 +261,7 @@
     <string name="splendid_comment">精彩评论</string>
     <string name="send">发送</string>
     <string name="comment_hint">写下你的评论</string>
+    <string name="comment_reply_someone">\@%s :</string>
+    <string name="follow_comment_content"><![CDATA[<font color="#94D6F7">%s</font>: <font color="#3F3F3F">%s</font>]]></string>
 
 </resources>

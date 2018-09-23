@@ -35,7 +35,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class HttpClient {
 
     private static int cacheSize = 10 * 1024 * 1024; // 10 MiB
-    private static int TIME_OUT = 15;// Second
+    private static int TIME_OUT = 20;// Second
     private static OkHttpClient mOkHttpClient;
     private static ApiInterface mApiInterface;
 

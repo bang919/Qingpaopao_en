@@ -24,9 +24,11 @@ public class ExploreListAdapter extends RecyclerView.Adapter<ExploreListAdapter.
 
     private ArrayList<ExploreListRsp.PostsBean> mPosts;
     private ExploreListItemClick mExploreListItemClick;
+    private SimpleDateFormat mFormat;
 
     public ExploreListAdapter(ExploreListItemClick exploreListItemClick) {
         mExploreListItemClick = exploreListItemClick;
+        mFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
     }
 
     public void setDatas(ArrayList<ExploreListRsp.PostsBean> posts) {
@@ -45,8 +47,7 @@ public class ExploreListAdapter extends RecyclerView.Adapter<ExploreListAdapter.
         final ExploreListRsp.PostsBean postsBean = mPosts.get(position);
         GlideUtils.loadImage(holder.mImageView, -1, postsBean.getFeatured_image(), new CenterCrop(), new RoundedCorners(10));
         holder.mTitleTv.setText(postsBean.getTitle());
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
-        holder.mTimeTv.setText(TimeFormatUtils.formatToTime(postsBean.getDate(), format));
+        holder.mTimeTv.setText(TimeFormatUtils.formatToTime(postsBean.getDate(), mFormat));
         holder.mCommentNum.setText(String.valueOf(postsBean.getComments()));
         holder.mLikeNum.setText(String.valueOf(postsBean.getLikes()));
         holder.mStarsNum.setText(String.valueOf(postsBean.getStars()));
