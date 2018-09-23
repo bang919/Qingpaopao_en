@@ -1,6 +1,7 @@
 package com.wopin.qingpaopao.fragment.welfare;
 
 import android.graphics.Rect;
+import android.support.constraint.Group;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PagerSnapHelper;
@@ -31,6 +32,7 @@ public class WelfareFragment extends BaseMainFragment<WelfarePresenter> implemen
     private View mLoadingView;
     private WelfareBannerAdapter mWelfareBannerAdapter;
     private ScoreMarketContentAdapter mScoreMarketContentAdapter;
+    private Group mIconGroup;
 
     @Override
     protected int getLayout() {
@@ -44,6 +46,7 @@ public class WelfareFragment extends BaseMainFragment<WelfarePresenter> implemen
 
     @Override
     protected void initView(View rootView) {
+        mIconGroup = rootView.findViewById(R.id.icons);
         mBannerRv = rootView.findViewById(R.id.rv_banner);
         mScoreMarketRv = rootView.findViewById(R.id.rv_score_market_list);
         mLoadingView = rootView.findViewById(R.id.progress_bar_layout);
@@ -51,6 +54,8 @@ public class WelfareFragment extends BaseMainFragment<WelfarePresenter> implemen
         rootView.findViewById(R.id.iv_old_change_new).setOnClickListener(this);
         rootView.findViewById(R.id.iv_crowd_funding).setOnClickListener(this);
         rootView.findViewById(R.id.iv_my_orders).setOnClickListener(this);
+
+        mIconGroup.setVisibility(View.GONE);
     }
 
     private void setLoadingVisibility(boolean isVisibility) {
@@ -122,6 +127,7 @@ public class WelfareFragment extends BaseMainFragment<WelfarePresenter> implemen
     public void onRequestSuccess() {
         setLoadingVisibility(false);
         onDataRefreshFinish(true);
+        mIconGroup.setVisibility(View.VISIBLE);
     }
 
     @Override

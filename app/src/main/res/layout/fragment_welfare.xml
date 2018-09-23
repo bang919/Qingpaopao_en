@@ -148,4 +148,10 @@
             android:layout_centerInParent="true"
             android:indeterminateDrawable="@drawable/bg_pb_loading" />
     </RelativeLayout>
+
+    <android.support.constraint.Group
+        android:id="@+id/icons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="line,iv_score_market,tv_score_market,iv_old_change_new,tv_old_change_new,iv_crowd_funding,tv_crowd_funding,iv_my_orders,tv_my_orders" />
 </android.support.constraint.ConstraintLayout>
