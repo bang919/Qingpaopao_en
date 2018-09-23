@@ -114,6 +114,11 @@ public class ExploreDetailFragment extends BaseBarDialogFragment<ExploreDetailPr
         mCommentRv.setAdapter(mExploreCommentsAdapter);
 
         keyBoardHeight = getActivity().getWindowManager().getDefaultDisplay().getHeight() / 3;
+
+        //解决scrollview嵌套recyclerview滑动不流畅
+        //TODO 不建议scrollview嵌套recyclerview，数据多了可能会出现crash，目前时间紧迫先这样做
+        mCommentRv.setHasFixedSize(true);
+        mCommentRv.setNestedScrollingEnabled(false);
     }
 
     @Override
