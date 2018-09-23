@@ -1,8 +1,14 @@
 package com.wopin.qingpaopao.fragment.explore;
 
+import android.content.Context;
+import android.support.design.widget.TabLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
 import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.adapter.ExploreListAdapter;
@@ -14,6 +20,8 @@ import com.wopin.qingpaopao.view.ExploreView;
 
 public class ExploreFragment extends BaseMainFragment<ExplorePresenter> implements ExploreView, ExploreListAdapter.ExploreListItemClick {
 
+    private TabLayout mTabLayout;
+    private EditText mSearchEt;
     private RecyclerView mExploreRv;
     private View mLoadingView;
     private ExploreListAdapter mExploreListAdapter;
@@ -30,6 +38,8 @@ public class ExploreFragment extends BaseMainFragment<ExplorePresenter> implemen
 
     @Override
     protected void initView(View rootView) {
+        mSearchEt = rootView.findViewById(R.id.et_search);
+        mTabLayout = rootView.findViewById(R.id.explore_tablayout);
         mExploreRv = rootView.findViewById(R.id.rv_explore_list);
         mLoadingView = rootView.findViewById(R.id.progress_bar_layout);
     }
@@ -43,11 +53,51 @@ public class ExploreFragment extends BaseMainFragment<ExplorePresenter> implemen
         mExploreRv.setLayoutManager(new LinearLayoutManager(getContext()));
         mExploreListAdapter = new ExploreListAdapter(this);
         mExploreRv.setAdapter(mExploreListAdapter);
+
+        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                String s = tab.getText().toString();
+                if (s.equals(getString(R.string.hot_topic))) {//热门话题
+                    mPresenter.listHotExplores();
+                } else if (s.equals(getString(R.string.newest_topic))) {//最新话题
+                    mPresenter.listNewlyExplores();
+                } else {//我的话题
+                    mPresenter.listMyExplores();
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+        mSearchEt.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                    String s = mSearchEt.getText().toString();
+                    if (TextUtils.isEmpty(s)) {
+                        ToastUtils.showShort(R.string.search_your_favourite);
+                        return true;
+                    }
+                    ((InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(mSearchEt.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+                    mPresenter.searchExplores(s);
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 
     @Override
     public void refreshData() {
-        mPresenter.listExplores();
+        mPresenter.listHotExplores();
     }
 
     @Override
@@ -70,24 +120,6 @@ public class ExploreFragment extends BaseMainFragment<ExplorePresenter> implemen
 
     @Override
     public void onExploreItemClick(ExploreListRsp.PostsBean postsBean, int position) {
-        String webViewUrl = "http://url.cn/5WQEb6T";
-        switch (postsBean.getID()) {
-            case 1:
-                webViewUrl = "http://url.cn/5WQEb6T";
-                break;
-            case 43:
-                webViewUrl = "http://url.cn/5I49MBy";
-                break;
-            case 56:
-                webViewUrl = "http://url.cn/5bMMFrg";
-                break;
-            case 78:
-                webViewUrl = "http://url.cn/5EzNsV3";
-                break;
-            case 82:
-                webViewUrl = "http://url.cn/5f1JsDp";
-                break;
-        }
-        ExploreDetailFragment.build(webViewUrl).show(getChildFragmentManager(), ExploreDetailFragment.TAG);
+        ExploreDetailFragment.build(postsBean).show(getChildFragmentManager(), ExploreDetailFragment.TAG);
     }
 }

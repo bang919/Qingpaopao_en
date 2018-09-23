@@ -93,6 +93,7 @@
     <string name="search_your_favourite">搜索你感兴趣的信息</string>
     <string name="hot_topic">热门话题</string>
     <string name="newest_topic">最新话题</string>
+    <string name="my_topic">我的话题</string>
     <string name="other">其他</string>
     <string name="issue">发布</string>
     <string name="device">设备</string>
@@ -253,5 +254,12 @@
     <string name="blood_fat_key3">胆固醇脂</string>
     <string name="blood_glucose_key1">空腹血糖</string>
     <string name="blood_glucose_key2">餐后2小时血糖</string>
+    <string name="add_follow">+ 关注</string>
+    <string name="read_count">阅读 %d</string>
+    <string name="collection">收藏</string>
+    <string name="share">分享</string>
+    <string name="splendid_comment">精彩评论</string>
+    <string name="send">发送</string>
+    <string name="comment_hint">写下你的评论</string>
 
 </resources>

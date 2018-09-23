@@ -8,6 +8,7 @@ import com.wopin.qingpaopao.bean.request.LoginReq;
 import com.wopin.qingpaopao.bean.request.PaymentBean;
 import com.wopin.qingpaopao.bean.request.ThirdReq;
 import com.wopin.qingpaopao.bean.request.TrackingNumberSettingBean;
+import com.wopin.qingpaopao.bean.response.BlogPostRsp;
 import com.wopin.qingpaopao.bean.response.CrowdfundingOrderTotalMoneyRsp;
 import com.wopin.qingpaopao.bean.response.CrowdfundingOrderTotalPeopleRsp;
 import com.wopin.qingpaopao.bean.response.CupListRsp;
@@ -85,8 +86,20 @@ public interface ApiInterface {
     @POST("users/changeUserName")
     Observable<NormalRsp> changeUsername(@Body ThirdReq loginReq);
 
-    @GET("https://public-api.wordpress.com/rest/v1.1/sites/wifi.h2popo.com/posts/?page=1&number=100&fields=ID,title,date,featured_image")
-    Observable<ExploreListRsp> listExplores();
+    @GET("blog/hotPosts")
+    Observable<ExploreListRsp> listHotExplores(@Query("page") int page, @Query("num") int num);
+
+    @GET("blog/posts")
+    Observable<ExploreListRsp> listNewlyExplores(@Query("page") int page, @Query("num") int num);
+
+    @GET("blog/myPosts")
+    Observable<ExploreListRsp> listMyExplores(@Query("page") int page, @Query("num") int num);
+
+    @POST("blog/searchPosts")
+    Observable<ExploreListRsp> searchExplores(@Body RequestBody requestBody);
+
+    @GET("blog/post/{id}")
+    Observable<BlogPostRsp> getBlogPost(@Path("id") String exploreid);
 
     @POST("users/drink")
     Observable<NormalRsp> drink(@Body RequestBody requestBody);

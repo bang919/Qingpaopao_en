@@ -15,9 +15,54 @@ public class ExplorePresenter extends BasePresenter<ExploreView> {
         mExploreModel = new ExploreModel();
     }
 
-    public void listExplores() {
+    public void listHotExplores() {
         mView.onLoading();
-        subscribeNetworkTask(getClass().getSimpleName().concat("ExplorePresenter"), mExploreModel.listExplores(), new MyObserver<ExploreListRsp>() {
+        subscribeNetworkTask(getClass().getSimpleName().concat("listHotExplores"), mExploreModel.listHotExplores(), new MyObserver<ExploreListRsp>() {
+            @Override
+            public void onMyNext(ExploreListRsp exploreListRsp) {
+                mView.onExploreList(exploreListRsp);
+            }
+
+            @Override
+            public void onMyError(String errorMessage) {
+                mView.onError(errorMessage);
+            }
+        });
+    }
+
+    public void listNewlyExplores() {
+        mView.onLoading();
+        subscribeNetworkTask(getClass().getSimpleName().concat("listNewlyExplores"), mExploreModel.listNewlyExplores(), new MyObserver<ExploreListRsp>() {
+            @Override
+            public void onMyNext(ExploreListRsp exploreListRsp) {
+                mView.onExploreList(exploreListRsp);
+            }
+
+            @Override
+            public void onMyError(String errorMessage) {
+                mView.onError(errorMessage);
+            }
+        });
+    }
+
+    public void listMyExplores() {
+        mView.onLoading();
+        subscribeNetworkTask(getClass().getSimpleName().concat("listMyExplores"), mExploreModel.listMyExplores(), new MyObserver<ExploreListRsp>() {
+            @Override
+            public void onMyNext(ExploreListRsp exploreListRsp) {
+                mView.onExploreList(exploreListRsp);
+            }
+
+            @Override
+            public void onMyError(String errorMessage) {
+                mView.onError(errorMessage);
+            }
+        });
+    }
+
+    public void searchExplores(String searchString) {
+        mView.onLoading();
+        subscribeNetworkTask(getClass().getSimpleName().concat("searchExplores"), mExploreModel.searchExplores(searchString), new MyObserver<ExploreListRsp>() {
             @Override
             public void onMyNext(ExploreListRsp exploreListRsp) {
                 mView.onExploreList(exploreListRsp);

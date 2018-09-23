@@ -2,7 +2,7 @@ package com.wopin.qingpaopao.bean.response;
 
 import java.util.List;
 
-public class CrowdfundingOrderTotalMoneyRsp {
+public class CrowdfundingOrderTotalMoneyRsp extends NormalRsp{
 
 
     /**
@@ -11,25 +11,7 @@ public class CrowdfundingOrderTotalMoneyRsp {
      * result : [{"_id":null,"totalPrice":5995}]
      */
 
-    private String status;
-    private String msg;
     private List<ResultBean> result;
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
 
     public List<ResultBean> getResult() {
         return result;

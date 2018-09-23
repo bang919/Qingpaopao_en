@@ -3,7 +3,7 @@ package com.wopin.qingpaopao.bean.response;
 import java.io.Serializable;
 import java.util.List;
 
-public class DrinkListTotalRsp implements Serializable {
+public class DrinkListTotalRsp extends NormalRsp implements Serializable {
 
     /**
      * status : 0
@@ -11,25 +11,7 @@ public class DrinkListTotalRsp implements Serializable {
      * result : [{"_id":"5b96865b1c6a360f2907a99c","userId":"5b88fad74becec728bafe698","date":"20180910","target":8,"__v":1,"drinks":[{"time":"2018-09-10 22:57","_id":"5b96865b1c6a360f2907a99d"},{"time":"2018-09-10 22:57","_id":"5b9686631c6a360f2907a99e"}]}]
      */
 
-    private String status;
-    private String msg;
     private List<ResultBean> result;
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
 
     public List<ResultBean> getResult() {
         return result;
