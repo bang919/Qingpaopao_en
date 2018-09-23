@@ -224,7 +224,7 @@ public class ExploreDetailFragment extends BaseBarDialogFragment<ExploreDetailPr
         mCurrentCommentTarget = commentBean.getId();
         mCommentEt.setHint(getString(R.string.comment_reply_someone, commentBean.getAuthor_name()));
         setKeyBoardShow(mCommentEt, true);
-
+        mCommentEt.setText(null);
         mRootView.addOnLayoutChangeListener(mKeyBoardListener);
     }
 
