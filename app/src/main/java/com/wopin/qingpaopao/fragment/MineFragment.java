@@ -22,6 +22,7 @@ import com.wopin.qingpaopao.fragment.my.CollectSubtitleFragment;
 import com.wopin.qingpaopao.fragment.my.FollowSubtitleFragment;
 import com.wopin.qingpaopao.fragment.my.HistorySubtitleFragment;
 import com.wopin.qingpaopao.fragment.my.MyDrinkingFragment;
+import com.wopin.qingpaopao.fragment.my.MyFansFragment;
 import com.wopin.qingpaopao.fragment.my.MyFollowFragment;
 import com.wopin.qingpaopao.fragment.my.MyHealthFragment;
 import com.wopin.qingpaopao.fragment.system_setting.SystemSettingFragment;
@@ -199,6 +200,7 @@ public class MineFragment extends BaseMainFragment implements MineGridRvAdapter.
                 new CollectSubtitleFragment().show(getChildFragmentManager(), CollectSubtitleFragment.TAG);
                 break;
             case R.string.my_fans:
+                new MyFansFragment().show(getChildFragmentManager(), MyFansFragment.TAG);
                 break;
             case R.string.my_focus:
                 new MyFollowFragment().show(getChildFragmentManager(), MyFollowFragment.TAG);

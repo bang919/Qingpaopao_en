@@ -16,9 +16,9 @@ import com.wopin.qingpaopao.utils.ToastUtils;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
-public class MyFollowFragment extends BaseBarDialogFragment {
+public class MyFansFragment extends BaseBarDialogFragment {
 
-    public static final String TAG = "MyFollowFragment";
+    public static final String TAG = "MyFansFragment";
     private RecyclerView mRecyclerView;
     private FollowListAdapter mFollowListAdapter;
     private Disposable mDisposable;
@@ -58,7 +58,7 @@ public class MyFollowFragment extends BaseBarDialogFragment {
     protected void initEvent() {
         setLoadingVisibility(true);
         ExploreDetailModel exploreDetailModel = new ExploreDetailModel();
-        exploreDetailModel.getMyFollowList().subscribe(new Observer<FollowListRsp>() {
+        exploreDetailModel.getMyFansList().subscribe(new Observer<FollowListRsp>() {
             @Override
             public void onSubscribe(Disposable d) {
                 mDisposable = d;

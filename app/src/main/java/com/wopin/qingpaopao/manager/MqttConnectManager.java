@@ -110,7 +110,10 @@ public class MqttConnectManager extends ConnectManager<MqttConnectManager.MqttUp
 
     private void haveNetworkToConnectMqtt(final OnServerConnectCallback onServerConnectCallback) {
         try {
-            if (client == null) {
+            if (client == null || !client.isConnected()) {
+                if (client != null) {
+                    disconnectServer();
+                }
                 MqttConnectOptions conOpt = new MqttConnectOptions();
                 conOpt.setMqttVersion(MqttConnectOptions.MQTT_VERSION_3_1_1);
                 conOpt.setCleanSession(true);

@@ -2,7 +2,7 @@ package com.wopin.qingpaopao.model;
 
 import com.wopin.qingpaopao.bean.request.SendCommentReq;
 import com.wopin.qingpaopao.bean.response.CommentRsp;
-import com.wopin.qingpaopao.bean.response.MyFollowListRsp;
+import com.wopin.qingpaopao.bean.response.FollowListRsp;
 import com.wopin.qingpaopao.bean.response.NormalRsp;
 import com.wopin.qingpaopao.http.ApiInterface;
 import com.wopin.qingpaopao.http.HttpClient;
@@ -62,8 +62,14 @@ public class ExploreDetailModel {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<MyFollowListRsp> getMyFollowList() {
+    public Observable<FollowListRsp> getMyFollowList() {
         return HttpClient.getApiInterface().getMyFollowList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<FollowListRsp> getMyFansList() {
+        return HttpClient.getApiInterface().getMyFansList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

@@ -2,15 +2,15 @@ package com.wopin.qingpaopao.bean.response;
 
 import java.util.ArrayList;
 
-public class MyFollowListRsp extends NormalRsp {
+public class FollowListRsp extends NormalRsp {
 
     private ArrayList<MyFollowBean> result;
 
-    public ArrayList<MyFollowBean> getMyFollowBeans() {
+    public ArrayList<MyFollowBean> getFollowBeans() {
         return result;
     }
 
-    public void setMyFollowBeans(ArrayList<MyFollowBean> result) {
+    public void setFollowBeans(ArrayList<MyFollowBean> result) {
         this.result = result;
     }
 

@@ -18,7 +18,7 @@ import com.wopin.qingpaopao.bean.response.DrinkListTodayRsp;
 import com.wopin.qingpaopao.bean.response.DrinkListTotalRsp;
 import com.wopin.qingpaopao.bean.response.ExploreListRsp;
 import com.wopin.qingpaopao.bean.response.LoginRsp;
-import com.wopin.qingpaopao.bean.response.MyFollowListRsp;
+import com.wopin.qingpaopao.bean.response.FollowListRsp;
 import com.wopin.qingpaopao.bean.response.NormalRsp;
 import com.wopin.qingpaopao.bean.response.OrderResponse;
 import com.wopin.qingpaopao.bean.response.ProductBanner;
@@ -126,7 +126,10 @@ public interface ApiInterface {
     Observable<NormalRsp> unFollowAuthor(@Body RequestBody requestBody);
 
     @GET("blog/myFollowList")
-    Observable<MyFollowListRsp> getMyFollowList();
+    Observable<FollowListRsp> getMyFollowList();
+
+    @GET("blog/fansList")
+    Observable<FollowListRsp> getMyFansList();
 
     @POST("blog/likeComment")
     Observable<NormalRsp> likeBlogComment(@Body RequestBody requestBody);

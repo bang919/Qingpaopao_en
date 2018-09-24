@@ -3,7 +3,7 @@ package com.wopin.qingpaopao.presenter;
 import android.content.Context;
 
 import com.wopin.qingpaopao.bean.response.CommentRsp;
-import com.wopin.qingpaopao.bean.response.MyFollowListRsp;
+import com.wopin.qingpaopao.bean.response.FollowListRsp;
 import com.wopin.qingpaopao.bean.response.NormalRsp;
 import com.wopin.qingpaopao.model.ExploreDetailModel;
 import com.wopin.qingpaopao.view.ExploreDetailView;
@@ -48,12 +48,12 @@ public class ExploreDetailPresenter extends BasePresenter<ExploreDetailView> {
     }
 
     public void checkFollow(final String authorId) {
-        subscribeNetworkTask(getClass().getSimpleName().concat("checkFollow"), mExploreDetailModel.getMyFollowList(), new MyObserver<MyFollowListRsp>() {
+        subscribeNetworkTask(getClass().getSimpleName().concat("checkFollow"), mExploreDetailModel.getMyFollowList(), new MyObserver<FollowListRsp>() {
             @Override
-            public void onMyNext(MyFollowListRsp myFollowListRsp) {
+            public void onMyNext(FollowListRsp followListRsp) {
                 boolean isFollowed = false;
-                List<MyFollowListRsp.MyFollowBean> result = myFollowListRsp.getMyFollowBeans();
-                for (MyFollowListRsp.MyFollowBean myFollowBean : result) {
+                List<FollowListRsp.MyFollowBean> result = followListRsp.getFollowBeans();
+                for (FollowListRsp.MyFollowBean myFollowBean : result) {
                     if (myFollowBean.get_id().equals(authorId)) {
                         isFollowed = true;
                         break;

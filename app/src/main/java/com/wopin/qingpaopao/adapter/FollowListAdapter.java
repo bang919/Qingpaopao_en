@@ -11,16 +11,16 @@ import android.widget.TextView;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.wopin.qingpaopao.R;
-import com.wopin.qingpaopao.bean.response.MyFollowListRsp;
+import com.wopin.qingpaopao.bean.response.FollowListRsp;
 import com.wopin.qingpaopao.utils.GlideUtils;
 
 import java.util.ArrayList;
 
-public class MyFollowListAdapter extends RecyclerView.Adapter<MyFollowListAdapter.MyFollowViewHolder> {
+public class FollowListAdapter extends RecyclerView.Adapter<FollowListAdapter.MyFollowViewHolder> {
 
-    private ArrayList<MyFollowListRsp.MyFollowBean> mMyFollowBeanArrayList;
+    private ArrayList<FollowListRsp.MyFollowBean> mMyFollowBeanArrayList;
 
-    public void setMyFollows(ArrayList<MyFollowListRsp.MyFollowBean> myFollows) {
+    public void setMyFollows(ArrayList<FollowListRsp.MyFollowBean> myFollows) {
         mMyFollowBeanArrayList = myFollows;
         notifyDataSetChanged();
     }
@@ -33,7 +33,7 @@ public class MyFollowListAdapter extends RecyclerView.Adapter<MyFollowListAdapte
 
     @Override
     public void onBindViewHolder(@NonNull MyFollowViewHolder holder, int position) {
-        MyFollowListRsp.MyFollowBean myFollowBean = mMyFollowBeanArrayList.get(position);
+        FollowListRsp.MyFollowBean myFollowBean = mMyFollowBeanArrayList.get(position);
         if (myFollowBean.getIcon() != null) {
             GlideUtils.loadImage(holder.mImageView, -1, myFollowBean.getIcon(), new CenterCrop(), new CircleCrop());
         }
