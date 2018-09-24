@@ -12,20 +12,38 @@ import okhttp3.RequestBody;
 
 public class ExploreModel {
 
-    public Observable<ExploreListRsp> listHotExplores() {
+    public Observable<ExploreListRsp> listHotExplores() {//热门话题
         return HttpClient.getApiInterface().listHotExplores(1, 99)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<ExploreListRsp> listNewlyExplores() {
+    public Observable<ExploreListRsp> listNewlyExplores() {//最新话题
         return HttpClient.getApiInterface().listNewlyExplores(1, 99)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<ExploreListRsp> listMyExplores() {
+    public Observable<ExploreListRsp> listMyExplores() {//我的话题
         return HttpClient.getApiInterface().listMyExplores(1, 99)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<ExploreListRsp> listFollowExplores() {//关注话题
+        return HttpClient.getApiInterface().listFollowExplores(1, 99)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<ExploreListRsp> listColletionExplores() {//收藏话题
+        return HttpClient.getApiInterface().listColletionExplores(1, 99)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<ExploreListRsp> listHistoryExplores() {//浏览历史
+        return HttpClient.getApiInterface().listHistoryExplores(1, 99)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

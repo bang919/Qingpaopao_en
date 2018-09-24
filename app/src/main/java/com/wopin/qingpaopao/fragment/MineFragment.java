@@ -18,7 +18,11 @@ import com.wopin.qingpaopao.bean.response.LoginRsp;
 import com.wopin.qingpaopao.bean.response.NormalRsp;
 import com.wopin.qingpaopao.common.Constants;
 import com.wopin.qingpaopao.fragment.information_edit.InformationEditFragment;
+import com.wopin.qingpaopao.fragment.my.CollectSubtitleFragment;
+import com.wopin.qingpaopao.fragment.my.FollowSubtitleFragment;
+import com.wopin.qingpaopao.fragment.my.HistorySubtitleFragment;
 import com.wopin.qingpaopao.fragment.my.MyDrinkingFragment;
+import com.wopin.qingpaopao.fragment.my.MyFollowFragment;
 import com.wopin.qingpaopao.fragment.my.MyHealthFragment;
 import com.wopin.qingpaopao.fragment.system_setting.SystemSettingFragment;
 import com.wopin.qingpaopao.fragment.user_guide.UserGuideFragment;
@@ -174,8 +178,10 @@ public class MineFragment extends BaseMainFragment implements MineGridRvAdapter.
                 showShare();
                 break;
             case R.string.focus_subtitle:
+                new FollowSubtitleFragment().show(getChildFragmentManager(), FollowSubtitleFragment.TAG);
                 break;
             case R.string.history_list:
+                new HistorySubtitleFragment().show(getChildFragmentManager(), HistorySubtitleFragment.TAG);
                 break;
             case R.string.user_guide:
                 new UserGuideFragment().show(getChildFragmentManager(), UserGuideFragment.TAG);
@@ -190,10 +196,12 @@ public class MineFragment extends BaseMainFragment implements MineGridRvAdapter.
     public void onListItemClick(int textResource, int position) {
         switch (textResource) {
             case R.string.my_collect:
+                new CollectSubtitleFragment().show(getChildFragmentManager(), CollectSubtitleFragment.TAG);
                 break;
             case R.string.my_fans:
                 break;
             case R.string.my_focus:
+                new MyFollowFragment().show(getChildFragmentManager(), MyFollowFragment.TAG);
                 break;
         }
     }

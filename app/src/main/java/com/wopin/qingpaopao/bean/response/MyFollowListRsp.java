@@ -1,16 +1,16 @@
 package com.wopin.qingpaopao.bean.response;
 
-import java.util.List;
+import java.util.ArrayList;
 
-public class MyFollowListRsp extends NormalRsp{
+public class MyFollowListRsp extends NormalRsp {
 
-    private List<MyFollowBean> result;
+    private ArrayList<MyFollowBean> result;
 
-    public List<MyFollowBean> getMyFollowBeans() {
+    public ArrayList<MyFollowBean> getMyFollowBeans() {
         return result;
     }
 
-    public void setMyFollowBeans(List<MyFollowBean> result) {
+    public void setMyFollowBeans(ArrayList<MyFollowBean> result) {
         this.result = result;
     }
 
@@ -22,6 +22,7 @@ public class MyFollowListRsp extends NormalRsp{
 
         private String _id;
         private String userName;
+        private String icon;
 
         public String get_id() {
             return _id;
@@ -37,6 +38,14 @@ public class MyFollowListRsp extends NormalRsp{
 
         public void setUserName(String userName) {
             this.userName = userName;
+        }
+
+        public String getIcon() {
+            return icon;
+        }
+
+        public void setIcon(String icon) {
+            this.icon = icon;
         }
     }
 }
