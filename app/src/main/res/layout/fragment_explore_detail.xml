@@ -115,11 +115,11 @@
                 app:layout_constraintTop_toBottomOf="@id/webv" />
 
             <ImageView
-                android:id="@+id/iv_starts"
+                android:id="@+id/iv_stars"
                 android:layout_width="22dp"
                 android:layout_height="22dp"
                 android:layout_marginTop="6dp"
-                android:src="@mipmap/icon_starts"
+                android:src="@drawable/select_img_star"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toLeftOf="@id/iv_like"
                 app:layout_constraintTop_toBottomOf="@id/line2" />
@@ -131,18 +131,18 @@
                 android:text="@string/collection"
                 android:textColor="@color/colorWhite5"
                 android:textSize="13sp"
-                app:layout_constraintLeft_toLeftOf="@id/iv_starts"
-                app:layout_constraintRight_toRightOf="@id/iv_starts"
-                app:layout_constraintTop_toBottomOf="@id/iv_starts" />
+                app:layout_constraintLeft_toLeftOf="@id/iv_stars"
+                app:layout_constraintRight_toRightOf="@id/iv_stars"
+                app:layout_constraintTop_toBottomOf="@id/iv_stars" />
 
             <ImageView
                 android:id="@+id/iv_like"
                 android:layout_width="22dp"
                 android:layout_height="22dp"
-                android:src="@mipmap/icon_like"
-                app:layout_constraintLeft_toRightOf="@id/iv_starts"
+                android:src="@drawable/select_img_like"
+                app:layout_constraintLeft_toRightOf="@id/iv_stars"
                 app:layout_constraintRight_toLeftOf="@id/iv_comment"
-                app:layout_constraintTop_toTopOf="@id/iv_starts" />
+                app:layout_constraintTop_toTopOf="@id/iv_stars" />
 
             <TextView
                 android:id="@+id/tv_like"

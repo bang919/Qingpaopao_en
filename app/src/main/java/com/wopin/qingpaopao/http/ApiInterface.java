@@ -18,6 +18,7 @@ import com.wopin.qingpaopao.bean.response.DrinkListTodayRsp;
 import com.wopin.qingpaopao.bean.response.DrinkListTotalRsp;
 import com.wopin.qingpaopao.bean.response.ExploreListRsp;
 import com.wopin.qingpaopao.bean.response.LoginRsp;
+import com.wopin.qingpaopao.bean.response.MyFollowListRsp;
 import com.wopin.qingpaopao.bean.response.NormalRsp;
 import com.wopin.qingpaopao.bean.response.OrderResponse;
 import com.wopin.qingpaopao.bean.response.ProductBanner;
@@ -108,6 +109,34 @@ public interface ApiInterface {
 
     @GET("blog/post/{id}")
     Observable<BlogPostRsp> getBlogPost(@Path("id") String exploreid);
+
+    @POST("blog/follow")
+    Observable<NormalRsp> followAuthor(@Body RequestBody requestBody);
+
+    @POST("blog/unFollow")
+    Observable<NormalRsp> unFollowAuthor(@Body RequestBody requestBody);
+
+    @GET("blog/myFollowList")
+    Observable<MyFollowListRsp> getMyFollowList();
+
+    @POST("blog/likeComment")
+    Observable<NormalRsp> likeBlogComment(@Body RequestBody requestBody);
+
+    @POST("blog/unLikeComment")
+    Observable<NormalRsp> unlikeBlogComment(@Body RequestBody requestBody);
+
+    @POST("blog/collect")
+    Observable<NormalRsp> collectBlogPost(@Body RequestBody requestBody);
+
+    @POST("blog/unCollect")
+    Observable<NormalRsp> uncollectBlogPost(@Body RequestBody requestBody);
+
+    @POST("blog/like")
+    Observable<NormalRsp> likeBlogPost(@Body RequestBody requestBody);
+
+    @POST("blog/unLike")
+    Observable<NormalRsp> unlikeBlogPost(@Body RequestBody requestBody);
+
 
     @POST("users/drink")
     Observable<NormalRsp> drink(@Body RequestBody requestBody);

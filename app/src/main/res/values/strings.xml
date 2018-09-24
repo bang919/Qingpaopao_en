@@ -255,6 +255,7 @@
     <string name="blood_glucose_key1">空腹血糖</string>
     <string name="blood_glucose_key2">餐后2小时血糖</string>
     <string name="add_follow">+ 关注</string>
+    <string name="had_follow">已关注</string>
     <string name="read_count">阅读 %d</string>
     <string name="collection">收藏</string>
     <string name="share">分享</string>

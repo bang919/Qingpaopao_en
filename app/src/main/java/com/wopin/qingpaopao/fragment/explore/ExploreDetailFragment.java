@@ -13,6 +13,7 @@ import android.webkit.SslErrorHandler;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -33,11 +34,14 @@ import com.wopin.qingpaopao.view.ExploreDetailView;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 
+import cn.sharesdk.onekeyshare.OnekeyShare;
+
 public class ExploreDetailFragment extends BaseBarDialogFragment<ExploreDetailPresenter> implements View.OnClickListener, ExploreDetailView, ExploreCommentsAdapter.ExploreCommentsAdapterCallback {
 
     public static final String TAG = "ExploreDetailFragment";
     private ExploreListRsp.PostsBean mPostsBean;
     private View mRootView;
+    private Button mFollowBtn;
     private WebView mDetailWebView;
     private ImageView mStartIv;
     private ImageView mLikeIv;
@@ -47,6 +51,7 @@ public class ExploreDetailFragment extends BaseBarDialogFragment<ExploreDetailPr
     private ExploreCommentsAdapter mExploreCommentsAdapter;
     private View.OnLayoutChangeListener mKeyBoardListener;
     private int keyBoardHeight;
+    private ExploreDetailBtnListener mExploreDetailBtnListener;//用于更改Bean，让下一次点进来可以更改UI
 
     public ExploreDetailFragment() {
         mKeyBoardListener = new View.OnLayoutChangeListener() {
@@ -62,6 +67,10 @@ public class ExploreDetailFragment extends BaseBarDialogFragment<ExploreDetailPr
                 }
             }
         };
+    }
+
+    public void setExploreDetailBtnListener(ExploreDetailBtnListener exploreDetailBtnListener) {
+        mExploreDetailBtnListener = exploreDetailBtnListener;
     }
 
     public static ExploreDetailFragment build(ExploreListRsp.PostsBean postsBean) {
@@ -100,14 +109,17 @@ public class ExploreDetailFragment extends BaseBarDialogFragment<ExploreDetailPr
         mRootView = rootView;
         mDetailWebView = rootView.findViewById(R.id.webv);
         mCommentEt = rootView.findViewById(R.id.et_comment);
-        mStartIv = rootView.findViewById(R.id.iv_starts);
+        mStartIv = rootView.findViewById(R.id.iv_stars);
         mLikeIv = rootView.findViewById(R.id.iv_like);
         mCommentRv = rootView.findViewById(R.id.comment_recyclerview);
 
         mStartIv.setOnClickListener(this);
         mLikeIv.setOnClickListener(this);
+        rootView.findViewById(R.id.iv_comment).setOnClickListener(this);
         rootView.findViewById(R.id.iv_share).setOnClickListener(this);
         rootView.findViewById(R.id.btn_send).setOnClickListener(this);
+        mFollowBtn = rootView.findViewById(R.id.btn_follow);
+        mFollowBtn.setOnClickListener(this);
 
         mCommentRv.setLayoutManager(new LinearLayoutManager(getContext()));
         mExploreCommentsAdapter = new ExploreCommentsAdapter(this);
@@ -128,6 +140,9 @@ public class ExploreDetailFragment extends BaseBarDialogFragment<ExploreDetailPr
             public void run() {
                 mPostsBean = (ExploreListRsp.PostsBean) getArguments().getSerializable(TAG);
 
+                mStartIv.setSelected(mPostsBean.isMyStar());
+                mLikeIv.setSelected(mPostsBean.isMyLike());
+
                 ((TextView) mRootView.findViewById(R.id.explore_title)).setText(mPostsBean.getTitle());
                 GlideUtils.loadImage((ImageView) mRootView.findViewById(R.id.author_icon), -1, mPostsBean.getAuthor().getAvatar_URL(),
                         new CenterCrop(), new CircleCrop());
@@ -143,6 +158,7 @@ public class ExploreDetailFragment extends BaseBarDialogFragment<ExploreDetailPr
 
                 setLoadingVisibility(true);
                 mPresenter.getComments(String.valueOf(mPostsBean.getId()));
+                mPresenter.checkFollow(mPostsBean.getAuthor().getId());
             }
         }, 300);
     }
@@ -177,11 +193,29 @@ public class ExploreDetailFragment extends BaseBarDialogFragment<ExploreDetailPr
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.iv_starts:
+            case R.id.btn_follow:
+                mPresenter.setFollowAuthor(mPostsBean.getAuthor().getId(), !v.isSelected());
+                break;
+            case R.id.iv_stars:
+                v.setSelected(!v.isSelected());
+                mPresenter.setCollectBlogPost(String.valueOf(mPostsBean.getId()), v.isSelected());
+                if (mExploreDetailBtnListener != null) {
+                    mExploreDetailBtnListener.onStarBtnClick(v.isSelected());
+                }
                 break;
             case R.id.iv_like:
+                v.setSelected(!v.isSelected());
+                mPresenter.setLikeBlogPost(String.valueOf(mPostsBean.getId()), v.isSelected());
+                if (mExploreDetailBtnListener != null) {
+                    mExploreDetailBtnListener.onLikeBtnClick(v.isSelected());
+                }
+                break;
+            case R.id.iv_comment:
+                resetCommentEditTest();
+                setKeyBoardShow(mCommentEt, true);
                 break;
             case R.id.iv_share:
+                showShare();
                 break;
             case R.id.btn_send:
                 String commentString = mCommentEt.getText().toString();
@@ -196,11 +230,48 @@ public class ExploreDetailFragment extends BaseBarDialogFragment<ExploreDetailPr
         }
     }
 
+    private void showShare() {
+        OnekeyShare oks = new OnekeyShare();
+        //关闭sso授权
+        oks.disableSSOWhenAuthorize();
+
+// 分享时Notification的图标和文字  2.5.9以后的版本不调用此方法
+        //oks.setNotification(R.drawable.ic_launcher, getString(R.string.app_name));
+        // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
+        oks.setTitle(getString(R.string.app_name));
+        // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
+        oks.setTitleUrl(mPostsBean.getURL());
+        // text是分享文本，所有平台都需要这个字段
+        oks.setText(mPostsBean.getTitle());
+        oks.setImageUrl(mPostsBean.getFeatured_image());
+        // url仅在微信（包括好友和朋友圈）中使用
+        oks.setUrl(mPostsBean.getURL());
+        // comment是我对这条分享的评论，仅在人人网和QQ空间使用
+//        oks.setComment("我是测试评论文本");
+        // site是分享此内容的网站名称，仅在QQ空间使用
+        oks.setSite(getString(R.string.app_name));
+        // siteUrl是分享此内容的网站地址，仅在QQ空间使用
+        oks.setSiteUrl(mPostsBean.getURL());
+
+// 启动分享GUI
+        oks.show(getContext());
+    }
+
     private void resetCommentEditTest() {
         setKeyBoardShow(mCommentEt, false);
         mCurrentCommentTarget = 0;
         mCommentEt.setText(null);
         mCommentEt.setHint(R.string.comment_hint);
+    }
+
+    @Override
+    public void isAuthorFollowed(boolean isFollow) {
+        mFollowBtn.setSelected(isFollow);
+        if (isFollow) {
+            mFollowBtn.setText(R.string.had_follow);
+        } else {
+            mFollowBtn.setText(R.string.add_follow);
+        }
     }
 
     @Override
@@ -215,8 +286,10 @@ public class ExploreDetailFragment extends BaseBarDialogFragment<ExploreDetailPr
     }
 
     @Override
-    public void onCommentLikeBtnClick(CommentRsp.CommentBean commentBean) {
-
+    public void onCommentLikeBtnClick(View likeBtn, CommentRsp.CommentBean commentBean) {
+        likeBtn.setSelected(!likeBtn.isSelected());
+        mPresenter.setLikeBlogComment(String.valueOf(commentBean.getId()), likeBtn.isSelected());
+        commentBean.setMyLike(likeBtn.isSelected());
     }
 
     @Override
@@ -236,5 +309,11 @@ public class ExploreDetailFragment extends BaseBarDialogFragment<ExploreDetailPr
         } else if (inputMethodManager != null) {
             inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
+    }
+
+    public interface ExploreDetailBtnListener {
+        void onStarBtnClick(boolean isStar);
+
+        void onLikeBtnClick(boolean isLike);
     }
 }

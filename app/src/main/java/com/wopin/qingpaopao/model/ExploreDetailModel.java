@@ -2,7 +2,9 @@ package com.wopin.qingpaopao.model;
 
 import com.wopin.qingpaopao.bean.request.SendCommentReq;
 import com.wopin.qingpaopao.bean.response.CommentRsp;
+import com.wopin.qingpaopao.bean.response.MyFollowListRsp;
 import com.wopin.qingpaopao.bean.response.NormalRsp;
+import com.wopin.qingpaopao.http.ApiInterface;
 import com.wopin.qingpaopao.http.HttpClient;
 
 import java.util.ArrayList;
@@ -11,6 +13,8 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 
 public class ExploreDetailModel {
 
@@ -57,4 +61,60 @@ public class ExploreDetailModel {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
+
+    public Observable<MyFollowListRsp> getMyFollowList() {
+        return HttpClient.getApiInterface().getMyFollowList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<NormalRsp> setFollowAuthor(String authorId, boolean isFollow) {
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), "{\"userId\":\"" + authorId + "\"}");
+        ApiInterface apiInterface = HttpClient.getApiInterface();
+        Observable<NormalRsp> observable;
+        if (isFollow) {
+            observable = apiInterface.followAuthor(requestBody);
+        } else {
+            observable = apiInterface.unFollowAuthor(requestBody);
+        }
+        return observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<NormalRsp> setLikeBlogComment(String blogId, boolean isLike) {
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), "{\"id\":\"" + blogId + "\"}");
+        ApiInterface apiInterface = HttpClient.getApiInterface();
+        Observable<NormalRsp> observable;
+        if (isLike) {
+            observable = apiInterface.likeBlogComment(requestBody);
+        } else {
+            observable = apiInterface.unlikeBlogComment(requestBody);
+        }
+        return observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<NormalRsp> setCollectBlogPost(String blogId, boolean isCollect) {
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), "{\"postId\":\"" + blogId + "\"}");
+        ApiInterface apiInterface = HttpClient.getApiInterface();
+        Observable<NormalRsp> observable;
+        if (isCollect) {
+            observable = apiInterface.collectBlogPost(requestBody);
+        } else {
+            observable = apiInterface.uncollectBlogPost(requestBody);
+        }
+        return observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<NormalRsp> setLikeBlogPost(String blogId, boolean isLike) {
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), "{\"postId\":\"" + blogId + "\"}");
+        ApiInterface apiInterface = HttpClient.getApiInterface();
+        Observable<NormalRsp> observable;
+        if (isLike) {
+            observable = apiInterface.likeBlogPost(requestBody);
+        } else {
+            observable = apiInterface.unlikeBlogPost(requestBody);
+        }
+        return observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+
 }

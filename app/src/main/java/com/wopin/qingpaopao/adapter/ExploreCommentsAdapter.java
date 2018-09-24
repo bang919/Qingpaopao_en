@@ -47,7 +47,7 @@ public class ExploreCommentsAdapter extends RecyclerView.Adapter<ExploreComments
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CommentViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final CommentViewHolder holder, int position) {
         final CommentRsp.CommentBean commentBean = mCommentRsp.getComments().get(position);
         GlideUtils.loadImage(holder.mIconView, -1, commentBean.getAvatar_URL(), new CenterCrop(), new CircleCrop());
         holder.mNameTv.setText(commentBean.getAuthor_name());
@@ -80,7 +80,7 @@ public class ExploreCommentsAdapter extends RecyclerView.Adapter<ExploreComments
         holder.mLikeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mExploreCommentsAdapterCallback.onCommentLikeBtnClick(commentBean);
+                mExploreCommentsAdapterCallback.onCommentLikeBtnClick(holder.mLikeBtn, commentBean);
             }
         });
     }
@@ -113,7 +113,7 @@ public class ExploreCommentsAdapter extends RecyclerView.Adapter<ExploreComments
     }
 
     public interface ExploreCommentsAdapterCallback {
-        void onCommentLikeBtnClick(CommentRsp.CommentBean commentBean);
+        void onCommentLikeBtnClick(View likeBtn, CommentRsp.CommentBean commentBean);
 
         void onReplyOtherBtnClick(CommentRsp.CommentBean commentBean);
     }
