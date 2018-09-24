@@ -191,6 +191,9 @@ public class LoginRsp extends NormalRsp implements Serializable {
         }
 
         public ProfilesBean getProfiles() {
+            if (profiles == null) {
+                profiles = new ProfilesBean();
+            }
             return profiles;
         }
 
