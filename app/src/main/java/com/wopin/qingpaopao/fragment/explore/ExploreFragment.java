@@ -128,18 +128,6 @@ public class ExploreFragment extends BaseMainFragment<ExplorePresenter> implemen
 
     @Override
     public void onExploreItemClick(final ExploreListRsp.PostsBean postsBean, int position) {
-        ExploreDetailFragment exploreDetailFragment = ExploreDetailFragment.build(postsBean);
-        exploreDetailFragment.setExploreDetailBtnListener(new ExploreDetailFragment.ExploreDetailBtnListener() {
-            @Override
-            public void onStarBtnClick(boolean isStar) {
-                postsBean.setMyStar(isStar);
-            }
-
-            @Override
-            public void onLikeBtnClick(boolean isLike) {
-                postsBean.setMyLike(isLike);
-            }
-        });
-        exploreDetailFragment.show(getChildFragmentManager(), ExploreDetailFragment.TAG);
+        ExploreDetailFragment.build(postsBean).show(getChildFragmentManager(), ExploreDetailFragment.TAG);
     }
 }

@@ -45,6 +45,7 @@ public class ExploreDetailFragment extends BaseBarDialogFragment<ExploreDetailPr
     private WebView mDetailWebView;
     private ImageView mStartIv;
     private ImageView mLikeIv;
+    private TextView mLikeTv;
     private EditText mCommentEt;
     private int mCurrentCommentTarget;
     private RecyclerView mCommentRv;
@@ -73,11 +74,32 @@ public class ExploreDetailFragment extends BaseBarDialogFragment<ExploreDetailPr
         mExploreDetailBtnListener = exploreDetailBtnListener;
     }
 
-    public static ExploreDetailFragment build(ExploreListRsp.PostsBean postsBean) {
+    public static ExploreDetailFragment build(final ExploreListRsp.PostsBean postsBean) {
         ExploreDetailFragment exploreDetailFragment = new ExploreDetailFragment();
         Bundle args = new Bundle();
         args.putSerializable(TAG, postsBean);
         exploreDetailFragment.setArguments(args);
+        exploreDetailFragment.setExploreDetailBtnListener(new ExploreDetailFragment.ExploreDetailBtnListener() {
+            @Override
+            public void onStarBtnClick(boolean isStar) {
+                postsBean.setMyStar(isStar);
+                if (isStar) {
+                    postsBean.setStars(postsBean.getStars() + 1);
+                } else {
+                    postsBean.setStars(postsBean.getStars() - 1);
+                }
+            }
+
+            @Override
+            public void onLikeBtnClick(boolean isLike) {
+                postsBean.setMyLike(isLike);
+                if (isLike) {
+                    postsBean.setLikes(postsBean.getLikes() + 1);
+                } else {
+                    postsBean.setLikes(postsBean.getLikes() - 1);
+                }
+            }
+        });
         return exploreDetailFragment;
     }
 
@@ -151,7 +173,8 @@ public class ExploreDetailFragment extends BaseBarDialogFragment<ExploreDetailPr
                 ((TextView) mRootView.findViewById(R.id.time_explore_item)).setText(TimeFormatUtils.formatToTime(mPostsBean.getDate(), format));
                 ((TextView) mRootView.findViewById(R.id.read_count)).setText(getString(R.string.read_count, mPostsBean.getRead()));
 
-                ((TextView) mRootView.findViewById(R.id.tv_like)).setText(String.valueOf(mPostsBean.getLikes()));
+                mLikeTv = mRootView.findViewById(R.id.tv_like);
+                mLikeTv.setText(String.valueOf(mPostsBean.getLikes()));
                 ((TextView) mRootView.findViewById(R.id.tv_comment)).setText(String.valueOf(mPostsBean.getComments()));
 
                 loadWebView();
@@ -206,6 +229,8 @@ public class ExploreDetailFragment extends BaseBarDialogFragment<ExploreDetailPr
             case R.id.iv_like:
                 v.setSelected(!v.isSelected());
                 mPresenter.setLikeBlogPost(String.valueOf(mPostsBean.getId()), v.isSelected());
+                int likeCount = Integer.valueOf(mLikeTv.getText().toString());
+                mLikeTv.setText(String.valueOf(v.isSelected() ? ++likeCount : --likeCount));
                 if (mExploreDetailBtnListener != null) {
                     mExploreDetailBtnListener.onLikeBtnClick(v.isSelected());
                 }
