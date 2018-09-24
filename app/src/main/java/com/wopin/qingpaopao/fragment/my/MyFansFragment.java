@@ -33,7 +33,7 @@ public class MyFansFragment extends BaseBarDialogFragment {
 
     @Override
     protected String setBarTitle() {
-        return getString(R.string.my_focus);
+        return getString(R.string.my_fans);
     }
 
     @Override
