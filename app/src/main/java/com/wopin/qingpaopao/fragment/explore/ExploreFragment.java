@@ -11,6 +11,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.wopin.qingpaopao.R;
+import com.wopin.qingpaopao.activity.BuildBlogActivity;
 import com.wopin.qingpaopao.adapter.ExploreListAdapter;
 import com.wopin.qingpaopao.bean.response.ExploreListRsp;
 import com.wopin.qingpaopao.fragment.BaseMainFragment;
@@ -137,7 +138,7 @@ public class ExploreFragment extends BaseMainFragment<ExplorePresenter> implemen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_issue:
-                new BuildBlogFragment().show(getChildFragmentManager(), BuildBlogFragment.TAG);
+                jumpToActivity(BuildBlogActivity.class);
                 break;
         }
     }

@@ -43,7 +43,8 @@
                 android:value="com.wopin.qingpaopao.adapter.MyAuthorizeAdapter" />
         </activity>
         <activity android:name=".activity.MainActivity" />
-        <activity android:name=".activity.LoginActivity"></activity>
+        <activity android:name=".activity.LoginActivity" />
+        <activity android:name=".activity.BuildBlogActivity" />
 
         <service
             android:name="com.ble.ble.BleService"

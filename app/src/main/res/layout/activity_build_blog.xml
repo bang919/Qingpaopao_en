@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/actionbar_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:textColor="@color/colorWhite"
+        android:textSize="24sp" />
+
+    <ImageView
+        android:id="@+id/iv_back"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="centerInside"
+        android:src="@mipmap/m_back"
+        app:layout_constraintBottom_toBottomOf="@id/actionbar_title"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@id/actionbar_title" />
+
+    <TextView
+        android:id="@+id/tv_top_right"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="@string/issue"
+        android:textColor="@color/colorWhite"
+        android:textSize="16sp"
+        app:layout_constraintBaseline_toBaselineOf="@id/actionbar_title"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <EditText
+        android:id="@+id/et_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:hint="@string/add_title"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/actionbar_title" />
+
+    <LinearLayout
+        android:id="@+id/bottom_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#e5e5e5"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/fl_action">
+
+        <ImageView
+            android:id="@+id/iv_action"
+            style="@style/ActionImageView"
+            android:padding="10dp"
+            android:src="@drawable/ic_action" />
+
+        <View
+            android:layout_width="0.5dp"
+            android:layout_height="24dp"
+            android:background="#9E9E9E" />
+
+        <HorizontalScrollView
+            android:id="@+id/hsv_action_bar"
+            android:layout_width="match_parent"
+            android:layout_height="40dp">
+
+            <LinearLayout
+                android:id="@+id/ll_action_bar_container"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/iv_action_txt_color"
+                    style="@style/ActionImageView"
+                    android:padding="9dp"
+                    android:src="@drawable/ic_format_text_color"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/iv_action_txt_bg_color"
+                    style="@style/ActionImageView"
+                    android:padding="9dp"
+                    android:src="@drawable/ic_format_text_bg_clolr"
+                    android:visibility="gone" />
+
+                <ImageView
+                    android:id="@+id/iv_action_insert_image"
+                    style="@style/ActionImageView"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_insert_photo" />
+
+                <ImageView
+                    android:id="@+id/iv_action_insert_link"
+                    style="@style/ActionImageView"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_insert_link" />
+
+                <ImageView
+                    android:id="@+id/iv_action_table"
+                    style="@style/ActionImageView"
+                    android:padding="11dp"
+                    android:src="@drawable/ic_table" />
+
+                <ImageView
+                    android:id="@+id/iv_action_line_height"
+                    style="@style/ActionImageView"
+                    android:padding="11dp"
+                    android:src="@drawable/ic_line_height"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+        </HorizontalScrollView>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/fl_action"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <WebView
+        android:id="@+id/wv_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_bar"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_title" />
+
+</android.support.constraint.ConstraintLayout>
