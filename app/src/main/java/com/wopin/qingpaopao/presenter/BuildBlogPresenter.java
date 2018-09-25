@@ -1,6 +1,7 @@
 package com.wopin.qingpaopao.presenter;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.wopin.qingpaopao.bean.response.NormalRsp;
 import com.wopin.qingpaopao.model.BuildBlogModel;
@@ -19,6 +20,7 @@ public class BuildBlogPresenter extends BasePresenter<BuildBlogView> {
         subscribeNetworkTask(getClass().getSimpleName().concat("newBlog"), mBuildBlogModel.newBlog(title, content), new MyObserver<NormalRsp>() {
             @Override
             public void onMyNext(NormalRsp normalRsp) {
+                Log.d("bigbang", "newBlog : " + Thread.currentThread());
                 mView.onBlogBuildSuccess();
             }
 

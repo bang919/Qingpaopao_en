@@ -44,7 +44,9 @@
         </activity>
         <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.LoginActivity" />
-        <activity android:name=".activity.BuildBlogActivity" />
+        <activity
+            android:name=".activity.BuildBlogActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
 
         <service
             android:name="com.ble.ble.BleService"
