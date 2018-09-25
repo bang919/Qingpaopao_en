@@ -18,7 +18,7 @@ import com.wopin.qingpaopao.presenter.ExplorePresenter;
 import com.wopin.qingpaopao.utils.ToastUtils;
 import com.wopin.qingpaopao.view.ExploreView;
 
-public class ExploreFragment extends BaseMainFragment<ExplorePresenter> implements ExploreView, ExploreListAdapter.ExploreListItemClick {
+public class ExploreFragment extends BaseMainFragment<ExplorePresenter> implements ExploreView, ExploreListAdapter.ExploreListItemClick, View.OnClickListener {
 
     private TabLayout mTabLayout;
     private EditText mSearchEt;
@@ -48,6 +48,8 @@ public class ExploreFragment extends BaseMainFragment<ExplorePresenter> implemen
         mTabLayout = rootView.findViewById(R.id.explore_tablayout);
         mExploreRv = rootView.findViewById(R.id.rv_explore_list);
         mLoadingView = rootView.findViewById(R.id.progress_bar_layout);
+
+        rootView.findViewById(R.id.tv_issue).setOnClickListener(this);
     }
 
     private void setLoadingVisibility(boolean isVisibility) {
@@ -129,5 +131,14 @@ public class ExploreFragment extends BaseMainFragment<ExplorePresenter> implemen
     @Override
     public void onExploreItemClick(final ExploreListRsp.PostsBean postsBean, int position) {
         ExploreDetailFragment.build(postsBean).show(getChildFragmentManager(), ExploreDetailFragment.TAG);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tv_issue:
+                new BuildBlogFragment().show(getChildFragmentManager(), BuildBlogFragment.TAG);
+                break;
+        }
     }
 }

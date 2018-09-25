@@ -5,6 +5,7 @@ import com.wopin.qingpaopao.bean.request.AddressBean;
 import com.wopin.qingpaopao.bean.request.BodyProfilesBean;
 import com.wopin.qingpaopao.bean.request.CupUpdateReq;
 import com.wopin.qingpaopao.bean.request.LoginReq;
+import com.wopin.qingpaopao.bean.request.NewBlogReq;
 import com.wopin.qingpaopao.bean.request.PaymentBean;
 import com.wopin.qingpaopao.bean.request.SendCommentReq;
 import com.wopin.qingpaopao.bean.request.ThirdReq;
@@ -17,8 +18,8 @@ import com.wopin.qingpaopao.bean.response.CupListRsp;
 import com.wopin.qingpaopao.bean.response.DrinkListTodayRsp;
 import com.wopin.qingpaopao.bean.response.DrinkListTotalRsp;
 import com.wopin.qingpaopao.bean.response.ExploreListRsp;
-import com.wopin.qingpaopao.bean.response.LoginRsp;
 import com.wopin.qingpaopao.bean.response.FollowListRsp;
+import com.wopin.qingpaopao.bean.response.LoginRsp;
 import com.wopin.qingpaopao.bean.response.NormalRsp;
 import com.wopin.qingpaopao.bean.response.OrderResponse;
 import com.wopin.qingpaopao.bean.response.ProductBanner;
@@ -115,6 +116,9 @@ public interface ApiInterface {
 
     @POST("blog/newComment")
     Observable<NormalRsp> sendComment(@Body SendCommentReq sendCommentReq);
+
+    @POST("blog/newPost")
+    Observable<NormalRsp> newBlog(@Body NewBlogReq newBlogReq);
 
     @GET("blog/post/{id}")
     Observable<BlogPostRsp> getBlogPost(@Path("id") String exploreid);
