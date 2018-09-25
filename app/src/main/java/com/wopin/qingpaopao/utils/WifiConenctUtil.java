@@ -24,49 +24,52 @@ public class WifiConenctUtil {
         if (exsits != null) {
             return exsits;
         }
-        WifiConfiguration conf = new WifiConfiguration();
-        conf.SSID = String.format("\"%s\"", ssid);
-        conf.preSharedKey = String.format("\"%s\"", password);
-        return conf;
-//        WifiConfiguration config = new WifiConfiguration();
-//        config.allowedAuthAlgorithms.clear();
-//        config.allowedGroupCiphers.clear();
-//        config.allowedKeyManagement.clear();
-//        config.allowedPairwiseCiphers.clear();
-//        config.allowedProtocols.clear();
-//        config.SSID = "\"" + ssid + "\"";
-//        // config.SSID = SSID;
-//        // nopass
-//        int Type = getCipherType(wifiManager, ssid);
-//        if (Type == WifiCipherType.WIFICIPHER_NOPASS) {
-//            // config.wepKeys[0] = "";
-//            config.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
-//            // config.wepTxKeyIndex = 0;
-//        } else if (Type == WifiCipherType.WIFICIPHER_WEP) {// wep
-//            if (!TextUtils.isEmpty(password)) {
-//                if (isHexWepKey(password)) {
-//                    config.wepKeys[0] = password;
-//                } else {
-//                    config.wepKeys[0] = "\"" + password + "\"";
-//                }
-//            }
-//            config.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.OPEN);
-//            config.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.SHARED);
-//            config.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
-//            config.wepTxKeyIndex = 0;
-//        } else if (Type == WifiCipherType.WIFICIPHER_WPA) {// wpa
-//            config.preSharedKey = "\"" + password + "\"";
-//            config.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.OPEN);
-//            config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
-//            config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
-//            config.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK);
-//            config.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP);
-//            config.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP);
-//            config.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
-//            config.allowedProtocols.set(WifiConfiguration.Protocol.WPA);
-//            config.status = WifiConfiguration.Status.ENABLED;
-//        }
-//        return config;
+//        WifiConfiguration conf = new WifiConfiguration();
+//        conf.SSID = String.format("\"%s\"", ssid);
+//        conf.preSharedKey = String.format("\"%s\"", password);
+//        return conf;
+        WifiConfiguration config = new WifiConfiguration();
+        config.allowedAuthAlgorithms.clear();
+        config.allowedGroupCiphers.clear();
+        config.allowedKeyManagement.clear();
+        config.allowedPairwiseCiphers.clear();
+        config.allowedProtocols.clear();
+        config.SSID = "\"" + ssid + "\"";
+        // config.SSID = SSID;
+        // nopass
+        int Type = getCipherType(wifiManager, ssid);
+        if (Type == WifiCipherType.WIFICIPHER_NOPASS) {
+            // config.wepKeys[0] = "";
+            config.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
+            // config.wepTxKeyIndex = 0;
+        } else if (Type == WifiCipherType.WIFICIPHER_WEP) {// wep
+            if (!TextUtils.isEmpty(password)) {
+                if (isHexWepKey(password)) {
+                    config.wepKeys[0] = password;
+                } else {
+                    config.wepKeys[0] = "\"" + password + "\"";
+                }
+            }
+            config.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.OPEN);
+            config.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.SHARED);
+            config.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
+            config.wepTxKeyIndex = 0;
+        } else if (Type == WifiCipherType.WIFICIPHER_WPA) {// wpa
+            config.preSharedKey = "\"" + password + "\"";
+            config.allowedAuthAlgorithms.set(WifiConfiguration.AuthAlgorithm.OPEN);
+            config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
+            config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
+            config.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.WPA_PSK);
+            config.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP);
+            config.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP);
+            config.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
+            config.allowedProtocols.set(WifiConfiguration.Protocol.WPA);
+            config.status = WifiConfiguration.Status.ENABLED;
+
+            config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP40);
+            config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP104);
+        }
+        return config;
     }
 
     // 查看以前是否也配置过这个网络
@@ -84,6 +87,7 @@ public class WifiConenctUtil {
      * 获取ssid的加密方式
      */
     private static int getCipherType(WifiManager wifiManager, String ssid) {
+
         if (wifiManager == null) {
             return WifiCipherType.WIFICIPHER_INVALID;
         }
@@ -107,7 +111,7 @@ public class WifiConenctUtil {
                 }
             }
         }
-        return WifiCipherType.WIFICIPHER_INVALID;
+        return WifiCipherType.WIFICIPHER_WPA;
     }
 
     private class WifiCipherType {
