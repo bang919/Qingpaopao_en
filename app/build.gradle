@@ -119,7 +119,10 @@ dependencies {
     implementation project(':MRichEditorLibrary')
     //MRichEditor用到
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.40'
-    implementation 'com.lzy.widget:imagepicker:0.6.1'
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    //Crop
+    implementation 'com.github.yalantis:ucrop:2.2.2'
+    //Luban
+    implementation 'top.zibin:Luban:1.1.1'
 }

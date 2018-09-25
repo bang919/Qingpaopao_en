@@ -5,10 +5,9 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
-import android.util.Base64;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.View;
@@ -19,18 +18,12 @@ import android.webkit.WebViewClient;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.even.mricheditor.ActionType;
 import com.even.mricheditor.RichEditorAction;
 import com.even.mricheditor.RichEditorCallback;
 import com.even.mricheditor.ui.ActionImageView;
-import com.lzy.imagepicker.ImagePicker;
-import com.lzy.imagepicker.bean.ImageItem;
-import com.lzy.imagepicker.ui.ImageGridActivity;
-import com.lzy.imagepicker.view.CropImageView;
 import com.wopin.qingpaopao.R;
-import com.wopin.qingpaopao.m_richeditor.GlideImageLoader;
 import com.wopin.qingpaopao.m_richeditor.fragment.EditHyperlinkFragment;
 import com.wopin.qingpaopao.m_richeditor.fragment.EditTableFragment;
 import com.wopin.qingpaopao.m_richeditor.fragment.EditorMenuFragment;
@@ -38,12 +31,11 @@ import com.wopin.qingpaopao.m_richeditor.interfaces.OnActionPerformListener;
 import com.wopin.qingpaopao.m_richeditor.keyboard.KeyboardHeightObserver;
 import com.wopin.qingpaopao.m_richeditor.keyboard.KeyboardHeightProvider;
 import com.wopin.qingpaopao.m_richeditor.keyboard.KeyboardUtils;
-import com.wopin.qingpaopao.m_richeditor.util.FileIOUtil;
 import com.wopin.qingpaopao.presenter.BuildBlogPresenter;
+import com.wopin.qingpaopao.presenter.PhotoPresenter;
 import com.wopin.qingpaopao.utils.ToastUtils;
 import com.wopin.qingpaopao.view.BuildBlogView;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -69,7 +61,6 @@ public class BuildBlogActivity extends BaseActivity<BuildBlogPresenter> implemen
      */
     private KeyboardHeightProvider keyboardHeightProvider;
     private boolean isKeyboardShowing;
-    private String htmlContent = "<p>Hello World</p>";
 
     private RichEditorAction mRichEditorAction;
     private RichEditorCallback mRichEditorCallback;
@@ -100,7 +91,6 @@ public class BuildBlogActivity extends BaseActivity<BuildBlogPresenter> implemen
 
     private static final int REQUEST_CODE_CHOOSE = 0;
 
-
     @Override
     protected int getLayout() {
         return R.layout.activity_build_blog;
@@ -117,7 +107,6 @@ public class BuildBlogActivity extends BaseActivity<BuildBlogPresenter> implemen
         findViewById(R.id.iv_back).setOnClickListener(this);
         findViewById(R.id.tv_top_right).setOnClickListener(this);
 
-        initImageLoader();
         initRichViews();
     }
 
@@ -153,23 +142,6 @@ public class BuildBlogActivity extends BaseActivity<BuildBlogPresenter> implemen
         fm.beginTransaction()
                 .add(R.id.fl_action, mEditorMenuFragment, EditorMenuFragment.class.getName())
                 .commit();
-    }
-
-    /**
-     * ImageLoader for insert Image
-     */
-    private void initImageLoader() {
-        ImagePicker imagePicker = ImagePicker.getInstance();
-        imagePicker.setImageLoader(new GlideImageLoader());
-        imagePicker.setShowCamera(true);
-        imagePicker.setCrop(false);
-        imagePicker.setMultiMode(false);
-        imagePicker.setSaveRectangle(true);
-        imagePicker.setStyle(CropImageView.Style.RECTANGLE);
-        imagePicker.setFocusWidth(800);
-        imagePicker.setFocusHeight(800);
-        imagePicker.setOutPutX(256);
-        imagePicker.setOutPutY(256);
     }
 
     private void initRichViews() {
@@ -208,9 +180,8 @@ public class BuildBlogActivity extends BaseActivity<BuildBlogPresenter> implemen
         progressDialog = new ProgressDialog(this);
         Drawable drawable = getResources().getDrawable(R.drawable.bg_progressdialog_white);
         progressDialog.setIndeterminateDrawable(drawable);
-        progressDialog.setMessage("Please wait, logging in...");
+        progressDialog.setMessage("Please wait...");
         progressDialog.setProgressStyle(android.R.style.Widget_ProgressBar_Small_Inverse);
-        Log.d("bigbang", "initData : " + Thread.currentThread());
     }
 
     @Override
@@ -231,7 +202,10 @@ public class BuildBlogActivity extends BaseActivity<BuildBlogPresenter> implemen
     @Override
     public void onDestroy() {
         super.onDestroy();
+        mPresenter.deletePhotoFile();
+        KeyboardUtils.hideSoftInput(BuildBlogActivity.this);
         keyboardHeightProvider.close();
+        mWebView.destroy();
     }
 
     @Override
@@ -304,36 +278,19 @@ public class BuildBlogActivity extends BaseActivity<BuildBlogPresenter> implemen
 
     @OnClick(R.id.iv_action_insert_image)
     void onClickInsertImage() {
-        Intent intent = new Intent(this, ImageGridActivity.class);
-        startActivityForResult(intent, REQUEST_CODE_CHOOSE);
+        mPresenter.requestPermissionTodo(PhotoPresenter.REQUEST_PERMISSION_ALBUM);
+        KeyboardUtils.hideSoftInput(BuildBlogActivity.this);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == ImagePicker.RESULT_CODE_ITEMS
-                && data != null
-                && requestCode == REQUEST_CODE_CHOOSE) {
-            ArrayList<ImageItem> images =
-                    (ArrayList<ImageItem>) data.getSerializableExtra(ImagePicker.EXTRA_RESULT_ITEMS);
-            if (images != null && !images.isEmpty()) {
-
-                //1.Insert the Base64 String (Base64.NO_WRAP)
-                ImageItem imageItem = images.get(0);
-                mRichEditorAction.insertImageData(imageItem.name,
-                        encodeFileToBase64Binary(imageItem.path));
-
-                //2.Insert the ImageUrl
-                //mRichEditorAction.insertImageUrl(
-                //    "https://avatars0.githubusercontent.com/u/5581118?v=4&u=b7ea903e397678b3675e2a15b0b6d0944f6f129e&s=400");
-            }
-        }
+        mPresenter.onActivityResult(requestCode, resultCode, data);
     }
 
-    private static String encodeFileToBase64Binary(String filePath) {
-        byte[] bytes = FileIOUtil.readFile2BytesByStream(filePath);
-        byte[] encoded = Base64.encode(bytes, Base64.NO_WRAP);
-        return new String(encoded);
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        mPresenter.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @OnClick(R.id.iv_action_insert_link)
@@ -368,16 +325,33 @@ public class BuildBlogActivity extends BaseActivity<BuildBlogPresenter> implemen
 
     @Override
     public void onBlogBuildSuccess() {
-        Log.d("bigbang", "onBlogBuildSuccess : " + Thread.currentThread());
-        progressDialog.dismiss();
+        if (progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
         ToastUtils.showShort(R.string.success_new_blog);
         finish();
     }
 
     @Override
+    public void onImageUpdating() {
+        if (!progressDialog.isShowing()) {
+            progressDialog.show();
+        }
+    }
+
+    @Override
+    public void onImageGet(String imageUrl) {
+        if (progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
+        mRichEditorAction.insertImageUrl(imageUrl);
+    }
+
+    @Override
     public void onError(String errorString) {
-        Log.d("bigbang", "onError : " + Thread.currentThread());
-        progressDialog.dismiss();
+        if (progressDialog.isShowing()) {
+            progressDialog.dismiss();
+        }
         ToastUtils.showShort(errorString);
     }
 
@@ -389,16 +363,15 @@ public class BuildBlogActivity extends BaseActivity<BuildBlogPresenter> implemen
                 break;
             case R.id.tv_top_right:
                 //发布
+                KeyboardUtils.hideSoftInput(BuildBlogActivity.this);
                 progressDialog.show();
                 mRichEditorAction.refreshHtml(mRichEditorCallback, new RichEditorCallback.OnGetHtmlListener() {
                     @Override
                     public void getHtml(String html) {
                         if (TextUtils.isEmpty(html)) {
-                            Toast.makeText(BuildBlogActivity.this, "Empty Html String", Toast.LENGTH_SHORT)
-                                    .show();
+                            ToastUtils.showShort("Empty Html String");
                             return;
                         }
-
                         mPresenter.newBlog(mTitleEt.getText().toString(), html);
                     }
                 });
@@ -410,12 +383,6 @@ public class BuildBlogActivity extends BaseActivity<BuildBlogPresenter> implemen
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
             super.onProgressChanged(view, newProgress);
-            if (newProgress == 100) {
-                if (!TextUtils.isEmpty(htmlContent)) {
-                    mRichEditorAction.insertHtml(htmlContent);
-                }
-                KeyboardUtils.showSoftInput(BuildBlogActivity.this);
-            }
         }
 
         @Override

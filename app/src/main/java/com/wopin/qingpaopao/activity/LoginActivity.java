@@ -11,6 +11,7 @@ import com.wopin.qingpaopao.common.Constants;
 import com.wopin.qingpaopao.fragment.ForgetPasswordFragment;
 import com.wopin.qingpaopao.fragment.LoginViewFragment;
 import com.wopin.qingpaopao.fragment.RegisterViewFragment;
+import com.wopin.qingpaopao.m_richeditor.keyboard.KeyboardUtils;
 import com.wopin.qingpaopao.presenter.LoginPresenter;
 import com.wopin.qingpaopao.utils.SPUtils;
 import com.wopin.qingpaopao.utils.ToastUtils;
@@ -47,6 +48,12 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     private void setLoadingVisibility(boolean isVisibility) {
         findViewById(R.id.progress_bar_layout).setVisibility(isVisibility ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    protected void onDestroy() {
+        KeyboardUtils.hideSoftInput(LoginActivity.this);
+        super.onDestroy();
     }
 
     @Override

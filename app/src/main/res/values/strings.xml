@@ -287,5 +287,6 @@
     <string name="heading_4">Heading 4</string>
     <string name="heading_5">Heading 5</string>
     <string name="heading_6">Heading 6</string>
+    <string name="please_check_permission_camera_storage">Please check the permission for camera and storage.</string>
 
 </resources>

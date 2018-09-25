@@ -27,7 +27,7 @@ public final class KeyboardUtils {
         View view = activity.getCurrentFocus();
         if (view == null) view = new View(activity);
         InputMethodManager imm =
-            (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+                (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         if (imm == null) return;
         imm.showSoftInput(view, InputMethodManager.SHOW_FORCED);
     }
@@ -41,7 +41,7 @@ public final class KeyboardUtils {
         View view = activity.getCurrentFocus();
         if (view == null) view = new View(activity);
         InputMethodManager imm =
-            (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+                (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         if (imm == null) return;
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }

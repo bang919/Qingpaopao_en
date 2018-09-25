@@ -1,7 +1,6 @@
 package com.wopin.qingpaopao.presenter;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.wopin.qingpaopao.bean.request.LoginReq;
 import com.wopin.qingpaopao.bean.request.ThirdReq;
@@ -63,7 +62,6 @@ public class LoginPresenter extends BasePresenter<LoginView> {
         subscribeNetworkTask(getClass().getName().concat("login"), mLoginModel.login(loginReq), new MyObserver<LoginRsp>() {
             @Override
             public void onMyNext(LoginRsp loginResponseBean) {
-                Log.d("bigbang", "login : " + Thread.currentThread());
                 updateLoginMessage(loginResponseBean);
                 SPUtils.putObject(MyApplication.getMyApplicationContext(), Constants.LOGIN_REQUEST, loginReq);
                 SPUtils.put(MyApplication.getMyApplicationContext(), Constants.USERNAME, loginReq.getPhone());

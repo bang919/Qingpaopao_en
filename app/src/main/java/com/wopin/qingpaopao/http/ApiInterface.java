@@ -25,15 +25,20 @@ import com.wopin.qingpaopao.bean.response.OrderResponse;
 import com.wopin.qingpaopao.bean.response.ProductBanner;
 import com.wopin.qingpaopao.bean.response.ProductContent;
 import com.wopin.qingpaopao.bean.response.ThirdBindRsp;
+import com.wopin.qingpaopao.bean.response.UploadImageRsp;
 
 import java.util.ArrayList;
 
 import io.reactivex.Observable;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.Streaming;
@@ -225,4 +230,9 @@ public interface ApiInterface {
 
     @POST("users/updateBodyProfiles")
     Observable<LoginRsp> updateBodyProfiles(@Body BodyProfilesBean bodyProfilesBean);
+
+    @Multipart
+    @Headers({"mimetype:image/jpeg"})
+    @POST("uploadImage")
+    Observable<UploadImageRsp> uploadPicture(@Part MultipartBody.Part file);
 }
