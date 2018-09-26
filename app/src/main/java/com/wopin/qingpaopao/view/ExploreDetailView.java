@@ -8,5 +8,7 @@ public interface ExploreDetailView {
 
     void onComments(CommentRsp commentRsp);
 
+    void onMyBlogDelete();
+
     void onError(String errorString);
 }

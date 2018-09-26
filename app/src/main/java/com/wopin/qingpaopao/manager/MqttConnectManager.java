@@ -1,6 +1,7 @@
 package com.wopin.qingpaopao.manager;
 
 import android.os.Handler;
+import android.util.Log;
 
 import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.bean.response.CupListRsp;
@@ -10,7 +11,7 @@ import com.wopin.qingpaopao.command.mqtt.MqttDisconnectDeviceCommand;
 import com.wopin.qingpaopao.command.mqtt.MqttSwitchCleanCommand;
 import com.wopin.qingpaopao.command.mqtt.MqttSwitchElectrolyzeCommand;
 import com.wopin.qingpaopao.command.mqtt.MqttSwitchLightCommand;
-import com.wopin.qingpaopao.http.HttpClient;
+import com.wopin.qingpaopao.model.DrinkingModel;
 import com.wopin.qingpaopao.presenter.BasePresenter;
 import com.wopin.qingpaopao.utils.HttpUtil;
 import com.wopin.qingpaopao.utils.ToastUtils;
@@ -27,13 +28,12 @@ import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
 
 public class MqttConnectManager extends ConnectManager<MqttConnectManager.MqttUpdaterBean> {
 
+    private static final String TAG = "MqttConnectManager";
     private static MqttConnectManager mMqttConnectManager;
     //Mqtt Related
     private static final String URL = "tcp://wifi.h2popo.com:8083";
@@ -68,11 +68,13 @@ public class MqttConnectManager extends ConnectManager<MqttConnectManager.MqttUp
     @Override
     protected void connectToServer(final OnServerConnectCallback onServerConnectCallback) {
         //Check Network
-        if (client == null) {
+        if (client == null || !client.isConnected()) {
+            if (client != null) {
+                disconnectServer();
+            }
+            DrinkingModel drinkingModel = new DrinkingModel();
             HttpUtil.subscribeNetworkTask(
-                    HttpClient.getApiInterface().getCupList()
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
+                    drinkingModel.getCupList()
                             .timeout(5, TimeUnit.SECONDS)
                             .retryWhen(new Function<Observable<Throwable>, ObservableSource<Long>>() {
                                 @Override
@@ -133,6 +135,11 @@ public class MqttConnectManager extends ConnectManager<MqttConnectManager.MqttUp
                     @Override
                     public void messageArrived(String topic, MqttMessage message) throws Exception {
                         //收到消息
+                        Log.d(TAG, "messageArrived: " + topic + "    " + message.toString());
+                        if (mCurrentMqttUpdaterBean == null) {
+                            mCurrentMqttUpdaterBean = new MqttUpdaterBean();
+                        }
+                        mCurrentMqttUpdaterBean.setSsid(topic);
                         MqttUpdaterBean t = new MqttUpdaterBean();
                         t.setSsid(topic);
                         t.setMessage(message.toString());
@@ -233,8 +240,6 @@ public class MqttConnectManager extends ConnectManager<MqttConnectManager.MqttUp
      */
 
     public void connectDevice(String ssid) {
-        mCurrentMqttUpdaterBean = new MqttUpdaterBean();
-        mCurrentMqttUpdaterBean.setSsid(ssid);
         super.connectDevice(new MqttConnectDeviceCommand(ssid));
     }
 

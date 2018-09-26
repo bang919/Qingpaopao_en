@@ -256,6 +256,8 @@
     <string name="blood_glucose_key2">餐后2小时血糖</string>
     <string name="add_follow">+ 关注</string>
     <string name="had_follow">已关注</string>
+    <string name="delete_blog">删除文章</string>
+    <string name="blog_had_delete">文章已被删除</string>
     <string name="read_count">阅读 %d</string>
     <string name="collection">收藏</string>
     <string name="share">分享</string>

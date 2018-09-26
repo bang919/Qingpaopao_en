@@ -2,13 +2,16 @@ package com.wopin.qingpaopao.model;
 
 import com.wopin.qingpaopao.bean.request.CupUpdateReq;
 import com.wopin.qingpaopao.bean.response.CupListRsp;
-import com.wopin.qingpaopao.bean.response.DrinkListTotalRsp;
 import com.wopin.qingpaopao.bean.response.DrinkListTodayRsp;
+import com.wopin.qingpaopao.bean.response.DrinkListTotalRsp;
 import com.wopin.qingpaopao.bean.response.NormalRsp;
+import com.wopin.qingpaopao.common.Constants;
 import com.wopin.qingpaopao.http.HttpClient;
+import com.wopin.qingpaopao.manager.MqttConnectManager;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -29,6 +32,18 @@ public class DrinkingModel {
 
     public Observable<CupListRsp> getCupList() {
         return HttpClient.getApiInterface().getCupList()
+                .doOnNext(new Consumer<CupListRsp>() {
+                    @Override
+                    public void accept(CupListRsp cupListRsp) throws Exception {
+                        for (CupListRsp.CupBean cupBean : cupListRsp.getResult()) {
+                            if (cupBean.getType().equals(Constants.WIFI)) {
+                                if (!cupBean.isConnecting()) {
+                                    MqttConnectManager.getInstance().connectDevice(cupBean.getUuid());
+                                }
+                            }
+                        }
+                    }
+                })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

@@ -122,5 +122,9 @@ public class ExploreDetailModel {
         return observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
-
+    public Observable<NormalRsp> deleteMyBlog(String blogId) {
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), "{\"postId\":\"" + blogId + "\"}");
+        return HttpClient.getApiInterface().deleteMyBlog(requestBody)
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
 }

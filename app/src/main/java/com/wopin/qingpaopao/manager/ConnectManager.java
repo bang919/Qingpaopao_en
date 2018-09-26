@@ -1,5 +1,7 @@
 package com.wopin.qingpaopao.manager;
 
+import android.util.Log;
+
 import com.wopin.qingpaopao.command.IColorCommand;
 import com.wopin.qingpaopao.command.ICommand;
 import com.wopin.qingpaopao.command.IConnectDeviceCommand;
@@ -10,41 +12,113 @@ import com.wopin.qingpaopao.command.ISwitchLightCommand;
 
 import java.util.ArrayList;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+
 public abstract class ConnectManager<T> {
 
+    private static final String TAG = "ConnectManager";
     private ArrayList<ICommand> mICommands = new ArrayList<>();
-    private OnServerConnectCallback mOnServerConnectCallback;
-    private byte[] b = new byte[0];
+    private final byte[] b = new byte[0];
 
-    private void addCommand(ICommand iCommand) {
-        synchronized (b) {
-            if (iCommand != null) {
-                mICommands.add(iCommand);
-            }
-            //Check Connect
-            if (mOnServerConnectCallback == null) {
-                mOnServerConnectCallback = new OnServerConnectCallback() {
-                    @Override
-                    public void onConnectServerCallback() {
-                        execute();
-                    }
+    private void addCommand(final ICommand iCommand) {
+        new Thread() {
+            @Override
+            public void run() {
+                Log.d(TAG, "addCommand    need wait: " + (mICommands.size() != 0));
+                synchronized (b) {
+                    try {
+                        if (mICommands.size() != 0) {//之前已经有comment了，等下吧
+                            b.wait();
+                        }
 
-                    @Override
-                    public void onDisconnectServerCallback() {
-                        disconnectServer();
+                        Observable.create(new ObservableOnSubscribe<Object>() {
+                            @Override
+                            public void subscribe(final ObservableEmitter<Object> emitter) throws Exception {
+                                if (iCommand != null) {
+                                    mICommands.add(iCommand);
+                                }
+                                connectToServer(new OnServerConnectCallback() {
+                                    @Override
+                                    public void onConnectServerCallback() {
+                                        emitter.onComplete();
+                                    }
+
+                                    @Override
+                                    public void onDisconnectServerCallback() {
+                                        disconnectServer();
+                                    }
+                                });
+                            }
+                        })
+                                .subscribeOn(AndroidSchedulers.mainThread())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(new Observer<Object>() {
+                                    @Override
+                                    public void onSubscribe(Disposable d) {
+                                    }
+
+                                    @Override
+                                    public void onNext(Object o) {
+
+                                    }
+
+                                    @Override
+                                    public void onError(Throwable e) {
+                                        synchronized (b) {
+                                            b.notify();
+                                        }
+                                        disconnectServer();
+                                    }
+
+                                    @Override
+                                    public void onComplete() {
+                                        Log.d(TAG, "complete and notify");
+                                        synchronized (b) {
+                                            b.notify();
+                                        }
+                                        execute();
+                                    }
+                                });
+
+
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
-                };
+                }
             }
-            connectToServer(mOnServerConnectCallback);
-        }
+        }.start();
+
+//        if (iCommand != null) {
+//            mICommands.add(iCommand);
+//        }
+//        //Check Connect
+//        if (mOnServerConnectCallback == null) {
+//            mOnServerConnectCallback = new OnServerConnectCallback() {
+//                @Override
+//                public void onConnectServerCallback() {
+//                    mLock.unlock();
+//                    execute();
+//                }
+//
+//                @Override
+//                public void onDisconnectServerCallback() {
+//                    mLock.unlock();
+//                    disconnectServer();
+//                }
+//            };
+//        }
+//        connectToServer(mOnServerConnectCallback);
     }
 
     private void execute() {
-        synchronized (b) {
-            while (mICommands.size() > 0) {
-                ICommand remove = mICommands.remove(0);
-                remove.execute();
-            }
+        while (mICommands.size() > 0) {
+            ICommand remove = mICommands.remove(0);
+            remove.execute();
         }
     }
 

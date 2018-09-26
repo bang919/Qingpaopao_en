@@ -46,6 +46,12 @@ public class DrinkingListView extends Fragment implements View.OnClickListener {
         mOnCupItemClickCallback = onCupItemClickCallback;
     }
 
+    @Override
+    public void onDestroy() {
+        mCupListAdapter.destroy();
+        super.onDestroy();
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

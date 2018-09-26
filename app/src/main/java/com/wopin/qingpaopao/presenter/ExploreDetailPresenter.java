@@ -96,4 +96,18 @@ public class ExploreDetailPresenter extends BasePresenter<ExploreDetailView> {
     public void setLikeBlogPost(String blogId, boolean isLike) {
         subscribeNetworkTask(mExploreDetailModel.setLikeBlogPost(blogId, isLike));
     }
+
+    public void deleteMyBlog(String blogId) {
+        subscribeNetworkTask(getClass().getSimpleName().concat("deleteMyBlog"), mExploreDetailModel.deleteMyBlog(blogId), new MyObserver<NormalRsp>() {
+            @Override
+            public void onMyNext(NormalRsp normalRsp) {
+                mView.onMyBlogDelete();
+            }
+
+            @Override
+            public void onMyError(String errorMessage) {
+                mView.onError(errorMessage);
+            }
+        });
+    }
 }

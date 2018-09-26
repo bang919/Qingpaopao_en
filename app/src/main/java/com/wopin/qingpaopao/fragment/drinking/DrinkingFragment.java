@@ -152,12 +152,10 @@ public class DrinkingFragment extends BaseMainFragment<DrinkingPresenter> implem
 
     @Override
     public void onCupItemTurn(CupListRsp.CupBean cupBean, boolean isOn) {
-        if (cupBean.getType().equals(Constants.BLE)) {
-            mPresenter.disconnectCup();
-            if (isOn) {
-                mPresenter.connectCup(cupBean);
-            }
-        } else if (cupBean.getType().equals(Constants.WIFI)) {
+        mPresenter.disconnectCup();
+        if (cupBean.getType().equals(Constants.BLE) && isOn) {
+            mPresenter.connectCup(cupBean);
+        } else if (cupBean.getType().equals(Constants.WIFI) && isOn) {
             mPresenter.connectCup(cupBean);
         }
     }

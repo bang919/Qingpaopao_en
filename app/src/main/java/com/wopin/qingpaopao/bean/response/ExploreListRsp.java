@@ -89,6 +89,7 @@ public class ExploreListRsp {
         private boolean myLike;
         private boolean myStar;
         private String featured_image;
+        private boolean isDelete;
 
         public int getId() {
             return id;
@@ -200,6 +201,14 @@ public class ExploreListRsp {
 
         public void setFeatured_image(String featured_image) {
             this.featured_image = featured_image;
+        }
+
+        public boolean isDelete() {
+            return isDelete;
+        }
+
+        public void setDelete(boolean delete) {
+            isDelete = delete;
         }
 
         public static class AuthorBean implements Serializable {

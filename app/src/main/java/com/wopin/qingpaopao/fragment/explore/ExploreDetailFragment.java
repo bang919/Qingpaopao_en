@@ -24,8 +24,10 @@ import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.adapter.ExploreCommentsAdapter;
 import com.wopin.qingpaopao.bean.response.CommentRsp;
 import com.wopin.qingpaopao.bean.response.ExploreListRsp;
+import com.wopin.qingpaopao.bean.response.LoginRsp;
 import com.wopin.qingpaopao.fragment.BaseBarDialogFragment;
 import com.wopin.qingpaopao.presenter.ExploreDetailPresenter;
+import com.wopin.qingpaopao.presenter.LoginPresenter;
 import com.wopin.qingpaopao.utils.GlideUtils;
 import com.wopin.qingpaopao.utils.TimeFormatUtils;
 import com.wopin.qingpaopao.utils.ToastUtils;
@@ -40,6 +42,7 @@ public class ExploreDetailFragment extends BaseBarDialogFragment<ExploreDetailPr
 
     public static final String TAG = "ExploreDetailFragment";
     private ExploreListRsp.PostsBean mPostsBean;
+    private boolean isMyBlog;//判断是不是自己都blog，如果是，这个按钮就是删除blog而不是关注自己
     private View mRootView;
     private Button mFollowBtn;
     private WebView mDetailWebView;
@@ -98,6 +101,11 @@ public class ExploreDetailFragment extends BaseBarDialogFragment<ExploreDetailPr
                 } else {
                     postsBean.setLikes(postsBean.getLikes() - 1);
                 }
+            }
+
+            @Override
+            public void onMyBlogDelete() {
+                postsBean.setDelete(true);
             }
         });
         return exploreDetailFragment;
@@ -162,6 +170,13 @@ public class ExploreDetailFragment extends BaseBarDialogFragment<ExploreDetailPr
             public void run() {
                 mPostsBean = (ExploreListRsp.PostsBean) getArguments().getSerializable(TAG);
 
+                //判断是不是自己都blog，如果是，这个按钮就是删除blog而不是关注自己
+                LoginRsp accountMessage = LoginPresenter.getAccountMessage();
+                isMyBlog = accountMessage.getResult().get_id().equals(mPostsBean.getAuthor().getId());
+                if (isMyBlog) {
+                    mFollowBtn.setText(R.string.delete_blog);
+                }
+
                 mStartIv.setSelected(mPostsBean.isMyStar());
                 mLikeIv.setSelected(mPostsBean.isMyLike());
 
@@ -180,6 +195,13 @@ public class ExploreDetailFragment extends BaseBarDialogFragment<ExploreDetailPr
                 loadWebView();
 
                 setLoadingVisibility(true);
+
+                if (mPostsBean.isDelete()) {
+                    ToastUtils.showLong(R.string.blog_had_delete);
+                    dismiss();
+                    return;
+                }
+
                 mPresenter.getComments(String.valueOf(mPostsBean.getId()));
                 mPresenter.checkFollow(mPostsBean.getAuthor().getId());
             }
@@ -217,7 +239,12 @@ public class ExploreDetailFragment extends BaseBarDialogFragment<ExploreDetailPr
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_follow:
-                mPresenter.setFollowAuthor(mPostsBean.getAuthor().getId(), !v.isSelected());
+                if (isMyBlog) {
+                    setLoadingVisibility(true);
+                    mPresenter.deleteMyBlog(String.valueOf(mPostsBean.getId()));
+                } else {
+                    mPresenter.setFollowAuthor(mPostsBean.getAuthor().getId(), !v.isSelected());
+                }
                 break;
             case R.id.iv_stars:
                 v.setSelected(!v.isSelected());
@@ -292,7 +319,9 @@ public class ExploreDetailFragment extends BaseBarDialogFragment<ExploreDetailPr
     @Override
     public void isAuthorFollowed(boolean isFollow) {
         mFollowBtn.setSelected(isFollow);
-        if (isFollow) {
+        if (isMyBlog) {
+            mFollowBtn.setText(R.string.delete_blog);
+        } else if (isFollow) {
             mFollowBtn.setText(R.string.had_follow);
         } else {
             mFollowBtn.setText(R.string.add_follow);
@@ -303,6 +332,15 @@ public class ExploreDetailFragment extends BaseBarDialogFragment<ExploreDetailPr
     public void onComments(CommentRsp commentRsp) {
         setLoadingVisibility(false);
         mExploreCommentsAdapter.setCommentRsp(commentRsp);
+    }
+
+    @Override
+    public void onMyBlogDelete() {
+        ToastUtils.showShort(R.string.blog_had_delete);
+        if (mExploreDetailBtnListener != null) {
+            mExploreDetailBtnListener.onMyBlogDelete();
+        }
+        dismiss();
     }
 
     @Override
@@ -340,5 +378,7 @@ public class ExploreDetailFragment extends BaseBarDialogFragment<ExploreDetailPr
         void onStarBtnClick(boolean isStar);
 
         void onLikeBtnClick(boolean isLike);
+
+        void onMyBlogDelete();
     }
 }
