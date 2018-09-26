@@ -85,8 +85,16 @@ public class LeProxy {
     }
 
     public boolean connect(String address, boolean autoConnect) {
+        List<BluetoothDevice> connectedDevices = getConnectedDevices();
+        for (BluetoothDevice bluetoothDevice : connectedDevices) {
+            if (bluetoothDevice.getAddress().equals(address)) {
+                return true;
+            } else {
+                LeProxy.getInstance().disconnect(bluetoothDevice.getAddress());
+            }
+        }
+
         if (mBleService != null) {
-            mBleService.disconnectAll();
             return mBleService.connect(address, autoConnect);
         }
         return false;

@@ -39,9 +39,11 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
 
     @Override
     protected void onDestroy() {
+        BleConnectManager.getInstance().disconnectDevice();
         BleConnectManager.getInstance().destroy();
-        WifiConnectManager.getInstance().destroy();
+        MqttConnectManager.getInstance().disconnectDevice();
         MqttConnectManager.getInstance().destroy();
+        WifiConnectManager.getInstance().destroy();
         super.onDestroy();
     }
 

@@ -7,6 +7,7 @@ import com.wopin.qingpaopao.bean.response.DrinkListTotalRsp;
 import com.wopin.qingpaopao.bean.response.NormalRsp;
 import com.wopin.qingpaopao.common.Constants;
 import com.wopin.qingpaopao.http.HttpClient;
+import com.wopin.qingpaopao.manager.BleConnectManager;
 import com.wopin.qingpaopao.manager.MqttConnectManager;
 
 import io.reactivex.Observable;
@@ -39,6 +40,10 @@ public class DrinkingModel {
                             if (cupBean.getType().equals(Constants.WIFI)) {
                                 if (!cupBean.isConnecting()) {
                                     MqttConnectManager.getInstance().connectDevice(cupBean.getUuid());
+                                }
+                            } else if (cupBean.getType().equals(Constants.BLE)) {
+                                if (!cupBean.isConnecting()) {
+                                    BleConnectManager.getInstance().connectDevice(cupBean.getAddress());
                                 }
                             }
                         }

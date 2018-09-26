@@ -2,7 +2,6 @@ package com.wopin.qingpaopao.presenter;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
-import android.util.Log;
 
 import com.ble.api.DataUtil;
 import com.wopin.qingpaopao.R;
@@ -93,7 +92,7 @@ public class DrinkingPresenter extends BasePresenter<DrinkingView> {
             public void onDatasUpdate(MqttConnectManager.MqttUpdaterBean mqttUpdaterBean) {
                 String message = mqttUpdaterBean.getMessage();
                 String[] split = message.split(":");
-                if ( split[0].equals("P") && mCurrentOnlineCup != null) {
+                if (split[0].equals("P") && mCurrentOnlineCup != null) {
                     mCurrentOnlineCup.setElectric(split[1].substring(0, 2).concat("%"));
                 } else if (split[2].equals("H") && mCurrentOnlineCup != null) {
                     //Update hydro timer  --> if split[4] == M and split[5] == 0
@@ -145,7 +144,7 @@ public class DrinkingPresenter extends BasePresenter<DrinkingView> {
         if (cupBean.getType().equals(Constants.BLE)) {
             BleConnectManager.getInstance().connectDevice(cupBean.getAddress());
         } else if (cupBean.getType().equals(Constants.WIFI)) {
-            mView.onLoading();
+//            mView.onLoading();//手动连接还是不要loading啦，不然如果wifi模块不在线怎么办？或者设置一个超时也行
             MqttConnectManager.getInstance().connectDevice(cupBean.getUuid());
         } else {
             mView.onError(mContext.getString(R.string.known_error));
