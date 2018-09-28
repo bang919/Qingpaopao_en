@@ -106,6 +106,7 @@ public class MyOrderFragment extends BaseBarDialogFragment<MyOrderPresenter> imp
 
             @Override
             public void onPaymentOrderBtnClick(OrderResponse.OrderBean orderBean) {
+                mPresenter.payOrder(orderBean);
 
             }
         });

@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
+import android.bluetooth.BluetoothProfile;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +18,7 @@ import android.util.Log;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.wopin.qingpaopao.R;
 
+import java.util.List;
 import java.util.TreeMap;
 
 import io.reactivex.ObservableSource;
@@ -106,6 +108,15 @@ public class BlueToothPresenter {
     private void checkBleDevice() {
         if (mBluetoothManagerAdapter != null) {
             if (!mBluetoothManagerAdapter.isEnabled()) {
+                List<BluetoothDevice> connectedDevices = mBluetoothManager.getConnectedDevices(BluetoothProfile.GATT_SERVER);
+                for (BluetoothDevice bluetoothDevice : connectedDevices) {
+                    String address = bluetoothDevice.getAddress();
+                    if (mBluetoothDevices.get(address) == null) {
+                        mBluetoothDevices.put(address, bluetoothDevice);
+                        mBlueToothPresenterCallback.onDevicesFind(mBluetoothDevices, bluetoothDevice);
+                    }
+                }
+
                 Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
                 if (mFragmentActivity != null) {
                     mFragmentActivity.startActivityForResult(enableBtIntent, BLUETOOTH_OPEN_REQUEST_CODE);

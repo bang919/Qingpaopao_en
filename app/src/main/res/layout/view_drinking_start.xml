@@ -14,26 +14,6 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
-    <ImageView
-        android:id="@+id/iv_device_list"
-        android:layout_width="50dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="24dp"
-        android:scaleType="centerInside"
-        android:src="@mipmap/m_back"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_device_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/device"
-        android:textColor="@color/colorWhite"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@id/iv_device_list"
-        app:layout_constraintLeft_toRightOf="@id/iv_device_list"
-        app:layout_constraintTop_toTopOf="@id/iv_device_list" />
 
     <ImageView
         android:id="@+id/iv_water"
@@ -223,12 +203,23 @@
         app:layout_constraintWidth_percent="0.3" />
 
     <ImageView
+        android:id="@+id/tv_device_list"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@mipmap/p_device"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/iv_light_setting"
+        app:layout_constraintTop_toBottomOf="@+id/btn_switch_electrolyze" />
+
+    <ImageView
         android:id="@+id/iv_light_setting"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:layout_marginTop="10dp"
         android:src="@mipmap/p_light2"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/tv_device_list"
         app:layout_constraintRight_toLeftOf="@id/iv_cup_clean"
         app:layout_constraintTop_toBottomOf="@+id/btn_switch_electrolyze" />
 

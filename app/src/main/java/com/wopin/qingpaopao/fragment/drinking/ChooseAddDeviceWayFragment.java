@@ -8,9 +8,8 @@ import com.wopin.qingpaopao.bean.response.WifiConfigToCupRsp;
 import com.wopin.qingpaopao.fragment.BaseBarDialogFragment;
 import com.wopin.qingpaopao.presenter.BasePresenter;
 import com.wopin.qingpaopao.view.WifiSettingSuccessListener;
-import com.wopin.qingpaopao.widget.RandomTextLayout;
 
-public class ChooseAddDeviceWayFragment extends BaseBarDialogFragment implements View.OnClickListener, RandomTextLayout.OnDeviceClickListener, WifiSettingSuccessListener {
+public class ChooseAddDeviceWayFragment extends BaseBarDialogFragment implements View.OnClickListener, BlueToothFragment.OnDeviceClickListener, WifiSettingSuccessListener {
 
     public static final String TAG = "ChooseAddDeviceWayFragment";
     private DrinkingListView.OnDrinkingListViewCallback mOnDrinkingListViewCallback;

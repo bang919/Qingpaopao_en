@@ -2,17 +2,19 @@ package com.wopin.qingpaopao.fragment.drinking;
 
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 
 import com.wopin.qingpaopao.R;
+import com.wopin.qingpaopao.adapter.BleChooseListRvAdapter;
 import com.wopin.qingpaopao.fragment.BaseBarDialogFragment;
 import com.wopin.qingpaopao.presenter.BasePresenter;
 import com.wopin.qingpaopao.presenter.BlueToothPresenter;
 import com.wopin.qingpaopao.utils.ToastUtils;
-import com.wopin.qingpaopao.widget.RandomTextLayout;
 
 import java.util.TreeMap;
 
@@ -21,10 +23,11 @@ public class BlueToothFragment extends BaseBarDialogFragment implements BlueToot
     public static final String TAG = "BlueToothFragment";
     private BlueToothPresenter mBlueToothPresenter;
     private ImageView mCircleIv;
-    private RandomTextLayout mRandomTextLayout;
-    private RandomTextLayout.OnDeviceClickListener mOnDeviceClickListener;
+    private OnDeviceClickListener mOnDeviceClickListener;
+    private RecyclerView mBleRv;
+    private BleChooseListRvAdapter mBleChooseListRvAdapter;
 
-    public void setOnDeviceClickListener(RandomTextLayout.OnDeviceClickListener onDeviceClickListener) {
+    public void setOnDeviceClickListener(OnDeviceClickListener onDeviceClickListener) {
         mOnDeviceClickListener = onDeviceClickListener;
     }
 
@@ -58,7 +61,9 @@ public class BlueToothFragment extends BaseBarDialogFragment implements BlueToot
     @Override
     protected void initView(View rootView) {
         mCircleIv = rootView.findViewById(R.id.iv_circle);
-        mRandomTextLayout = rootView.findViewById(R.id.random_text_layout);
+        mBleRv = rootView.findViewById(R.id.rv_ble_list);
+        mBleRv.setLayoutManager(new LinearLayoutManager(getContext()));
+//        mRandomTextLayout = rootView.findViewById(R.id.random_text_layout);
     }
 
     @Override
@@ -72,14 +77,16 @@ public class BlueToothFragment extends BaseBarDialogFragment implements BlueToot
         mCircleIv.startAnimation(animation);
 
         mBlueToothPresenter.start();
-        mRandomTextLayout.setOnDeviceClickListener(new RandomTextLayout.OnDeviceClickListener() {
+
+        mBleChooseListRvAdapter = new BleChooseListRvAdapter(new BleChooseListRvAdapter.BleChooseListAdapterCallback() {
             @Override
-            public void onBlueToothDeviceClick(BluetoothDevice bluetoothDevice, int position) {
+            public void onBleDeviceChoose(BluetoothDevice bluetoothDevice, int position) {
                 destroy();
                 dismiss();
                 mOnDeviceClickListener.onBlueToothDeviceClick(bluetoothDevice, position);
             }
         });
+        mBleRv.setAdapter(mBleChooseListRvAdapter);
     }
 
     @Override
@@ -90,11 +97,15 @@ public class BlueToothFragment extends BaseBarDialogFragment implements BlueToot
 
     @Override
     public void onDevicesFind(TreeMap<String, BluetoothDevice> devices, BluetoothDevice newDevice) {
-        mRandomTextLayout.addBluetoothDevice(newDevice);
+        mBleChooseListRvAdapter.putBlueToothDevice(newDevice);
     }
 
     @Override
     public void onError(String errorMsg) {
         ToastUtils.showShort(errorMsg);
+    }
+
+    public interface OnDeviceClickListener {
+        void onBlueToothDeviceClick(BluetoothDevice bluetoothDevice, int position);
     }
 }

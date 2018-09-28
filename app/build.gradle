@@ -125,4 +125,6 @@ dependencies {
     implementation 'com.github.yalantis:ucrop:2.2.2'
     //Luban
     implementation 'top.zibin:Luban:1.1.1'
+    //微信支付
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:5.1.6'
 }

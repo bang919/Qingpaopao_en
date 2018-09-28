@@ -98,7 +98,6 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
                 mHandler.postDelayed(mSeekbarMinusRunnable, 1000);
             }
         };
-        mRootView.findViewById(R.id.iv_device_list).setOnClickListener(this);
         mRootView.findViewById(R.id.tv_device_list).setOnClickListener(this);
         mRootView.findViewById(R.id.iv_light_setting).setOnClickListener(this);
         mRootView.findViewById(R.id.iv_cup_clean).setOnClickListener(this);
@@ -153,7 +152,6 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.iv_device_list:
             case R.id.tv_device_list:
                 if (mOnDrinkingStartCallback != null) {
                     mOnDrinkingStartCallback.showDrinkingDeviceList();

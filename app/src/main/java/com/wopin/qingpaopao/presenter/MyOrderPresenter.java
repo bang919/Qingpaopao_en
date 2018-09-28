@@ -7,6 +7,7 @@ import com.wopin.qingpaopao.bean.request.TrackingNumberSettingBean;
 import com.wopin.qingpaopao.bean.response.NormalRsp;
 import com.wopin.qingpaopao.bean.response.OrderResponse;
 import com.wopin.qingpaopao.model.MyOrderModel;
+import com.wopin.qingpaopao.model.WeiXinPayModel;
 import com.wopin.qingpaopao.utils.ToastUtils;
 import com.wopin.qingpaopao.view.MyOrderView;
 
@@ -19,10 +20,12 @@ import io.reactivex.schedulers.Schedulers;
 public class MyOrderPresenter extends BasePresenter<MyOrderView> {
 
     private MyOrderModel mMyOrderModel;
+    private WeiXinPayModel mWeiXinPayModel;
 
     public MyOrderPresenter(Context context, MyOrderView view) {
         super(context, view);
         mMyOrderModel = new MyOrderModel();
+        mWeiXinPayModel = new WeiXinPayModel();
     }
 
     public void getOrderListDatas() {
@@ -103,6 +106,10 @@ public class MyOrderPresenter extends BasePresenter<MyOrderView> {
                 mView.onError(errorMessage);
             }
         });
+    }
+
+    public void payOrder(OrderResponse.OrderBean orderBean) {
+        mWeiXinPayModel.pay(mContext, orderBean);
     }
 
 }
