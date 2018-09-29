@@ -145,8 +145,7 @@ public class CrowdFundingDetailFragment extends BaseBarDialogFragment<CrowdFundi
     @Override
     public void onCrowdFundingPayMentSuccess() {
         setLoadingVisibility(false);
-        ToastUtils.showShort(R.string.submit_success);
-        dismiss();
+        ToastUtils.showShort(R.string.buy_success);
     }
 
     @Override

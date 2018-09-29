@@ -8,6 +8,8 @@ public class Constants {
 
     public final static int NULL_COLOR = -1;//状态栏不需要颜色的常量
 
+    public final static String WECHAT_APPID = "wxf42ec50449767feb";
+
 
     public static final String WIFI = "WIFI";
     public static final String BLE = "BLE";

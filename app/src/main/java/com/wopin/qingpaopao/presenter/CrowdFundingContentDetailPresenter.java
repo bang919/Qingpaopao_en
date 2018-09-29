@@ -2,11 +2,15 @@ package com.wopin.qingpaopao.presenter;
 
 import android.content.Context;
 
+import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.bean.request.PaymentBean;
 import com.wopin.qingpaopao.bean.response.CrowdfundingOrderTotalMoneyRsp;
 import com.wopin.qingpaopao.bean.response.CrowdfundingOrderTotalPeopleRsp;
 import com.wopin.qingpaopao.bean.response.NormalRsp;
+import com.wopin.qingpaopao.bean.response.OrderBean;
+import com.wopin.qingpaopao.bean.response.OrderOneResponse;
 import com.wopin.qingpaopao.model.CrowdFundingContentDetailModel;
+import com.wopin.qingpaopao.model.WeiXinPayModel;
 import com.wopin.qingpaopao.model.WelfareModel;
 import com.wopin.qingpaopao.view.CrowdFundingDetailView;
 
@@ -34,10 +38,10 @@ public class CrowdFundingContentDetailPresenter extends BasePresenter<CrowdFundi
         paymentBean.setNum(number);
         paymentBean.setSinglePrice(singlePrice);
         subscribeNetworkTask(getClass().getSimpleName().concat("payMentCrowdfunding"), mCrowdFundingContentDetailModel.payMentCrowdfunding(paymentBean),
-                new MyObserver<NormalRsp>() {
+                new MyObserver<OrderOneResponse>() {
                     @Override
-                    public void onMyNext(NormalRsp normalRsp) {
-                        mView.onCrowdFundingPayMentSuccess();
+                    public void onMyNext(OrderOneResponse orderBean) {
+                        pay(orderBean.getResult());
                     }
 
                     @Override
@@ -45,6 +49,21 @@ public class CrowdFundingContentDetailPresenter extends BasePresenter<CrowdFundi
                         mView.onError(errorMessage);
                     }
                 });
+    }
+
+    private void pay(OrderBean orderBean) {
+        WeiXinPayModel weiXinPayModel = new WeiXinPayModel();
+        subscribeNetworkTask(getClass().getSimpleName().concat("pay"), weiXinPayModel.payOrderByWechat(mContext, orderBean), new MyObserver<NormalRsp>() {
+            @Override
+            public void onMyNext(NormalRsp normalRsp) {
+                mView.onCrowdFundingPayMentSuccess();
+            }
+
+            @Override
+            public void onMyError(String errorMessage) {
+                mView.onError(mContext.getString(R.string.pay_failure));
+            }
+        });
     }
 
     public void crowdfundingOrderTotalMoneyAndPeople(int goodsId, final String goodsPrice) {

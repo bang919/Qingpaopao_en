@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.wopin.qingpaopao.R;
-import com.wopin.qingpaopao.bean.response.OrderResponse;
+import com.wopin.qingpaopao.bean.response.OrderBean;
 import com.wopin.qingpaopao.dialog.NormalDialog;
 import com.wopin.qingpaopao.fragment.BaseBarDialogFragment;
 import com.wopin.qingpaopao.presenter.BasePresenter;
@@ -21,9 +21,9 @@ public class OldChangeNewOrderDetailFragment extends BaseBarDialogFragment imple
     private Button mRemoveOrderBtn;
     private Button mPaymentBtn;
     private OldChangeNewOrderDetailCallback mOldChangeNewOrderDetailCallback;
-    private OrderResponse.OrderBean mOrderBean;
+    private OrderBean mOrderBean;
 
-    public static OldChangeNewOrderDetailFragment build(OrderResponse.OrderBean orderBean) {
+    public static OldChangeNewOrderDetailFragment build(OrderBean orderBean) {
         OldChangeNewOrderDetailFragment oldChangeNewOrderDetailFragment = new OldChangeNewOrderDetailFragment();
         Bundle args = new Bundle();
         args.putSerializable(TAG, orderBean);
@@ -52,14 +52,14 @@ public class OldChangeNewOrderDetailFragment extends BaseBarDialogFragment imple
 
     @Override
     protected void initView(View rootView) {
-        mOrderBean = (OrderResponse.OrderBean) getArguments().getSerializable(TAG);
+        mOrderBean = (OrderBean) getArguments().getSerializable(TAG);
         ((TextView) rootView.findViewById(R.id.tv_order_status)).setText(mOrderBean.getOrderStatus());
         ((TextView) rootView.findViewById(R.id.tv_order_id)).setText(getString(R.string.order_id, mOrderBean.get_id()));
         ((TextView) rootView.findViewById(R.id.tv_order_time)).setText(getString(R.string.order_time, mOrderBean.getCreateDate()));
         GlideUtils.loadImage((ImageView) rootView.findViewById(R.id.iv_order_image), -1, mOrderBean.getImage(), new CenterCrop());
         ((TextView) rootView.findViewById(R.id.tv_name)).setText(mOrderBean.getTitle());
         ((TextView) rootView.findViewById(R.id.tv_price)).setText(getString(R.string.price_number, String.valueOf(mOrderBean.getFinalPrice())));
-        OrderResponse.OrderBean.AddressBean addressBean = mOrderBean.getAddress();
+        OrderBean.AddressBean addressBean = mOrderBean.getAddress();
         ((TextView) rootView.findViewById(R.id.receiver_message)).setText(getString(R.string.receiver_message, addressBean.getUserName(), addressBean.getTel(),
                 addressBean.getAddress1() + addressBean.getAddress2()));
 
@@ -102,11 +102,15 @@ public class OldChangeNewOrderDetailFragment extends BaseBarDialogFragment imple
                 OrderFollowOrderFragment.build(mOrderBean).show(getChildFragmentManager(), OrderFollowOrderFragment.TAG);
                 break;
             case R.id.payment://付款
+                mOldChangeNewOrderDetailCallback.onPayOrderBtnClick(mOrderBean);
+                dismiss();
                 break;
         }
     }
 
     public interface OldChangeNewOrderDetailCallback {
         void onRemoveOrderBtnClick();
+
+        void onPayOrderBtnClick(OrderBean orderBean);
     }
 }

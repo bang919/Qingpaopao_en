@@ -12,21 +12,21 @@ import android.widget.TextView;
 
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.wopin.qingpaopao.R;
-import com.wopin.qingpaopao.bean.response.OrderResponse;
+import com.wopin.qingpaopao.bean.response.OrderBean;
 import com.wopin.qingpaopao.utils.GlideUtils;
 
 import java.util.ArrayList;
 
 public abstract class ScoreAndCrowdOrderListAdapter extends RecyclerView.Adapter<ScoreAndCrowdOrderListAdapter.ScoreAndCrowdOrderViewHolder> {
 
-    private ArrayList<OrderResponse.OrderBean> mOrderBeans;
+    private ArrayList<OrderBean> mOrderBeans;
     private ScoreAndCrowdOrderListAdapterCallback mScoreAndCrowdOrderListAdapterCallback;
 
     public void setScoreAndCrowdOrderListAdapterCallback(ScoreAndCrowdOrderListAdapterCallback scoreAndCrowdOrderListAdapterCallback) {
         mScoreAndCrowdOrderListAdapterCallback = scoreAndCrowdOrderListAdapterCallback;
     }
 
-    public void setOrderBeans(ArrayList<OrderResponse.OrderBean> orderBeans) {
+    public void setOrderBeans(ArrayList<OrderBean> orderBeans) {
         mOrderBeans = orderBeans;
         notifyDataSetChanged();
     }
@@ -39,7 +39,7 @@ public abstract class ScoreAndCrowdOrderListAdapter extends RecyclerView.Adapter
 
     @Override
     public void onBindViewHolder(@NonNull ScoreAndCrowdOrderViewHolder holder, int position) {
-        final OrderResponse.OrderBean orderBean = mOrderBeans.get(position);
+        final OrderBean orderBean = mOrderBeans.get(position);
         final Context context = holder.itemView.getContext();
         holder.mOrderId.setText(String.format(context.getString(R.string.order_id), orderBean.get_id()));
         holder.mOrderStatus.setText(orderBean.getOrderStatus());
@@ -122,10 +122,10 @@ public abstract class ScoreAndCrowdOrderListAdapter extends RecyclerView.Adapter
     }
 
     public interface ScoreAndCrowdOrderListAdapterCallback {
-        void onFollwOrderBtnClick(OrderResponse.OrderBean orderBean);
+        void onFollwOrderBtnClick(OrderBean orderBean);
 
-        void onRemoveOrderBtnClick(OrderResponse.OrderBean orderBean);
+        void onRemoveOrderBtnClick(OrderBean orderBean);
 
-        void onPaymentOrderBtnClick(OrderResponse.OrderBean orderBean);
+        void onPaymentOrderBtnClick(OrderBean orderBean);
     }
 }
