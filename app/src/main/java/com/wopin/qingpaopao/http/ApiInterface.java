@@ -183,11 +183,11 @@ public interface ApiInterface {
     @POST("users/attendance")
     Observable<NormalRsp> attendance();
 
-    @POST("http://172.16.0.123/wopin_wifi")
+    @POST("http://172.16.0.1/wopin_wifi")
 //    @POST("http://172.16.0.1/wopin_wifi")
     Observable<String> getWifiList(@Body RequestBody requestBody);
 
-    @POST("http://172.16.0.123/wopin_wifi")
+    @POST("http://172.16.0.1/wopin_wifi")
 //    @POST("http://172.16.0.1/wopin_wifi")
     Observable<String> sendWifiConfigToCup(@Body RequestBody requestBody);
 
