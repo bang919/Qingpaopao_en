@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.wopin.qingpaopao.R;
-import com.wopin.qingpaopao.bean.response.OrderResponse;
+import com.wopin.qingpaopao.bean.response.OrderBean;
 import com.wopin.qingpaopao.utils.GlideUtils;
 
 import java.util.ArrayList;
@@ -21,14 +21,14 @@ import java.util.ArrayList;
 public class OldChangeNewOrderListAdapter extends RecyclerView.Adapter<OldChangeNewOrderListAdapter.OldChangeNewOrderViewHolder> {
 
 
-    private ArrayList<OrderResponse.OrderBean> mOrderBeans;
+    private ArrayList<OrderBean> mOrderBeans;
     private OldChangeNewOrderListAdapterCalblack mOldChangeNewOrderListAdapterCalblack;
 
     public void setOldChangeNewOrderListAdapterCalblack(OldChangeNewOrderListAdapterCalblack oldChangeNewOrderListAdapterCalblack) {
         mOldChangeNewOrderListAdapterCalblack = oldChangeNewOrderListAdapterCalblack;
     }
 
-    public void setOrderBeans(ArrayList<OrderResponse.OrderBean> orderBeans) {
+    public void setOrderBeans(ArrayList<OrderBean> orderBeans) {
         mOrderBeans = orderBeans;
         notifyDataSetChanged();
     }
@@ -41,7 +41,7 @@ public class OldChangeNewOrderListAdapter extends RecyclerView.Adapter<OldChange
 
     @Override
     public void onBindViewHolder(@NonNull OldChangeNewOrderViewHolder holder, int position) {
-        final OrderResponse.OrderBean orderBean = mOrderBeans.get(position);
+        final OrderBean orderBean = mOrderBeans.get(position);
         Context context = holder.itemView.getContext();
         holder.mOrderTime.setText(String.format(context.getString(R.string.order_time), orderBean.getCreateDate()));
         holder.mOrderStatus.setText(orderBean.getOrderStatus());
@@ -101,8 +101,8 @@ public class OldChangeNewOrderListAdapter extends RecyclerView.Adapter<OldChange
     }
 
     public interface OldChangeNewOrderListAdapterCalblack {
-        void onSetTrackingNumberBtnClick(OrderResponse.OrderBean orderBean);
+        void onSetTrackingNumberBtnClick(OrderBean orderBean);
 
-        void onOrderDetailBtnClick(OrderResponse.OrderBean orderBean);
+        void onOrderDetailBtnClick(OrderBean orderBean);
     }
 }

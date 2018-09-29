@@ -4,8 +4,10 @@ package com.wopin.qingpaopao.http;
 import com.wopin.qingpaopao.bean.request.AddressBean;
 import com.wopin.qingpaopao.bean.request.BodyProfilesBean;
 import com.wopin.qingpaopao.bean.request.CupUpdateReq;
+import com.wopin.qingpaopao.bean.request.GetWechatPayReq;
 import com.wopin.qingpaopao.bean.request.LoginReq;
 import com.wopin.qingpaopao.bean.request.NewBlogReq;
+import com.wopin.qingpaopao.bean.request.PaySuccessChangeOrderReq;
 import com.wopin.qingpaopao.bean.request.PaymentBean;
 import com.wopin.qingpaopao.bean.request.SendCommentReq;
 import com.wopin.qingpaopao.bean.request.ThirdReq;
@@ -19,9 +21,11 @@ import com.wopin.qingpaopao.bean.response.DrinkListTodayRsp;
 import com.wopin.qingpaopao.bean.response.DrinkListTotalRsp;
 import com.wopin.qingpaopao.bean.response.ExploreListRsp;
 import com.wopin.qingpaopao.bean.response.FollowListRsp;
+import com.wopin.qingpaopao.bean.response.GetWechatPayResponse;
 import com.wopin.qingpaopao.bean.response.LoginRsp;
 import com.wopin.qingpaopao.bean.response.NormalRsp;
-import com.wopin.qingpaopao.bean.response.OrderResponse;
+import com.wopin.qingpaopao.bean.response.OrderListResponse;
+import com.wopin.qingpaopao.bean.response.OrderOneResponse;
 import com.wopin.qingpaopao.bean.response.ProductBanner;
 import com.wopin.qingpaopao.bean.response.ProductContent;
 import com.wopin.qingpaopao.bean.response.ThirdBindRsp;
@@ -213,22 +217,25 @@ public interface ApiInterface {
     Observable<NormalRsp> payMentScores(@Body PaymentBean paymentBean);
 
     @POST("goods/payMentExchange")
-    Observable<NormalRsp> payMentExchange(@Body PaymentBean paymentBean);
+    Observable<OrderOneResponse> payMentExchange(@Body PaymentBean paymentBean);
 
     @POST("goods/payMentCrowdfunding")
-    Observable<NormalRsp> payMentCrowdfunding(@Body PaymentBean paymentBean);
+    Observable<OrderOneResponse> payMentCrowdfunding(@Body PaymentBean paymentBean);
 
     @GET("goods/scoresOrderList")
-    Observable<OrderResponse> getScoresOrder();
+    Observable<OrderListResponse> getScoresOrder();
 
     @GET("goods/exchangeOrderList")
-    Observable<OrderResponse> getExchangeOrder();
+    Observable<OrderListResponse> getExchangeOrder();
 
     @GET("goods/crowdfundingOrderList")
-    Observable<OrderResponse> getCrowdfundingOrder();
+    Observable<OrderListResponse> getCrowdfundingOrder();
 
     @POST("goods/exchangeOrderUpdate")
     Observable<NormalRsp> exchangeOrderUpdate(@Body TrackingNumberSettingBean trackingNumberSettingBean);
+
+    @POST("goods/orderStatusUpdate")
+    Observable<NormalRsp> paySuccessChangeOrderStatus(@Body PaySuccessChangeOrderReq paySuccessChangeOrderReq);
 
     @POST("goods/deleteOrder")
     Observable<NormalRsp> deleteOrder(@Body RequestBody requestBody);
@@ -240,4 +247,7 @@ public interface ApiInterface {
     @Headers({"mimetype:image/jpeg"})
     @POST("uploadImage")
     Observable<UploadImageRsp> uploadPicture(@Part MultipartBody.Part file);
+
+    @POST("getWeChatPaySign")
+    Observable<GetWechatPayResponse> getWeChatPaySign(@Body GetWechatPayReq getWechatPayReq);
 }

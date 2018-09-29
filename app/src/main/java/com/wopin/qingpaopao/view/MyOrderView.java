@@ -1,14 +1,14 @@
 package com.wopin.qingpaopao.view;
 
-import com.wopin.qingpaopao.bean.response.OrderResponse;
+import com.wopin.qingpaopao.bean.response.OrderListResponse;
 
 public interface MyOrderView {
 
-    void onScoresOrder(OrderResponse scoreOrder);
+    void onScoresOrder(OrderListResponse scoreOrder);
 
-    void onExchangeOrder(OrderResponse exchangeOrder);
+    void onExchangeOrder(OrderListResponse exchangeOrder);
 
-    void onCrowdfundingOrder(OrderResponse crowdfundingOrder);
+    void onCrowdfundingOrder(OrderListResponse crowdfundingOrder);
 
     void onDataResponseSuccess();
 

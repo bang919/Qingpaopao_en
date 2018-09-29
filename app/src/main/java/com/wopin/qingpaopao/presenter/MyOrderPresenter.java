@@ -5,7 +5,8 @@ import android.content.Context;
 import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.bean.request.TrackingNumberSettingBean;
 import com.wopin.qingpaopao.bean.response.NormalRsp;
-import com.wopin.qingpaopao.bean.response.OrderResponse;
+import com.wopin.qingpaopao.bean.response.OrderBean;
+import com.wopin.qingpaopao.bean.response.OrderListResponse;
 import com.wopin.qingpaopao.model.MyOrderModel;
 import com.wopin.qingpaopao.model.WeiXinPayModel;
 import com.wopin.qingpaopao.utils.ToastUtils;
@@ -31,31 +32,31 @@ public class MyOrderPresenter extends BasePresenter<MyOrderView> {
     public void getOrderListDatas() {
         subscribeNetworkTask(getClass().getSimpleName().concat("getOrderListDatas"), Observable.zip(
                 mMyOrderModel.getScoresOrder()
-                        .doOnNext(new Consumer<OrderResponse>() {
+                        .doOnNext(new Consumer<OrderListResponse>() {
                             @Override
-                            public void accept(OrderResponse orderResponse) throws Exception {
-                                mView.onScoresOrder(orderResponse);
+                            public void accept(OrderListResponse orderListResponse) throws Exception {
+                                mView.onScoresOrder(orderListResponse);
                             }
                         }),
                 mMyOrderModel.getExchangeOrder()
                         .doOnNext(
-                                new Consumer<OrderResponse>() {
+                                new Consumer<OrderListResponse>() {
                                     @Override
-                                    public void accept(OrderResponse orderResponse) throws Exception {
-                                        mView.onExchangeOrder(orderResponse);
+                                    public void accept(OrderListResponse orderListResponse) throws Exception {
+                                        mView.onExchangeOrder(orderListResponse);
                                     }
                                 }
                         ),
                 mMyOrderModel.getCrowdfundingOrder()
-                        .doOnNext(new Consumer<OrderResponse>() {
+                        .doOnNext(new Consumer<OrderListResponse>() {
                             @Override
-                            public void accept(OrderResponse orderResponse) throws Exception {
-                                mView.onCrowdfundingOrder(orderResponse);
+                            public void accept(OrderListResponse orderListResponse) throws Exception {
+                                mView.onCrowdfundingOrder(orderListResponse);
                             }
                         }),
-                new Function3<OrderResponse, OrderResponse, OrderResponse, String>() {
+                new Function3<OrderListResponse, OrderListResponse, OrderListResponse, String>() {
                     @Override
-                    public String apply(OrderResponse normalRsp, OrderResponse normalRsp2, OrderResponse normalRsp3) throws Exception {
+                    public String apply(OrderListResponse normalRsp, OrderListResponse normalRsp2, OrderListResponse normalRsp3) throws Exception {
                         return "success";
                     }
                 })
@@ -108,8 +109,27 @@ public class MyOrderPresenter extends BasePresenter<MyOrderView> {
         });
     }
 
-    public void payOrder(OrderResponse.OrderBean orderBean) {
-        mWeiXinPayModel.pay(mContext, orderBean);
+    public void payOrderByWechat(Context context, final OrderBean orderBean) {
+        subscribeNetworkTask(getClass().getSimpleName().concat("payOrderByWechat"), mWeiXinPayModel.payOrderByWechat(context, orderBean), new MyObserver<NormalRsp>() {
+            @Override
+            public void onMyNext(NormalRsp normalRsp) {
+                ToastUtils.showShort(R.string.pay_success);
+                getOrderListDatas();
+            }
+
+            @Override
+            public void onMyError(String errorMessage) {
+                mView.onError(errorMessage);
+            }
+        });
     }
+
+    @Override
+
+    public void destroy() {
+        mWeiXinPayModel.removeWxActivityCallback();
+        super.destroy();
+    }
+
 
 }

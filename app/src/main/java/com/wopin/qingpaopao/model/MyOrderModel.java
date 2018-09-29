@@ -2,7 +2,7 @@ package com.wopin.qingpaopao.model;
 
 import com.wopin.qingpaopao.bean.request.TrackingNumberSettingBean;
 import com.wopin.qingpaopao.bean.response.NormalRsp;
-import com.wopin.qingpaopao.bean.response.OrderResponse;
+import com.wopin.qingpaopao.bean.response.OrderListResponse;
 import com.wopin.qingpaopao.http.HttpClient;
 
 import io.reactivex.Observable;
@@ -13,21 +13,21 @@ import okhttp3.RequestBody;
 
 public class MyOrderModel {
 
-    public Observable<OrderResponse> getScoresOrder() {
+    public Observable<OrderListResponse> getScoresOrder() {
         return HttpClient.getApiInterface().getScoresOrder()
                 .retry(2)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<OrderResponse> getExchangeOrder() {
+    public Observable<OrderListResponse> getExchangeOrder() {
         return HttpClient.getApiInterface().getExchangeOrder()
                 .retry(2)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<OrderResponse> getCrowdfundingOrder() {
+    public Observable<OrderListResponse> getCrowdfundingOrder() {
         return HttpClient.getApiInterface().getCrowdfundingOrder()
                 .retry(2)
                 .subscribeOn(Schedulers.io())

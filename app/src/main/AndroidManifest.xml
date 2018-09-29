@@ -58,6 +58,8 @@
             android:name="com.ble.ble.BleService"
             android:enabled="true"
             android:exported="false" />
+
+        <activity android:name="com.mywopin.com.cup.wxapi.WXPayEntryActivity" android:exported="true"/>
     </application>
 
 </manifest>

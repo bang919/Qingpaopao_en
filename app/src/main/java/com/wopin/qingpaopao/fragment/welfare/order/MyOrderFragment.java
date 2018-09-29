@@ -7,7 +7,8 @@ import android.view.View;
 import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.adapter.OldChangeNewOrderListAdapter;
 import com.wopin.qingpaopao.adapter.ScoreAndCrowdOrderListAdapter;
-import com.wopin.qingpaopao.bean.response.OrderResponse;
+import com.wopin.qingpaopao.bean.response.OrderBean;
+import com.wopin.qingpaopao.bean.response.OrderListResponse;
 import com.wopin.qingpaopao.dialog.NormalDialog;
 import com.wopin.qingpaopao.fragment.BaseBarDialogFragment;
 import com.wopin.qingpaopao.presenter.MyOrderPresenter;
@@ -74,28 +75,28 @@ public class MyOrderFragment extends BaseBarDialogFragment<MyOrderPresenter> imp
         setLoadingVisibility(true);
         mScoreMarketOrderAdapter.setScoreAndCrowdOrderListAdapterCallback(new ScoreAndCrowdOrderListAdapter.ScoreAndCrowdOrderListAdapterCallback() {
             @Override
-            public void onFollwOrderBtnClick(OrderResponse.OrderBean orderBean) {
+            public void onFollwOrderBtnClick(OrderBean orderBean) {
                 OrderFollowOrderFragment.build(orderBean).show(getChildFragmentManager(), OrderFollowOrderFragment.TAG);
             }
 
             @Override
-            public void onRemoveOrderBtnClick(OrderResponse.OrderBean orderBean) {
+            public void onRemoveOrderBtnClick(OrderBean orderBean) {
                 //ScoreMarket不能删除订单
             }
 
             @Override
-            public void onPaymentOrderBtnClick(OrderResponse.OrderBean orderBean) {
+            public void onPaymentOrderBtnClick(OrderBean orderBean) {
                 //ScoreMarket不用付款
             }
         });
         mCrowdfundingOrderAdapter.setScoreAndCrowdOrderListAdapterCallback(new ScoreAndCrowdOrderListAdapter.ScoreAndCrowdOrderListAdapterCallback() {
             @Override
-            public void onFollwOrderBtnClick(OrderResponse.OrderBean orderBean) {
+            public void onFollwOrderBtnClick(OrderBean orderBean) {
                 OrderFollowOrderFragment.build(orderBean).show(getChildFragmentManager(), OrderFollowOrderFragment.TAG);
             }
 
             @Override
-            public void onRemoveOrderBtnClick(final OrderResponse.OrderBean orderBean) {
+            public void onRemoveOrderBtnClick(final OrderBean orderBean) {
                 new NormalDialog(getContext(), getString(R.string.confirm), getString(R.string.cancel), getString(R.string.remove_order), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -105,14 +106,15 @@ public class MyOrderFragment extends BaseBarDialogFragment<MyOrderPresenter> imp
             }
 
             @Override
-            public void onPaymentOrderBtnClick(OrderResponse.OrderBean orderBean) {
-                mPresenter.payOrder(orderBean);
+            public void onPaymentOrderBtnClick(OrderBean orderBean) {
+                setLoadingVisibility(true);
+                mPresenter.payOrderByWechat(getContext(), orderBean);
 
             }
         });
         mOldChangeNewOrderListAdapter.setOldChangeNewOrderListAdapterCalblack(new OldChangeNewOrderListAdapter.OldChangeNewOrderListAdapterCalblack() {
             @Override
-            public void onSetTrackingNumberBtnClick(final OrderResponse.OrderBean orderBean) {
+            public void onSetTrackingNumberBtnClick(final OrderBean orderBean) {
 
                 SetTrackingNumberFragment setTrackingNumberFragment = SetTrackingNumberFragment.build(orderBean.getExpressReturnId());
                 setTrackingNumberFragment.setTrackingNumberSettingCallback(new SetTrackingNumberFragment.TrackingNumberSettingCallback() {
@@ -125,12 +127,18 @@ public class MyOrderFragment extends BaseBarDialogFragment<MyOrderPresenter> imp
             }
 
             @Override
-            public void onOrderDetailBtnClick(final OrderResponse.OrderBean orderBean) {
+            public void onOrderDetailBtnClick(final OrderBean orderBean) {
                 OldChangeNewOrderDetailFragment oldChangeNewOrderDetailFragment = OldChangeNewOrderDetailFragment.build(orderBean);
                 oldChangeNewOrderDetailFragment.setOldChangeNewOrderDetailCallback(new OldChangeNewOrderDetailFragment.OldChangeNewOrderDetailCallback() {
                     @Override
                     public void onRemoveOrderBtnClick() {
                         mPresenter.deleteOrder(orderBean.getOrderId());
+                    }
+
+                    @Override
+                    public void onPayOrderBtnClick(OrderBean orderBean) {
+                        setLoadingVisibility(true);
+                        mPresenter.payOrderByWechat(getContext(), orderBean);
                     }
                 });
                 oldChangeNewOrderDetailFragment.show(getChildFragmentManager(), OldChangeNewOrderDetailFragment.TAG);
@@ -163,17 +171,17 @@ public class MyOrderFragment extends BaseBarDialogFragment<MyOrderPresenter> imp
     }
 
     @Override
-    public void onScoresOrder(OrderResponse scoreOrder) {
+    public void onScoresOrder(OrderListResponse scoreOrder) {
         mScoreMarketOrderAdapter.setOrderBeans(scoreOrder.getOrderBeans());
     }
 
     @Override
-    public void onExchangeOrder(OrderResponse exchangeOrder) {
+    public void onExchangeOrder(OrderListResponse exchangeOrder) {
         mOldChangeNewOrderListAdapter.setOrderBeans(exchangeOrder.getOrderBeans());
     }
 
     @Override
-    public void onCrowdfundingOrder(OrderResponse crowdfundingOrder) {
+    public void onCrowdfundingOrder(OrderListResponse crowdfundingOrder) {
         mCrowdfundingOrderAdapter.setOrderBeans(crowdfundingOrder.getOrderBeans());
     }
 
@@ -190,6 +198,7 @@ public class MyOrderFragment extends BaseBarDialogFragment<MyOrderPresenter> imp
 
     @Override
     public void onError(String errorMessage) {
+        setLoadingVisibility(false);
         ToastUtils.showShort(errorMessage);
     }
 }
