@@ -45,7 +45,17 @@ public class LinkWifiByhandFragment extends BaseBarDialogFragment {
     }
 
     @Override
-    protected void initEvent() {
+    public void onPause() {
+        if (mDisposable != null) {
+            mDisposable.dispose();
+            mDisposable = null;
+        }
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         mWifiCupPostModel = new WifiCupPostModel();
         mWifiCupPostModel.getWifiList().subscribe(new Observer<ArrayList<WifiRsp>>() {
             @Override
@@ -74,12 +84,8 @@ public class LinkWifiByhandFragment extends BaseBarDialogFragment {
     }
 
     @Override
-    public void onDestroy() {
-        if (mDisposable != null) {
-            mDisposable.dispose();
-            mDisposable = null;
-        }
-        super.onDestroy();
+    protected void initEvent() {
+
     }
 
     public interface LinkWifiByhandCallback {

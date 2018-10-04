@@ -7,7 +7,6 @@ import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.bean.response.CupListRsp;
 import com.wopin.qingpaopao.command.mqtt.MqttColorCommand;
 import com.wopin.qingpaopao.command.mqtt.MqttConnectDeviceCommand;
-import com.wopin.qingpaopao.command.mqtt.MqttDisconnectDeviceCommand;
 import com.wopin.qingpaopao.command.mqtt.MqttSwitchCleanCommand;
 import com.wopin.qingpaopao.command.mqtt.MqttSwitchElectrolyzeCommand;
 import com.wopin.qingpaopao.command.mqtt.MqttSwitchLightCommand;
@@ -24,6 +23,9 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.persist.MqttDefaultFilePersistence;
 
+import java.util.Iterator;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -42,20 +44,28 @@ public class MqttConnectManager extends ConnectManager<MqttConnectManager.MqttUp
     private static final String clientId = "clientId";
 
     private MqttClient client;
-    private boolean hadConnectOneDevice;
-    private MqttUpdaterBean mCurrentMqttUpdaterBean;
+
+    private TreeMap<String, MqttUpdaterBean> mOnlineMqttBeans;
     private Handler mHandler;
     private Runnable mDisconnectRunnable = new Runnable() {
         @Override
         public void run() {
-            hadConnectOneDevice = false;
-            onDissconnectDevice(mCurrentMqttUpdaterBean);
-            mCurrentMqttUpdaterBean = null;
+            Iterator<Map.Entry<String, MqttUpdaterBean>> iterator = mOnlineMqttBeans.entrySet().iterator();
+            while (iterator.hasNext()) {
+                Map.Entry<String, MqttUpdaterBean> next = iterator.next();
+                if (next.getValue().getOnlineTime() < (System.currentTimeMillis() - 10000)) {
+                    onDissconnectDevice(next.getValue());
+                    iterator.remove();
+                }
+            }
+            mHandler.postDelayed(mDisconnectRunnable, 10000);
         }
     };
 
     private MqttConnectManager() {
+        mOnlineMqttBeans = new TreeMap<>();
         mHandler = new Handler();
+        mHandler.postDelayed(mDisconnectRunnable, 10000);
     }
 
     public static MqttConnectManager getInstance() {
@@ -136,20 +146,18 @@ public class MqttConnectManager extends ConnectManager<MqttConnectManager.MqttUp
                     public void messageArrived(String topic, MqttMessage message) throws Exception {
                         //收到消息
                         Log.d(TAG, "messageArrived: " + topic + "    " + message.toString());
-                        if (mCurrentMqttUpdaterBean == null) {
-                            mCurrentMqttUpdaterBean = new MqttUpdaterBean();
-                        }
-                        mCurrentMqttUpdaterBean.setSsid(topic);
+
                         MqttUpdaterBean t = new MqttUpdaterBean();
                         t.setSsid(topic);
                         t.setMessage(message.toString());
-                        if (!hadConnectOneDevice) {
+
+                        if (mOnlineMqttBeans.get(topic) == null) {//没有连接过
                             onConnectDevice(t);
-                            hadConnectOneDevice = true;
                         }
+                        t.setOnlineTime(System.currentTimeMillis());
+                        mOnlineMqttBeans.put(topic, t);
+
                         onDatasUpdate(t);
-                        mHandler.removeCallbacks(mDisconnectRunnable);
-                        mHandler.postDelayed(mDisconnectRunnable, 20000);
                     }
 
                     @Override
@@ -228,13 +236,6 @@ public class MqttConnectManager extends ConnectManager<MqttConnectManager.MqttUp
         return flag;
     }
 
-    public String getCurrentSsid() {
-        if (mCurrentMqttUpdaterBean != null) {
-            return mCurrentMqttUpdaterBean.getSsid();
-        }
-        return null;
-    }
-
     /**
      * =============================================  Device =============================================
      */
@@ -243,48 +244,41 @@ public class MqttConnectManager extends ConnectManager<MqttConnectManager.MqttUp
         super.connectDevice(new MqttConnectDeviceCommand(ssid));
     }
 
-    public void disconnectDevice() {
-        if (mCurrentMqttUpdaterBean != null) {
-            super.disconnectDevice(new MqttDisconnectDeviceCommand(mCurrentMqttUpdaterBean.getSsid()));
-            mHandler.removeCallbacks(mDisconnectRunnable);
-            mHandler.post(mDisconnectRunnable);
+    public void disconnectDevice(String ssid) {
+        Iterator<Map.Entry<String, MqttUpdaterBean>> iterator = mOnlineMqttBeans.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry<String, MqttUpdaterBean> next = iterator.next();
+            if (next.getKey().equals(ssid)) {
+                onDissconnectDevice(next.getValue());
+                iterator.remove();
+            }
         }
     }
 
-    public void switchCupElectrolyze(int time) {
-        if (mCurrentMqttUpdaterBean != null) {
-            super.switchCupElectrolyze(new MqttSwitchElectrolyzeCommand(mCurrentMqttUpdaterBean.getSsid(), time));
-        }
+    public void switchCupElectrolyze(String ssid, int time) {
+        super.switchCupElectrolyze(new MqttSwitchElectrolyzeCommand(ssid, time));
     }
 
-    public void switchCupLight(boolean isLightOn) {
-        if (mCurrentMqttUpdaterBean != null) {
-            super.switchCupLight(new MqttSwitchLightCommand(mCurrentMqttUpdaterBean.getSsid(), isLightOn));
-        }
+    public void switchCupLight(String ssid, boolean isLightOn) {
+        super.switchCupLight(new MqttSwitchLightCommand(ssid, isLightOn));
     }
 
-    public void switchCupClean(boolean isClean) {
-        if (mCurrentMqttUpdaterBean != null) {
-            super.switchCupClean(new MqttSwitchCleanCommand(mCurrentMqttUpdaterBean.getSsid(), isClean));
-        }
+    public void switchCupClean(String ssid, boolean isClean) {
+        super.switchCupClean(new MqttSwitchCleanCommand(ssid, isClean));
     }
 
-    public void setColor(String color) {
-        if (mCurrentMqttUpdaterBean != null) {
-            super.setColor(new MqttColorCommand(mCurrentMqttUpdaterBean.getSsid(), color));
-        }
+    public void setColor(String ssid, String color) {
+        super.setColor(new MqttColorCommand(ssid, color));
     }
 
     /**
      * =============================================  Updater =============================================
      */
-    public void addUpdater(Updater<MqttUpdaterBean> updater) {
-        super.addUpdater(updater);
-    }
 
     public class MqttUpdaterBean {
         private String ssid;
         private String message;
+        private long onlineTime;
 
         public String getSsid() {
             return ssid;
@@ -300,6 +294,14 @@ public class MqttConnectManager extends ConnectManager<MqttConnectManager.MqttUp
 
         public void setMessage(String message) {
             this.message = message;
+        }
+
+        public long getOnlineTime() {
+            return onlineTime;
+        }
+
+        public void setOnlineTime(long onlineTime) {
+            this.onlineTime = onlineTime;
         }
     }
 }

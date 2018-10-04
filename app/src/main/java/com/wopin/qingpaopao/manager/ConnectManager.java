@@ -190,7 +190,7 @@ public abstract class ConnectManager<T> {
      */
     private ArrayList<Updater<T>> mUpdaters = new ArrayList<>();
 
-    void addUpdater(Updater<T> updater) {
+    public void addUpdater(Updater<T> updater) {
         mUpdaters.add(updater);
     }
 
@@ -198,7 +198,7 @@ public abstract class ConnectManager<T> {
         mUpdaters.remove(updater);
     }
 
-    public void clearUpdaters() {
+    private void clearUpdaters() {
         mUpdaters.clear();
     }
 

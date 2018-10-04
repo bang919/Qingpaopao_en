@@ -169,9 +169,6 @@ public class WifiConnectManager extends ConnectManager<WifiConnectManager.WifiUp
     /**
      * =============================================  Updater =============================================
      */
-    public void addUpdater(Updater<WifiUpdaterBean> updater) {
-        super.addUpdater(updater);
-    }
 
     public class WifiUpdaterBean {
         private String ssid;

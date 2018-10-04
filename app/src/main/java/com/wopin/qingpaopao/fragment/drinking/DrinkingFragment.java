@@ -1,7 +1,6 @@
 package com.wopin.qingpaopao.fragment.drinking;
 
 import android.bluetooth.BluetoothDevice;
-import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
@@ -14,7 +13,6 @@ import com.wopin.qingpaopao.bean.response.DrinkListTotalRsp;
 import com.wopin.qingpaopao.bean.response.WifiConfigToCupRsp;
 import com.wopin.qingpaopao.common.Constants;
 import com.wopin.qingpaopao.fragment.BaseMainFragment;
-import com.wopin.qingpaopao.presenter.BlueToothPresenter;
 import com.wopin.qingpaopao.presenter.DrinkingPresenter;
 import com.wopin.qingpaopao.utils.ToastUtils;
 import com.wopin.qingpaopao.view.DrinkingView;
@@ -27,7 +25,7 @@ public class DrinkingFragment extends BaseMainFragment<DrinkingPresenter> implem
     private DrinkingListView mDrinkingListView;
     private DrinkingStartView mDrinkingStartView;
     private Fragment currentFragment;
-    private BlueToothPresenter mBlueToothPresenter;
+    private ArrayList<CupListRsp.CupBean> mOnlineCups;
 
     @Override
     protected int getLayout() {
@@ -85,6 +83,7 @@ public class DrinkingFragment extends BaseMainFragment<DrinkingPresenter> implem
     @Override
     public void backToDrinkingStartView() {
         mPresenter.getDrinkCount();
+        mDrinkingStartView.setOnlineCups(mOnlineCups);
         switchFragment(mDrinkingStartView);
     }
 
@@ -106,9 +105,20 @@ public class DrinkingFragment extends BaseMainFragment<DrinkingPresenter> implem
     }
 
     @Override
-    public void onCupList(ArrayList<CupListRsp.CupBean> cupBeanList, CupListRsp.CupBean currentConnectCup) {
-        setLoadingVisibility(false);
-        mDrinkingListView.notifyCupList(cupBeanList, currentConnectCup);
+    public void onCupList(final ArrayList<CupListRsp.CupBean> cupBeanList, final CupListRsp.CupBean currentConnectCup) {
+        mRootView.post(new Runnable() {
+            @Override
+            public void run() {
+                setLoadingVisibility(false);
+                mOnlineCups = new ArrayList<>();
+                for (CupListRsp.CupBean cupBean : cupBeanList) {
+                    if (cupBean.isConnecting()) {
+                        mOnlineCups.add(cupBean);
+                    }
+                }
+                mDrinkingListView.notifyCupList(cupBeanList, currentConnectCup);
+            }
+        });
     }
 
     @Override
@@ -129,14 +139,6 @@ public class DrinkingFragment extends BaseMainFragment<DrinkingPresenter> implem
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (mBlueToothPresenter != null) {
-            mBlueToothPresenter.onActivityResult(requestCode, resultCode, data);
-        }
-    }
-
-    @Override
     public void onCupItemClick(CupListRsp.CupBean cupBean, int position) {
         DeviceDetailFragment.getDeviceDetailFragment(cupBean).show(getChildFragmentManager(), DeviceDetailFragment.TAG);
     }
@@ -144,15 +146,14 @@ public class DrinkingFragment extends BaseMainFragment<DrinkingPresenter> implem
 
     @Override
     public void onCupItemDelete(CupListRsp.CupBean cupBean, int position) {
-        mPresenter.deleteACup(cupBean.getUuid());
         if (cupBean.isConnecting()) {
-            mPresenter.disconnectCup();
+            mPresenter.disconnectCup(cupBean);
         }
+        mPresenter.deleteACup(cupBean.getUuid());
     }
 
     @Override
     public void onCupItemTurn(CupListRsp.CupBean cupBean, boolean isOn) {
-        mPresenter.disconnectCup();
         if (cupBean.getType().equals(Constants.BLE) && isOn) {
             mPresenter.connectCup(cupBean);
         } else if (cupBean.getType().equals(Constants.WIFI) && isOn) {

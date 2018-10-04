@@ -95,6 +95,7 @@ public class LeProxy {
         }
 
         if (mBleService != null) {
+            mBleService.disconnectAll();
             return mBleService.connect(address, autoConnect);
         }
         return false;

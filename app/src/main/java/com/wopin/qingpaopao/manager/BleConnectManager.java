@@ -28,9 +28,6 @@ public class BleConnectManager extends ConnectManager<BleConnectManager.BleUpdat
     private BroadcastReceiver mReceiver;
     private boolean hadConnectOneDevice;
 
-    private String mCurrentUuid;
-    private String mCurrentAddress;
-
     private BleConnectManager() {
 
     }
@@ -57,8 +54,6 @@ public class BleConnectManager extends ConnectManager<BleConnectManager.BleUpdat
                             hadConnectOneDevice = true;
                             break;
                         case LeProxy.ACTION_GATT_DISCONNECTED:// 断线
-                            mCurrentUuid = null;
-                            mCurrentAddress = null;
                             onDissconnectDevice(bleUpdaterBean);
                             break;
                         case LeProxy.ACTION_RSSI_AVAILABLE: // 更新rssi
@@ -70,8 +65,6 @@ public class BleConnectManager extends ConnectManager<BleConnectManager.BleUpdat
                             bleUpdaterBean.setValues(values);
                             if (hadConnectOneDevice) {
                                 hadConnectOneDevice = false;
-                                mCurrentUuid = uuid;
-                                mCurrentAddress = address;
                                 onConnectDevice(bleUpdaterBean);
                             }
                             onDatasUpdate(bleUpdaterBean);
@@ -134,10 +127,6 @@ public class BleConnectManager extends ConnectManager<BleConnectManager.BleUpdat
         }
     }
 
-    public String getCurrentUuid() {
-        return mCurrentUuid;
-    }
-
     /**
      * =============================================  Device =============================================
      */
@@ -147,42 +136,29 @@ public class BleConnectManager extends ConnectManager<BleConnectManager.BleUpdat
         }
     }
 
-    public void disconnectDevice() {
-        if (mCurrentAddress != null) {
-            super.disconnectDevice(new BleDisconnectDeviceCommand(mCurrentAddress));
-        }
+    public void disconnectDevice(String address) {
+        super.disconnectDevice(new BleDisconnectDeviceCommand(address));
     }
 
-    public void switchCupElectrolyze(int time) {
-        if (mCurrentAddress != null) {
-            super.switchCupElectrolyze(new BleSwitchElectrolyzeCommand(mCurrentAddress, time));
-        }
+    public void switchCupElectrolyze(String address, int time) {
+        super.switchCupElectrolyze(new BleSwitchElectrolyzeCommand(address, time));
     }
 
-    public void switchCupLight(boolean isLightOn) {
-        if (mCurrentAddress != null) {
-            super.switchCupLight(new BleSwitchLightCommand(mCurrentAddress, isLightOn));
-        }
+    public void switchCupLight(String address, boolean isLightOn) {
+        super.switchCupLight(new BleSwitchLightCommand(address, isLightOn));
     }
 
-    public void switchCupClean(boolean isClean) {
-        if (mCurrentAddress != null) {
-            super.switchCupClean(new BleSwitchCleanCommand(mCurrentAddress, isClean));
-        }
+    public void switchCupClean(String address, boolean isClean) {
+        super.switchCupClean(new BleSwitchCleanCommand(address, isClean));
     }
 
-    public void setColor(String color) {
-        if (mCurrentAddress != null) {
-            super.setColor(new BleColorCommand(mCurrentAddress, color));
-        }
+    public void setColor(String address, String color) {
+        super.setColor(new BleColorCommand(address, color));
     }
 
     /**
      * =============================================  Updater =============================================
      */
-    public void addUpdater(Updater<BleUpdaterBean> updater) {
-        super.addUpdater(updater);
-    }
 
     public class BleUpdaterBean {
         private String address;
