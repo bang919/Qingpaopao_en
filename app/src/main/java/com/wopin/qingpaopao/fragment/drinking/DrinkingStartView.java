@@ -24,6 +24,7 @@ import com.wopin.qingpaopao.bean.response.DrinkListTodayRsp;
 import com.wopin.qingpaopao.bean.response.DrinkListTotalRsp;
 import com.wopin.qingpaopao.presenter.DrinkingPresenter;
 import com.wopin.qingpaopao.utils.ScreenUtils;
+import com.wopin.qingpaopao.utils.ToastUtils;
 
 import java.util.ArrayList;
 
@@ -200,19 +201,32 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
                     mOnDrinkingStartCallback.showDrinkingDeviceList();
                 }
                 break;
-            case R.id.btn_switch_electrolyze:
+            case R.id.btn_switch_electrolyze: {
+                CupListRsp.CupBean currentControlCup = mDrinkingPresenter.getCurrentControlCup();
+                if (currentControlCup == null || !currentControlCup.isCanClean()) {
+                    ToastUtils.showShort(R.string.please_change_water);
+                    return;
+                }
                 switchSeekbarMinusRunnable(!v.isSelected());
                 break;
+            }
             case R.id.iv_light_setting:
                 LightSettingFragment lightSettingFragment = new LightSettingFragment();
                 lightSettingFragment.setDrinkingPresenter(mDrinkingPresenter);
                 lightSettingFragment.show(getChildFragmentManager(), LightSettingFragment.TAG);
                 break;
-            case R.id.iv_cup_clean:
+            case R.id.iv_cup_clean: {
+                CupListRsp.CupBean currentControlCup = mDrinkingPresenter.getCurrentControlCup();
+                if (currentControlCup == null || !currentControlCup.isCanClean()) {
+                    ToastUtils.showShort(R.string.please_change_water);
+                    return;
+                }
+                currentControlCup.setCanClean(false);
                 CleanCupFragment cleanCupFragment = new CleanCupFragment();
                 cleanCupFragment.setDrinkingPresenter(mDrinkingPresenter);
                 cleanCupFragment.show(getChildFragmentManager(), CleanCupFragment.TAG);
                 break;
+            }
             case R.id.tv_current_device_name:
             case R.id.btn_select_device:
                 // 用于PopupWindow的View

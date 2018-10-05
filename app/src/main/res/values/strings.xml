@@ -294,5 +294,6 @@
     <string name="pay_error">支付错误</string>
     <string name="pay_cancel">支付取消</string>
     <string name="pay_failure">支付失败，已添加至我的订单</string>
+    <string name="please_change_water">清洗杯子后请更换杯内的水</string>
 
 </resources>

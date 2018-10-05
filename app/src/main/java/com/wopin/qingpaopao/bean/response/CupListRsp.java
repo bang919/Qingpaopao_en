@@ -48,6 +48,7 @@ public class CupListRsp extends NormalRsp {
         private int __v;
         private boolean isConnecting;
         private String electric;
+        private boolean canClean;//是否有清洗过
 
         protected CupBean(Parcel in) {
             _id = in.readString();
@@ -62,6 +63,7 @@ public class CupListRsp extends NormalRsp {
             __v = in.readInt();
             isConnecting = in.readByte() != 0;
             electric = in.readString();
+            canClean = in.readByte() != 0;
         }
 
         @Override
@@ -78,6 +80,7 @@ public class CupListRsp extends NormalRsp {
             dest.writeInt(__v);
             dest.writeByte((byte) (isConnecting ? 1 : 0));
             dest.writeString(electric);
+            dest.writeByte((byte) (canClean ? 1 : 0));
         }
 
         @Override
@@ -193,5 +196,12 @@ public class CupListRsp extends NormalRsp {
             this.electric = electric;
         }
 
+        public boolean isCanClean() {
+            return canClean;
+        }
+
+        public void setCanClean(boolean canClean) {
+            this.canClean = canClean;
+        }
     }
 }

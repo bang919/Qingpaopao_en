@@ -146,6 +146,9 @@ public class DrinkingPresenter extends BasePresenter<DrinkingView> {
             if (isConnect && mCurrentControlCup == null) {
                 mCurrentControlCup = cupBean;
             }
+            if (isConnect && !cupBean.isConnecting()) {//第一次连接，可以clean
+                cupBean.setCanClean(true);
+            }
             cupBean.setConnecting(isConnect);
         }
         mView.onCupList(mCupBeans, mCurrentControlCup);
