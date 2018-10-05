@@ -143,6 +143,7 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
         mRootView.findViewById(R.id.iv_light_setting).setOnClickListener(this);
         mRootView.findViewById(R.id.iv_cup_clean).setOnClickListener(this);
         mRootView.findViewById(R.id.btn_select_device).setOnClickListener(this);
+        mCurrentDeviceName.setOnClickListener(this);
         mSwitchElectrolyzeBtn = mRootView.findViewById(R.id.btn_switch_electrolyze);
         mSwitchElectrolyzeBtn.setOnClickListener(this);
 
@@ -212,6 +213,7 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
                 cleanCupFragment.setDrinkingPresenter(mDrinkingPresenter);
                 cleanCupFragment.show(getChildFragmentManager(), CleanCupFragment.TAG);
                 break;
+            case R.id.tv_current_device_name:
             case R.id.btn_select_device:
                 // 用于PopupWindow的View
                 View contentView = LayoutInflater.from(getContext()).inflate(R.layout.recyclerview_list, null, false);
