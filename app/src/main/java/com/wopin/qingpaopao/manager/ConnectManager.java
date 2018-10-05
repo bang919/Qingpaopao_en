@@ -24,24 +24,24 @@ public abstract class ConnectManager<T> {
     private static final String TAG = "ConnectManager";
     private ArrayList<ICommand> mICommands = new ArrayList<>();
     private final byte[] b = new byte[0];
+    private boolean hadComment;
 
     private void addCommand(final ICommand iCommand) {
+        mICommands.add(iCommand);
         new Thread() {
             @Override
             public void run() {
                 Log.d(TAG, "addCommand    need wait: " + (mICommands.size() != 0));
                 synchronized (b) {
                     try {
-                        if (mICommands.size() != 0) {//之前已经有comment了，等下吧
+                        if (hadComment) {//之前已经有comment了，等下吧
                             b.wait();
                         }
-
+                        hadComment = true;
                         Observable.create(new ObservableOnSubscribe<Object>() {
                             @Override
                             public void subscribe(final ObservableEmitter<Object> emitter) throws Exception {
-                                if (iCommand != null) {
-                                    mICommands.add(iCommand);
-                                }
+
                                 connectToServer(new OnServerConnectCallback() {
                                     @Override
                                     public void onConnectServerCallback() {
@@ -71,6 +71,7 @@ public abstract class ConnectManager<T> {
                                     public void onError(Throwable e) {
                                         synchronized (b) {
                                             b.notify();
+                                            hadComment = false;
                                         }
                                         disconnectServer();
                                     }
@@ -80,6 +81,7 @@ public abstract class ConnectManager<T> {
                                         Log.d(TAG, "complete and notify");
                                         synchronized (b) {
                                             b.notify();
+                                            hadComment = false;
                                         }
                                         execute();
                                     }
@@ -92,27 +94,6 @@ public abstract class ConnectManager<T> {
                 }
             }
         }.start();
-
-//        if (iCommand != null) {
-//            mICommands.add(iCommand);
-//        }
-//        //Check Connect
-//        if (mOnServerConnectCallback == null) {
-//            mOnServerConnectCallback = new OnServerConnectCallback() {
-//                @Override
-//                public void onConnectServerCallback() {
-//                    mLock.unlock();
-//                    execute();
-//                }
-//
-//                @Override
-//                public void onDisconnectServerCallback() {
-//                    mLock.unlock();
-//                    disconnectServer();
-//                }
-//            };
-//        }
-//        connectToServer(mOnServerConnectCallback);
     }
 
     private void execute() {
