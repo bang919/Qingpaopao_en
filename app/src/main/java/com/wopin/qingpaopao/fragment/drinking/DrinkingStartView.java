@@ -91,6 +91,8 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
     public void onHiddenChanged(boolean hidden) {
         if (!hidden) {
             refreshCurrentCup(null);
+        } else {
+            MessageProxy.clearMessageProxyCallback();
         }
     }
 
@@ -120,6 +122,8 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
             CupListRsp.CupBean currentControlCup = mDrinkingPresenter.getCurrentControlCup();
             mCurrentDeviceName.setText(currentControlCup != null ? currentControlCup.getName() : "");
 
+            mSwitchElectrolyzeBtn.setSelected(false);
+            mSeekBar.setProgress(5 * 60);
             MessageProxy.addMessageProxyCallback(currentControlCup.getUuid(), new MessageProxyCallback() {
                 @Override
                 public void onTime(String uuid, String minute, String second) {
@@ -129,7 +133,8 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
                         mSwitchElectrolyzeBtn.setSelected(true);
                         mSwitchElectrolyzeBtn.setText(R.string.stop_electrolysis);
                     } else {
-                        switchSeekbarMinusRunnable(false);
+                        mSwitchElectrolyzeBtn.setSelected(false);
+                        mSwitchElectrolyzeBtn.setText(R.string.start_electrolysis);
                     }
                 }
 
@@ -173,7 +178,6 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
                 isSeekbarOntouch = false;
             }
         });
-        mSeekBar.setProgress(5 * 60);
         setTodayDrink();
         setTotalDrink();
     }
@@ -189,7 +193,6 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
     @Override
     public void onDestroy() {
         mDrinkingPresenter = null;
-        MessageProxy.clearMessageProxyCallback();
         super.onDestroy();
     }
 

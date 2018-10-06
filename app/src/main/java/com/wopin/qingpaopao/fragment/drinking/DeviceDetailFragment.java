@@ -1,6 +1,7 @@
 package com.wopin.qingpaopao.fragment.drinking;
 
 import android.os.Bundle;
+import android.support.v7.widget.SwitchCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
@@ -21,6 +22,7 @@ public class DeviceDetailFragment extends BaseBarDialogFragment implements View.
     private TextView mCupColorTv;
     private TextView mDeviceStatusTv;
     private TextView mDeviceStatusTime;
+    private SwitchCompat mNotificationSwitch;
 
     public static DeviceDetailFragment getDeviceDetailFragment(CupListRsp.CupBean cupBean) {
         DeviceDetailFragment deviceDetailFragment = new DeviceDetailFragment();
@@ -53,6 +55,7 @@ public class DeviceDetailFragment extends BaseBarDialogFragment implements View.
         mCupColorTv = rootView.findViewById(R.id.value_cup_color);
         mDeviceStatusTv = rootView.findViewById(R.id.value_device_status);
         mDeviceStatusTime = rootView.findViewById(R.id.value_device_time);
+        mNotificationSwitch = rootView.findViewById(R.id.switch_notification);
     }
 
     @Override

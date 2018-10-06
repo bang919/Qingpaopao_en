@@ -129,6 +129,7 @@
     <string name="cup_color">水杯颜色</string>
     <string name="device_status">设备状态</string>
     <string name="handle_time">处理时间</string>
+    <string name="drinking_notification">饮水提醒</string>
     <string name="bind">绑定</string>
     <string name="clean_notice_title">清洗注意事项</string>
     <string name="clean_notice_content">1.反清洗时长需5分钟，全程杯内红灯闪烁；\n
