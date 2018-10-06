@@ -5,12 +5,11 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
-import com.ble.api.DataUtil;
 import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.bean.response.CupListRsp;
 import com.wopin.qingpaopao.fragment.BaseBarDialogFragment;
-import com.wopin.qingpaopao.manager.BleConnectManager;
-import com.wopin.qingpaopao.manager.Updater;
+import com.wopin.qingpaopao.manager.MessageProxy;
+import com.wopin.qingpaopao.manager.MessageProxyCallback;
 import com.wopin.qingpaopao.presenter.BasePresenter;
 
 public class DeviceDetailFragment extends BaseBarDialogFragment implements View.OnClickListener {
@@ -21,8 +20,7 @@ public class DeviceDetailFragment extends BaseBarDialogFragment implements View.
     private TextView mDeviceNameTv;
     private TextView mCupColorTv;
     private TextView mDeviceStatusTv;
-    private BleConnectManager mBleConnectManager;
-    private Updater<BleConnectManager.BleUpdaterBean> mUpdater;
+    private TextView mDeviceStatusTime;
 
     public static DeviceDetailFragment getDeviceDetailFragment(CupListRsp.CupBean cupBean) {
         DeviceDetailFragment deviceDetailFragment = new DeviceDetailFragment();
@@ -54,6 +52,7 @@ public class DeviceDetailFragment extends BaseBarDialogFragment implements View.
         mDeviceNameTv = rootView.findViewById(R.id.value_device_name);
         mCupColorTv = rootView.findViewById(R.id.value_cup_color);
         mDeviceStatusTv = rootView.findViewById(R.id.value_device_status);
+        mDeviceStatusTime = rootView.findViewById(R.id.value_device_time);
     }
 
     @Override
@@ -64,34 +63,46 @@ public class DeviceDetailFragment extends BaseBarDialogFragment implements View.
             mDeviceStatusTv.setText(R.string.bind);
             mDeviceStatusTv.setTextColor(getContext().getResources().getColor(R.color.colorAccent));
             mElectricTv.setText(TextUtils.isEmpty(mCupBean.getElectric()) ? "0%" : mCupBean.getElectric());
-
-            mBleConnectManager = BleConnectManager.getInstance();
-            mUpdater = new Updater<BleConnectManager.BleUpdaterBean>() {
-                @Override
-                public void onDatasUpdate(BleConnectManager.BleUpdaterBean bleUpdaterBean) {
-                    byte[] values = bleUpdaterBean.getValues();
-                    String s = DataUtil.byteArrayToHex(values);
-                    parseData(s);
+            MessageProxy.addMessageProxyCallback(mCupBean.getUuid(), new MessageProxyCallback() {
+                @Override//电池
+                public void onBattery(String uuid, int battery) {
+                    mElectricTv.setText(String.valueOf(battery + "%"));
                 }
-            };
-            mBleConnectManager.addUpdater(mUpdater);
-        }
-    }
 
-    private void parseData(String data) {
-        if (data.startsWith("AA CC DD 01 ") && data.endsWith(" DD CC AA")) {//电量数据
-            String hexElectric = data.replaceFirst("AA CC DD 01 ", "").replace(" DD CC AA", "");
-            mElectricTv.setText(Integer.valueOf(hexElectric, 16) + "%");
+                @Override//电解时间
+                public void onTime(String uuid, String minute, String second) {
+                    mDeviceStatusTime.setText(minute + ":" + second);
+                }
+
+                @Override//电解中
+                public void onElectrolyzing(String uuid) {
+                    mDeviceStatusTv.setText(R.string.electrolyzing);
+                }
+
+                @Override//电解结束
+                public void onElectrolyzeEnd(String uuid) {
+                    mDeviceStatusTv.setText(R.string.bind);
+                    mDeviceStatusTime.setText("-");
+                }
+
+
+                //冲洗中
+                public void onCleaning(String uuid) {
+                    mDeviceStatusTv.setText(R.string.cleaning);
+                }
+
+                //冲洗结束
+                public void onCleaneEnd(String uuid) {
+                    mDeviceStatusTv.setText(R.string.bind);
+                    mDeviceStatusTime.setText("-");
+                }
+            });
         }
     }
 
     @Override
     public void onDestroy() {
-        if (mBleConnectManager != null) {
-            mBleConnectManager.removeUpdater(mUpdater);
-            mUpdater = null;
-            mBleConnectManager = null;
-        }
+        MessageProxy.clearMessageProxyCallback();
         super.onDestroy();
     }
 

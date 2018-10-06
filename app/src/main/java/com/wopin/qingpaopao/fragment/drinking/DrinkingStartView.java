@@ -3,7 +3,6 @@ package com.wopin.qingpaopao.fragment.drinking;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -22,6 +21,8 @@ import com.wopin.qingpaopao.adapter.ControlDeviceAdapter;
 import com.wopin.qingpaopao.bean.response.CupListRsp;
 import com.wopin.qingpaopao.bean.response.DrinkListTodayRsp;
 import com.wopin.qingpaopao.bean.response.DrinkListTotalRsp;
+import com.wopin.qingpaopao.manager.MessageProxy;
+import com.wopin.qingpaopao.manager.MessageProxyCallback;
 import com.wopin.qingpaopao.presenter.DrinkingPresenter;
 import com.wopin.qingpaopao.utils.ScreenUtils;
 import com.wopin.qingpaopao.utils.ToastUtils;
@@ -36,7 +37,6 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
     private TextView mTimeTv;
     private SeekBar mSeekBar;
     private TextView mSwitchElectrolyzeBtn;
-    private Handler mHandler;
     private boolean isSeekbarOntouch;
     private Runnable mSeekbarMinusRunnable;
     private DrinkingPresenter mDrinkingPresenter;
@@ -117,29 +117,35 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
             mDrinkingPresenter.setCurrentControlCup(cupBean);
         }
         if (mCurrentDeviceName != null) {
-            mCurrentDeviceName.setText(mDrinkingPresenter.getCurrentControlCup() != null ? mDrinkingPresenter.getCurrentControlCup().getName() : "");
+            CupListRsp.CupBean currentControlCup = mDrinkingPresenter.getCurrentControlCup();
+            mCurrentDeviceName.setText(currentControlCup != null ? currentControlCup.getName() : "");
+
+            MessageProxy.addMessageProxyCallback(currentControlCup.getUuid(), new MessageProxyCallback() {
+                @Override
+                public void onTime(String uuid, String minute, String second) {
+                    int progress = Integer.valueOf(minute) * 60 + Integer.valueOf(second);
+                    mSeekBar.setProgress(progress);
+                    if (progress > 0) {
+                        mSwitchElectrolyzeBtn.setSelected(true);
+                        mSwitchElectrolyzeBtn.setText(R.string.stop_electrolysis);
+                    } else {
+                        switchSeekbarMinusRunnable(false);
+                    }
+                }
+
+                @Override
+                public void onElectrolyzeEnd(String uuid) {
+                    switchSeekbarMinusRunnable(false);
+                }
+            });
         }
+
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mHandler = new Handler();
-        mSeekbarMinusRunnable = new Runnable() {
-            @Override
-            public void run() {
-                if (!isSeekbarOntouch) {
-                    int progress = mSeekBar.getProgress() - 1;
-                    if (progress > -1) {
-                        mSeekBar.setProgress(progress);
-                    } else {
-                        switchSeekbarMinusRunnable(false);
-                        return;
-                    }
-                }
-                mHandler.postDelayed(mSeekbarMinusRunnable, 1000);
-            }
-        };
+
         mRootView.findViewById(R.id.tv_device_list).setOnClickListener(this);
         mRootView.findViewById(R.id.iv_light_setting).setOnClickListener(this);
         mRootView.findViewById(R.id.iv_cup_clean).setOnClickListener(this);
@@ -178,18 +184,12 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
             mSwitchElectrolyzeBtn.setText(start ? R.string.stop_electrolysis : R.string.start_electrolysis);
             mDrinkingPresenter.switchCupElectrolyze(start ? mSeekBar.getProgress() : 0);
         }
-        if (start) {
-            mHandler.postDelayed(mSeekbarMinusRunnable, 1000);
-        } else {
-            mHandler.removeCallbacks(mSeekbarMinusRunnable);
-        }
     }
 
     @Override
     public void onDestroy() {
         mDrinkingPresenter = null;
-        mHandler.removeCallbacks(mSeekbarMinusRunnable);
-        mHandler = null;
+        MessageProxy.clearMessageProxyCallback();
         super.onDestroy();
     }
 

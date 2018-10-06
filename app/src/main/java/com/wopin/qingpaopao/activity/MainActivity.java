@@ -8,9 +8,7 @@ import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.adapter.MainViewPagerAdapter;
 import com.wopin.qingpaopao.common.Constants;
 import com.wopin.qingpaopao.fragment.BaseMainFragment;
-import com.wopin.qingpaopao.manager.BleConnectManager;
-import com.wopin.qingpaopao.manager.MqttConnectManager;
-import com.wopin.qingpaopao.manager.WifiConnectManager;
+import com.wopin.qingpaopao.manager.MessageProxy;
 import com.wopin.qingpaopao.presenter.MainPresenter;
 import com.wopin.qingpaopao.utils.ToastUtils;
 import com.wopin.qingpaopao.view.MainView;
@@ -21,6 +19,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
     private ViewPager mViewPager;
     private MainViewPagerAdapter mViewpagerAdapter;
     private TabLayout mTablayout;
+    private MessageProxy mMessageProxy;
 
     @Override
     protected int getBarColor() {
@@ -39,9 +38,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
 
     @Override
     protected void onDestroy() {
-        BleConnectManager.getInstance().destroy();
-        MqttConnectManager.getInstance().destroy();
-        WifiConnectManager.getInstance().destroy();
+        mMessageProxy.release();
         super.onDestroy();
     }
 
@@ -73,11 +70,12 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
                 BaseMainFragment fragment = mViewpagerAdapter.getItem(mViewPager.getCurrentItem());
             }
         });
+        mMessageProxy = new MessageProxy();
     }
 
     @Override
     protected void initEvent() {
-
+        mMessageProxy.startListening();
     }
 
 

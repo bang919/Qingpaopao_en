@@ -3,7 +3,6 @@ package com.wopin.qingpaopao.presenter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 
-import com.ble.api.DataUtil;
 import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.bean.response.CupListRsp;
 import com.wopin.qingpaopao.bean.response.DrinkListTodayRsp;
@@ -68,13 +67,6 @@ public class DrinkingPresenter extends BasePresenter<DrinkingView> {
                     }
                 }
             }
-
-            @Override
-            public void onDatasUpdate(BleConnectManager.BleUpdaterBean bleUpdaterBean) {
-                byte[] values = bleUpdaterBean.getValues();
-                String s = DataUtil.byteArrayToHex(values);
-                parseBleData(bleUpdaterBean.getUuid(), s);
-            }
         };
         mMqttUpdater = new Updater<MqttConnectManager.MqttUpdaterBean>() {
             @Override
@@ -103,40 +95,9 @@ public class DrinkingPresenter extends BasePresenter<DrinkingView> {
                 mOnlineCups.remove(mqttUpdaterBean.getSsid());
                 updateCupListUi();
             }
-
-            @Override
-            public void onDatasUpdate(MqttConnectManager.MqttUpdaterBean mqttUpdaterBean) {
-                String message = mqttUpdaterBean.getMessage();
-                String[] split = message.split(":");
-                if (split[0].equals("P")) {
-                    for (CupListRsp.CupBean cupBean : mCupBeans) {
-                        if (cupBean.getUuid().equals(mqttUpdaterBean.getSsid())) {
-                            cupBean.setElectric(split[1].substring(0, 2).concat("%"));
-                            break;
-                        }
-                    }
-                } else if (split[2].equals("H")) {
-                    //Update hydro timer  --> if split[4] == M and split[5] == 0
-                    //Update clean timer --> if split[4] == M and split[5] == 1
-                    //If hydro timer == 0 and split[5] == 0 --> Hydro Finish
-                    //If hydro timer == 0 and split[5] == 1 --> Clean Finish
-                }
-            }
         };
         BleConnectManager.getInstance().addUpdater(mBleUpdater);
         MqttConnectManager.getInstance().addUpdater(mMqttUpdater);
-    }
-
-    private void parseBleData(String uuid, String data) {
-        if (data.startsWith("AA CC DD 01 ") && data.endsWith(" DD CC AA")) {//电量数据
-            for (CupListRsp.CupBean cupBean : mCupBeans) {
-                if (cupBean.getUuid().equals(uuid)) {
-                    String hexElectric = data.replaceFirst("AA CC DD 01 ", "").replace(" DD CC AA", "");
-                    cupBean.setElectric(Integer.valueOf(hexElectric, 16) + "%");
-                    break;
-                }
-            }
-        }
     }
 
     //更新在线设备的UI

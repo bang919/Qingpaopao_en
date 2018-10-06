@@ -112,5 +112,32 @@
         app:layout_constraintRight_toRightOf="@id/key_device_status"
         app:layout_constraintTop_toTopOf="@id/key_device_status" />
 
+    <TextView
+        android:id="@+id/key_device_time"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="1dp"
+        android:background="@color/colorWhite"
+        android:gravity="center_vertical"
+        android:paddingLeft="20dp"
+        android:text="@string/handle_time"
+        android:textColor="@color/colorBlack"
+        android:textSize="22sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/key_device_status" />
+
+    <TextView
+        android:id="@+id/value_device_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:text="-"
+        android:textColor="@color/colorWhite3"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toBottomOf="@id/key_device_time"
+        app:layout_constraintRight_toRightOf="@id/key_device_time"
+        app:layout_constraintTop_toTopOf="@id/key_device_time" />
+
 
 </android.support.constraint.ConstraintLayout>
