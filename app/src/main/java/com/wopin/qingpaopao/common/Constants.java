@@ -20,4 +20,25 @@ public class Constants {
     public final static String LOGIN_BEAN = "login bean";
     public final static String USERNAME = "username";
     public final static String SIGN_IN_DATA = "sign in data";
+    public final static String DRINKING_NOTIFICATION = "drinking notification";
+
+    public final static String AlarmNotificationReceiver_0730 = "AlarmNotificationReceiver_0730";
+    public final static String AlarmNotificationReceiver_0900 = "AlarmNotificationReceiver_0900";
+    public final static String AlarmNotificationReceiver_1100 = "AlarmNotificationReceiver_1100";
+    public final static String AlarmNotificationReceiver_1300 = "AlarmNotificationReceiver_1300";
+    public final static String AlarmNotificationReceiver_1500 = "AlarmNotificationReceiver_1500";
+    public final static String AlarmNotificationReceiver_1730 = "AlarmNotificationReceiver_1730";
+    public final static String AlarmNotificationReceiver_2000 = "AlarmNotificationReceiver_2000";
+    public final static String AlarmNotificationReceiver_2200 = "AlarmNotificationReceiver_2200";
+
+    public final static String[] AlarmNotificationReceivers = {
+            AlarmNotificationReceiver_0730,
+            AlarmNotificationReceiver_0900,
+            AlarmNotificationReceiver_1100,
+            AlarmNotificationReceiver_1300,
+            AlarmNotificationReceiver_1500,
+            AlarmNotificationReceiver_1730,
+            AlarmNotificationReceiver_2000,
+            AlarmNotificationReceiver_2200
+    };
 }

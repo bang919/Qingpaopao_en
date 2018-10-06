@@ -59,7 +59,37 @@
             android:enabled="true"
             android:exported="false" />
 
-        <activity android:name="com.mywopin.com.cup.wxapi.WXPayEntryActivity" android:exported="true"/>
+        <activity
+            android:name="com.mywopin.com.cup.wxapi.WXPayEntryActivity"
+            android:exported="true" />
+        <service
+            android:name=".server.AlarmNotificationService"
+            android:process=":remote" />
+
+        <receiver
+            android:name=".receiver.AlarmNotificationReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="AlarmNotificationReceiver_0730" />
+                <action android:name="AlarmNotificationReceiver_0900" />
+                <action android:name="AlarmNotificationReceiver_1100" />
+                <action android:name="AlarmNotificationReceiver_1300" />
+                <action android:name="AlarmNotificationReceiver_1500" />
+                <action android:name="AlarmNotificationReceiver_1730" />
+                <action android:name="AlarmNotificationReceiver_2000" />
+                <action android:name="AlarmNotificationReceiver_2200" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name=".receiver.NotificationClickReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="NotificationClickReceiver" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
