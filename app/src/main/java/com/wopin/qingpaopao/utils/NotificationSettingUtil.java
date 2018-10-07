@@ -14,6 +14,8 @@ import java.util.TimeZone;
 
 public class NotificationSettingUtil {
     public static void startNotification(Context context) {
+        SPUtils.put(context, Constants.FIRST_TIME_SET_NOTIFICATION, true);
+
         Intent intent = new Intent(context, AlarmNotificationService.class);
         Calendar calendar = getCalendar();
         intent.putExtra(Constants.AlarmNotificationReceiver_0730, calendar.getTimeInMillis());

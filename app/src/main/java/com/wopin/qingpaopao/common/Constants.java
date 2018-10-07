@@ -21,6 +21,7 @@ public class Constants {
     public final static String USERNAME = "username";
     public final static String SIGN_IN_DATA = "sign in data";
     public final static String DRINKING_NOTIFICATION = "drinking notification";
+    public final static String FIRST_TIME_SET_NOTIFICATION = "first time set notification";
 
     public final static String AlarmNotificationReceiver_0730 = "AlarmNotificationReceiver_0730";
     public final static String AlarmNotificationReceiver_0900 = "AlarmNotificationReceiver_0900";
