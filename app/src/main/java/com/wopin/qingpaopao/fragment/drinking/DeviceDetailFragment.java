@@ -200,9 +200,9 @@ public class DeviceDetailFragment extends BaseBarDialogFragment implements View.
         long selectTime = calendar.getTimeInMillis();
 
         // 如果当前时间大于设置的时间，那么就从第二天的设定时间开始
-        if (systemTime > selectTime) {
-            calendar.add(Calendar.DAY_OF_MONTH, 1);
-        }
+//        if (systemTime > selectTime) {
+//            calendar.add(Calendar.DAY_OF_MONTH, 1);
+//        }
 
         return calendar;
     }
