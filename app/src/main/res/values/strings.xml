@@ -313,6 +313,7 @@
     <string name="pay_cancel">支付取消</string>
     <string name="pay_failure">支付失败，已添加至我的订单</string>
     <string name="please_change_water">清洗杯子后请更换杯内的水</string>
+    <string name="cant_clean_in_low_battery">电量低于20%不能清洗</string>
     <string name="AlarmNotificationReceiver_0730">清晨一杯富氢水，美丽心情一整天</string>
     <string name="AlarmNotificationReceiver_0900">努力工作，尽情收获，喝杯富氢水吧</string>
     <string name="AlarmNotificationReceiver_1100">勤喝富氢水可保持健康身体，美丽容颜</string>

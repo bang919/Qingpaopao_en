@@ -38,6 +38,7 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
     private DrinkListTotalRsp mDrinkListTotalRsp;
     private TextView mCurrentDeviceName;
     private ArrayList<CupListRsp.CupBean> mOnlineCups;
+    private int battery;
 
     public void setPresenterAndCallback(DrinkingPresenter drinkingPresenter, OnDrinkingStartCallback onDrinkingStartCallback) {
         mDrinkingPresenter = drinkingPresenter;
@@ -119,6 +120,12 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
             mSwitchElectrolyzeBtn.setSelected(false);
             mSeekBar.setProgress(5 * 60);
             MessageProxy.addMessageProxyCallback(currentControlCup.getUuid(), new MessageProxyCallback() {
+
+                @Override
+                public void onBattery(String uuid, int battery) {
+                    DrinkingStartView.this.battery = battery;
+                }
+
                 @Override
                 public void onTime(String uuid, String minute, String second) {
                     int progress = Integer.valueOf(minute) * 60 + Integer.valueOf(second);
@@ -216,6 +223,10 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
                 CupListRsp.CupBean currentControlCup = mDrinkingPresenter.getCurrentControlCup();
                 if (currentControlCup == null || !currentControlCup.isCanClean()) {
                     ToastUtils.showShort(R.string.please_change_water);
+                    return;
+                }
+                if (battery < 50) {
+                    ToastUtils.showShort(R.string.cant_clean_in_low_battery);
                     return;
                 }
                 currentControlCup.setCanClean(false);
