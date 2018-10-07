@@ -34,6 +34,13 @@ public class OrderBean implements Serializable {
     private String createDate;
     private String expressReturnId;
     private String expressReturnName;
+    private String infoBuyTime;
+    private String infoCupColor;
+    private String infoCupModel;
+    private String infoPhone;
+    private String infoSex;
+    private String infoUsage;
+    private String infoUserName;
     private long createTime;
     private int __v;
 
@@ -162,6 +169,62 @@ public class OrderBean implements Serializable {
         this.expressReturnName = expressReturnName;
     }
 
+    public String getInfoBuyTime() {
+        return infoBuyTime;
+    }
+
+    public void setInfoBuyTime(String infoBuyTime) {
+        this.infoBuyTime = infoBuyTime;
+    }
+
+    public String getInfoCupColor() {
+        return infoCupColor;
+    }
+
+    public void setInfoCupColor(String infoCupColor) {
+        this.infoCupColor = infoCupColor;
+    }
+
+    public String getInfoCupModel() {
+        return infoCupModel;
+    }
+
+    public void setInfoCupModel(String infoCupModel) {
+        this.infoCupModel = infoCupModel;
+    }
+
+    public String getInfoPhone() {
+        return infoPhone;
+    }
+
+    public void setInfoPhone(String infoPhone) {
+        this.infoPhone = infoPhone;
+    }
+
+    public String getInfoSex() {
+        return infoSex;
+    }
+
+    public void setInfoSex(String infoSex) {
+        this.infoSex = infoSex;
+    }
+
+    public String getInfoUsage() {
+        return infoUsage;
+    }
+
+    public void setInfoUsage(String infoUsage) {
+        this.infoUsage = infoUsage;
+    }
+
+    public String getInfoUserName() {
+        return infoUserName;
+    }
+
+    public void setInfoUserName(String infoUserName) {
+        this.infoUserName = infoUserName;
+    }
+
     public int get__v() {
         return __v;
     }
@@ -245,4 +308,6 @@ public class OrderBean implements Serializable {
             this.addressId = addressId;
         }
     }
+
+
 }

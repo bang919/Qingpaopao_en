@@ -133,7 +133,7 @@ public class OldChangeNewContentDetailFragment extends BaseBarDialogFragment<Old
     @Override
     public void onPayMentExchangeSubmit() {
         setLoadingVisibility(false);
-        ToastUtils.showShort(R.string.buy_success);
+        ToastUtils.showShort(R.string.submit_success_to_my_order);
     }
 
     @Override

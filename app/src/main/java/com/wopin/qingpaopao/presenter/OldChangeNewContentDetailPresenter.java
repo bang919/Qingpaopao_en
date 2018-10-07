@@ -59,7 +59,8 @@ public class OldChangeNewContentDetailPresenter extends BasePresenter<OldChangeN
                 new MyObserver<OrderOneResponse>() {
                     @Override
                     public void onMyNext(OrderOneResponse orderBean) {
-                        pay(orderBean.getResult());
+//                        pay(orderBean.getResult());
+                        mView.onPayMentExchangeSubmit();
                     }
 
                     @Override

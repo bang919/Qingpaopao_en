@@ -124,6 +124,7 @@ public class BuyOldChangeNewProduceDialog extends DialogFragment implements View
                 }
                 if (mBuyOldChangeNewCallback != null) {
                     mBuyOldChangeNewCallback.OnBuyInformation(mBuyCount, mCurrentAddress.getAddressId());
+                    dismiss();
                 }
                 break;
             case R.id.tv_receiver_address_value:

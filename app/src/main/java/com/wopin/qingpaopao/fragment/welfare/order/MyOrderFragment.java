@@ -7,6 +7,7 @@ import android.view.View;
 import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.adapter.OldChangeNewOrderListAdapter;
 import com.wopin.qingpaopao.adapter.ScoreAndCrowdOrderListAdapter;
+import com.wopin.qingpaopao.bean.request.TrackingNumberSettingBean;
 import com.wopin.qingpaopao.bean.response.OrderBean;
 import com.wopin.qingpaopao.bean.response.OrderListResponse;
 import com.wopin.qingpaopao.dialog.NormalDialog;
@@ -116,11 +117,12 @@ public class MyOrderFragment extends BaseBarDialogFragment<MyOrderPresenter> imp
             @Override
             public void onSetTrackingNumberBtnClick(final OrderBean orderBean) {
 
-                SetTrackingNumberFragment setTrackingNumberFragment = SetTrackingNumberFragment.build(orderBean.getExpressReturnId());
+                SetTrackingNumberFragment setTrackingNumberFragment = SetTrackingNumberFragment.build(orderBean);
                 setTrackingNumberFragment.setTrackingNumberSettingCallback(new SetTrackingNumberFragment.TrackingNumberSettingCallback() {
                     @Override
-                    public void onTrackingNumberSetting(String trackingNumber) {
-                        mPresenter.exchangeOrderUpdate(orderBean.getOrderId(), trackingNumber);
+                    public void onTrackingNumberSetting(TrackingNumberSettingBean trackingNumberSettingBean) {
+                        setLoadingVisibility(true);
+                        mPresenter.exchangeOrderUpdateAndPay(getContext(), orderBean, trackingNumberSettingBean);
                     }
                 });
                 setTrackingNumberFragment.show(getChildFragmentManager(), SetTrackingNumberFragment.TAG);

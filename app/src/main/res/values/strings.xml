@@ -192,6 +192,7 @@
     <string name="default_address">默认</string>
     <string name="exchange_success">兑换成功</string>
     <string name="submit_success">提交成功</string>
+    <string name="submit_success_to_my_order">提交成功，已添加至我的订单</string>
     <string name="cancel_success">取消成功</string>
     <string name="buy_success">购买成功</string>
     <string name="old_cup_to_new_cup">选择以旧换新机型</string>
@@ -218,10 +219,23 @@
     <string name="recycle_price"><![CDATA[回收报价:\t\t<font color="#ff0000">%s元</font>]]></string>
     <string name="need_pay_price"><![CDATA[应付金额:\t\t<font color="#ff0000">%s元</font>]]></string>
     <string name="check_order">查看订单</string>
-    <string name="input_order_message">填写快递信息</string>
+    <string name="input_order_message">填写旧杯子信息</string>
     <string name="tracking_number">快递单号</string>
     <string name="please_input_tracking_number">请填入快递单号</string>
+    <string name="tracking_company">快递公司</string>
+    <string name="please_input_tracking_company">请填入快递公司</string>
+    <string name="name">名字</string>
+    <string name="sex">性别</string>
+    <string name="please_input_sex">请输入您的性别</string>
+    <string name="cup_type">杯子型号</string>
+    <string name="please_input_cup_type">请输入旧杯子型号</string>
+    <string name="please_input_cup_color">请输入旧杯子颜色</string>
+    <string name="buy_time">购买时间</string>
+    <string name="please_input_buy_time">请输入旧杯子购买时间</string>
+    <string name="use_status">使用情况</string>
+    <string name="please_input_use_status">请输入旧杯子使用情况</string>
     <string name="affirm_tracking_number">确认发货</string>
+    <string name="save_and_pay">保存并付款</string>
     <string name="order_detail">订单详情</string>
     <string name="order_detail_tips">请将订单中的及其邮寄，寄送后请在您的订单中填写快递单号</string>
     <string name="receiver_message">收件人 ： %s\t %s\n%s</string>

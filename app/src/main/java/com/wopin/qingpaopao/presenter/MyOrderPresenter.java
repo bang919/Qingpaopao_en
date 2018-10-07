@@ -75,16 +75,19 @@ public class MyOrderPresenter extends BasePresenter<MyOrderView> {
                 });
     }
 
-    public void exchangeOrderUpdate(String orderId, String trackingNumber) {
-        TrackingNumberSettingBean trackingNumberSettingBean = new TrackingNumberSettingBean();
-        trackingNumberSettingBean.setOrderId(orderId);
-        trackingNumberSettingBean.setExpressId(trackingNumber);
-        subscribeNetworkTask(getClass().getSimpleName().concat("exchangeOrderUpdate"), mMyOrderModel.exchangeOrderUpdate(trackingNumberSettingBean),
+    public void exchangeOrderUpdateAndPay(final Context context, final OrderBean orderBean, TrackingNumberSettingBean trackingNumberSettingBean) {
+        subscribeNetworkTask(getClass().getSimpleName().concat("exchangeOrderUpdateAndPay"),
+                mMyOrderModel.exchangeOrderUpdate(trackingNumberSettingBean)
+                        .doOnNext(new Consumer<NormalRsp>() {
+                            @Override
+                            public void accept(NormalRsp normalRsp) throws Exception {
+                                mView.onDataRefresh();
+                            }
+                        }),
                 new MyObserver<NormalRsp>() {
                     @Override
                     public void onMyNext(NormalRsp normalRsp) {
-                        ToastUtils.showShort(R.string.submit_success);
-                        mView.onDataRefresh();
+                        payOrderByWechat(context, orderBean);
                     }
 
                     @Override
