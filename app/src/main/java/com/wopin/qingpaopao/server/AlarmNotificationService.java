@@ -47,6 +47,10 @@ public class AlarmNotificationService extends Service {
 //            mAlarmManager.set(AlarmManager.RTC_WAKEUP, mCalendar.getTimeInMillis(), pendingIntent);
 //        }
             //每天重复
+            long l = System.currentTimeMillis();
+            if (l > longExtra) {//今天时间已经过了，明天开始算
+                longExtra += 1000 * 60 * 60 * 24;
+            }
             mAlarmManager.setRepeating(AlarmManager.RTC_WAKEUP, longExtra, 1000 * 60 * 60 * 24, pendingIntent);
         }
     }

@@ -14,8 +14,6 @@ import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 
 import com.wopin.qingpaopao.R;
-import com.wopin.qingpaopao.common.Constants;
-import com.wopin.qingpaopao.utils.SPUtils;
 
 public class AlarmNotificationReceiver extends BroadcastReceiver {
 
@@ -82,10 +80,6 @@ public class AlarmNotificationReceiver extends BroadcastReceiver {
             builder.setSmallIcon(R.mipmap.i_qing_icon);
         }
         Notification notification = builder.build();
-        if ((Boolean) SPUtils.get(context, Constants.FIRST_TIME_SET_NOTIFICATION, false)) {
-            SPUtils.put(context, Constants.FIRST_TIME_SET_NOTIFICATION, false);
-            return;
-        }
         notificationManager.notify(123, notification);
     }
 }
