@@ -8,8 +8,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.resource.bitmap.CenterInside;
 import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.bean.response.CupListRsp;
+import com.wopin.qingpaopao.common.Constants;
+import com.wopin.qingpaopao.utils.GlideUtils;
 
 import java.util.ArrayList;
 
@@ -55,6 +58,7 @@ public class CupListAdapter extends RecyclerView.Adapter<CupListAdapter.CupListH
     @Override
     public void onBindViewHolder(@NonNull final CupListHolder holder, final int position) {
         final CupListRsp.CupBean cupBean = mCupBeans.get(position);
+        GlideUtils.loadImage(holder.mCupColorIv, -1, Constants.CUP_COLOR_PIC_SRC[cupBean.getColor()], new CenterInside());
         holder.mNameTv.setText(cupBean.getName());
         holder.mLightIv.setSelected(cupBean.isConnecting());
         holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -91,11 +95,13 @@ public class CupListAdapter extends RecyclerView.Adapter<CupListAdapter.CupListH
 
     public class CupListHolder extends RecyclerView.ViewHolder {
 
-        public TextView mNameTv;
+        ImageView mCupColorIv;
+        TextView mNameTv;
         public ImageView mLightIv;
 
-        public CupListHolder(View itemView) {
+        CupListHolder(View itemView) {
             super(itemView);
+            mCupColorIv = itemView.findViewById(R.id.iv_cup);
             mNameTv = itemView.findViewById(R.id.tv_name);
             mLightIv = itemView.findViewById(R.id.iv_light);
         }

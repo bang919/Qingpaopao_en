@@ -1,5 +1,6 @@
 package com.wopin.qingpaopao.model;
 
+import com.wopin.qingpaopao.bean.request.CupColorReq;
 import com.wopin.qingpaopao.bean.request.CupUpdateReq;
 import com.wopin.qingpaopao.bean.response.CupListRsp;
 import com.wopin.qingpaopao.bean.response.DrinkListTodayRsp;
@@ -27,6 +28,15 @@ public class DrinkingModel {
         cupUpdateReq.setAddress(address);
         cupUpdateReq.setAdd(add);
         return HttpClient.getApiInterface().addOrUpdateACup(cupUpdateReq)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<NormalRsp> updateCupColor(String uuid, int cupColor) {
+        CupColorReq cupColorReq = new CupColorReq();
+        cupColorReq.setUuid(uuid);
+        cupColorReq.setCupColor(cupColor);
+        return HttpClient.getApiInterface().updateCupColor(cupColorReq)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

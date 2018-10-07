@@ -307,5 +307,7 @@
     <string name="AlarmNotificationReceiver_1730">为了今天的圆满工作庆贺，干杯！^_^</string>
     <string name="AlarmNotificationReceiver_2000">排毒养颜喝一杯</string>
     <string name="AlarmNotificationReceiver_2200">放松、减压，离不开多喝富氢水哦！</string>
+    <string name="change_device_name">重命名设备</string>
+    <string name="change_device_name_cant_be_empty">重命名不能为空</string>
 
 </resources>

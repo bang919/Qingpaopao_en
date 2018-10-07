@@ -44,6 +44,7 @@ public class CupListRsp extends NormalRsp {
         private String registerTime;
         private String uuid;
         private String address;
+        private int color;
         private int produceScores;
         private int __v;
         private boolean isConnecting;
@@ -60,6 +61,7 @@ public class CupListRsp extends NormalRsp {
             uuid = in.readString();
             address = in.readString();
             produceScores = in.readInt();
+            color = in.readInt();
             __v = in.readInt();
             isConnecting = in.readByte() != 0;
             electric = in.readString();
@@ -77,6 +79,7 @@ public class CupListRsp extends NormalRsp {
             dest.writeString(uuid);
             dest.writeString(address);
             dest.writeInt(produceScores);
+            dest.writeInt(color);
             dest.writeInt(__v);
             dest.writeByte((byte) (isConnecting ? 1 : 0));
             dest.writeString(electric);
@@ -170,6 +173,14 @@ public class CupListRsp extends NormalRsp {
 
         public void setProduceScores(int produceScores) {
             this.produceScores = produceScores;
+        }
+
+        public int getColor() {
+            return color;
+        }
+
+        public void setColor(int color) {
+            this.color = color;
         }
 
         public int get__v() {

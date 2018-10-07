@@ -12,8 +12,7 @@
         android:layout_height="56dp"
         android:layout_centerVertical="true"
         android:layout_margin="20dp"
-        android:scaleType="centerInside"
-        android:src="@mipmap/pc_cup" />
+        android:scaleType="centerInside" />
 
     <TextView
         android:id="@+id/tv_name"

@@ -139,8 +139,18 @@ public class DrinkingFragment extends BaseMainFragment<DrinkingPresenter> implem
     }
 
     @Override
-    public void onCupItemClick(CupListRsp.CupBean cupBean, int position) {
-        DeviceDetailFragment.getDeviceDetailFragment(cupBean).show(getChildFragmentManager(), DeviceDetailFragment.TAG);
+    public void onCupItemClick(final CupListRsp.CupBean cupBean, int position) {
+        DeviceDetailFragment.getDeviceDetailFragment(cupBean, new DeviceDetailFragment.DeviceDetailFragmentCallback() {
+            @Override
+            public void onRename(String newName) {
+                mPresenter.renameCup(cupBean, newName);
+            }
+
+            @Override
+            public void onColorChange(int cupColor) {
+                mPresenter.updateCupColor(cupBean, cupColor);
+            }
+        }).show(getChildFragmentManager(), DeviceDetailFragment.TAG);
     }
 
 

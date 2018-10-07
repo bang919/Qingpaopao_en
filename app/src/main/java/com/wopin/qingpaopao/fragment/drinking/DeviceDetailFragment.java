@@ -8,14 +8,19 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.wopin.qingpaopao.R;
+import com.wopin.qingpaopao.adapter.PopupWindowListAdapter;
 import com.wopin.qingpaopao.bean.response.CupListRsp;
 import com.wopin.qingpaopao.common.Constants;
+import com.wopin.qingpaopao.dialog.EditCupNameDialog;
 import com.wopin.qingpaopao.fragment.BaseBarDialogFragment;
 import com.wopin.qingpaopao.manager.MessageProxy;
 import com.wopin.qingpaopao.manager.MessageProxyCallback;
 import com.wopin.qingpaopao.presenter.BasePresenter;
 import com.wopin.qingpaopao.utils.NotificationSettingUtil;
+import com.wopin.qingpaopao.utils.PopupWindowUtil;
 import com.wopin.qingpaopao.utils.SPUtils;
+
+import java.util.Arrays;
 
 public class DeviceDetailFragment extends BaseBarDialogFragment implements View.OnClickListener {
 
@@ -27,13 +32,19 @@ public class DeviceDetailFragment extends BaseBarDialogFragment implements View.
     private TextView mDeviceStatusTv;
     private TextView mDeviceStatusTime;
     private SwitchCompat mNotificationSwitch;
+    private DeviceDetailFragmentCallback mDeviceDetailFragmentCallback;
 
-    public static DeviceDetailFragment getDeviceDetailFragment(CupListRsp.CupBean cupBean) {
+    public static DeviceDetailFragment getDeviceDetailFragment(CupListRsp.CupBean cupBean, DeviceDetailFragmentCallback deviceDetailFragmentCallback) {
         DeviceDetailFragment deviceDetailFragment = new DeviceDetailFragment();
         Bundle args = new Bundle();
         args.putParcelable(TAG, cupBean);
         deviceDetailFragment.setArguments(args);
+        deviceDetailFragment.setDeviceDetailFragmentCallback(deviceDetailFragmentCallback);
         return deviceDetailFragment;
+    }
+
+    private void setDeviceDetailFragmentCallback(DeviceDetailFragmentCallback deviceDetailFragmentCallback) {
+        mDeviceDetailFragmentCallback = deviceDetailFragmentCallback;
     }
 
     @Override
@@ -67,6 +78,8 @@ public class DeviceDetailFragment extends BaseBarDialogFragment implements View.
     protected void initEvent() {
         mDeviceNameTv.setText(mCupBean.getName());
         mDeviceNameTv.setOnClickListener(this);
+        mCupColorTv.setText(Constants.CUP_COLOR_NAME[mCupBean.getColor()]);
+        mCupColorTv.setOnClickListener(this);
         if (mCupBean.isConnecting()) {
             mDeviceStatusTv.setText(R.string.bind);
             mDeviceStatusTv.setTextColor(getContext().getResources().getColor(R.color.colorAccent));
@@ -127,11 +140,34 @@ public class DeviceDetailFragment extends BaseBarDialogFragment implements View.
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.value_device_name:
-//                BluetoothManager bluetoothManager = (BluetoothManager) getContext().getSystemService(Context.BLUETOOTH_SERVICE);
-//                BluetoothAdapter adapter = bluetoothManager.getAdapter();
-//                adapter.setName("Hahahaha");
+            case R.id.value_device_name: {
+                new EditCupNameDialog(getContext(), mCupBean.getName(), new EditCupNameDialog.OnEditNickNameDialogCallback() {
+                    @Override
+                    public void onEditNickNameDialog(String newNickName) {
+                        if (mDeviceDetailFragmentCallback != null) {
+                            mDeviceDetailFragmentCallback.onRename(newNickName);
+                            mDeviceNameTv.setText(newNickName);
+                        }
+                    }
+                }).show();
                 break;
+            }
+            case R.id.value_cup_color: {
+                PopupWindowUtil.buildListPpp(v, Arrays.asList(Constants.CUP_COLOR_NAME), 150, 500, new PopupWindowListAdapter.PopupWindowListAdapterCallback() {
+                    @Override
+                    public void onItemClick(String name, int position) {
+                        mDeviceDetailFragmentCallback.onColorChange(Constants.CUP_COLOR_INT[position]);
+                        mCupColorTv.setText(name);
+                    }
+                });
+                break;
+            }
         }
+    }
+
+    public interface DeviceDetailFragmentCallback {
+        void onRename(String newName);
+
+        void onColorChange(int cupColor);
     }
 }

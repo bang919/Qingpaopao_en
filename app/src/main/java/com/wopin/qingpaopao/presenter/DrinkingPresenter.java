@@ -49,7 +49,7 @@ public class DrinkingPresenter extends BasePresenter<DrinkingView> {
                     }
                 }
                 if (needAdd && mFirstTimeAddDevice != null) {
-                    addOrUpdateACup(Constants.BLE, bleUpdaterBean.getUuid(), ((BluetoothDevice) mFirstTimeAddDevice).getName(), bleUpdaterBean.getAddress(), true);
+                    addACup(Constants.BLE, bleUpdaterBean.getUuid(), ((BluetoothDevice) mFirstTimeAddDevice).getName(), bleUpdaterBean.getAddress());
                 } else {
                     updateCupListUi();
                 }
@@ -83,7 +83,7 @@ public class DrinkingPresenter extends BasePresenter<DrinkingView> {
                     }
                 }
                 if (needAdd && mFirstTimeAddDevice != null) {
-                    addOrUpdateACup(Constants.WIFI, mqttUpdaterBean.getSsid(), mqttUpdaterBean.getSsid(), null, true);
+                    addACup(Constants.WIFI, mqttUpdaterBean.getSsid(), mqttUpdaterBean.getSsid(), null);
                 } else {
                     updateCupListUi();
                 }
@@ -263,8 +263,8 @@ public class DrinkingPresenter extends BasePresenter<DrinkingView> {
         });
     }
 
-    private void addOrUpdateACup(String type, String uuid, String name, String address, boolean add) {
-        subscribeNetworkTask(getClass().getSimpleName().concat("addOrUpdateACup"), mDrinkingModel.addOrUpdateACup(type, uuid, name, address, add),
+    private void addACup(String type, String uuid, String name, String address) {
+        subscribeNetworkTask(getClass().getSimpleName().concat("addACup"), mDrinkingModel.addOrUpdateACup(type, uuid, name, address, true),
                 new MyObserver<NormalRsp>() {
                     @Override
                     public void onMyNext(NormalRsp normalRsp) {
@@ -276,6 +276,36 @@ public class DrinkingPresenter extends BasePresenter<DrinkingView> {
                         mView.onError(errorMessage);
                     }
                 });
+    }
+
+    public void renameCup(CupListRsp.CupBean cupBean, String newName) {
+        subscribeNetworkTask(getClass().getSimpleName().concat("renameCup"),
+                mDrinkingModel.addOrUpdateACup(cupBean.getType(), cupBean.getUuid(), newName, cupBean.getAddress(), false),
+                new MyObserver<NormalRsp>() {
+                    @Override
+                    public void onMyNext(NormalRsp normalRsp) {
+                        getCupList();
+                    }
+
+                    @Override
+                    public void onMyError(String errorMessage) {
+                        mView.onError(errorMessage);
+                    }
+                });
+    }
+
+    public void updateCupColor(CupListRsp.CupBean cupBean, int cupColor) {
+        subscribeNetworkTask(getClass().getSimpleName().concat("updateCupColor"), mDrinkingModel.updateCupColor(cupBean.getUuid(), cupColor), new MyObserver<NormalRsp>() {
+            @Override
+            public void onMyNext(NormalRsp normalRsp) {
+                getCupList();
+            }
+
+            @Override
+            public void onMyError(String errorMessage) {
+                mView.onError(errorMessage);
+            }
+        });
     }
 
     public void getDrinkCount() {

@@ -1,5 +1,7 @@
 package com.wopin.qingpaopao.common;
 
+import com.wopin.qingpaopao.R;
+
 /**
  * Created by Administrator on 2017/11/9.
  */
@@ -21,8 +23,9 @@ public class Constants {
     public final static String USERNAME = "username";
     public final static String SIGN_IN_DATA = "sign in data";
     public final static String DRINKING_NOTIFICATION = "drinking notification";
-    public final static String FIRST_TIME_SET_NOTIFICATION = "first time set notification";
 
+
+    //定时提醒喝水
     public final static String AlarmNotificationReceiver_0730 = "AlarmNotificationReceiver_0730";
     public final static String AlarmNotificationReceiver_0900 = "AlarmNotificationReceiver_0900";
     public final static String AlarmNotificationReceiver_1100 = "AlarmNotificationReceiver_1100";
@@ -42,4 +45,9 @@ public class Constants {
             AlarmNotificationReceiver_2000,
             AlarmNotificationReceiver_2200
     };
+
+    //杯子颜色
+    public final static int[] CUP_COLOR_INT = {0, 1, 2, 3, 4, 5, 6};
+    public final static String[] CUP_COLOR_NAME = {"--", "土豪金", "玫瑰金", "宝石蓝", "中国红", "草木绿", "曜石黑"};
+    public final static int[] CUP_COLOR_PIC_SRC = {R.mipmap.pc_cup, R.mipmap.cup_color_1, R.mipmap.cup_color_2, R.mipmap.cup_color_3, R.mipmap.cup_color_4, R.mipmap.cup_color_5, R.mipmap.cup_color_6};
 }

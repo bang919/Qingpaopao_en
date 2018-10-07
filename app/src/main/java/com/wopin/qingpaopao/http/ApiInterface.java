@@ -3,6 +3,7 @@ package com.wopin.qingpaopao.http;
 
 import com.wopin.qingpaopao.bean.request.AddressBean;
 import com.wopin.qingpaopao.bean.request.BodyProfilesBean;
+import com.wopin.qingpaopao.bean.request.CupColorReq;
 import com.wopin.qingpaopao.bean.request.CupUpdateReq;
 import com.wopin.qingpaopao.bean.request.GetWechatPayReq;
 import com.wopin.qingpaopao.bean.request.LoginReq;
@@ -177,6 +178,9 @@ public interface ApiInterface {
 
     @POST("users/addOrUpdateACup")
     Observable<NormalRsp> addOrUpdateACup(@Body CupUpdateReq cupUpdateReq);
+
+    @POST("users/updateCupColor")
+    Observable<NormalRsp> updateCupColor(@Body CupColorReq cupUpdateReq);
 
     @POST("users/deleteACup")
     Observable<NormalRsp> deleteACup(@Body CupUpdateReq cupUpdateReq);
