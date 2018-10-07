@@ -27,7 +27,7 @@ public class NotificationSettingUtil {
         intent.putExtra(Constants.AlarmNotificationReceiver_1300, calendar.getTimeInMillis());
         calendar.add(Calendar.HOUR_OF_DAY, 2);
         intent.putExtra(Constants.AlarmNotificationReceiver_1500, calendar.getTimeInMillis());
-        calendar.add(Calendar.HOUR_OF_DAY, 1);
+        calendar.add(Calendar.HOUR_OF_DAY, 2);
         calendar.add(Calendar.MINUTE, 30);
         intent.putExtra(Constants.AlarmNotificationReceiver_1730, calendar.getTimeInMillis());
         calendar.add(Calendar.HOUR_OF_DAY, 2);
