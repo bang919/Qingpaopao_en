@@ -10,6 +10,8 @@ import com.wopin.qingpaopao.common.Constants;
 import com.wopin.qingpaopao.fragment.BaseMainFragment;
 import com.wopin.qingpaopao.manager.MessageProxy;
 import com.wopin.qingpaopao.presenter.MainPresenter;
+import com.wopin.qingpaopao.utils.NotificationSettingUtil;
+import com.wopin.qingpaopao.utils.SPUtils;
 import com.wopin.qingpaopao.utils.ToastUtils;
 import com.wopin.qingpaopao.view.MainView;
 
@@ -71,6 +73,10 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
             }
         });
         mMessageProxy = new MessageProxy();
+        //看看是否开了Notification，是的话重新设置下
+        if ((Boolean) SPUtils.get(this, Constants.DRINKING_NOTIFICATION, false)) {
+            NotificationSettingUtil.startNotification(this);
+        }
     }
 
     @Override
