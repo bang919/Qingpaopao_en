@@ -32,7 +32,6 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
     private SeekBar mSeekBar;
     private TextView mSwitchElectrolyzeBtn;
     private boolean isSeekbarOntouch;
-    private Runnable mSeekbarMinusRunnable;
     private DrinkingPresenter mDrinkingPresenter;
     private DrinkListTodayRsp mDrinkListTodayRsp;
     private DrinkListTotalRsp mDrinkListTotalRsp;
@@ -128,8 +127,13 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
 
                 @Override
                 public void onTime(String uuid, String minute, String second) {
+                    if (getCurrentStatus() != CupListRsp.CupBean.ELECTROLYZE_STATUS) {
+                        return;
+                    }
                     int progress = Integer.valueOf(minute) * 60 + Integer.valueOf(second);
-                    mSeekBar.setProgress(progress);
+                    if (!isSeekbarOntouch) {
+                        mSeekBar.setProgress(progress);
+                    }
                     if (progress > 0) {
                         mSwitchElectrolyzeBtn.setSelected(true);
                         mSwitchElectrolyzeBtn.setText(R.string.stop_electrolysis);
@@ -141,11 +145,38 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
 
                 @Override
                 public void onElectrolyzeEnd(String uuid) {
-                    switchSeekbarMinusRunnable(false);
+                    if (getCurrentStatus() != CupListRsp.CupBean.DEFAULT_STATUS || mSwitchElectrolyzeBtn.isSelected()) {
+                        mDrinkingPresenter.getCurrentControlCup().setStatus(CupListRsp.CupBean.DEFAULT_STATUS);
+                        switchSeekbarMinusRunnable(false);
+                    }
+                }
+
+                @Override
+                public void onCleaneEnd(String uuid) {
+                    setCurrentStatus(CupListRsp.CupBean.CLEAN_END_STATUS);
+                }
+
+                @Override
+                public void onElectrolyzing(String uuid) {
+                    setCurrentStatus(CupListRsp.CupBean.ELECTROLYZE_STATUS);
+                }
+
+                @Override
+                public void onCleaning(String uuid) {
+                    setCurrentStatus(CupListRsp.CupBean.CLEAN_STATUS);
                 }
             });
         }
+    }
 
+    public int getCurrentStatus() {
+        return mDrinkingPresenter.getCurrentControlCup().getStatus();
+    }
+
+    public void setCurrentStatus(int status) {
+        if (getCurrentStatus() != status) {
+            mDrinkingPresenter.getCurrentControlCup().setStatus(status);
+        }
     }
 
     @Override
@@ -206,8 +237,7 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
                 }
                 break;
             case R.id.btn_switch_electrolyze: {
-                CupListRsp.CupBean currentControlCup = mDrinkingPresenter.getCurrentControlCup();
-                if (currentControlCup == null || !currentControlCup.isCanClean()) {
+                if (getCurrentStatus() == CupListRsp.CupBean.CLEAN_STATUS || getCurrentStatus() == CupListRsp.CupBean.CLEAN_END_STATUS) {
                     ToastUtils.showShort(R.string.please_change_water);
                     return;
                 }
@@ -220,16 +250,14 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
                 lightSettingFragment.show(getChildFragmentManager(), LightSettingFragment.TAG);
                 break;
             case R.id.iv_cup_clean: {
-                CupListRsp.CupBean currentControlCup = mDrinkingPresenter.getCurrentControlCup();
-                if (currentControlCup == null || !currentControlCup.isCanClean()) {
+                if (getCurrentStatus() == CupListRsp.CupBean.CLEAN_STATUS || getCurrentStatus() == CupListRsp.CupBean.CLEAN_END_STATUS) {
                     ToastUtils.showShort(R.string.please_change_water);
                     return;
                 }
-                if (battery < 50) {
+                if (battery < 20) {
                     ToastUtils.showShort(R.string.cant_clean_in_low_battery);
                     return;
                 }
-                currentControlCup.setCanClean(false);
                 CleanCupFragment cleanCupFragment = new CleanCupFragment();
                 cleanCupFragment.setDrinkingPresenter(mDrinkingPresenter);
                 cleanCupFragment.show(getChildFragmentManager(), CleanCupFragment.TAG);

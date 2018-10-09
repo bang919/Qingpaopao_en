@@ -104,8 +104,8 @@
     <string name="link_wifi">连接WIFI</string>
     <string name="wifi_page_1_content1">通电后按图示操作\n\n
     长按重置按钮，保持10秒左右\n
-    至指示灯变为黄色闪烁，即重置成功。</string>
-    <string name="wifi_page_1_content2">按图操作后，看到黄色闪烁转为七彩变换</string>
+    至指示灯变为黄色灯，即重置成功。</string>
+    <string name="wifi_page_1_content2">按图操作后，看到黄色灯转为红绿蓝变幻</string>
     <string name="wifi_page_2_content">按扫描按键后\n
     请用手机扫描水杯底部的二维码或手动连接</string>
     <string name="next_step">下一步</string>
@@ -312,7 +312,7 @@
     <string name="pay_error">支付错误</string>
     <string name="pay_cancel">支付取消</string>
     <string name="pay_failure">支付失败，已添加至我的订单</string>
-    <string name="please_change_water">清洗杯子后请更换杯内的水</string>
+    <string name="please_change_water">清洗完成，请更换杯内的水</string>
     <string name="cant_clean_in_low_battery">电量低于20%不能清洗</string>
     <string name="AlarmNotificationReceiver_0730">清晨一杯富氢水，美丽心情一整天</string>
     <string name="AlarmNotificationReceiver_0900">努力工作，尽情收获，喝杯富氢水吧</string>

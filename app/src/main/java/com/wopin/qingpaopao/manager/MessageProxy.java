@@ -72,11 +72,13 @@ public class MessageProxy {
                 String m = "0" + Integer.valueOf(split[0], 16);
                 String s = "0" + Integer.valueOf(split[1], 16);
                 messageProxyCallback.onTime(uuid, m.substring(m.length() - 2), s.substring(s.length() - 2));
-            } else if (data.equals("AA CC DD 03 01 DD CC AA")) {//电解中
+//            } else if (data.equals("AA CC DD 03 01 DD CC AA")) {//电解中
+            } else if (data.startsWith("AA CC DD 03 01")) {//电解中
                 messageProxyCallback.onElectrolyzing(uuid);
             } else if (data.equals("AA CC DD 03 02 DD CC AA")) {//电解结束
                 messageProxyCallback.onElectrolyzeEnd(uuid);
-            } else if (data.startsWith("AA CC DD 03 03 DD CC AA")) {//冲洗中
+//            } else if (data.startsWith("AA CC DD 03 03 DD CC AA")) {//冲洗中
+            } else if (data.startsWith("AA CC DD 03 03")) {//冲洗中
                 messageProxyCallback.onCleaning(uuid);
             } else if (data.equals("AA CC DD 03 04 DD CC AA")) {//冲洗结束
                 messageProxyCallback.onCleaneEnd(uuid);
