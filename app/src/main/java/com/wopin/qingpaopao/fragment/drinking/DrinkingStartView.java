@@ -145,7 +145,8 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
 
                 @Override
                 public void onTime(String uuid, String minute, String second) {
-                    if (getCurrentStatus() != CupListRsp.CupBean.ELECTROLYZE_STATUS) {
+                    if (getCurrentStatus() >= CupListRsp.CupBean.CLEAN_STATUS) {
+                        setElectrolyzeStart(false);
                         return;
                     }
                     int progress = Integer.valueOf(minute) * 60 + Integer.valueOf(second);
@@ -286,6 +287,7 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
                     ToastUtils.showShort(R.string.cant_clean_in_low_battery);
                     return;
                 }
+                setCurrentStatus(CupListRsp.CupBean.CLEAN_STATUS);
                 setElectrolyzeStart(false);
                 CleanCupFragment cleanCupFragment = new CleanCupFragment();
                 cleanCupFragment.setDrinkingPresenter(mDrinkingPresenter);
