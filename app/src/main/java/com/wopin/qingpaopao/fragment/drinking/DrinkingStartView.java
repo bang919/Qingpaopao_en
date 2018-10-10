@@ -1,6 +1,7 @@
 package com.wopin.qingpaopao.fragment.drinking;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -38,6 +39,8 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
     private TextView mCurrentDeviceName;
     private ArrayList<CupListRsp.CupBean> mOnlineCups;
     private int battery;
+    private Handler mHandler;
+    private Runnable mBackwardsRunnable;
 
     public void setPresenterAndCallback(DrinkingPresenter drinkingPresenter, OnDrinkingStartCallback onDrinkingStartCallback) {
         mDrinkingPresenter = drinkingPresenter;
@@ -105,6 +108,20 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
         mTimeTv = mRootView.findViewById(R.id.tv_time);
         mSeekBar = mRootView.findViewById(R.id.seek_bar);
         mCurrentDeviceName = mRootView.findViewById(R.id.tv_current_device_name);
+
+        mHandler = new Handler();
+        mBackwardsRunnable = new Runnable() {
+            @Override
+            public void run() {
+                int progress = mSeekBar.getProgress();
+                if (progress > 1) {
+                    mSeekBar.setProgress(--progress);
+                    mHandler.postDelayed(mBackwardsRunnable, 1000);
+                } else {
+                    mHandler.removeCallbacks(mBackwardsRunnable);
+                }
+            }
+        };
         return mRootView;
     }
 
@@ -116,8 +133,9 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
             CupListRsp.CupBean currentControlCup = mDrinkingPresenter.getCurrentControlCup();
             mCurrentDeviceName.setText(currentControlCup != null ? currentControlCup.getName() : "");
 
-            mSwitchElectrolyzeBtn.setSelected(false);
+            setElectrolyzeStart(false);
             mSeekBar.setProgress(5 * 60);
+            MessageProxy.clearMessageProxyCallback();
             MessageProxy.addMessageProxyCallback(currentControlCup.getUuid(), new MessageProxyCallback() {
 
                 @Override
@@ -135,11 +153,9 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
                         mSeekBar.setProgress(progress);
                     }
                     if (progress > 0) {
-                        mSwitchElectrolyzeBtn.setSelected(true);
-                        mSwitchElectrolyzeBtn.setText(R.string.stop_electrolysis);
+                        setElectrolyzeStart(true);
                     } else {
-                        mSwitchElectrolyzeBtn.setSelected(false);
-                        mSwitchElectrolyzeBtn.setText(R.string.start_electrolysis);
+                        setElectrolyzeStart(false);
                     }
                 }
 
@@ -216,9 +232,17 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
 
     private void switchSeekbarMinusRunnable(boolean start) {
         if (mDrinkingPresenter != null) {
-            mSwitchElectrolyzeBtn.setSelected(start);
-            mSwitchElectrolyzeBtn.setText(start ? R.string.stop_electrolysis : R.string.start_electrolysis);
+            setElectrolyzeStart(start);
             mDrinkingPresenter.switchCupElectrolyze(start ? mSeekBar.getProgress() : 0);
+        }
+    }
+
+    private void setElectrolyzeStart(boolean startElectrolyze) {
+        mSwitchElectrolyzeBtn.setSelected(startElectrolyze);
+        mSwitchElectrolyzeBtn.setText(startElectrolyze ? R.string.stop_electrolysis : R.string.start_electrolysis);
+        mHandler.removeCallbacks(mBackwardsRunnable);
+        if (startElectrolyze) {
+            mHandler.postDelayed(mBackwardsRunnable, 1000);
         }
     }
 
@@ -245,6 +269,10 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
                 break;
             }
             case R.id.iv_light_setting:
+                if (getCurrentStatus() == CupListRsp.CupBean.CLEAN_STATUS || getCurrentStatus() == CupListRsp.CupBean.CLEAN_END_STATUS) {
+                    ToastUtils.showShort(R.string.please_change_water);
+                    return;
+                }
                 LightSettingFragment lightSettingFragment = new LightSettingFragment();
                 lightSettingFragment.setDrinkingPresenter(mDrinkingPresenter);
                 lightSettingFragment.show(getChildFragmentManager(), LightSettingFragment.TAG);
@@ -258,6 +286,7 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
                     ToastUtils.showShort(R.string.cant_clean_in_low_battery);
                     return;
                 }
+                setElectrolyzeStart(false);
                 CleanCupFragment cleanCupFragment = new CleanCupFragment();
                 cleanCupFragment.setDrinkingPresenter(mDrinkingPresenter);
                 cleanCupFragment.show(getChildFragmentManager(), CleanCupFragment.TAG);
