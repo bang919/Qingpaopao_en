@@ -216,6 +216,7 @@ public class MqttConnectManager extends ConnectManager<MqttConnectManager.MqttUp
     }
 
     public boolean publish(String topicName, String message) {
+        Log.d(TAG, "publish() called with: topicName = [" + topicName + "], message = [" + message + "]");
         boolean flag = false;
         byte[] payload = message.getBytes();
         if (client != null && client.isConnected()) {

@@ -11,6 +11,6 @@ public class MqttSwitchLightCommand extends ISwitchLightCommand<String> {
 
     @Override
     public void execute() {
-        MqttConnectManager.getInstance().publish(getTarget(), isLightOn() ? "01AAAAAA" : "01000000");
+        MqttConnectManager.getInstance().publish(getTarget(), isLightOn() ? "041" : "040");
     }
 }
