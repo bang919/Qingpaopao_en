@@ -47,7 +47,7 @@ public class MqttConnectManager extends ConnectManager<MqttConnectManager.MqttUp
 
     private TreeMap<String, MqttUpdaterBean> mOnlineMqttBeans;
     private Handler mHandler;
-    private static final int CHECK_DISCONNECT_TIME = 10000;//每10秒检测一下是否有离线Cup
+    private static final int CHECK_DISCONNECT_TIME = 10000;//每10秒检测一下是否有离线Cup（10秒内都没接收到消息，视为掉线）
     private Runnable mDisconnectRunnable = new Runnable() {
         @Override
         public void run() {
