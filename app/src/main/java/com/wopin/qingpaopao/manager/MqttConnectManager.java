@@ -47,25 +47,25 @@ public class MqttConnectManager extends ConnectManager<MqttConnectManager.MqttUp
 
     private TreeMap<String, MqttUpdaterBean> mOnlineMqttBeans;
     private Handler mHandler;
+    private static final int CHECK_DISCONNECT_TIME = 10000;//每10秒检测一下是否有离线Cup
     private Runnable mDisconnectRunnable = new Runnable() {
         @Override
         public void run() {
             Iterator<Map.Entry<String, MqttUpdaterBean>> iterator = mOnlineMqttBeans.entrySet().iterator();
             while (iterator.hasNext()) {
                 Map.Entry<String, MqttUpdaterBean> next = iterator.next();
-                if (next.getValue().getOnlineTime() < (System.currentTimeMillis() - 10000)) {
+                if (next.getValue().getOnlineTime() < (System.currentTimeMillis() - CHECK_DISCONNECT_TIME)) {//10秒内都没接收到消息，视为掉线
                     onDissconnectDevice(next.getValue());
                     iterator.remove();
                 }
             }
-            mHandler.postDelayed(mDisconnectRunnable, 10000);
+            mHandler.postDelayed(mDisconnectRunnable, CHECK_DISCONNECT_TIME);
         }
     };
 
     private MqttConnectManager() {
         mOnlineMqttBeans = new TreeMap<>();
         mHandler = new Handler();
-        mHandler.postDelayed(mDisconnectRunnable, 10000);
     }
 
     public static MqttConnectManager getInstance() {
@@ -166,6 +166,9 @@ public class MqttConnectManager extends ConnectManager<MqttConnectManager.MqttUp
                     }
                 });
                 client.connect(conOpt);
+
+                mHandler.removeCallbacks(mDisconnectRunnable);
+                mHandler.postDelayed(mDisconnectRunnable, CHECK_DISCONNECT_TIME);
             }
             onServerConnectCallback.onConnectServerCallback();
         } catch (MqttException e) {
