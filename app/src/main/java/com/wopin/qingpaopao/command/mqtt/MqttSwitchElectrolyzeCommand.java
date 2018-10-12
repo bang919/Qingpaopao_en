@@ -12,6 +12,7 @@ public class MqttSwitchElectrolyzeCommand extends ISwitchElectrolyzeCommand<Stri
     @Override
     public void execute() {
         int time = getTime();
-        MqttConnectManager.getInstance().publish(getTarget(), time > 0 ? "021" + time : "0200000");
+        String timeString = String.format("%05X", time);
+        MqttConnectManager.getInstance().publish(getTarget(), time > 0 ? "021" + timeString : "02000000");
     }
 }
