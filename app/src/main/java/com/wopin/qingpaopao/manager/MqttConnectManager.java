@@ -47,18 +47,21 @@ public class MqttConnectManager extends ConnectManager<MqttConnectManager.MqttUp
 
     private TreeMap<String, MqttUpdaterBean> mOnlineMqttBeans;
     private Handler mHandler;
-    private static final int CHECK_DISCONNECT_TIME = 10000;//每10秒检测一下是否有离线Cup（10秒内都没接收到消息，视为掉线）
+    private static final int CHECK_DISCONNECT_TIME = 10000;//每10秒检测一下是否有离线Cup（10秒内都没接收到消息，视为掉线），同时请求Cuplist以自动连接设备
     private Runnable mDisconnectRunnable = new Runnable() {
         @Override
         public void run() {
+            Log.d(TAG, "run: checking disconnect device");
             Iterator<Map.Entry<String, MqttUpdaterBean>> iterator = mOnlineMqttBeans.entrySet().iterator();
             while (iterator.hasNext()) {
                 Map.Entry<String, MqttUpdaterBean> next = iterator.next();
                 if (next.getValue().getOnlineTime() < (System.currentTimeMillis() - CHECK_DISCONNECT_TIME)) {//10秒内都没接收到消息，视为掉线
+                    Log.d(TAG, "find one device dissconnect: " + next.getKey());
                     onDissconnectDevice(next.getValue());
                     iterator.remove();
                 }
             }
+            HttpUtil.subscribeNetworkTask(new DrinkingModel().getCupList(), null);//同时请求Cuplist以自动连接设备
             mHandler.postDelayed(mDisconnectRunnable, CHECK_DISCONNECT_TIME);
         }
     };
@@ -78,6 +81,7 @@ public class MqttConnectManager extends ConnectManager<MqttConnectManager.MqttUp
     @Override
     protected void connectToServer(final OnServerConnectCallback onServerConnectCallback) {
         //Check Network
+        Log.d(TAG, "connectToServer: try to connectToServer");
         if (client == null || !client.isConnected()) {
             if (client != null) {
                 disconnectServer();
@@ -92,6 +96,9 @@ public class MqttConnectManager extends ConnectManager<MqttConnectManager.MqttUp
                                     return throwableObservable.zipWith(Observable.range(1, 10), new BiFunction<Throwable, Integer, Integer>() {
                                         @Override
                                         public Integer apply(Throwable throwable, Integer integer) throws Exception {
+                                            if (integer >= 10) {
+                                                throw new Exception("retry time over range 10.");
+                                            }
                                             return integer;
                                         }
                                     }).flatMap(new Function<Integer, ObservableSource<Long>>() {
@@ -139,7 +146,7 @@ public class MqttConnectManager extends ConnectManager<MqttConnectManager.MqttUp
                 client.setCallback(new MqttCallback() {
                     @Override
                     public void connectionLost(Throwable cause) {
-                        onServerConnectCallback.onDisconnectServerCallback();
+                        disconnectServer();
                     }
 
                     @Override
@@ -166,7 +173,7 @@ public class MqttConnectManager extends ConnectManager<MqttConnectManager.MqttUp
                     }
                 });
                 client.connect(conOpt);
-
+                Log.d(TAG, "connect MqttConnectManager");
                 mHandler.removeCallbacks(mDisconnectRunnable);
                 mHandler.postDelayed(mDisconnectRunnable, CHECK_DISCONNECT_TIME);
             }
@@ -179,7 +186,12 @@ public class MqttConnectManager extends ConnectManager<MqttConnectManager.MqttUp
 
     @Override
     public void disconnectServer() {
+        Log.d(TAG, "disconnect MqttConnectManager");
         mHandler.removeCallbacks(mDisconnectRunnable);
+        for (Map.Entry<String, MqttUpdaterBean> next : mOnlineMqttBeans.entrySet()) {
+            onDissconnectDevice(next.getValue());
+        }
+        mOnlineMqttBeans.clear();
         if (client != null) {
             try {
                 client.disconnect();

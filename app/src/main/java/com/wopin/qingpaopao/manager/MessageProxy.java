@@ -4,6 +4,8 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.ble.api.DataUtil;
+import com.wopin.qingpaopao.model.DrinkingModel;
+import com.wopin.qingpaopao.utils.HttpUtil;
 
 import java.util.TreeMap;
 
@@ -18,11 +20,13 @@ public class MessageProxy {
     private Handler mainHandler;
 
     public MessageProxy() {
-        mainHandler = new Handler(Looper.getMainLooper());
         callbackTree = new TreeMap<>();
     }
 
     public void startListening() {
+        if (mainHandler == null) {
+            mainHandler = new Handler(Looper.getMainLooper());
+        }
         mUpdaterBle = new Updater<BleConnectManager.BleUpdaterBean>() {
             @Override
             public void onDatasUpdate(final BleConnectManager.BleUpdaterBean bleUpdaterBean) {
@@ -48,15 +52,23 @@ public class MessageProxy {
             }
         };
         MqttConnectManager.getInstance().addUpdater(mUpdaterMqtt);
+        HttpUtil.subscribeNetworkTask(new DrinkingModel().getCupList(), null);
     }
 
-    public void release() {
+    public void pauseListening() {
         BleConnectManager.getInstance().removeUpdater(mUpdaterBle);
         MqttConnectManager.getInstance().removeUpdater(mUpdaterMqtt);
+        BleConnectManager.getInstance().disconnectServer();
+        MqttConnectManager.getInstance().disconnectServer();
+        WifiConnectManager.getInstance().disconnectServer();
+        mainHandler = null;
+    }
+
+    public void destroy() {
+        pauseListening();
         BleConnectManager.getInstance().destroy();
         MqttConnectManager.getInstance().destroy();
         WifiConnectManager.getInstance().destroy();
-        mainHandler = null;
     }
 
     /**

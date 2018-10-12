@@ -27,6 +27,9 @@ public abstract class ConnectManager<T> {
     private boolean hadComment;
 
     private void addCommand(final ICommand iCommand) {
+        if (mICommands.size() >= 30) {
+            return;//如果离线状态，怕累积太多command造成oom
+        }
         mICommands.add(iCommand);
         new Thread() {
             @Override
@@ -50,7 +53,7 @@ public abstract class ConnectManager<T> {
 
                                     @Override
                                     public void onDisconnectServerCallback() {
-                                        disconnectServer();
+                                        emitter.onError(new Throwable("onDisconnectServer"));
                                     }
                                 });
                             }

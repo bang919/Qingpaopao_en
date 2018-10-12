@@ -23,12 +23,14 @@ public class HttpUtil {
 
             @Override
             public void onNext(T t) {
-                myObserver.onMyNext(t);
+                if (myObserver != null)
+                    myObserver.onMyNext(t);
             }
 
             @Override
             public void onError(Throwable e) {
-                myObserver.onMyError(e.getMessage());
+                if (myObserver != null)
+                    myObserver.onMyError(e.getMessage());
             }
 
             @Override

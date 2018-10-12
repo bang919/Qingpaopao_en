@@ -82,6 +82,9 @@ public class WifiFragmentPageScan extends Fragment implements ZXingScannerView.R
             public void run() {
                 if (!isDestroy) {
                     mZXingScannerView.setResultHandler(WifiFragmentPageScan.this);
+                    mZXingScannerView.setAutoFocus(true);
+                    mZXingScannerView.setLaserEnabled(false);
+                    mZXingScannerView.setAspectTolerance(0.5f);
                     mZXingScannerView.startCamera();
                 }
             }

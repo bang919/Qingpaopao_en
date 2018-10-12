@@ -41,6 +41,9 @@ public class DrinkingModel {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    /**
+     * 请求杯子列表，请求这个API可以调用connectDevice，以唤醒ConnectManager，并及时自动更新Cup列表状态
+     */
     public Observable<CupListRsp> getCupList() {
         return HttpClient.getApiInterface().getCupList()
                 .doOnNext(new Consumer<CupListRsp>() {

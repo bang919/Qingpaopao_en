@@ -68,6 +68,9 @@ public class WifiCupPostModel {
                 return throwableObservable.zipWith(Observable.range(1, 30), new BiFunction<Throwable, Integer, Integer>() {
                     @Override
                     public Integer apply(Throwable throwable, Integer integer) throws Exception {//最多等待30次
+                        if (integer >= 30) {
+                            throw new Exception("retry time over range 30.");
+                        }
                         return integer;
                     }
                 }).flatMap(new Function<Integer, ObservableSource<Long>>() {

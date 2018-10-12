@@ -39,8 +39,20 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        mMessageProxy.startListening();
+    }
+
+    @Override
+    protected void onPause() {
+        mMessageProxy.pauseListening();
+        super.onPause();
+    }
+
+    @Override
     protected void onDestroy() {
-        mMessageProxy.release();
+        mMessageProxy.destroy();
         super.onDestroy();
     }
 
@@ -81,7 +93,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
 
     @Override
     protected void initEvent() {
-        mMessageProxy.startListening();
     }
 
 
