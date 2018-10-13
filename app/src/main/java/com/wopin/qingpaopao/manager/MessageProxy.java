@@ -58,7 +58,7 @@ public class MessageProxy {
     public void pauseListening() {
         BleConnectManager.getInstance().removeUpdater(mUpdaterBle);
         MqttConnectManager.getInstance().removeUpdater(mUpdaterMqtt);
-        BleConnectManager.getInstance().disconnectServer();
+//        BLE不用断开Server
         MqttConnectManager.getInstance().disconnectServer();
         WifiConnectManager.getInstance().disconnectServer();
         mainHandler = null;

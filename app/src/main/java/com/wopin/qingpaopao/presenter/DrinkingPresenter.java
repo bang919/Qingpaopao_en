@@ -183,10 +183,6 @@ public class DrinkingPresenter extends BasePresenter<DrinkingView> {
                 MqttConnectManager.getInstance().switchCupElectrolyze(mCurrentControlCup.getUuid(), time);
             }
         }
-        if (time > 0) {
-            mDrinkingModel.drink().subscribe();
-//            HttpUtil.handlerObserver()
-        }
     }
 
     /**

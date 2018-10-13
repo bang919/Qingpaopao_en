@@ -164,7 +164,7 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
                 public void onElectrolyzeEnd(String uuid) {
                     if (getCurrentStatus() != CupListRsp.CupBean.DEFAULT_STATUS || mSwitchElectrolyzeBtn.isSelected()) {
                         mDrinkingPresenter.getCurrentControlCup().setStatus(CupListRsp.CupBean.DEFAULT_STATUS);
-                        switchSeekbarMinusRunnable(false);
+                        setElectrolyzeStart(false);
                     }
                 }
 
@@ -231,14 +231,10 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
         setTotalDrink();
     }
 
-    private void switchSeekbarMinusRunnable(boolean start) {
-        if (mDrinkingPresenter != null) {
-            setElectrolyzeStart(start);
-            mDrinkingPresenter.switchCupElectrolyze(start ? mSeekBar.getProgress() : 0);
-        }
-    }
-
     private void setElectrolyzeStart(boolean startElectrolyze) {
+        if (mSwitchElectrolyzeBtn.isSelected() && !startElectrolyze) {
+            mDrinkingPresenter.getDrinkCount();//停止电解的时候刷新喝水数量
+        }
         mSwitchElectrolyzeBtn.setSelected(startElectrolyze);
         mSwitchElectrolyzeBtn.setText(startElectrolyze ? R.string.stop_electrolysis : R.string.start_electrolysis);
         mHandler.removeCallbacks(mBackwardsRunnable);
@@ -266,7 +262,10 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
                     ToastUtils.showShort(R.string.please_change_water);
                     return;
                 }
-                switchSeekbarMinusRunnable(!v.isSelected());
+                if (mDrinkingPresenter != null) {
+                    setElectrolyzeStart(!v.isSelected());
+                    mDrinkingPresenter.switchCupElectrolyze(v.isSelected() ? mSeekBar.getProgress() : 0);
+                }
                 break;
             }
             case R.id.iv_light_setting:

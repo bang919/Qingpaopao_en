@@ -74,8 +74,8 @@ public class DrinkingModel {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<NormalRsp> drink() {
-        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), "{\"target\":\"8\"}");
+    public Observable<NormalRsp> drink(String uuid) {
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), "{\"uuid\":\"" + uuid + "\",\"target\":\"8\"}");
         return HttpClient.getApiInterface().drink(requestBody)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());

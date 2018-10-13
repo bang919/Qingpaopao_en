@@ -49,5 +49,5 @@ public class Constants {
     //杯子颜色
     public final static int[] CUP_COLOR_INT = {0, 1, 2, 3, 4, 5, 6};
     public final static String[] CUP_COLOR_NAME = {"--", "土豪金", "玫瑰金", "宝石蓝", "中国红", "草木绿", "曜石黑"};
-    public final static int[] CUP_COLOR_PIC_SRC = {R.mipmap.pc_cup, R.mipmap.cup_color_1, R.mipmap.cup_color_2, R.mipmap.cup_color_3, R.mipmap.cup_color_4, R.mipmap.cup_color_5, R.mipmap.cup_color_6};
+    public final static int[] CUP_COLOR_PIC_SRC = {R.mipmap.cup_color_2, R.mipmap.cup_color_1, R.mipmap.cup_color_2, R.mipmap.cup_color_3, R.mipmap.cup_color_4, R.mipmap.cup_color_5, R.mipmap.cup_color_6};
 }

@@ -67,6 +67,7 @@ public class LeProxy {
         mBleService = ((BleService.LocalBinder) binder).getService(mBleCallBack);
         // mBleService.setMaxConnectedNumber(4);// 设置最大可连接从机数量，默认为4
         mBleService.setConnectTimeout(5000);//设置APP端的连接超时时间（单位ms）
+        mBleService.setConnectInQueue(false);//看BleService源码看到那个该死的j，老是connect() - Connect in queue, has device in connecting progress. 干脆设置false
         mBleService.initialize();// 必须调用初始化函数
         setEncrypt(false);
     }

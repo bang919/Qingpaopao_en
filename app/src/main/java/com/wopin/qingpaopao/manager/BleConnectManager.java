@@ -10,15 +10,21 @@ import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import com.ble.api.DataUtil;
 import com.ble.ble.BleService;
+import com.wopin.qingpaopao.command.ble.BleColorCommand;
 import com.wopin.qingpaopao.command.ble.BleConnectDeviceCommand;
 import com.wopin.qingpaopao.command.ble.BleDisconnectDeviceCommand;
-import com.wopin.qingpaopao.command.ble.BleColorCommand;
 import com.wopin.qingpaopao.command.ble.BleSwitchCleanCommand;
 import com.wopin.qingpaopao.command.ble.BleSwitchElectrolyzeCommand;
 import com.wopin.qingpaopao.command.ble.BleSwitchLightCommand;
 import com.wopin.qingpaopao.common.MyApplication;
+import com.wopin.qingpaopao.model.DrinkingModel;
+import com.wopin.qingpaopao.utils.HttpUtil;
 import com.wopin.qingpaopao.utils.LeProxy;
+
+import java.util.Map;
+import java.util.TreeMap;
 
 public class BleConnectManager extends ConnectManager<BleConnectManager.BleUpdaterBean> {
 
@@ -28,8 +34,10 @@ public class BleConnectManager extends ConnectManager<BleConnectManager.BleUpdat
     private BroadcastReceiver mReceiver;
     private boolean hadConnectOneDevice;
 
-    private BleConnectManager() {
+    private TreeMap<String, BleUpdaterBean> mOnlineBleBeans;//key address , value BleUpdaterBean (有uuid）
 
+    private BleConnectManager() {
+        mOnlineBleBeans = new TreeMap<>();
     }
 
     public static BleConnectManager getInstance() {
@@ -54,7 +62,11 @@ public class BleConnectManager extends ConnectManager<BleConnectManager.BleUpdat
                             hadConnectOneDevice = true;
                             break;
                         case LeProxy.ACTION_GATT_DISCONNECTED:// 断线
-                            onDissconnectDevice(bleUpdaterBean);
+                            checkElectrolyTimeToDrink(address);
+                            if (mOnlineBleBeans.get(address) != null) {
+                                onDissconnectDevice(bleUpdaterBean);
+                                mOnlineBleBeans.remove(address);
+                            }
                             break;
                         case LeProxy.ACTION_RSSI_AVAILABLE: // 更新rssi
                             break;
@@ -63,10 +75,15 @@ public class BleConnectManager extends ConnectManager<BleConnectManager.BleUpdat
                             byte[] values = intent.getByteArrayExtra(LeProxy.EXTRA_DATA);
                             bleUpdaterBean.setUuid(uuid);
                             bleUpdaterBean.setValues(values);
+
                             if (hadConnectOneDevice) {
                                 hadConnectOneDevice = false;
+                                mOnlineBleBeans.put(address, bleUpdaterBean);
                                 onConnectDevice(bleUpdaterBean);
                             }
+
+                            checkElectrolyTime(address, DataUtil.byteArrayToHex(values));
+
                             onDatasUpdate(bleUpdaterBean);
                             break;
                     }
@@ -101,6 +118,37 @@ public class BleConnectManager extends ConnectManager<BleConnectManager.BleUpdat
         }
     }
 
+    /**
+     * 用于计算电解时间，如果大于5分钟即请求drink API，计算一次喝水
+     */
+    private void checkElectrolyTime(String address, String data) {
+        if (data.length() == 47) {
+            String data1 = data.substring(0, 23);
+            String data2 = data.substring(24, 47);
+            checkElectrolyTime(address, data1);
+            checkElectrolyTime(address, data2);
+            return;
+        }
+        if (data.startsWith("AA CC DD 03 01")) {//电解中
+            BleUpdaterBean bleUpdaterBean = mOnlineBleBeans.get(address);
+            if (bleUpdaterBean.getBleStartElectrolyTime() == 0) {
+                bleUpdaterBean.setBleStartElectrolyTime(System.currentTimeMillis());
+            }
+        } else if (data.equals("AA CC DD 03 02 DD CC AA")) {//电解结束
+            //大于5分钟才请求drink，但是考虑到可能连通callback需要时间，所以取了4.5分钟
+            checkElectrolyTimeToDrink(address);
+        }
+    }
+
+    private void checkElectrolyTimeToDrink(String address) {
+        BleUpdaterBean bleUpdaterBean = mOnlineBleBeans.get(address);
+        long bleStartElectrolyTime = bleUpdaterBean.getBleStartElectrolyTime();
+        if (bleStartElectrolyTime != 0 && System.currentTimeMillis() - bleStartElectrolyTime > 4.5 * 60 * 1000) {
+            HttpUtil.subscribeNetworkTask(new DrinkingModel().drink(bleUpdaterBean.getUuid()), null);//喝水
+        }
+        bleUpdaterBean.setBleStartElectrolyTime(0);
+    }
+
     private IntentFilter makeFilter() {
         IntentFilter filter = new IntentFilter();
         filter.addAction(LeProxy.ACTION_GATT_CONNECTED);
@@ -112,6 +160,10 @@ public class BleConnectManager extends ConnectManager<BleConnectManager.BleUpdat
 
     @Override
     public void disconnectServer() {
+        for (Map.Entry<String, BleUpdaterBean> next : mOnlineBleBeans.entrySet()) {
+            onDissconnectDevice(next.getValue());
+        }
+        mOnlineBleBeans.clear();
         if (mReceiver != null) {
             LocalBroadcastManager.getInstance(MyApplication.getMyApplicationContext()).unregisterReceiver(mReceiver);
             mReceiver = null;
@@ -164,6 +216,7 @@ public class BleConnectManager extends ConnectManager<BleConnectManager.BleUpdat
         private String address;
         private String uuid;
         private byte[] values;
+        private long bleStartElectrolyTime;//用于计算电解时间，如果大于5分钟即请求drink API，计算一次喝水
 
         public String getAddress() {
             return address;
@@ -187,6 +240,14 @@ public class BleConnectManager extends ConnectManager<BleConnectManager.BleUpdat
 
         public void setValues(byte[] values) {
             this.values = values;
+        }
+
+        private long getBleStartElectrolyTime() {
+            return bleStartElectrolyTime;
+        }
+
+        private void setBleStartElectrolyTime(long bleStartElectrolyTime) {
+            this.bleStartElectrolyTime = bleStartElectrolyTime;
         }
     }
 }
