@@ -17,6 +17,11 @@ import com.wopin.qingpaopao.model.DrinkingModel;
 import com.wopin.qingpaopao.view.DrinkingView;
 
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.functions.Function;
 
 
 public class DrinkingPresenter extends BasePresenter<DrinkingView> {
@@ -302,27 +307,40 @@ public class DrinkingPresenter extends BasePresenter<DrinkingView> {
     }
 
     public void getDrinkCount() {
-        subscribeNetworkTask(getClass().getSimpleName().concat("getDrinkList"), mDrinkingModel.getDrinkList(), new MyObserver<DrinkListTotalRsp>() {
-            @Override
-            public void onMyNext(DrinkListTotalRsp drinkListTotalRsp) {
-                mView.onTotalDrink(drinkListTotalRsp);
-            }
+        //2秒延时，防止API drink 后数据还没改好
+        subscribeNetworkTask(getClass().getSimpleName().concat("getDrinkList"),
+                Observable.timer(2, TimeUnit.SECONDS).flatMap(new Function<Long, ObservableSource<DrinkListTotalRsp>>() {
+                    @Override
+                    public ObservableSource<DrinkListTotalRsp> apply(Long aLong) throws Exception {
+                        return mDrinkingModel.getDrinkList();
+                    }
+                }), new MyObserver<DrinkListTotalRsp>() {
+                    @Override
+                    public void onMyNext(DrinkListTotalRsp drinkListTotalRsp) {
+                        mView.onTotalDrink(drinkListTotalRsp);
+                    }
 
-            @Override
-            public void onMyError(String errorMessage) {
-                mView.onError(errorMessage);
-            }
-        });
-        subscribeNetworkTask(getClass().getSimpleName().concat("getTodayDrinkList"), mDrinkingModel.getTodayDrinkList(), new MyObserver<DrinkListTodayRsp>() {
-            @Override
-            public void onMyNext(DrinkListTodayRsp drinkListTodayRsp) {
-                mView.onTodayDrink(drinkListTodayRsp);
-            }
+                    @Override
+                    public void onMyError(String errorMessage) {
+                        mView.onError(errorMessage);
+                    }
+                });
+        subscribeNetworkTask(getClass().getSimpleName().concat("getTodayDrinkList"),
+                Observable.timer(2, TimeUnit.SECONDS).flatMap(new Function<Long, ObservableSource<DrinkListTodayRsp>>() {
+                    @Override
+                    public ObservableSource<DrinkListTodayRsp> apply(Long aLong) throws Exception {
+                        return mDrinkingModel.getTodayDrinkList();
+                    }
+                }), new MyObserver<DrinkListTodayRsp>() {
+                    @Override
+                    public void onMyNext(DrinkListTodayRsp drinkListTodayRsp) {
+                        mView.onTodayDrink(drinkListTodayRsp);
+                    }
 
-            @Override
-            public void onMyError(String errorMessage) {
-                mView.onError(errorMessage);
-            }
-        });
+                    @Override
+                    public void onMyError(String errorMessage) {
+                        mView.onError(errorMessage);
+                    }
+                });
     }
 }
