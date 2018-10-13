@@ -95,21 +95,19 @@ public class MessageProxy {
                 String hexElectric = data.replaceFirst("AA CC DD 01 ", "").replace(" DD CC AA", "");
                 Integer integerElectric = Integer.valueOf(hexElectric, 16);
                 messageProxyCallback.onBattery(uuid, integerElectric);
+            } else if (data.startsWith("AA CC DD 03 01")) {//电解中
+                messageProxyCallback.onElectrolyzing(uuid);
+            } else if (data.equals("AA CC DD 03 02 DD CC AA")) {//电解结束
+                messageProxyCallback.onElectrolyzeEnd(uuid);
+            } else if (data.startsWith("AA CC DD 03 03")) {//冲洗中
+                messageProxyCallback.onCleaning(uuid);
+            } else if (data.equals("AA CC DD 03 04 DD CC AA")) {//冲洗结束
+                messageProxyCallback.onCleaneEnd(uuid);
             } else if (data.startsWith("AA CC DD 05 ") && data.endsWith(" CC AA")) {//电解/冲洗时间
                 String[] split = data.replaceFirst("AA CC DD 05 ", "").replace(" CC AA", "").split(" ");
                 String m = "0" + Integer.valueOf(split[0], 16);
                 String s = "0" + Integer.valueOf(split[1], 16);
                 messageProxyCallback.onTime(uuid, m.substring(m.length() - 2), s.substring(s.length() - 2));
-//            } else if (data.equals("AA CC DD 03 01 DD CC AA")) {//电解中
-            } else if (data.startsWith("AA CC DD 03 01")) {//电解中
-                messageProxyCallback.onElectrolyzing(uuid);
-            } else if (data.equals("AA CC DD 03 02 DD CC AA")) {//电解结束
-                messageProxyCallback.onElectrolyzeEnd(uuid);
-//            } else if (data.startsWith("AA CC DD 03 03 DD CC AA")) {//冲洗中
-            } else if (data.startsWith("AA CC DD 03 03")) {//冲洗中
-                messageProxyCallback.onCleaning(uuid);
-            } else if (data.equals("AA CC DD 03 04 DD CC AA")) {//冲洗结束
-                messageProxyCallback.onCleaneEnd(uuid);
             }
         }
     }
@@ -126,25 +124,15 @@ public class MessageProxy {
             //P是电量
             //H是 電解 or清洗 timer
             //M是模式， 0 是idle,  1 是電解中， 2 是清洗中
-            if (split[0].equals("P")) {//电量数据
-
-            } else if (split[2].equals("H")) {
-
-                //Update hydro timer  --> if split[4] == M and split[5] == 0
-                //Update clean timer --> if split[4] == M and split[5] == 1
-                //If hydro timer == 0 and split[5] == 0 --> Hydro Finish
-                //If hydro timer == 0 and split[5] == 1 --> Clean Finish
-            }
             if (split.length >= 6 && split[0].equals("P") && split[2].equals("H") && split[4].equals("M")) {
                 //电量数据
                 messageProxyCallback.onBattery(uuid, Integer.valueOf(split[1]));
                 //时间
                 Integer time = Integer.valueOf(split[3]);
-                String m = "0" + (time / 60);
-                String s = "0" + (time % 60);
-                messageProxyCallback.onTime(uuid, m.substring(m.length() - 2), s.substring(s.length() - 2));
+
                 switch (split[5]) {
                     case "0": {//idle
+                        messageProxyCallback.onElectrolyzeEnd(uuid);
                         break;
                     }
                     case "1": {//電解中
@@ -164,6 +152,10 @@ public class MessageProxy {
                         break;
                     }
                 }
+
+                String m = "0" + (time / 60);
+                String s = "0" + (time % 60);
+                messageProxyCallback.onTime(uuid, m.substring(m.length() - 2), s.substring(s.length() - 2));
             }
         }
     }

@@ -114,11 +114,11 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
             @Override
             public void run() {
                 int progress = mSeekBar.getProgress();
-                if (progress > 1) {
+                if (progress >= 1) {
                     mSeekBar.setProgress(--progress);
                     mHandler.postDelayed(mBackwardsRunnable, 1000);
                 } else {
-                    mHandler.removeCallbacks(mBackwardsRunnable);
+                    setElectrolyzeStart(false);
                 }
             }
         };
@@ -145,7 +145,7 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
 
                 @Override
                 public void onTime(String uuid, String minute, String second) {
-                    if (getCurrentStatus() >= CupListRsp.CupBean.CLEAN_STATUS) {
+                    if (getCurrentStatus() != CupListRsp.CupBean.ELECTROLYZE_STATUS) {
                         setElectrolyzeStart(false);
                         return;
                     }

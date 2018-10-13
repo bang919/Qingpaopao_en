@@ -44,6 +44,7 @@ public class MqttConnectManager extends ConnectManager<MqttConnectManager.MqttUp
     private static final String clientId = "clientId";
 
     private MqttClient client;
+    private long lastSetColorTime;//限制setColor每0.5秒才能set一次
 
     private TreeMap<String, MqttUpdaterBean> mOnlineMqttBeans;
     private Handler mHandler;
@@ -284,7 +285,11 @@ public class MqttConnectManager extends ConnectManager<MqttConnectManager.MqttUp
     }
 
     public void setColor(String ssid, String color) {
-        super.setColor(new MqttColorCommand(ssid, color));
+        long currentTime = System.currentTimeMillis();
+        if (currentTime - 500 > lastSetColorTime) {
+            super.setColor(new MqttColorCommand(ssid, color));
+            lastSetColorTime = currentTime;
+        }
     }
 
     /**
