@@ -62,8 +62,8 @@ public class BleConnectManager extends ConnectManager<BleConnectManager.BleUpdat
                             hadConnectOneDevice = true;
                             break;
                         case LeProxy.ACTION_GATT_DISCONNECTED:// 断线
-                            checkElectrolyTimeToDrink(address);
                             if (mOnlineBleBeans.get(address) != null) {
+                                checkElectrolyTimeToDrink(address);
                                 onDissconnectDevice(bleUpdaterBean);
                                 mOnlineBleBeans.remove(address);
                             }
@@ -142,11 +142,13 @@ public class BleConnectManager extends ConnectManager<BleConnectManager.BleUpdat
 
     private void checkElectrolyTimeToDrink(String address) {
         BleUpdaterBean bleUpdaterBean = mOnlineBleBeans.get(address);
-        long bleStartElectrolyTime = bleUpdaterBean.getBleStartElectrolyTime();
-        if (bleStartElectrolyTime != 0 && System.currentTimeMillis() - bleStartElectrolyTime > 4.5 * 60 * 1000) {
-            HttpUtil.subscribeNetworkTask(new DrinkingModel().drink(bleUpdaterBean.getUuid()), null);//喝水
+        if (bleUpdaterBean != null) {
+            long bleStartElectrolyTime = bleUpdaterBean.getBleStartElectrolyTime();
+            if (bleStartElectrolyTime != 0 && System.currentTimeMillis() - bleStartElectrolyTime > 4.5 * 60 * 1000) {
+                HttpUtil.subscribeNetworkTask(new DrinkingModel().drink(bleUpdaterBean.getUuid()), null);//喝水
+            }
+            bleUpdaterBean.setBleStartElectrolyTime(0);
         }
-        bleUpdaterBean.setBleStartElectrolyTime(0);
     }
 
     private IntentFilter makeFilter() {
