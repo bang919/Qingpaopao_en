@@ -117,6 +117,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                 mPresenter.loginByThird(thirdReq.getType(), thirdReq.getUserName(), thirdReq.getKey(), thirdReq.getIcon());
             }
         } catch (Exception e) {
+            LoginPresenter.logout();
             e.printStackTrace();
         }
     }

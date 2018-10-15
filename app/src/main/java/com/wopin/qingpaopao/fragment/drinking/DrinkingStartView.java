@@ -39,6 +39,7 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
     private TextView mCurrentDeviceName;
     private ArrayList<CupListRsp.CupBean> mOnlineCups;
     private int battery;
+    private int cleanTime = 5 * 60;//Clean倒数时间
     private Handler mHandler;
     private Runnable mBackwardsRunnable;
 
@@ -146,6 +147,9 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
                 @Override
                 public void onTime(String uuid, String minute, String second) {
                     if (getCurrentStatus() != CupListRsp.CupBean.ELECTROLYZE_STATUS) {
+                        if (getCurrentStatus() == CupListRsp.CupBean.CLEAN_STATUS) {
+                            cleanTime = Integer.valueOf(minute) * 60 + Integer.valueOf(second);
+                        }
                         setElectrolyzeStart(false);
                         return;
                     }
@@ -232,7 +236,7 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
     }
 
     private void setElectrolyzeStart(boolean startElectrolyze) {
-        if (mSwitchElectrolyzeBtn.isSelected() && !startElectrolyze) {
+        if (mSwitchElectrolyzeBtn.isSelected() && !startElectrolyze && mDrinkingPresenter != null) {
             mDrinkingPresenter.getDrinkCount();//停止电解的时候刷新喝水数量
         }
         mSwitchElectrolyzeBtn.setSelected(startElectrolyze);
@@ -258,8 +262,11 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
                 }
                 break;
             case R.id.btn_switch_electrolyze: {
-                if (getCurrentStatus() == CupListRsp.CupBean.CLEAN_STATUS || getCurrentStatus() == CupListRsp.CupBean.CLEAN_END_STATUS) {
-                    ToastUtils.showShort(R.string.please_change_water);
+                if (getCurrentStatus() == CupListRsp.CupBean.CLEAN_STATUS) {
+                    ToastUtils.showShort(R.string.cleaning_please_change_water);
+                    return;
+                } else if (getCurrentStatus() == CupListRsp.CupBean.CLEAN_END_STATUS) {
+                    ToastUtils.showShort(R.string.clean_finish_please_change_water);
                     return;
                 }
                 if (mDrinkingPresenter != null) {
@@ -269,8 +276,11 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
                 break;
             }
             case R.id.iv_light_setting:
-                if (getCurrentStatus() == CupListRsp.CupBean.CLEAN_STATUS || getCurrentStatus() == CupListRsp.CupBean.CLEAN_END_STATUS) {
-                    ToastUtils.showShort(R.string.please_change_water);
+                if (getCurrentStatus() == CupListRsp.CupBean.CLEAN_STATUS) {
+                    ToastUtils.showShort(R.string.cleaning_please_change_water);
+                    return;
+                } else if (getCurrentStatus() == CupListRsp.CupBean.CLEAN_END_STATUS) {
+                    ToastUtils.showShort(R.string.clean_finish_please_change_water);
                     return;
                 }
                 LightSettingFragment lightSettingFragment = new LightSettingFragment();
@@ -278,18 +288,18 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
                 lightSettingFragment.show(getChildFragmentManager(), LightSettingFragment.TAG);
                 break;
             case R.id.iv_cup_clean: {
-                if (getCurrentStatus() == CupListRsp.CupBean.CLEAN_STATUS || getCurrentStatus() == CupListRsp.CupBean.CLEAN_END_STATUS) {
-                    ToastUtils.showShort(R.string.please_change_water);
+                if (getCurrentStatus() == CupListRsp.CupBean.CLEAN_END_STATUS) {
+                    ToastUtils.showShort(R.string.clean_finish_please_change_water);
                     return;
                 }
-                if (battery < 20) {
+                if (battery < 1) {
                     ToastUtils.showShort(R.string.cant_clean_in_low_battery);
                     return;
                 }
                 setCurrentStatus(CupListRsp.CupBean.CLEAN_STATUS);
                 setElectrolyzeStart(false);
                 CleanCupFragment cleanCupFragment = new CleanCupFragment();
-                cleanCupFragment.setDrinkingPresenter(mDrinkingPresenter);
+                cleanCupFragment.setDrinkingPresenterAndTime(mDrinkingPresenter, cleanTime);
                 cleanCupFragment.show(getChildFragmentManager(), CleanCupFragment.TAG);
                 break;
             }

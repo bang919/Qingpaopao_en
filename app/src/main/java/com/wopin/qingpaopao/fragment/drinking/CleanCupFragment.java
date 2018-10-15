@@ -18,8 +18,9 @@ public class CleanCupFragment extends BaseDialogFragment implements View.OnClick
     private TextView mCleanTimeTv;
     private DrinkingPresenter mDrinkingPresenter;
 
-    public void setDrinkingPresenter(DrinkingPresenter drinkingPresenter) {
+    public void setDrinkingPresenterAndTime(DrinkingPresenter drinkingPresenter, int timeStamp) {
         mDrinkingPresenter = drinkingPresenter;
+        mTimeStamp = timeStamp;
     }
 
     @Override
@@ -45,19 +46,17 @@ public class CleanCupFragment extends BaseDialogFragment implements View.OnClick
         rootView.findViewById(R.id.clean_notice_stop).setOnClickListener(this);
         rootView.findViewById(R.id.clean_notice_know).setOnClickListener(this);
         rootView.findViewById(R.id.btn_close_clean).setOnClickListener(this);
+        refreshTime();
     }
 
     @Override
     protected void initEvent() {
-        mTimeStamp = 5 * 60;
         mHandler = new Handler();
         mTimeRunnable = new Runnable() {
             @Override
             public void run() {
                 if (--mTimeStamp > 0) {
-                    String m = "0" + mTimeStamp / 60;
-                    String s = "0" + mTimeStamp % 60;
-                    mCleanTimeTv.setText(m.substring(m.length() - 2).concat(":").concat(s.substring(s.length() - 2)));
+                    refreshTime();
                     mHandler.postDelayed(mTimeRunnable, 1000);
                 } else {
                     stopClean();
@@ -65,9 +64,15 @@ public class CleanCupFragment extends BaseDialogFragment implements View.OnClick
             }
         };
         mHandler.postDelayed(mTimeRunnable, 1000);
-        if (mDrinkingPresenter != null) {
+        if (mDrinkingPresenter != null && mTimeStamp == 5 * 60) {//
             mDrinkingPresenter.switchCupClean(true);
         }
+    }
+
+    private void refreshTime() {
+        String m = "0" + mTimeStamp / 60;
+        String s = "0" + mTimeStamp % 60;
+        mCleanTimeTv.setText(m.substring(m.length() - 2).concat(":").concat(s.substring(s.length() - 2)));
     }
 
     private void stopClean() {
