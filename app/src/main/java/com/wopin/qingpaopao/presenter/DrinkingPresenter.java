@@ -1,7 +1,15 @@
 package com.wopin.qingpaopao.presenter;
 
+import android.Manifest;
 import android.bluetooth.BluetoothDevice;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
+import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 
 import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.bean.response.CupListRsp;
@@ -17,6 +25,7 @@ import com.wopin.qingpaopao.model.DrinkingModel;
 import com.wopin.qingpaopao.view.DrinkingView;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -186,6 +195,38 @@ public class DrinkingPresenter extends BasePresenter<DrinkingView> {
                 BleConnectManager.getInstance().switchCupElectrolyze(mCurrentControlCup.getAddress(), time);
             } else {//Wifi
                 MqttConnectManager.getInstance().switchCupElectrolyze(mCurrentControlCup.getUuid(), time);
+            }
+        }
+        if (time > 0 && (ContextCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                || ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)) {
+            final LocationManager locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
+            //获取所有可用的位置提供器
+            if (locationManager != null) {
+                List<String> providers = locationManager.getProviders(true);
+
+
+                if (!providers.contains(LocationManager.GPS_PROVIDER) && !providers.contains(LocationManager.NETWORK_PROVIDER)) {
+                    Intent i = new Intent();
+                    i.setAction(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    mContext.startActivity(i);
+                    mView.onError(mContext.getString(R.string.please_turn_on_gps));
+                    return;
+                }
+                Location location;
+                Location gpsLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                Location networkLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
+                if (gpsLocation != null) {
+                    location = gpsLocation;
+                } else if (networkLocation != null) {
+                    location = networkLocation;
+                } else {
+                    return;
+                }
+                double latitude = location.getLatitude();
+                double longitude = location.getLongitude();
+
+                subscribeNetworkTask(mDrinkingModel.sendLocal(mCurrentControlCup.getUuid(), latitude, longitude));
             }
         }
     }

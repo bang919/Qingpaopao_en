@@ -66,7 +66,6 @@ public class MqttConnectManager extends ConnectManager<MqttConnectManager.MqttUp
             mHandler.postDelayed(mDisconnectRunnable, CHECK_DISCONNECT_TIME);
         }
     };
-    private ColorRunnable mColorRunnable = new ColorRunnable();
 
     private MqttConnectManager() {
         mOnlineMqttBeans = new TreeMap<>();
@@ -291,26 +290,9 @@ public class MqttConnectManager extends ConnectManager<MqttConnectManager.MqttUp
             super.setColor(new MqttColorCommand(ssid, color));
             lastSetColorTime = currentTime;
         }
-        mHandler.removeCallbacks(mColorRunnable);
-        mColorRunnable.setSsidAndColor(ssid, color);
-        mHandler.postDelayed(mColorRunnable, 600);
     }
 
-    class ColorRunnable implements Runnable {
 
-        private String ssid;
-        private String color;
-
-        public void setSsidAndColor(String ssid, String color) {
-            this.ssid = ssid;
-            this.color = color;
-        }
-
-        @Override
-        public void run() {
-            MqttConnectManager.super.setColor(new MqttColorCommand(ssid, color));
-        }
-    }
 
     /**
      * =============================================  Updater =============================================

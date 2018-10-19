@@ -2,6 +2,7 @@ package com.wopin.qingpaopao.model;
 
 import com.wopin.qingpaopao.bean.request.CupColorReq;
 import com.wopin.qingpaopao.bean.request.CupUpdateReq;
+import com.wopin.qingpaopao.bean.request.LocalBean;
 import com.wopin.qingpaopao.bean.response.CupListRsp;
 import com.wopin.qingpaopao.bean.response.DrinkListTodayRsp;
 import com.wopin.qingpaopao.bean.response.DrinkListTotalRsp;
@@ -10,6 +11,9 @@ import com.wopin.qingpaopao.common.Constants;
 import com.wopin.qingpaopao.http.HttpClient;
 import com.wopin.qingpaopao.manager.BleConnectManager;
 import com.wopin.qingpaopao.manager.MqttConnectManager;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -89,6 +93,22 @@ public class DrinkingModel {
 
     public Observable<DrinkListTodayRsp> getTodayDrinkList() {
         return HttpClient.getApiInterface().getTodayDrinkList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<NormalRsp> sendLocal(String uuid, double latitude, double longitude) {
+        LocalBean localBean = new LocalBean();
+        localBean.setDevice_id(uuid);
+        localBean.setLat(String.valueOf(latitude));
+        localBean.setLongX(String.valueOf(longitude));
+        String url = "https://www.latlong.net/c/?lat=" + latitude + "&long=" + longitude;
+        localBean.setLink(url);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");// HH:mm:ss
+//获取当前时间
+        Date date = new Date(System.currentTimeMillis());
+        localBean.setTime(simpleDateFormat.format(date));
+        return HttpClient.getApiInterface().sendLocal(localBean)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

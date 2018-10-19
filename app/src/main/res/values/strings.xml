@@ -325,5 +325,6 @@
     <string name="AlarmNotificationReceiver_2200">放松、减压，离不开多喝富氢水哦！</string>
     <string name="change_device_name">重命名设备</string>
     <string name="change_device_name_cant_be_empty">重命名不能为空</string>
+    <string name="please_turn_on_gps">请打开网络或GPS定位</string>
 
 </resources>

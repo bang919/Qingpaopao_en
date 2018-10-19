@@ -1,5 +1,6 @@
 package com.wopin.qingpaopao.fragment.drinking;
 
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -17,6 +18,8 @@ public class LightSettingFragment extends BaseDialogFragment implements View.OnC
     private View mLightBtn, mLightIv;
     private String mNowColor;
     private DrinkingPresenter mDrinkingPresenter;
+    private Handler mHandler = new Handler();
+    private ColorRunnable mColorRunnable = new ColorRunnable();
 
     public void setDrinkingPresenter(DrinkingPresenter drinkingPresenter) {
         mDrinkingPresenter = drinkingPresenter;
@@ -74,7 +77,7 @@ public class LightSettingFragment extends BaseDialogFragment implements View.OnC
                 mLightBtn.setSelected(isOn);
                 mDrinkingPresenter.switchCupLight(isOn);
                 if (!TextUtils.isEmpty(mNowColor)) {
-                    mDrinkingPresenter.setColor(mNowColor);
+                    setColor(mNowColor);
                 }
                 break;
         }
@@ -82,9 +85,37 @@ public class LightSettingFragment extends BaseDialogFragment implements View.OnC
 
     @Override
     public void onColorChanged(int color) {
+
+        if (!mLightIv.isSelected()) {//如果灯没有开，开灯
+            mLightIv.setSelected(true);
+            mLightBtn.setSelected(true);
+            mDrinkingPresenter.switchCupLight(true);
+        }
+
         String s = Integer.toHexString(color);
         String colorString = s.toUpperCase().replaceFirst("FF", "");
         mNowColor = colorString;
+        setColor(colorString);
+    }
+
+    private void setColor(String colorString) {
         mDrinkingPresenter.setColor(colorString);
+        mHandler.removeCallbacks(mColorRunnable);
+        mColorRunnable.setColor(colorString);
+        mHandler.postDelayed(mColorRunnable, 600);
+    }
+
+    class ColorRunnable implements Runnable {
+
+        private String color;
+
+        public void setColor(String color) {
+            this.color = color;
+        }
+
+        @Override
+        public void run() {
+            mDrinkingPresenter.setColor(color);
+        }
     }
 }

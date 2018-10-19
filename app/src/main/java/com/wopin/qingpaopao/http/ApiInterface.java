@@ -6,6 +6,7 @@ import com.wopin.qingpaopao.bean.request.BodyProfilesBean;
 import com.wopin.qingpaopao.bean.request.CupColorReq;
 import com.wopin.qingpaopao.bean.request.CupUpdateReq;
 import com.wopin.qingpaopao.bean.request.GetWechatPayReq;
+import com.wopin.qingpaopao.bean.request.LocalBean;
 import com.wopin.qingpaopao.bean.request.LoginReq;
 import com.wopin.qingpaopao.bean.request.NewBlogReq;
 import com.wopin.qingpaopao.bean.request.PaySuccessChangeOrderReq;
@@ -254,4 +255,7 @@ public interface ApiInterface {
 
     @POST("getWeChatPaySign")
     Observable<GetWechatPayResponse> getWeChatPaySign(@Body GetWechatPayReq getWechatPayReq);
+
+    @POST("local")
+    Observable<NormalRsp> sendLocal(@Body LocalBean localBean);
 }
