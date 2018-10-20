@@ -2,13 +2,20 @@ package com.wopin.qingpaopao.fragment.drinking;
 
 import android.Manifest;
 import android.bluetooth.BluetoothDevice;
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
 
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.adapter.CupListAdapter;
 import com.wopin.qingpaopao.bean.response.CupListRsp;
@@ -22,6 +29,13 @@ import com.wopin.qingpaopao.utils.ToastUtils;
 import com.wopin.qingpaopao.view.DrinkingView;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.BiFunction;
+import io.reactivex.schedulers.Schedulers;
 
 public class DrinkingFragment extends BaseMainFragment<DrinkingPresenter> implements DrinkingView, CupListAdapter.OnCupItemClickCallback, DrinkingListView.OnDrinkingListViewCallback, DrinkingStartView.OnDrinkingStartCallback {
 
@@ -30,6 +44,31 @@ public class DrinkingFragment extends BaseMainFragment<DrinkingPresenter> implem
     private DrinkingStartView mDrinkingStartView;
     private Fragment currentFragment;
     private ArrayList<CupListRsp.CupBean> mOnlineCups;
+    private LocationListener locationListener = new LocationListener() {
+        @Override
+        public void onLocationChanged(Location location) {
+            LocationManager locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
+            if (locationManager != null) {
+                locationManager.removeUpdates(this);
+            }
+            mPresenter.setLocation(location);
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+
+        }
+    };
 
     @Override
     protected int getLayout() {
@@ -81,12 +120,82 @@ public class DrinkingFragment extends BaseMainFragment<DrinkingPresenter> implem
 
     @Override
     public void refreshData() {
-        //获取权限（如果没有开启权限，会弹出对话框，询问是否开启权限）
-        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                || ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            //请求权限
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION}, 0);
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //获取地理位置
+        RxPermissions rxPermissions = new RxPermissions(this);
+        rxPermissions.request(Manifest.permission.ACCESS_FINE_LOCATION)
+                .zipWith(rxPermissions.request(Manifest.permission.ACCESS_FINE_LOCATION), new BiFunction<Boolean, Boolean, Boolean>() {
+                    @Override
+                    public Boolean apply(Boolean aBoolean, Boolean aBoolean2) throws Exception {
+                        return aBoolean && aBoolean2;
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<Boolean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(Boolean aBoolean) {
+                        if (!aBoolean) {
+                            ToastUtils.showShort(R.string.have_no_permission_for_location);
+                        } else {
+                            getLocationMessage();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        ToastUtils.showShort(R.string.have_no_permission_for_location);
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
+    private void getLocationMessage() {
+        final LocationManager locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
+        //获取所有可用的位置提供器
+        if (locationManager != null) {
+            List<String> providers = locationManager.getProviders(true);
+
+            final String provider;
+
+            if (!providers.contains(LocationManager.GPS_PROVIDER) && !providers.contains(LocationManager.NETWORK_PROVIDER)) {
+                Intent i = new Intent();
+                i.setAction(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                getContext().startActivity(i);
+                ToastUtils.showShort(R.string.please_turn_on_gps);
+                return;
+            } else if (providers.contains(LocationManager.GPS_PROVIDER)) {
+                provider = LocationManager.GPS_PROVIDER;
+            } else if (providers.contains(LocationManager.NETWORK_PROVIDER)) {
+                provider = LocationManager.NETWORK_PROVIDER;
+            } else {
+                provider = LocationManager.PASSIVE_PROVIDER;
+            }
+            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
+
+            locationManager.removeUpdates(locationListener);
+            locationManager.requestLocationUpdates(provider, 1000, 3, locationListener);
+
+            Location location = locationManager.getLastKnownLocation(provider);
+            if (location != null) {
+                mPresenter.setLocation(location);
+            }
         }
     }
 

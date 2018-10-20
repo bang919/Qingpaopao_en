@@ -326,5 +326,6 @@
     <string name="change_device_name">重命名设备</string>
     <string name="change_device_name_cant_be_empty">重命名不能为空</string>
     <string name="please_turn_on_gps">请打开网络或GPS定位</string>
+    <string name="have_no_permission_for_location">缺少定位权限</string>
 
 </resources>
