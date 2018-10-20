@@ -129,7 +129,7 @@ public class DrinkingFragment extends BaseMainFragment<DrinkingPresenter> implem
         //获取地理位置
         RxPermissions rxPermissions = new RxPermissions(this);
         rxPermissions.request(Manifest.permission.ACCESS_FINE_LOCATION)
-                .zipWith(rxPermissions.request(Manifest.permission.ACCESS_FINE_LOCATION), new BiFunction<Boolean, Boolean, Boolean>() {
+                .zipWith(rxPermissions.request(Manifest.permission.ACCESS_COARSE_LOCATION), new BiFunction<Boolean, Boolean, Boolean>() {
                     @Override
                     public Boolean apply(Boolean aBoolean, Boolean aBoolean2) throws Exception {
                         return aBoolean && aBoolean2;
