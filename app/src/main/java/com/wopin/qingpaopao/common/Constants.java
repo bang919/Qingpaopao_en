@@ -23,6 +23,7 @@ public class Constants {
     public final static String USERNAME = "username";
     public final static String SIGN_IN_DATA = "sign in data";
     public final static String DRINKING_NOTIFICATION = "drinking notification";
+    public final static String MY_LOCATION = "my location";
 
 
     //定时提醒喝水

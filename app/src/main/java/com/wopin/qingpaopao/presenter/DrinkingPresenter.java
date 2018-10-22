@@ -11,12 +11,15 @@ import com.wopin.qingpaopao.bean.response.DrinkListTotalRsp;
 import com.wopin.qingpaopao.bean.response.NormalRsp;
 import com.wopin.qingpaopao.bean.response.WifiConfigToCupRsp;
 import com.wopin.qingpaopao.common.Constants;
+import com.wopin.qingpaopao.common.MyApplication;
 import com.wopin.qingpaopao.manager.BleConnectManager;
 import com.wopin.qingpaopao.manager.MqttConnectManager;
 import com.wopin.qingpaopao.manager.Updater;
 import com.wopin.qingpaopao.model.DrinkingModel;
+import com.wopin.qingpaopao.utils.SPUtils;
 import com.wopin.qingpaopao.view.DrinkingView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
@@ -33,7 +36,6 @@ public class DrinkingPresenter extends BasePresenter<DrinkingView> {
     private CupListRsp.CupBean mCurrentControlCup;//当前控制的设备
     private Updater<BleConnectManager.BleUpdaterBean> mBleUpdater;
     private Updater<MqttConnectManager.MqttUpdaterBean> mMqttUpdater;
-    private Location location;
 
     private Object mFirstTimeAddDevice;//会在onConnectDevice后清空  BluetoothDevice/WifiRsp
 
@@ -190,8 +192,9 @@ public class DrinkingPresenter extends BasePresenter<DrinkingView> {
                 MqttConnectManager.getInstance().switchCupElectrolyze(mCurrentControlCup.getUuid(), time);
             }
         }
+        MyLocation location = getLocation();
         if (time > 0 && location != null) {
-            subscribeNetworkTask(mDrinkingModel.sendLocal(mCurrentControlCup.getUuid(), location.getLatitude(), location.getLongitude()));
+            subscribeNetworkTask(mDrinkingModel.sendLocal(mCurrentControlCup.getUuid(), location.getLatitude(), location.getLongtitude()));
         }
     }
 
@@ -349,7 +352,41 @@ public class DrinkingPresenter extends BasePresenter<DrinkingView> {
                 });
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
+    public static class MyLocation implements Serializable {
+
+        double latitude;
+        double longtitude;
+
+        public double getLongtitude() {
+            return longtitude;
+        }
+
+        public void setLongtitude(double longtitude) {
+            this.longtitude = longtitude;
+        }
+
+        public double getLatitude() {
+            return latitude;
+        }
+
+        public void setLatitude(double latitude) {
+            this.latitude = latitude;
+        }
+    }
+
+    public static void setLocation(Location location) {
+        MyLocation myLocation = new MyLocation();
+        myLocation.setLatitude(location.getLatitude());
+        myLocation.setLongtitude(location.getLongitude());
+        SPUtils.putObject(MyApplication.getMyApplicationContext(), Constants.MY_LOCATION, myLocation);
+    }
+
+    public static MyLocation getLocation() {
+        try {
+            return SPUtils.getObject(MyApplication.getMyApplicationContext(), Constants.MY_LOCATION);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
