@@ -218,6 +218,9 @@ public interface ApiInterface {
     @POST("users/setDefaultAddress")
     Observable<NormalRsp> setDefaultAddress(@Body AddressBean addressBean);
 
+    @POST("users/delAddress")
+    Observable<NormalRsp> deleteAddress(@Body AddressBean addressBean);
+
     @POST("goods/payMentScores")
     Observable<NormalRsp> payMentScores(@Body PaymentBean paymentBean);
 

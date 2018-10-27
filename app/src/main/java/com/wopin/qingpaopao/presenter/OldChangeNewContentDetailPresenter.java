@@ -1,13 +1,16 @@
 package com.wopin.qingpaopao.presenter;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.bean.request.PaymentBean;
+import com.wopin.qingpaopao.bean.request.TrackingNumberSettingBean;
 import com.wopin.qingpaopao.bean.response.NormalRsp;
 import com.wopin.qingpaopao.bean.response.OrderBean;
 import com.wopin.qingpaopao.bean.response.OrderOneResponse;
 import com.wopin.qingpaopao.bean.response.ProductContent;
+import com.wopin.qingpaopao.model.MyOrderModel;
 import com.wopin.qingpaopao.model.OldChangeNewContentDetailModel;
 import com.wopin.qingpaopao.model.WeiXinPayModel;
 import com.wopin.qingpaopao.model.WelfareModel;
@@ -21,10 +24,14 @@ import io.reactivex.schedulers.Schedulers;
 public class OldChangeNewContentDetailPresenter extends BasePresenter<OldChangeNewContentDetailView> {
 
     private OldChangeNewContentDetailModel mOldChangeNewContentDetailModel;
+    private MyOrderModel mMyOrderModel;
+    private WeiXinPayModel mWeiXinPayModel;
 
     public OldChangeNewContentDetailPresenter(Context context, OldChangeNewContentDetailView view) {
         super(context, view);
         mOldChangeNewContentDetailModel = new OldChangeNewContentDetailModel();
+        mMyOrderModel = new MyOrderModel();
+        mWeiXinPayModel = new WeiXinPayModel();
     }
 
     public void getOldGoodList() {
@@ -60,7 +67,7 @@ public class OldChangeNewContentDetailPresenter extends BasePresenter<OldChangeN
                     @Override
                     public void onMyNext(OrderOneResponse orderBean) {
 //                        pay(orderBean.getResult());
-                        mView.onPayMentExchangeSubmit();
+                        mView.onPayMentExchangeSubmit(orderBean.getResult());
                     }
 
                     @Override
@@ -70,12 +77,27 @@ public class OldChangeNewContentDetailPresenter extends BasePresenter<OldChangeN
                 });
     }
 
-    private void pay(OrderBean orderBean) {
-        WeiXinPayModel weiXinPayModel = new WeiXinPayModel();
-        subscribeNetworkTask(getClass().getSimpleName().concat("pay"), weiXinPayModel.payOrderByWechat(mContext, orderBean), new MyObserver<NormalRsp>() {
+    public void exchangeOrderUpdateAndPay(final Context context, final OrderBean orderBean, TrackingNumberSettingBean trackingNumberSettingBean) {
+        subscribeNetworkTask(getClass().getSimpleName().concat("exchangeOrderUpdateAndPay"),
+                mMyOrderModel.exchangeOrderUpdate(trackingNumberSettingBean),
+                new MyObserver<NormalRsp>() {
+                    @Override
+                    public void onMyNext(NormalRsp normalRsp) {
+                        payOrderByWechat(context, orderBean);
+                    }
+
+                    @Override
+                    public void onMyError(String errorMessage) {
+                        mView.onError(errorMessage);
+                    }
+                });
+    }
+
+    private void payOrderByWechat(Context context, final OrderBean orderBean) {
+        subscribeNetworkTask(getClass().getSimpleName().concat("payOrderByWechat"), mWeiXinPayModel.payOrderByWechat(context, orderBean), new MyObserver<NormalRsp>() {
             @Override
             public void onMyNext(NormalRsp normalRsp) {
-                mView.onPayMentExchangeSubmit();
+                mView.onPaySuccess();
             }
 
             @Override
@@ -83,5 +105,13 @@ public class OldChangeNewContentDetailPresenter extends BasePresenter<OldChangeN
                 mView.onError(mContext.getString(R.string.pay_failure));
             }
         });
+    }
+
+    @Override
+    public void destroy() {
+        if (mWeiXinPayModel != null) {
+            mWeiXinPayModel.removeWxActivityCallback();
+        }
+        super.destroy();
     }
 }

@@ -47,4 +47,21 @@ public class AddressPresenter extends BasePresenter<AddressView> {
                     }
                 });
     }
+
+    public void deleteAddress(String addressId) {
+        AddressBean addressBean = new AddressBean();
+        addressBean.setAddressId(addressId);
+        subscribeNetworkTask(getClass().getSimpleName().concat("deleteAddress"), mAddressModel.deleteAddress(addressBean),
+                new MyObserver<LoginRsp>() {
+                    @Override
+                    public void onMyNext(LoginRsp loginRsp) {
+                        mView.onAddressChange();
+                    }
+
+                    @Override
+                    public void onMyError(String errorMessage) {
+                        mView.onError(errorMessage);
+                    }
+                });
+    }
 }

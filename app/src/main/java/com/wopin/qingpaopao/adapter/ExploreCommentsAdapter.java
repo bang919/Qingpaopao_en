@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,6 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.bean.response.CommentRsp;
 import com.wopin.qingpaopao.utils.GlideUtils;
-import com.wopin.qingpaopao.utils.ScreenUtils;
 import com.wopin.qingpaopao.utils.TimeFormatUtils;
 
 import java.text.SimpleDateFormat;
@@ -55,13 +55,14 @@ public class ExploreCommentsAdapter extends RecyclerView.Adapter<ExploreComments
         holder.mLikeBtn.setSelected(commentBean.isMyLike());
         holder.mCommentContentTv.setText(Html.fromHtml(commentBean.getContent()));
 
+        holder.mFollowCommentLayout.removeAllViews();
         ArrayList<CommentRsp.CommentBean> followComments = commentBean.getFollowComment();
         if (followComments != null) {
             holder.mFollowCommentLayout.setVisibility(View.VISIBLE);
             for (CommentRsp.CommentBean followComment : followComments) {
                 Context context = holder.itemView.getContext();
                 TextView textView = new TextView(context);
-                textView.setTextSize(ScreenUtils.dip2px(context, 8));
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
                 textView.setText(Html.fromHtml(context.getString(R.string.follow_comment_content, followComment.getAuthor_name(),
                         Html.fromHtml(followComment.getContent()).toString())));
                 textView.setPadding(15, 5, 5, 15);

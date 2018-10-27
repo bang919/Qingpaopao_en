@@ -229,6 +229,9 @@ public class DrinkingStartView extends Fragment implements View.OnClickListener 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 isSeekbarOntouch = false;
+                if (getCurrentStatus() == CupListRsp.CupBean.ELECTROLYZE_STATUS) {
+                    mDrinkingPresenter.switchCupElectrolyze(mSeekBar.getProgress());
+                }
             }
         });
         setTodayDrink();

@@ -23,7 +23,11 @@ public class BleChooseListRvAdapter extends RecyclerView.Adapter<BleChooseListRv
     }
 
     public void putBlueToothDevice(BluetoothDevice bluetoothDevice) {
-        mBluetoothDevices.add(bluetoothDevice);
+        if (bluetoothDevice != null) {
+            mBluetoothDevices.add(bluetoothDevice);
+        } else {
+            mBluetoothDevices.clear();
+        }
         notifyDataSetChanged();
     }
 

@@ -23,7 +23,12 @@ public class CrowdFundingGradeAdapter extends RecyclerView.Adapter<CrowdFundingG
     }
 
     public void setAttributes(List<ProductContent.AttributeBean> attributes) {
-        mAttributes = attributes;
+        setAttributes(attributes, 0);
+    }
+
+    public void setAttributes(List<ProductContent.AttributeBean> attributes, int selectItem) {
+        this.mAttributes = attributes;
+        this.selectItem = selectItem;
         notifyDataSetChanged();
     }
 

@@ -18,7 +18,7 @@ import com.wopin.qingpaopao.utils.ToastUtils;
 
 import java.util.TreeMap;
 
-public class BlueToothFragment extends BaseBarDialogFragment implements BlueToothPresenter.BlueToothPresenterCallback {
+public class BlueToothFragment extends BaseBarDialogFragment implements BlueToothPresenter.BlueToothPresenterCallback, View.OnClickListener {
 
     public static final String TAG = "BlueToothFragment";
     private BlueToothPresenter mBlueToothPresenter;
@@ -63,7 +63,8 @@ public class BlueToothFragment extends BaseBarDialogFragment implements BlueToot
         mCircleIv = rootView.findViewById(R.id.iv_circle);
         mBleRv = rootView.findViewById(R.id.rv_ble_list);
         mBleRv.setLayoutManager(new LinearLayoutManager(getContext()));
-//        mRandomTextLayout = rootView.findViewById(R.id.random_text_layout);
+
+        rootView.findViewById(R.id.cant_find_your_cup).setOnClickListener(this);
     }
 
     @Override
@@ -103,6 +104,17 @@ public class BlueToothFragment extends BaseBarDialogFragment implements BlueToot
     @Override
     public void onError(String errorMsg) {
         ToastUtils.showShort(errorMsg);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.cant_find_your_cup:
+                //重新搜索
+                mBleChooseListRvAdapter.putBlueToothDevice(null);
+                mBlueToothPresenter.start();
+                break;
+        }
     }
 
     public interface OnDeviceClickListener {

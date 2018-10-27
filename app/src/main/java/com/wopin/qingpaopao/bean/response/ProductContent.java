@@ -99,7 +99,7 @@ public class ProductContent implements Parcelable {
     private String price;
     private String regular_price;
     private String sale_price;
-    private Object date_on_sale_from;
+    private String date_on_sale_from;
     private Object date_on_sale_from_gmt;
     private String date_on_sale_to;
     private Object date_on_sale_to_gmt;
@@ -116,7 +116,7 @@ public class ProductContent implements Parcelable {
     private String tax_status;
     private String tax_class;
     private boolean manage_stock;
-    private Object stock_quantity;
+    private String stock_quantity;
     private boolean in_stock;
     private String backorders;
     private boolean backorders_allowed;
@@ -439,11 +439,11 @@ public class ProductContent implements Parcelable {
         this.sale_price = sale_price;
     }
 
-    public Object getDate_on_sale_from() {
+    public String getDate_on_sale_from() {
         return date_on_sale_from;
     }
 
-    public void setDate_on_sale_from(Object date_on_sale_from) {
+    public void setDate_on_sale_from(String date_on_sale_from) {
         this.date_on_sale_from = date_on_sale_from;
     }
 
@@ -575,11 +575,11 @@ public class ProductContent implements Parcelable {
         this.manage_stock = manage_stock;
     }
 
-    public Object getStock_quantity() {
+    public String getStock_quantity() {
         return stock_quantity;
     }
 
-    public void setStock_quantity(Object stock_quantity) {
+    public void setStock_quantity(String stock_quantity) {
         this.stock_quantity = stock_quantity;
     }
 

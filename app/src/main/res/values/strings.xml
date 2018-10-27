@@ -76,6 +76,9 @@
     <string name="save">保存</string>
     <string name="please_input_new_username">请输入新的用户名</string>
     <string name="phone_number">手机号</string>
+    <string name="new_phone_number">新手机号</string>
+    <string name="new_phone_number_cant_same">新手机号不能和旧手机号相同</string>
+    <string name="new_password_cant_same">新密码不能和旧密码相同</string>
     <string name="edit_phone_number">修改手机号</string>
     <string name="edit_phone_number_success">修改手机号成功！</string>
     <string name="please_bind_phone_number">请先绑定手机号码</string>
@@ -156,15 +159,19 @@
     <string name="failure_to_mqtt">连接Mqtt失败</string>
     <string name="score_market">积分商城</string>
     <string name="old_change_new">以旧换新</string>
+    <string name="old_change_new_price">以旧换新价格</string>
     <string name="crowd_funding">众筹</string>
     <string name="my_orders">我的订单</string>
     <string name="known_error">未知错误</string>
-    <string name="score_change_count">积分兑换：%s积分</string>
     <string name="score_number">%s积分</string>
     <string name="price_number">%s元</string>
+    <string name="del_price_number"><![CDATA[<del>%s元</del>]]></string>
     <string name="day_number">%s天</string>
+    <string name="leave_day_number">剩余%s天</string>
+    <string name="will_start_at">%s开始</string>
+    <string name="activity_over">活动已结束</string>
     <string name="residue_count">剩余%d件</string>
-    <string name="market_reference_price_value">市场参考价值：%s元</string>
+    <string name="market_reference_price_value"><![CDATA[市场参考价:<del>%s元</del>]]></string>
     <string name="commodity_details">商品详情</string>
     <string name="go_to_buy">去购买</string>
     <string name="price_float">¥ %.2f</string>
@@ -173,6 +180,7 @@
     <string name="goods_detail">商品详情</string>
     <string name="i_want_to_change">我要兑换</string>
     <string name="change_at_once">立即兑换</string>
+    <string name="pay_at_once">立即支付</string>
     <string name="buy_information">购买信息</string>
     <string name="buy_count">购买数量</string>
     <string name="own_score">拥有积分</string>
@@ -198,9 +206,9 @@
     <string name="old_cup_to_new_cup">选择以旧换新机型</string>
     <string name="old_cup_to_new_cup_support">支持先拖旧后购买/先购买后拖旧</string>
     <string name="choose_old_to_new_produce">&lt;&#8212;&#8212; 未选择 &#8212;&#8212;&gt;</string>
-    <string name="i_want_to_buy">我要购买</string>
-    <string name="buy_at_once">立即购买</string>
-    <string name="produce_price">产品价格</string>
+    <string name="i_want_to_buy">立即申请</string>
+    <string name="buy_at_once">提交</string>
+    <string name="produce_price">产品市场价格</string>
     <string name="target_price">目标金额:</string>
     <string name="already_price">已筹金额</string>
     <string name="leave_time">剩余时间</string>
@@ -219,7 +227,7 @@
     <string name="recycle_price"><![CDATA[回收报价:\t\t<font color="#ff0000">%s元</font>]]></string>
     <string name="need_pay_price"><![CDATA[应付金额:\t\t<font color="#ff0000">%s元</font>]]></string>
     <string name="check_order">查看订单</string>
-    <string name="input_order_message">填写旧杯子信息</string>
+    <string name="input_order_message">以旧换新申请表</string>
     <string name="tracking_number">快递单号</string>
     <string name="please_input_tracking_number">请填入快递单号</string>
     <string name="tracking_company">快递公司</string>
@@ -265,11 +273,14 @@
     <string name="height_key1">身高</string>
     <string name="weight_key1">体重</string>
     <string name="age_key1">年龄</string>
+    <string name="blood_pressure">血压</string>
     <string name="blood_pressure_key1">舒展压</string>
     <string name="blood_pressure_key2">收缩压</string>
+    <string name="blood_fat">血脂</string>
     <string name="blood_fat_key1">总胆固醇</string>
     <string name="blood_fat_key2">甘油三醇</string>
     <string name="blood_fat_key3">胆固醇脂</string>
+    <string name="blood_glucose">血糖</string>
     <string name="blood_glucose_key1">空腹血糖</string>
     <string name="blood_glucose_key2">餐后2小时血糖</string>
     <string name="add_follow">+ 关注</string>
@@ -327,5 +338,6 @@
     <string name="change_device_name_cant_be_empty">重命名不能为空</string>
     <string name="please_turn_on_gps">请打开网络或GPS定位</string>
     <string name="have_no_permission_for_location">缺少定位权限</string>
+    <string name="remove_address">删除地址</string>
 
 </resources>

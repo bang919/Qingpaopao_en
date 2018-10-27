@@ -12,6 +12,7 @@ import com.wopin.qingpaopao.presenter.BasePresenter;
 public class EditMyHealthFragment extends BaseBarDialogFragment {
 
     public static final String TAG = "EditMyHealthFragment";
+    public static final String TITLE = "Title";
     public static final String KEY1 = "Key1";
     public static final String KEY2 = "Key2";
     public static final String KEY3 = "Key3";
@@ -28,17 +29,18 @@ public class EditMyHealthFragment extends BaseBarDialogFragment {
 
     private EditMyHealthCallback mEditMyHealthCallback;
 
-    public static EditMyHealthFragment build(String key1, String value1) {
-        return build(key1, value1, null, null);
+    public static EditMyHealthFragment build(String title, String key1, String value1) {
+        return build(title, key1, value1, null, null);
     }
 
-    public static EditMyHealthFragment build(String key1, String value1, String key2, String value2) {
-        return build(key1, value1, key2, value2, null, null);
+    public static EditMyHealthFragment build(String title, String key1, String value1, String key2, String value2) {
+        return build(title, key1, value1, key2, value2, null, null);
     }
 
-    public static EditMyHealthFragment build(String key1, String value1, String key2, String value2, String key3, String value3) {
+    public static EditMyHealthFragment build(String title, String key1, String value1, String key2, String value2, String key3, String value3) {
         EditMyHealthFragment editMyHealthFragment = new EditMyHealthFragment();
         Bundle args = new Bundle();
+        args.putString(TITLE, title);
         args.putString(KEY1, key1);
         args.putString(KEY2, key2);
         args.putString(KEY3, key3);
@@ -69,8 +71,9 @@ public class EditMyHealthFragment extends BaseBarDialogFragment {
 
     @Override
     protected String setBarTitle() {
+        String title = getArguments().getString(TITLE);
         String key1 = getArguments().getString(KEY1);
-        return getString(R.string.edit_health_title, key1);
+        return TextUtils.isEmpty(title) ? getString(R.string.edit_health_title, key1) : title;
     }
 
     @Override

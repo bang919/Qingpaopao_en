@@ -6,13 +6,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.wopin.qingpaopao.R;
+import com.wopin.qingpaopao.bean.request.LoginReq;
 import com.wopin.qingpaopao.bean.response.NormalRsp;
+import com.wopin.qingpaopao.common.Constants;
 import com.wopin.qingpaopao.fragment.BaseBarDialogFragment;
 import com.wopin.qingpaopao.model.LoginModel;
 import com.wopin.qingpaopao.presenter.BasePresenter;
 import com.wopin.qingpaopao.presenter.LoginPresenter;
 import com.wopin.qingpaopao.presenter.SendVerifyCodePresenter;
+import com.wopin.qingpaopao.utils.EncryptionUtil;
 import com.wopin.qingpaopao.utils.HttpUtil;
+import com.wopin.qingpaopao.utils.SPUtils;
 import com.wopin.qingpaopao.utils.ToastUtils;
 import com.wopin.qingpaopao.view.SendVerifyCodeView;
 
@@ -83,6 +87,15 @@ public class EditPasswordFragment extends BaseBarDialogFragment<SendVerifyCodePr
     }
 
     private void changePassword(final String phoneNumber, String newPassword, String passwordCheck, String vcode) {
+        try {
+            LoginReq loginReq = SPUtils.getObject(getContext(), Constants.LOGIN_REQUEST);
+            if (loginReq != null && !TextUtils.isEmpty(newPassword) && EncryptionUtil.md5(newPassword).equals(loginReq.getPassword())) {
+                ToastUtils.showShort(R.string.new_password_cant_same);
+                return;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         if (TextUtils.isEmpty(newPassword) || TextUtils.isEmpty(passwordCheck)) {
             ToastUtils.showShort(R.string.please_input_password);
             return;

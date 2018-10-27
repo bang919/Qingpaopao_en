@@ -60,26 +60,39 @@ public class BindPhoneNumberFragment extends BaseBarDialogFragment<SendVerifyCod
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.get_verification_code:
+                LoginRsp accountMessage = LoginPresenter.getAccountMessage();
+                if (mPhoneNumberEt.getText().toString().equals(accountMessage.getResult().getPhone())) {
+                    ToastUtils.showShort(R.string.new_phone_number_cant_same);
+                    return;
+                }
                 mPresenter.sendVerifyCode();
                 break;
             case R.id.bt_confirm:
                 bindNewPhoneNumber();
                 break;
         }
+
     }
 
     private void bindNewPhoneNumber() {
+        final LoginRsp accountMessage = LoginPresenter.getAccountMessage();
         LoginModel loginModel = new LoginModel();
         final String phoneNumber = mPhoneNumberEt.getText().toString();
         String vcode = mVCodeEt.getText().toString();
         if (TextUtils.isEmpty(vcode)) {
             ToastUtils.showShort(R.string.please_input_verification_code);
             return;
+        } else if (TextUtils.isEmpty(phoneNumber)) {
+            ToastUtils.showShort(R.string.please_input_phone_number);
+            return;
+        } else if (phoneNumber.equals(accountMessage.getResult().getPhone())) {
+            ToastUtils.showShort(R.string.new_phone_number_cant_same);
+            return;
         }
         HttpUtil.subscribeNetworkTask(loginModel.changePhone(phoneNumber, vcode), new BasePresenter.MyObserver<NormalRsp>() {
             @Override
             public void onMyNext(NormalRsp normalRsp) {
-                LoginRsp accountMessage = LoginPresenter.getAccountMessage();
+
                 accountMessage.getResult().setPhone(phoneNumber);
                 LoginPresenter.updateLoginMessage(accountMessage);
                 ToastUtils.showShort(R.string.edit_phone_number_success);

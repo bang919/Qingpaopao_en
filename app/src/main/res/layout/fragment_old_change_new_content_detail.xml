@@ -77,6 +77,16 @@
                 app:layout_constraintBottom_toBottomOf="@id/tv_price"
                 app:layout_constraintRight_toRightOf="parent" />
 
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorAccent2"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@id/tv_price"
+                app:layout_constraintLeft_toRightOf="@id/tv_price"
+                app:layout_constraintRight_toLeftOf="@id/tv_count" />
+
             <View
                 android:id="@+id/line"
                 android:layout_width="0dp"
@@ -167,7 +177,7 @@
         android:id="@+id/btn_i_want_to_buy"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:background="@color/colorRed"
+        android:background="@color/colorWhite3"
         android:text="@string/i_want_to_buy"
         android:textColor="@color/colorWhite"
         android:textSize="20sp"

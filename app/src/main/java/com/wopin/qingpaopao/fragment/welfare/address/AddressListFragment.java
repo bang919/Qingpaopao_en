@@ -9,6 +9,7 @@ import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.adapter.AddressListAdapter;
 import com.wopin.qingpaopao.bean.request.AddressBean;
 import com.wopin.qingpaopao.bean.response.LoginRsp;
+import com.wopin.qingpaopao.dialog.NormalDialog;
 import com.wopin.qingpaopao.fragment.BaseBarDialogFragment;
 import com.wopin.qingpaopao.presenter.AddressPresenter;
 import com.wopin.qingpaopao.presenter.LoginPresenter;
@@ -106,8 +107,13 @@ public class AddressListFragment extends BaseBarDialogFragment<AddressPresenter>
     }
 
     @Override
-    public void onDeleteClick(LoginRsp.ResultBean.AddressListBean addressListBean) {
-
+    public void onDeleteClick(final LoginRsp.ResultBean.AddressListBean addressListBean) {
+        new NormalDialog(getContext(), getString(R.string.confirm), getString(R.string.cancel), getString(R.string.remove_address), new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPresenter.deleteAddress(addressListBean.getAddressId());
+            }
+        }, null).show();
     }
 
     @Override

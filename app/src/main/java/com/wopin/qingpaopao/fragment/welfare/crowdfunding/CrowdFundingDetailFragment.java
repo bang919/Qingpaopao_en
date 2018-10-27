@@ -3,6 +3,7 @@ package com.wopin.qingpaopao.fragment.welfare.crowdfunding;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
@@ -13,8 +14,10 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.CenterInside;
 import com.wopin.qingpaopao.R;
+import com.wopin.qingpaopao.adapter.CrowdFundingGradeAdapter;
 import com.wopin.qingpaopao.adapter.ScoreMarketContentDetailAdapter;
 import com.wopin.qingpaopao.bean.response.ProductContent;
 import com.wopin.qingpaopao.fragment.BaseBarDialogFragment;
@@ -27,14 +30,19 @@ import com.wopin.qingpaopao.widget.RecyclerViewAdDotLayout;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.List;
 
-public class CrowdFundingDetailFragment extends BaseBarDialogFragment<CrowdFundingContentDetailPresenter> implements View.OnClickListener, CrowdFundingDetailView, CrowdFundingProduceDialog.SupportInformationDialogCallback {
+public class CrowdFundingDetailFragment extends BaseBarDialogFragment<CrowdFundingContentDetailPresenter> implements View.OnClickListener, CrowdFundingDetailView, CrowdFundingProduceDialog.SupportInformationDialogCallback, CrowdFundingGradeAdapter.CrowdFundingGradeAdapterCallback {
 
     public static final String TAG = "CrowdFundingDetailFragment";
     private ProductContent mProductContent;
     private View mRootView;
     private RecyclerView mGoodsDetailRv;
     private RecyclerViewAdDotLayout mRecyclerViewAdDotLayout;
+
+    private RecyclerView mGradeRv;
+    private ProductContent.AttributeBean mCurrentAttributeBean;
+    private int attributePositionChoose;
 
     public static CrowdFundingDetailFragment build(ProductContent productContent) {
         CrowdFundingDetailFragment scoreMarketContentDetailFragment = new CrowdFundingDetailFragment();
@@ -86,12 +94,13 @@ public class CrowdFundingDetailFragment extends BaseBarDialogFragment<CrowdFundi
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        ((TextView) rootView.findViewById(R.id.tv_leave_time_value)).setText(String.format(getString(R.string.day_number),
-                String.valueOf(daysDifference)));
+        ((TextView) rootView.findViewById(R.id.tv_leave_time_value)).setText(String.format(getString(R.string.day_number), String.valueOf(daysDifference)));
 
         mGoodsDetailRv = rootView.findViewById(R.id.rv_goods_top_detail);
         mRecyclerViewAdDotLayout = rootView.findViewById(R.id.rv_advertising_decorate);
         rootView.findViewById(R.id.btn_i_want_to_support).setOnClickListener(this);
+
+        mGradeRv = mRootView.findViewById(R.id.rv_choose_grade);
     }
 
     @Override
@@ -108,13 +117,24 @@ public class CrowdFundingDetailFragment extends BaseBarDialogFragment<CrowdFundi
 
         mPresenter.crowdfundingOrderTotalMoneyAndPeople(mProductContent.getId(), mProductContent.getPrice());
         setLoadingVisibility(true);
+
+        initGradeRecyclerView();
+    }
+
+    private void initGradeRecyclerView() {
+        mGradeRv.setLayoutManager(new GridLayoutManager(getContext(), 4));
+        List<ProductContent.AttributeBean> attributes = mProductContent.getAttributes();
+        CrowdFundingGradeAdapter crowdFundingGradeAdapter = new CrowdFundingGradeAdapter(this);
+        mGradeRv.setAdapter(crowdFundingGradeAdapter);
+        crowdFundingGradeAdapter.setAttributes(attributes);
+        onCrowdFundingGradeItemClick(attributes != null && attributes.size() > 0 ? attributes.get(0) : null, 0);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_i_want_to_support:
-                CrowdFundingProduceDialog build = CrowdFundingProduceDialog.build(mProductContent);
+                CrowdFundingProduceDialog build = CrowdFundingProduceDialog.build(mProductContent, attributePositionChoose);
                 build.setSupportInformationDialogCallback(this);
                 build.show(getChildFragmentManager(), CrowdFundingProduceDialog.TAG);
                 break;
@@ -157,6 +177,27 @@ public class CrowdFundingDetailFragment extends BaseBarDialogFragment<CrowdFundi
     @Override
     public void onSupportInformation(ProductContent.AttributeBean attributeBean, int number, String addressId) {
         mPresenter.payMentCrowdfunding(addressId, attributeBean.getOptions().get(0), mProductContent.getDescriptionImage().size() == 0 ? null : mProductContent.getDescriptionImage().get(0), mProductContent.getId(), number, Integer.valueOf(attributeBean.getName()));
-        setLoadingVisibility(true);
+    }
+
+    @Override
+    public void onCrowdFundingGradeItemClick(ProductContent.AttributeBean attributeBean, int position) {
+        mCurrentAttributeBean = attributeBean;
+        attributePositionChoose = position;
+        if (mCurrentAttributeBean == null) {
+            ToastUtils.showShort(R.string.known_error);
+            dismiss();
+        }
+        showAttributeBeanDetail();
+    }
+
+    private void showAttributeBeanDetail() {
+        TextView gradePriceTv = mRootView.findViewById(R.id.grade_price);
+        TextView gradeContentTv = mRootView.findViewById(R.id.grade_content);
+        ImageView gradeImage = mRootView.findViewById(R.id.iv_grade_image);
+        gradePriceTv.setText(String.format(getString(R.string.price_number), mCurrentAttributeBean.getName()));
+        if (mCurrentAttributeBean.getOptions() != null && mCurrentAttributeBean.getOptions().size() > 0) {
+            gradeContentTv.setText(mCurrentAttributeBean.getOptions().get(0));
+        }
+        GlideUtils.loadImage(gradeImage, -1, mProductContent.getDescriptionImage().get(0), new CenterCrop());
     }
 }

@@ -1,11 +1,14 @@
 package com.wopin.qingpaopao.fragment.welfare.oldchangenew;
 
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.text.Html;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +22,6 @@ import com.wopin.qingpaopao.bean.response.LoginRsp;
 import com.wopin.qingpaopao.bean.response.ProductContent;
 import com.wopin.qingpaopao.fragment.welfare.address.AddressListFragment;
 import com.wopin.qingpaopao.presenter.LoginPresenter;
-import com.wopin.qingpaopao.utils.ScreenUtils;
 import com.wopin.qingpaopao.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -85,7 +87,8 @@ public class BuyOldChangeNewProduceDialog extends DialogFragment implements View
         super.onActivityCreated(savedInstanceState);
         mProductContent = getArguments().getParcelable(NEW_PRODUCE);
         mOldProduct = getArguments().getParcelable(OLD_PRODUCE);
-        ((TextView) mRootView.findViewById(R.id.tv_produce_price_value)).setText(String.format(getString(R.string.price_number), mProductContent.getPrice()));
+        ((TextView) mRootView.findViewById(R.id.tv_produce_price)).getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+        ((TextView) mRootView.findViewById(R.id.tv_produce_price_value)).setText(Html.fromHtml(getString(R.string.price_number, mProductContent.getPrice())));
         ((TextView) mRootView.findViewById(R.id.tv_old_change_new_price_value))
                 .setText(String.format(getString(R.string.price_number), mOldProduct == null ? "0" : mOldProduct.getPrice()));
 
@@ -149,7 +152,7 @@ public class BuyOldChangeNewProduceDialog extends DialogFragment implements View
 
     private void setAddressMessage(LoginRsp.ResultBean.AddressListBean addressListBean) {
         mCurrentAddress = addressListBean;
-        mAddressTv.setTextSize(ScreenUtils.dip2px(getContext(), 10f));
+        mAddressTv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
         mAddressTv.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
         mAddressTv.setTextColor(Color.BLACK);
         mAddressTv.setText(addressListBean.getUserName() + " " + addressListBean.getTel() + "\n" + addressListBean.getAddress1() + addressListBean.getAddress2());

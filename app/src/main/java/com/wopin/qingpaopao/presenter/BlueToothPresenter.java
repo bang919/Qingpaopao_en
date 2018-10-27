@@ -185,6 +185,7 @@ public class BlueToothPresenter {
     }
 
     private void startSearthBltDevice() {
+        mBluetoothDevices.clear();
         //开始搜索设备，当搜索到一个设备的时候就应该将它添加到设备集合中，保存起来
         //如果当前发现了新的设备，则停止继续扫描，当前扫描到的新设备会通过广播推向新的逻辑
         if (mBluetoothManagerAdapter.isDiscovering())

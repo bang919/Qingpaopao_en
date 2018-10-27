@@ -28,13 +28,14 @@ import com.wopin.qingpaopao.fragment.my.MyHealthFragment;
 import com.wopin.qingpaopao.fragment.system_setting.SystemSettingFragment;
 import com.wopin.qingpaopao.fragment.user_guide.UserGuideFragment;
 import com.wopin.qingpaopao.http.HttpClient;
-import com.wopin.qingpaopao.model.DrinkingModel;
 import com.wopin.qingpaopao.presenter.BasePresenter;
 import com.wopin.qingpaopao.presenter.LoginPresenter;
+import com.wopin.qingpaopao.presenter.MinePresenter;
 import com.wopin.qingpaopao.utils.GlideUtils;
 import com.wopin.qingpaopao.utils.HttpUtil;
 import com.wopin.qingpaopao.utils.SPUtils;
 import com.wopin.qingpaopao.utils.ToastUtils;
+import com.wopin.qingpaopao.view.MineView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -43,7 +44,7 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class MineFragment extends BaseMainFragment implements MineGridRvAdapter.MineGridRvCallback, MineListRvAdapter.MineListRvCallback, View.OnClickListener {
+public class MineFragment extends BaseMainFragment<MinePresenter> implements MineGridRvAdapter.MineGridRvCallback, MineListRvAdapter.MineListRvCallback, View.OnClickListener, MineView {
 
     private ImageView mMessageIv;
     private ImageView mHeadIconIv;
@@ -62,8 +63,8 @@ public class MineFragment extends BaseMainFragment implements MineGridRvAdapter.
     }
 
     @Override
-    protected BasePresenter initPresenter() {
-        return null;
+    protected MinePresenter initPresenter() {
+        return new MinePresenter(getContext(), this);
     }
 
     @Override
@@ -113,47 +114,8 @@ public class MineFragment extends BaseMainFragment implements MineGridRvAdapter.
             mScoreTv.setText(result.getScores() + " " + getString(R.string.score));
             String iconUrl = result.getIcon();
             GlideUtils.loadImage(mHeadIconIv, R.mipmap.i_profileicon, iconUrl, new CircleCrop(), new CenterCrop());
-            getDrinkList();
+            mPresenter.requestDrinkData();
         }
-    }
-
-    private void getDrinkList() {
-        DrinkingModel drinkingModel = new DrinkingModel();
-        HttpUtil.subscribeNetworkTask(drinkingModel.getDrinkList(), new BasePresenter.MyObserver<DrinkListTotalRsp>() {
-            @Override
-            public void onMyNext(DrinkListTotalRsp drinkListTotalRsp) {
-                mDrinkListTotalRsp = drinkListTotalRsp;
-                int count = 0;
-                if (drinkListTotalRsp != null && drinkListTotalRsp.getResult() != null) {
-                    for (DrinkListTotalRsp.ResultBean resultBean : drinkListTotalRsp.getResult()) {
-                        count += resultBean.getDrinks().size();
-                    }
-                }
-                mTotalDrinkTv.setText(String.format(getString(R.string.cup), count));
-            }
-
-            @Override
-            public void onMyError(String errorMessage) {
-                ToastUtils.showShort(errorMessage);
-            }
-        });
-
-        HttpUtil.subscribeNetworkTask(drinkingModel.getTodayDrinkList(), new BasePresenter.MyObserver<DrinkListTodayRsp>() {
-            @Override
-            public void onMyNext(DrinkListTodayRsp drinkListRsp) {
-                mDrinkListTodayRsp = drinkListRsp;
-                int count = 0;
-                if (drinkListRsp != null && drinkListRsp.getResult() != null) {
-                    count = drinkListRsp.getResult().getDrinks().size();
-                }
-                mCurrentDrinkTv.setText(String.format(getString(R.string.cup), count));
-            }
-
-            @Override
-            public void onMyError(String errorMessage) {
-                ToastUtils.showShort(errorMessage);
-            }
-        });
     }
 
     @Override
@@ -217,6 +179,7 @@ public class MineFragment extends BaseMainFragment implements MineGridRvAdapter.
                         new BasePresenter.MyObserver<NormalRsp>() {
                             @Override
                             public void onMyNext(NormalRsp normalRsp) {
+                                mPresenter.refreshUserData();
                                 SPUtils.put(getContext(), Constants.SIGN_IN_DATA, getTodayTime());
                                 mSignInTv.setText(R.string.had_sign_in);
                                 ToastUtils.showShort(getString(R.string.sign_in_success));
@@ -262,5 +225,37 @@ public class MineFragment extends BaseMainFragment implements MineGridRvAdapter.
 
 // 启动分享GUI
         oks.show(getContext());
+    }
+
+    @Override
+    public void onTodayDrink(DrinkListTodayRsp drinkListTodayRsp) {
+        mDrinkListTodayRsp = drinkListTodayRsp;
+        int count = 0;
+        if (drinkListTodayRsp != null && drinkListTodayRsp.getResult() != null) {
+            count = drinkListTodayRsp.getResult().getDrinks().size();
+        }
+        mCurrentDrinkTv.setText(String.format(getString(R.string.cup), count));
+    }
+
+    @Override
+    public void onTotalDrink(DrinkListTotalRsp drinkListTotalRsp) {
+        mDrinkListTotalRsp = drinkListTotalRsp;
+        int count = 0;
+        if (drinkListTotalRsp != null && drinkListTotalRsp.getResult() != null) {
+            for (DrinkListTotalRsp.ResultBean resultBean : drinkListTotalRsp.getResult()) {
+                count += resultBean.getDrinks().size();
+            }
+        }
+        mTotalDrinkTv.setText(String.format(getString(R.string.cup), count));
+    }
+
+    @Override
+    public void onRefreshUserData() {
+        refreshData();
+    }
+
+    @Override
+    public void onError(String errorMessage) {
+        ToastUtils.showShort(errorMessage);
     }
 }

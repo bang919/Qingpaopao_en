@@ -14,10 +14,11 @@
         android:id="@+id/rv_banner"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintDimensionRatio="12:7"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/top_view" />
+        app:layout_constraintTop_toBottomOf="@id/line" />
 
     <View
         android:id="@+id/line"
@@ -27,7 +28,7 @@
         android:background="@color/colorWhite"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rv_banner" />
+        app:layout_constraintTop_toBottomOf="@id/top_view" />
 
     <ImageView
         android:id="@+id/iv_score_market"
@@ -123,6 +124,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

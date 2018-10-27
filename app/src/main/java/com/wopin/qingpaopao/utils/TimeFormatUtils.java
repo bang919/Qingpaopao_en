@@ -1,5 +1,7 @@
 package com.wopin.qingpaopao.utils;
 
+import android.text.TextUtils;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,11 +21,13 @@ public class TimeFormatUtils {
 
     public static int getDaysDifference(String targetDay) throws ParseException {
         //2018-12-28T00:00:00
+        if (TextUtils.isEmpty(targetDay)) {
+            return 0;
+        }
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         long targetTime = simpleDateFormat.parse(targetDay).getTime();
         String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date(System.currentTimeMillis()));
         long todayTime = simpleDateFormat.parse(today).getTime();
-        int days = (int) ((targetTime - todayTime) / 1000 / 60 / 60 / 24);
-        return Math.max(0, days);
+        return (int) ((targetTime - todayTime) / 1000 / 60 / 60 / 24);
     }
 }

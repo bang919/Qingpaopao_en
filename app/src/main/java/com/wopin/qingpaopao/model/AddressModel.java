@@ -34,6 +34,14 @@ public class AddressModel {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    public Observable<LoginRsp> deleteAddress(AddressBean addressBean) {
+        final ApiInterface apiInterface = HttpClient.getApiInterface();
+        return apiInterface.deleteAddress(addressBean)
+                .flatMap(getUserData(apiInterface))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
     @NonNull
     private Function<NormalRsp, ObservableSource<LoginRsp>> getUserData(final ApiInterface apiInterface) {
         return new Function<NormalRsp, ObservableSource<LoginRsp>>() {

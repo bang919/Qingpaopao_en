@@ -1,5 +1,7 @@
 package com.wopin.qingpaopao.fragment.information_edit;
 
+import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -7,10 +9,12 @@ import android.view.View;
 import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.adapter.MineListRvAdapter;
 import com.wopin.qingpaopao.fragment.BaseBarDialogFragment;
-import com.wopin.qingpaopao.presenter.BasePresenter;
 import com.wopin.qingpaopao.presenter.LoginPresenter;
+import com.wopin.qingpaopao.presenter.PersonInfoPresenter;
+import com.wopin.qingpaopao.utils.ToastUtils;
+import com.wopin.qingpaopao.view.PersonInfoView;
 
-public class PersonInfoFragment extends BaseBarDialogFragment implements MineListRvAdapter.MineListRvCallback {
+public class PersonInfoFragment extends BaseBarDialogFragment<PersonInfoPresenter> implements MineListRvAdapter.MineListRvCallback, PersonInfoView {
 
     public static final String TAG = "PersonInfoFragment";
     private MineListRvAdapter mMineListRvAdapter;
@@ -26,8 +30,8 @@ public class PersonInfoFragment extends BaseBarDialogFragment implements MineLis
     }
 
     @Override
-    protected BasePresenter initPresenter() {
-        return null;
+    protected PersonInfoPresenter initPresenter() {
+        return new PersonInfoPresenter(this, this);
     }
 
     @Override
@@ -50,6 +54,7 @@ public class PersonInfoFragment extends BaseBarDialogFragment implements MineLis
     public void onListItemClick(int textResource, int position) {
         switch (textResource) {
             case R.string.head_portrait:
+//                mPresenter.requestPermissionTodo(PhotoPresenter.REQUEST_PERMISSION_ALBUM);
                 break;
             case R.string.username:
                 EditUsernameFragment editUsernameFragment = new EditUsernameFragment();
@@ -62,5 +67,27 @@ public class PersonInfoFragment extends BaseBarDialogFragment implements MineLis
                 });
                 break;
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mPresenter.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        mPresenter.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    public void onDestroy() {
+        mPresenter.deletePhotoFile();
+        super.onDestroy();
+    }
+
+    @Override
+    public void onError(String errorMessage) {
+        ToastUtils.showShort(errorMessage);
     }
 }

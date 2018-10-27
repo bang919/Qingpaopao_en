@@ -37,12 +37,12 @@ public class MyHealthPresenter extends BasePresenter<MyHealthView> {
         updateBodyProfiles(bodyProfilesBean);
     }
 
-    public void updateBloodSugar(String bloodSugarFull, String bloodSugarHungry) {
+    public void updateBloodSugar(String bloodSugarHungry, String bloodSugarFull) {
         BodyProfilesBean bodyProfilesBean = new BodyProfilesBean();
-        bodyProfilesBean.setKey1("blood_sugar_full");
-        bodyProfilesBean.setKey2("blood_sugar_hugry");
-        bodyProfilesBean.setValue1(bloodSugarFull);
-        bodyProfilesBean.setValue2(bloodSugarHungry);
+        bodyProfilesBean.setKey1("blood_sugar_hugry");
+        bodyProfilesBean.setKey2("blood_sugar_full");
+        bodyProfilesBean.setValue1(bloodSugarHungry);
+        bodyProfilesBean.setValue2(bloodSugarFull);
         updateBodyProfiles(bodyProfilesBean);
     }
 

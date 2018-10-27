@@ -1,11 +1,13 @@
 package com.wopin.qingpaopao.fragment.welfare.oldchangenew;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -18,15 +20,22 @@ import android.widget.TextView;
 import com.bumptech.glide.load.resource.bitmap.CenterInside;
 import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.adapter.ScoreMarketContentDetailAdapter;
+import com.wopin.qingpaopao.bean.request.TrackingNumberSettingBean;
+import com.wopin.qingpaopao.bean.response.OrderBean;
 import com.wopin.qingpaopao.bean.response.ProductContent;
 import com.wopin.qingpaopao.fragment.BaseBarDialogFragment;
+import com.wopin.qingpaopao.fragment.welfare.order.SetTrackingNumberFragment;
 import com.wopin.qingpaopao.presenter.OldChangeNewContentDetailPresenter;
 import com.wopin.qingpaopao.utils.GlideUtils;
+import com.wopin.qingpaopao.utils.TimeFormatUtils;
 import com.wopin.qingpaopao.utils.ToastUtils;
 import com.wopin.qingpaopao.view.OldChangeNewContentDetailView;
 import com.wopin.qingpaopao.widget.RecyclerViewAdDotLayout;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class OldChangeNewContentDetailFragment extends BaseBarDialogFragment<OldChangeNewContentDetailPresenter> implements OldChangeNewContentDetailView, View.OnClickListener, BuyOldChangeNewProduceDialog.BuyOldChangeNewCallback {
 
@@ -36,6 +45,7 @@ public class OldChangeNewContentDetailFragment extends BaseBarDialogFragment<Old
     private RecyclerView mGoodsDetailRv;
     private Spinner mChooseOldSpinner;
     private RecyclerViewAdDotLayout mRecyclerViewAdDotLayout;
+    private View mBuyBtn;
 
     public static OldChangeNewContentDetailFragment build(ProductContent productContent) {
         OldChangeNewContentDetailFragment oldChangeNewContentDetailFragment = new OldChangeNewContentDetailFragment();
@@ -78,14 +88,32 @@ public class OldChangeNewContentDetailFragment extends BaseBarDialogFragment<Old
 
         ((TextView) rootView.findViewById(R.id.tv_title)).setText(mProductContent.getName());
         ((TextView) rootView.findViewById(R.id.tv_subtitle)).setText(Html.fromHtml(mProductContent.getShort_description()));
-        ((TextView) rootView.findViewById(R.id.tv_price)).setText(String.format(getString(R.string.score_number), mProductContent.getPrice()));
-        ((TextView) rootView.findViewById(R.id.tv_count)).setText(String.format(getString(R.string.residue_count),
-                Integer.valueOf(mProductContent.getSku())));
+        try {
+            TextView dayTv = rootView.findViewById(R.id.tv_time);
+            int daySaleTo = TimeFormatUtils.getDaysDifference(mProductContent.getDate_on_sale_to());
+            int daySaleFrom = TimeFormatUtils.getDaysDifference(mProductContent.getDate_on_sale_from());
+
+            if (daySaleFrom > 0) {
+                dayTv.setText(String.format(getString(R.string.will_start_at), TimeFormatUtils.formatToTime(mProductContent.getDate_on_sale_from(), new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()))));
+            } else if (daySaleTo > 0) {
+                dayTv.setText(String.format(getString(R.string.leave_day_number), String.valueOf(daySaleTo)));
+                mBuyBtn = rootView.findViewById(R.id.btn_i_want_to_buy);
+                mBuyBtn.setBackgroundColor(Color.RED);
+                mBuyBtn.setOnClickListener(this);
+            } else {
+                dayTv.setText(R.string.activity_over);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        ((TextView) rootView.findViewById(R.id.tv_price)).setText(String.format(getString(R.string.price_number), mProductContent.getPrice()));
+        String count = mProductContent.getStock_quantity();
+        ((TextView) rootView.findViewById(R.id.tv_count)).setText(String.format(getString(R.string.residue_count), Integer.valueOf(TextUtils.isEmpty(count) ? "0" : count)));
 
         mGoodsDetailRv = rootView.findViewById(R.id.rv_goods_top_detail);
         mChooseOldSpinner = rootView.findViewById(R.id.choose_old_to_new_produce);
         mRecyclerViewAdDotLayout = rootView.findViewById(R.id.rv_advertising_decorate);
-        rootView.findViewById(R.id.btn_i_want_to_buy).setOnClickListener(this);
     }
 
     @Override
@@ -110,7 +138,7 @@ public class OldChangeNewContentDetailFragment extends BaseBarDialogFragment<Old
         ArrayList<String> datas = new ArrayList<>();
         datas.add(getString(R.string.choose_old_to_new_produce));
         for (ProductContent productContent : oldGoodsList) {
-            datas.add(productContent.getName() + " " + productContent.getPrice() + "元");
+            datas.add(productContent.getName());
         }
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, datas);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -131,9 +159,23 @@ public class OldChangeNewContentDetailFragment extends BaseBarDialogFragment<Old
     }
 
     @Override
-    public void onPayMentExchangeSubmit() {
+    public void onPayMentExchangeSubmit(final OrderBean orderBean) {
         setLoadingVisibility(false);
-        ToastUtils.showShort(R.string.submit_success_to_my_order);
+        SetTrackingNumberFragment setTrackingNumberFragment = SetTrackingNumberFragment.build(orderBean);
+        setTrackingNumberFragment.setTrackingNumberSettingCallback(new SetTrackingNumberFragment.TrackingNumberSettingCallback() {
+            @Override
+            public void onTrackingNumberSetting(TrackingNumberSettingBean trackingNumberSettingBean) {
+                setLoadingVisibility(true);
+                mPresenter.exchangeOrderUpdateAndPay(getContext(), orderBean, trackingNumberSettingBean);
+            }
+        });
+        setTrackingNumberFragment.show(getChildFragmentManager(), SetTrackingNumberFragment.TAG);
+    }
+
+    @Override
+    public void onPaySuccess() {
+        setLoadingVisibility(false);
+        ToastUtils.showShort(R.string.pay_success);
     }
 
     @Override

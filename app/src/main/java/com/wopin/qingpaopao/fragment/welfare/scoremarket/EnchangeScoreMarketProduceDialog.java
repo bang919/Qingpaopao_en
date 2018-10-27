@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +20,6 @@ import com.wopin.qingpaopao.bean.response.LoginRsp;
 import com.wopin.qingpaopao.bean.response.ProductContent;
 import com.wopin.qingpaopao.fragment.welfare.address.AddressListFragment;
 import com.wopin.qingpaopao.presenter.LoginPresenter;
-import com.wopin.qingpaopao.utils.ScreenUtils;
 import com.wopin.qingpaopao.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -141,7 +141,7 @@ public class EnchangeScoreMarketProduceDialog extends DialogFragment implements 
 
     private void setAddressMessage(LoginRsp.ResultBean.AddressListBean addressListBean) {
         mCurrentAddress = addressListBean;
-        mAddressTv.setTextSize(ScreenUtils.dip2px(getContext(), 10f));
+        mAddressTv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
         mAddressTv.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
         mAddressTv.setTextColor(Color.BLACK);
         mAddressTv.setText(addressListBean.getUserName() + " " + addressListBean.getTel() + "\n" + addressListBean.getAddress1() + addressListBean.getAddress2());

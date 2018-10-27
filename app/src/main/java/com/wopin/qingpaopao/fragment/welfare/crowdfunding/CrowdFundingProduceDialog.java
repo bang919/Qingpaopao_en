@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +26,6 @@ import com.wopin.qingpaopao.bean.response.ProductContent;
 import com.wopin.qingpaopao.fragment.welfare.address.AddressListFragment;
 import com.wopin.qingpaopao.presenter.LoginPresenter;
 import com.wopin.qingpaopao.utils.GlideUtils;
-import com.wopin.qingpaopao.utils.ScreenUtils;
 import com.wopin.qingpaopao.utils.ToastUtils;
 
 import java.util.ArrayList;
@@ -34,6 +34,7 @@ import java.util.List;
 public class CrowdFundingProduceDialog extends DialogFragment implements View.OnClickListener, AddressListFragment.AddressListClickCallback, CrowdFundingGradeAdapter.CrowdFundingGradeAdapterCallback {
 
     public static final String TAG = "CrowdFundingProduceDialog";
+    public static final String ATTRIBUTEPOSITIONCHOOSE = "attributePositionChoose";
     private View mRootView;
     private TextView mBuyCountTv;
     private int mBuyCount;
@@ -44,10 +45,11 @@ public class CrowdFundingProduceDialog extends DialogFragment implements View.On
     private ProductContent mProductContent;
     private ProductContent.AttributeBean mCurrentAttributeBean;
 
-    public static CrowdFundingProduceDialog build(ProductContent productContent) {
+    public static CrowdFundingProduceDialog build(ProductContent productContent, int attributePositionChoose) {
         CrowdFundingProduceDialog crowdFundingProduceDialog = new CrowdFundingProduceDialog();
         Bundle args = new Bundle();
         args.putParcelable(TAG, productContent);
+        args.putInt(ATTRIBUTEPOSITIONCHOOSE, attributePositionChoose);
         crowdFundingProduceDialog.setArguments(args);
         return crowdFundingProduceDialog;
     }
@@ -100,17 +102,17 @@ public class CrowdFundingProduceDialog extends DialogFragment implements View.On
                 }
             }
         }
-        initGradeRecyclerView();
+        initGradeRecyclerView(getArguments().getInt(ATTRIBUTEPOSITIONCHOOSE, 0));
         notifyTotalScore();
     }
 
-    private void initGradeRecyclerView() {
+    private void initGradeRecyclerView(int attributepositionchoose) {
         mGradeRv.setLayoutManager(new GridLayoutManager(getContext(), 4));
         List<ProductContent.AttributeBean> attributes = mProductContent.getAttributes();
         CrowdFundingGradeAdapter crowdFundingGradeAdapter = new CrowdFundingGradeAdapter(this);
         mGradeRv.setAdapter(crowdFundingGradeAdapter);
-        crowdFundingGradeAdapter.setAttributes(attributes);
-        onCrowdFundingGradeItemClick(attributes != null && attributes.size() > 0 ? attributes.get(0) : null, 0);
+        crowdFundingGradeAdapter.setAttributes(attributes, attributepositionchoose);
+        onCrowdFundingGradeItemClick(attributes.get(attributepositionchoose), attributepositionchoose);
     }
 
     @Override
@@ -158,7 +160,7 @@ public class CrowdFundingProduceDialog extends DialogFragment implements View.On
 
     private void setAddressMessage(LoginRsp.ResultBean.AddressListBean addressListBean) {
         mCurrentAddress = addressListBean;
-        mAddressTv.setTextSize(ScreenUtils.dip2px(getContext(), 10f));
+        mAddressTv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
         mAddressTv.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
         mAddressTv.setTextColor(Color.BLACK);
         mAddressTv.setText(addressListBean.getUserName() + " " + addressListBean.getTel() + "\n" + addressListBean.getAddress1() + addressListBean.getAddress2());

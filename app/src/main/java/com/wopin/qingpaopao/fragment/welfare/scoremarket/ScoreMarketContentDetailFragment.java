@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -72,8 +74,10 @@ public class ScoreMarketContentDetailFragment extends BaseBarDialogFragment<Scor
 
         ((TextView) rootView.findViewById(R.id.tv_title)).setText(mProductContent.getName());
         ((TextView) rootView.findViewById(R.id.tv_score)).setText(String.format(getString(R.string.score_number), mProductContent.getPrice()));
-        ((TextView) rootView.findViewById(R.id.tv_reference_price)).setText(String.format(getString(R.string.market_reference_price_value), mProductContent.getRegular_price()));
-        ((TextView) rootView.findViewById(R.id.tv_count)).setText(String.format(getString(R.string.residue_count), Integer.valueOf(mProductContent.getSku())));
+        String price = mProductContent.getAttributes() != null && mProductContent.getAttributes().size() > 0 ? mProductContent.getAttributes().get(0).getName() : "0";
+        ((TextView) rootView.findViewById(R.id.tv_reference_price)).setText(Html.fromHtml(getString(R.string.market_reference_price_value, price)));
+        String count = mProductContent.getStock_quantity();
+        ((TextView) rootView.findViewById(R.id.tv_count)).setText(String.format(getString(R.string.residue_count), Integer.valueOf(TextUtils.isEmpty(count) ? "0" : count)));
 
         mGoodsDetailRv = rootView.findViewById(R.id.rv_goods_top_detail);
         mRecyclerViewAdDotLayout = rootView.findViewById(R.id.rv_advertising_decorate);
