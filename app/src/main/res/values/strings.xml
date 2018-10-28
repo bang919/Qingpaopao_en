@@ -110,7 +110,7 @@
     至指示灯变为黄色灯，即重置成功。</string>
     <string name="wifi_page_1_content2">按图操作后，看到黄色灯转为红绿蓝变幻</string>
     <string name="wifi_page_2_content">按扫描按键后\n
-    请用手机扫描水杯底部的二维码或手动连接</string>
+    请用手机扫描水杯底部的二维码</string>
     <string name="next_step">下一步</string>
     <string name="scan">扫描</string>
     <string name="link_by_hand">手动连接</string>

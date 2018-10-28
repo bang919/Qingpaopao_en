@@ -198,6 +198,7 @@ public class CrowdFundingDetailFragment extends BaseBarDialogFragment<CrowdFundi
         if (mCurrentAttributeBean.getOptions() != null && mCurrentAttributeBean.getOptions().size() > 0) {
             gradeContentTv.setText(mCurrentAttributeBean.getOptions().get(0));
         }
-        GlideUtils.loadImage(gradeImage, -1, mProductContent.getDescriptionImage().get(0), new CenterCrop());
+        String imageUrl = mProductContent.getAttributes() != null && mProductContent.getAttributes().size() > 0 && mProductContent.getAttributes().get(0).getOptions() != null && mProductContent.getAttributes().get(0).getOptions().size() > 1 ? mProductContent.getAttributes().get(0).getOptions().get(1) : mProductContent.getDescriptionImage().get(0);
+        GlideUtils.loadImage(gradeImage, -1, imageUrl, new CenterCrop());
     }
 }
