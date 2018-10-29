@@ -160,22 +160,29 @@ public class OldChangeNewContentDetailFragment extends BaseBarDialogFragment<Old
 
     @Override
     public void onPayMentExchangeSubmit(final OrderBean orderBean) {
+        mPresenter.payOrderByWechat(getContext(), orderBean);
+    }
+
+    @Override
+    public void onPaySuccess(final OrderBean orderBean) {
         setLoadingVisibility(false);
+        ToastUtils.showShort(R.string.old_change_new_pay_success);
         SetTrackingNumberFragment setTrackingNumberFragment = SetTrackingNumberFragment.build(orderBean);
         setTrackingNumberFragment.setTrackingNumberSettingCallback(new SetTrackingNumberFragment.TrackingNumberSettingCallback() {
             @Override
             public void onTrackingNumberSetting(TrackingNumberSettingBean trackingNumberSettingBean) {
                 setLoadingVisibility(true);
-                mPresenter.exchangeOrderUpdateAndPay(getContext(), orderBean, trackingNumberSettingBean);
+                mPresenter.exchangeOrderUpdate(trackingNumberSettingBean);
             }
         });
         setTrackingNumberFragment.show(getChildFragmentManager(), SetTrackingNumberFragment.TAG);
     }
 
     @Override
-    public void onPaySuccess() {
+    public void onOrderUpdateSuccess() {
         setLoadingVisibility(false);
-        ToastUtils.showShort(R.string.pay_success);
+        ToastUtils.showShort(R.string.application_form_finish);
+        dismiss();
     }
 
     @Override

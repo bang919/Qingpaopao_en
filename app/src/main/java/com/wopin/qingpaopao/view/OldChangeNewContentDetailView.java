@@ -11,7 +11,9 @@ public interface OldChangeNewContentDetailView {
 
     void onPayMentExchangeSubmit(OrderBean orderBean);
 
-    void onPaySuccess();
+    void onPaySuccess(OrderBean orderBean);
+
+    void onOrderUpdateSuccess();
 
     void onError(String errorSting);
 }

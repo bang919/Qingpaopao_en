@@ -70,7 +70,7 @@ public class OldChangeNewOrderDetailFragment extends BaseBarDialogFragment imple
         if (mOrderBean.getOrderStatus().equals("等待付款")) {
             mRemoveOrderBtn.setVisibility(View.VISIBLE);
             mRemoveOrderBtn.setOnClickListener(this);
-//            mPaymentBtn.setVisibility(View.VISIBLE);//付款按钮挪到填写信息那边
+            mPaymentBtn.setVisibility(View.VISIBLE);//付款按钮挪到填写信息那边
             mPaymentBtn.setOnClickListener(this);
         } else if (mOrderBean.getOrderStatus().equals("待发货")) {
         } else if (mOrderBean.getOrderStatus().equals("已发货")) {

@@ -109,23 +109,14 @@ public class MyOrderFragment extends BaseBarDialogFragment<MyOrderPresenter> imp
             @Override
             public void onPaymentOrderBtnClick(OrderBean orderBean) {
                 setLoadingVisibility(true);
-                mPresenter.payOrderByWechat(getContext(), orderBean);
+                mPresenter.payCrowdfundingOrder(getContext(), orderBean);
 
             }
         });
         mOldChangeNewOrderListAdapter.setOldChangeNewOrderListAdapterCalblack(new OldChangeNewOrderListAdapter.OldChangeNewOrderListAdapterCalblack() {
             @Override
             public void onSetTrackingNumberBtnClick(final OrderBean orderBean) {
-
-                SetTrackingNumberFragment setTrackingNumberFragment = SetTrackingNumberFragment.build(orderBean);
-                setTrackingNumberFragment.setTrackingNumberSettingCallback(new SetTrackingNumberFragment.TrackingNumberSettingCallback() {
-                    @Override
-                    public void onTrackingNumberSetting(TrackingNumberSettingBean trackingNumberSettingBean) {
-                        setLoadingVisibility(true);
-                        mPresenter.exchangeOrderUpdateAndPay(getContext(), orderBean, trackingNumberSettingBean);
-                    }
-                });
-                setTrackingNumberFragment.show(getChildFragmentManager(), SetTrackingNumberFragment.TAG);
+                showSetTrackingNumberFragment(orderBean);
             }
 
             @Override
@@ -140,12 +131,24 @@ public class MyOrderFragment extends BaseBarDialogFragment<MyOrderPresenter> imp
                     @Override
                     public void onPayOrderBtnClick(OrderBean orderBean) {
                         setLoadingVisibility(true);
-                        mPresenter.payOrderByWechat(getContext(), orderBean);
+                        mPresenter.payOldChangeNewOrder(getContext(), orderBean);
                     }
                 });
                 oldChangeNewOrderDetailFragment.show(getChildFragmentManager(), OldChangeNewOrderDetailFragment.TAG);
             }
         });
+    }
+
+    private void showSetTrackingNumberFragment(OrderBean orderBean) {
+        SetTrackingNumberFragment setTrackingNumberFragment = SetTrackingNumberFragment.build(orderBean);
+        setTrackingNumberFragment.setTrackingNumberSettingCallback(new SetTrackingNumberFragment.TrackingNumberSettingCallback() {
+            @Override
+            public void onTrackingNumberSetting(TrackingNumberSettingBean trackingNumberSettingBean) {
+                setLoadingVisibility(true);
+                mPresenter.exchangeOrderUpdate(trackingNumberSettingBean);
+            }
+        });
+        setTrackingNumberFragment.show(getChildFragmentManager(), SetTrackingNumberFragment.TAG);
     }
 
     @Override
@@ -196,6 +199,19 @@ public class MyOrderFragment extends BaseBarDialogFragment<MyOrderPresenter> imp
     public void onDataRefresh() {
         setLoadingVisibility(true);
         mPresenter.getOrderListDatas();
+    }
+
+    @Override
+    public void onCrowdfundingOrderPaySuccess() {
+        ToastUtils.showShort(R.string.pay_success);
+        mPresenter.getOrderListDatas();
+    }
+
+    @Override
+    public void onOldChangeNewOrderPaySuccess(OrderBean orderBean) {
+        ToastUtils.showShort(R.string.old_change_new_pay_success);
+        mPresenter.getOrderListDatas();
+        showSetTrackingNumberFragment(orderBean);
     }
 
     @Override

@@ -320,9 +320,11 @@
     <string name="heading_6">Heading 6</string>
     <string name="please_check_permission_camera_storage">Please check the permission for camera and storage.</string>
     <string name="pay_success">支付成功</string>
+    <string name="old_change_new_pay_success">支付成功，请完善申请表</string>
     <string name="pay_error">支付错误</string>
     <string name="pay_cancel">支付取消</string>
     <string name="pay_failure">支付失败，已添加至我的订单</string>
+    <string name="application_form_finish">申请表已完善</string>
     <string name="cleaning_please_change_water">清洗中，请等待清洗完成</string>
     <string name="clean_finish_please_change_water">清洗完成，请更换杯内的水</string>
     <string name="cant_clean_in_low_battery">电量低于20%不能清洗</string>

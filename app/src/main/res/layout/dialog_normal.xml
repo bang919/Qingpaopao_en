@@ -40,7 +40,7 @@
         android:background="@drawable/bg__btn_accent3_stroke_30"
         android:gravity="center"
         android:text="@string/refuse"
-        android:textColor="@color/colorAccent2"
+        android:textColor="@color/colorAccent3"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/tv_no"

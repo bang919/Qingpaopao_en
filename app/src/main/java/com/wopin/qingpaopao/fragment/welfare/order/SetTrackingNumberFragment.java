@@ -65,20 +65,23 @@ public class SetTrackingNumberFragment extends BaseBarDialogFragment {
         if (!TextUtils.isEmpty(mOrderBean.getInfoUserName())) {
             mNameEt.setText(mOrderBean.getInfoUserName());
         }
-
-        if (mOrderBean.getOrderStatus().equals("等待付款")) {
-            mAffirmBtn.setVisibility(View.VISIBLE);
-        } else {
-            mAffirmBtn.setVisibility(View.GONE);
-            mTrackingNumberEt.setFocusable(false);
-            mTrackingNumberEt.setFocusableInTouchMode(false);
-            mTrackingCompanyEt.setFocusable(false);
-            mTrackingCompanyEt.setFocusableInTouchMode(false);
-            mNameEt.setFocusable(false);
-            mNameEt.setFocusableInTouchMode(false);
-            mPhoneNumberEt.setFocusable(false);
-            mPhoneNumberEt.setFocusableInTouchMode(false);
+        if (!TextUtils.isEmpty(mOrderBean.getInfoPhone())) {
+            mPhoneNumberEt.setText(mOrderBean.getInfoPhone());
         }
+
+//        if (mOrderBean.getOrderStatus().equals("等待付款")) {
+//            mAffirmBtn.setVisibility(View.VISIBLE);
+//        } else {
+//            mAffirmBtn.setVisibility(View.GONE);
+//            mTrackingNumberEt.setFocusable(false);
+//            mTrackingNumberEt.setFocusableInTouchMode(false);
+//            mTrackingCompanyEt.setFocusable(false);
+//            mTrackingCompanyEt.setFocusableInTouchMode(false);
+//            mNameEt.setFocusable(false);
+//            mNameEt.setFocusableInTouchMode(false);
+//            mPhoneNumberEt.setFocusable(false);
+//            mPhoneNumberEt.setFocusableInTouchMode(false);
+//        }
     }
 
     @Override

@@ -75,7 +75,7 @@ public class MyOrderPresenter extends BasePresenter<MyOrderView> {
                 });
     }
 
-    public void exchangeOrderUpdateAndPay(final Context context, final OrderBean orderBean, TrackingNumberSettingBean trackingNumberSettingBean) {
+    public void exchangeOrderUpdate(TrackingNumberSettingBean trackingNumberSettingBean) {
         subscribeNetworkTask(getClass().getSimpleName().concat("exchangeOrderUpdateAndPay"),
                 mMyOrderModel.exchangeOrderUpdate(trackingNumberSettingBean)
                         .doOnNext(new Consumer<NormalRsp>() {
@@ -87,7 +87,8 @@ public class MyOrderPresenter extends BasePresenter<MyOrderView> {
                 new MyObserver<NormalRsp>() {
                     @Override
                     public void onMyNext(NormalRsp normalRsp) {
-                        payOrderByWechat(context, orderBean);
+                        mView.onDataRefresh();
+//                        payOrderByWechat(context, orderBean);
                     }
 
                     @Override
@@ -112,12 +113,11 @@ public class MyOrderPresenter extends BasePresenter<MyOrderView> {
         });
     }
 
-    public void payOrderByWechat(Context context, final OrderBean orderBean) {
-        subscribeNetworkTask(getClass().getSimpleName().concat("payOrderByWechat"), mWeiXinPayModel.payOrderByWechat(context, orderBean), new MyObserver<NormalRsp>() {
+    public void payCrowdfundingOrder(Context context, final OrderBean orderBean) {
+        payOrderByWechat(context, orderBean, new MyObserver<NormalRsp>() {
             @Override
             public void onMyNext(NormalRsp normalRsp) {
-                ToastUtils.showShort(R.string.pay_success);
-                getOrderListDatas();
+                mView.onCrowdfundingOrderPaySuccess();
             }
 
             @Override
@@ -125,6 +125,24 @@ public class MyOrderPresenter extends BasePresenter<MyOrderView> {
                 mView.onError(errorMessage);
             }
         });
+    }
+
+    public void payOldChangeNewOrder(Context context, final OrderBean orderBean) {
+        payOrderByWechat(context, orderBean, new MyObserver<NormalRsp>() {
+            @Override
+            public void onMyNext(NormalRsp normalRsp) {
+                mView.onOldChangeNewOrderPaySuccess(orderBean);
+            }
+
+            @Override
+            public void onMyError(String errorMessage) {
+                mView.onError(errorMessage);
+            }
+        });
+    }
+
+    private void payOrderByWechat(Context context, final OrderBean orderBean, MyObserver<NormalRsp> myObserver) {
+        subscribeNetworkTask(getClass().getSimpleName().concat("payOrderByWechat"), mWeiXinPayModel.payOrderByWechat(context, orderBean), myObserver);
     }
 
     @Override

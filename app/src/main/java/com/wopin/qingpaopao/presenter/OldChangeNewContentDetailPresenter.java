@@ -1,7 +1,6 @@
 package com.wopin.qingpaopao.presenter;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.bean.request.PaymentBean;
@@ -77,13 +76,13 @@ public class OldChangeNewContentDetailPresenter extends BasePresenter<OldChangeN
                 });
     }
 
-    public void exchangeOrderUpdateAndPay(final Context context, final OrderBean orderBean, TrackingNumberSettingBean trackingNumberSettingBean) {
+    public void exchangeOrderUpdate(TrackingNumberSettingBean trackingNumberSettingBean) {
         subscribeNetworkTask(getClass().getSimpleName().concat("exchangeOrderUpdateAndPay"),
                 mMyOrderModel.exchangeOrderUpdate(trackingNumberSettingBean),
                 new MyObserver<NormalRsp>() {
                     @Override
                     public void onMyNext(NormalRsp normalRsp) {
-                        payOrderByWechat(context, orderBean);
+                        mView.onOrderUpdateSuccess();
                     }
 
                     @Override
@@ -93,11 +92,11 @@ public class OldChangeNewContentDetailPresenter extends BasePresenter<OldChangeN
                 });
     }
 
-    private void payOrderByWechat(Context context, final OrderBean orderBean) {
+    public void payOrderByWechat(Context context, final OrderBean orderBean) {
         subscribeNetworkTask(getClass().getSimpleName().concat("payOrderByWechat"), mWeiXinPayModel.payOrderByWechat(context, orderBean), new MyObserver<NormalRsp>() {
             @Override
             public void onMyNext(NormalRsp normalRsp) {
-                mView.onPaySuccess();
+                mView.onPaySuccess(orderBean);
             }
 
             @Override
