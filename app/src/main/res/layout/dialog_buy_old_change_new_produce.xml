@@ -189,7 +189,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="20dp"
         android:background="@color/colorRed"
-        android:text="@string/buy_at_once"
+        android:text="@string/submit"
         android:textColor="@color/colorWhite"
         android:textSize="20sp"
         app:layout_constraintLeft_toLeftOf="parent"

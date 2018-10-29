@@ -165,7 +165,7 @@
     <string name="known_error">未知错误</string>
     <string name="score_number">%s积分</string>
     <string name="price_number">%s元</string>
-    <string name="del_price_number"><![CDATA[<del>%s元</del>]]></string>
+    <string name="del_price_number"><![CDATA[<del> %s元 </del>]]></string>
     <string name="day_number">%s天</string>
     <string name="leave_day_number">剩余%s天</string>
     <string name="will_start_at">%s开始</string>
@@ -173,7 +173,7 @@
     <string name="residue_count">剩余%d件</string>
     <string name="market_reference_price_value"><![CDATA[市场参考价:<del>%s元</del>]]></string>
     <string name="commodity_details">商品详情</string>
-    <string name="go_to_buy">去购买</string>
+    <string name="go_to_buy">去申请</string>
     <string name="price_float">¥ %.2f</string>
     <string name="overflow_value">超值档：</string>
     <string name="percent_float">%.2f%%</string>
@@ -206,8 +206,7 @@
     <string name="old_cup_to_new_cup">选择以旧换新机型</string>
     <string name="old_cup_to_new_cup_support">支持先拖旧后购买/先购买后拖旧</string>
     <string name="choose_old_to_new_produce">&lt;&#8212;&#8212; 未选择 &#8212;&#8212;&gt;</string>
-    <string name="i_want_to_buy">立即申请</string>
-    <string name="buy_at_once">提交</string>
+    <string name="submit">提交</string>
     <string name="produce_price">产品市场价格</string>
     <string name="target_price">目标金额:</string>
     <string name="already_price">已筹金额</string>
@@ -228,11 +227,12 @@
     <string name="need_pay_price"><![CDATA[应付金额:\t\t<font color="#ff0000">%s元</font>]]></string>
     <string name="check_order">查看订单</string>
     <string name="input_order_message">以旧换新申请表</string>
+    <string name="perfect_format">完善申请表</string>
     <string name="tracking_number">快递单号</string>
     <string name="please_input_tracking_number">请填入快递单号</string>
     <string name="tracking_company">快递公司</string>
     <string name="please_input_tracking_company">请填入快递公司</string>
-    <string name="name">名字</string>
+    <string name="name">姓名</string>
     <string name="sex">性别</string>
     <string name="please_input_sex">请输入您的性别</string>
     <string name="cup_type">杯子型号</string>
@@ -339,5 +339,10 @@
     <string name="please_turn_on_gps">请打开网络或GPS定位</string>
     <string name="have_no_permission_for_location">缺少定位权限</string>
     <string name="remove_address">删除地址</string>
+    <string name="set_tracking_explain">
+        1/.后续请到我的订单里完善物流信息把快递公司和单号填上\n
+        2/.收到快递后我们会第一时间发货\n
+        3/.旧品请寄到深圳龙华新区观澜街道环观中路102号1栋
+    </string>
 
 </resources>

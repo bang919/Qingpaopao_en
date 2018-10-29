@@ -1,7 +1,6 @@
 package com.wopin.qingpaopao.fragment.welfare.oldchangenew;
 
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -87,8 +86,7 @@ public class BuyOldChangeNewProduceDialog extends DialogFragment implements View
         super.onActivityCreated(savedInstanceState);
         mProductContent = getArguments().getParcelable(NEW_PRODUCE);
         mOldProduct = getArguments().getParcelable(OLD_PRODUCE);
-        ((TextView) mRootView.findViewById(R.id.tv_produce_price)).getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-        ((TextView) mRootView.findViewById(R.id.tv_produce_price_value)).setText(Html.fromHtml(getString(R.string.price_number, mProductContent.getPrice())));
+        ((TextView) mRootView.findViewById(R.id.tv_produce_price_value)).setText(Html.fromHtml(getString(R.string.del_price_number, mProductContent.getPrice())));
         ((TextView) mRootView.findViewById(R.id.tv_old_change_new_price_value))
                 .setText(String.format(getString(R.string.price_number), mOldProduct == null ? "0" : mOldProduct.getPrice()));
 

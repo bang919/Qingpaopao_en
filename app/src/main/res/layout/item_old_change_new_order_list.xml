@@ -104,7 +104,7 @@
         android:layout_marginRight="10dp"
         android:background="@drawable/bg_white_radius10_blackstroke"
         android:gravity="center"
-        android:text="@string/input_order_message"
+        android:text="@string/perfect_format"
         android:textColor="@color/colorBlack"
         app:layout_constraintBottom_toBottomOf="@id/btn_check_order"
         app:layout_constraintRight_toLeftOf="@id/btn_check_order" />

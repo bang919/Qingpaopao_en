@@ -5,6 +5,64 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="1dp"
+        android:background="@color/colorWhite"
+        android:gravity="center_vertical"
+        android:paddingLeft="20dp"
+        android:text="@string/name"
+        android:textColor="@color/colorBlack"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/et_input_name"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="110dp"
+        android:background="@null"
+        android:hint="@string/please_input_real_name"
+        android:singleLine="true"
+        android:textSize="20sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_name"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+
+    <TextView
+        android:id="@+id/tv_phone_number"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="1dp"
+        android:background="@color/colorWhite"
+        android:gravity="center_vertical"
+        android:paddingLeft="20dp"
+        android:text="@string/phone_number"
+        android:textColor="@color/colorBlack"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_name" />
+
+    <EditText
+        android:id="@+id/et_input_phone_number"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="110dp"
+        android:background="@null"
+        android:hint="@string/please_input_phone_number"
+        android:inputType="number"
+        android:singleLine="true"
+        android:textSize="20sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_phone_number"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
         android:id="@+id/tv_tracking_number"
         android:layout_width="0dp"
         android:layout_height="50dp"
@@ -17,7 +75,7 @@
         android:textSize="20sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_phone_number" />
 
     <EditText
         android:id="@+id/et_input_tracking_number"
@@ -61,217 +119,36 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
 
-    <TextView
-        android:id="@+id/tv_name"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="1dp"
-        android:background="@color/colorWhite"
-        android:gravity="center_vertical"
-        android:paddingLeft="20dp"
-        android:text="@string/name"
-        android:textColor="@color/colorBlack"
-        android:textSize="20sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_tracking_company" />
-
-    <EditText
-        android:id="@+id/et_input_name"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginLeft="110dp"
-        android:background="@null"
-        android:hint="@string/please_input_real_name"
-        android:singleLine="true"
-        android:textSize="20sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tv_name"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_sex"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="1dp"
-        android:background="@color/colorWhite"
-        android:gravity="center_vertical"
-        android:paddingLeft="20dp"
-        android:text="@string/sex"
-        android:textColor="@color/colorBlack"
-        android:textSize="20sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_name" />
-
-    <EditText
-        android:id="@+id/et_input_sex"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginLeft="110dp"
-        android:background="@null"
-        android:hint="@string/please_input_sex"
-        android:singleLine="true"
-        android:textSize="20sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tv_sex"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_phone_number"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="1dp"
-        android:background="@color/colorWhite"
-        android:gravity="center_vertical"
-        android:paddingLeft="20dp"
-        android:text="@string/phone_number"
-        android:textColor="@color/colorBlack"
-        android:textSize="20sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_sex" />
-
-    <EditText
-        android:id="@+id/et_input_phone_number"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginLeft="110dp"
-        android:background="@null"
-        android:hint="@string/please_input_phone_number"
-        android:inputType="number"
-        android:singleLine="true"
-        android:textSize="20sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tv_phone_number"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_cup_type"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="1dp"
-        android:background="@color/colorWhite"
-        android:gravity="center_vertical"
-        android:paddingLeft="20dp"
-        android:text="@string/cup_type"
-        android:textColor="@color/colorBlack"
-        android:textSize="20sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_phone_number" />
-
-    <EditText
-        android:id="@+id/et_input_cup_type"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginLeft="110dp"
-        android:background="@null"
-        android:hint="@string/please_input_cup_type"
-        android:singleLine="true"
-        android:textSize="20sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tv_cup_type"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_cup_color"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="1dp"
-        android:background="@color/colorWhite"
-        android:gravity="center_vertical"
-        android:paddingLeft="20dp"
-        android:text="@string/cup_color"
-        android:textColor="@color/colorBlack"
-        android:textSize="20sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_cup_type" />
-
-    <EditText
-        android:id="@+id/et_input_cup_color"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginLeft="110dp"
-        android:background="@null"
-        android:hint="@string/please_input_cup_color"
-        android:singleLine="true"
-        android:textSize="20sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tv_cup_color"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_buy_time"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="1dp"
-        android:background="@color/colorWhite"
-        android:gravity="center_vertical"
-        android:paddingLeft="20dp"
-        android:text="@string/buy_time"
-        android:textColor="@color/colorBlack"
-        android:textSize="20sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_cup_color" />
-
-    <EditText
-        android:id="@+id/et_input_buy_time"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginLeft="110dp"
-        android:background="@null"
-        android:hint="@string/please_input_buy_time"
-        android:singleLine="true"
-        android:textSize="20sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tv_buy_time"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
-
-    <TextView
-        android:id="@+id/tv_use_status"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="1dp"
-        android:background="@color/colorWhite"
-        android:gravity="center_vertical"
-        android:paddingLeft="20dp"
-        android:text="@string/use_status"
-        android:textColor="@color/colorBlack"
-        android:textSize="20sp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_buy_time" />
-
-    <EditText
-        android:id="@+id/et_input_use_status"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginLeft="110dp"
-        android:background="@null"
-        android:hint="@string/please_input_use_status"
-        android:singleLine="true"
-        android:textSize="20sp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tv_use_status"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
-
     <Button
         android:id="@+id/bt_confirm"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginBottom="10dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:background="@drawable/selector_bt_accent"
-        android:text="@string/save_and_pay"
+        android:text="@string/submit"
         android:textColor="@color/colorWhite"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="13:2"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/colorWhite3"
+        android:padding="20dp"
+        android:text="@string/set_tracking_explain"
+        android:textColor="@color/colorBlack"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@id/bt_confirm"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_use_status" />
+        app:layout_constraintTop_toBottomOf="@id/et_input_tracking_company" />
+
 
 </android.support.constraint.ConstraintLayout>

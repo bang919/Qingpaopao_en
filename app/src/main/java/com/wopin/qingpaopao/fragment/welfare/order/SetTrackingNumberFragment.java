@@ -16,7 +16,7 @@ import com.wopin.qingpaopao.utils.ToastUtils;
 public class SetTrackingNumberFragment extends BaseBarDialogFragment {
 
     public static final String TAG = "SetTrackingNumberFragment";
-    private EditText mTrackingNumberEt, mTrackingCompanyEt, mNameEt, mSexEt, mPhoneNumberEt, mCupTypeEt, mCupColorEt, mBuyTimeEt, mUseStatusEt;
+    private EditText mTrackingNumberEt, mTrackingCompanyEt, mNameEt, mPhoneNumberEt;
     private Button mAffirmBtn;
     private OrderBean mOrderBean;
     private TrackingNumberSettingCallback mTrackingNumberSettingCallback;
@@ -53,12 +53,7 @@ public class SetTrackingNumberFragment extends BaseBarDialogFragment {
         mTrackingNumberEt = rootView.findViewById(R.id.et_input_tracking_number);
         mTrackingCompanyEt = rootView.findViewById(R.id.et_input_tracking_company);
         mNameEt = rootView.findViewById(R.id.et_input_name);
-        mSexEt = rootView.findViewById(R.id.et_input_sex);
         mPhoneNumberEt = rootView.findViewById(R.id.et_input_phone_number);
-        mCupTypeEt = rootView.findViewById(R.id.et_input_cup_type);
-        mCupColorEt = rootView.findViewById(R.id.et_input_cup_color);
-        mBuyTimeEt = rootView.findViewById(R.id.et_input_buy_time);
-        mUseStatusEt = rootView.findViewById(R.id.et_input_use_status);
         mAffirmBtn = rootView.findViewById(R.id.bt_confirm);
         mOrderBean = (OrderBean) getArguments().getSerializable(TAG);
         if (!TextUtils.isEmpty(mOrderBean.getExpressReturnId())) {
@@ -70,24 +65,7 @@ public class SetTrackingNumberFragment extends BaseBarDialogFragment {
         if (!TextUtils.isEmpty(mOrderBean.getInfoUserName())) {
             mNameEt.setText(mOrderBean.getInfoUserName());
         }
-        if (!TextUtils.isEmpty(mOrderBean.getInfoSex())) {
-            mSexEt.setText(mOrderBean.getInfoSex());
-        }
-        if (!TextUtils.isEmpty(mOrderBean.getInfoPhone())) {
-            mPhoneNumberEt.setText(mOrderBean.getInfoPhone());
-        }
-        if (!TextUtils.isEmpty(mOrderBean.getInfoCupModel())) {
-            mCupTypeEt.setText(mOrderBean.getInfoCupModel());
-        }
-        if (!TextUtils.isEmpty(mOrderBean.getInfoCupColor())) {
-            mCupColorEt.setText(mOrderBean.getInfoCupColor());
-        }
-        if (!TextUtils.isEmpty(mOrderBean.getInfoBuyTime())) {
-            mBuyTimeEt.setText(mOrderBean.getInfoBuyTime());
-        }
-        if (!TextUtils.isEmpty(mOrderBean.getInfoUsage())) {
-            mUseStatusEt.setText(mOrderBean.getInfoUsage());
-        }
+
         if (mOrderBean.getOrderStatus().equals("等待付款")) {
             mAffirmBtn.setVisibility(View.VISIBLE);
         } else {
@@ -98,18 +76,8 @@ public class SetTrackingNumberFragment extends BaseBarDialogFragment {
             mTrackingCompanyEt.setFocusableInTouchMode(false);
             mNameEt.setFocusable(false);
             mNameEt.setFocusableInTouchMode(false);
-            mSexEt.setFocusable(false);
-            mSexEt.setFocusableInTouchMode(false);
             mPhoneNumberEt.setFocusable(false);
             mPhoneNumberEt.setFocusableInTouchMode(false);
-            mCupTypeEt.setFocusable(false);
-            mCupTypeEt.setFocusableInTouchMode(false);
-            mCupColorEt.setFocusable(false);
-            mCupColorEt.setFocusableInTouchMode(false);
-            mBuyTimeEt.setFocusable(false);
-            mBuyTimeEt.setFocusableInTouchMode(false);
-            mUseStatusEt.setFocusable(false);
-            mUseStatusEt.setFocusableInTouchMode(false);
         }
     }
 
@@ -133,34 +101,9 @@ public class SetTrackingNumberFragment extends BaseBarDialogFragment {
                     ToastUtils.showShort(R.string.please_input_real_name);
                     return;
                 }
-                String sex = mSexEt.getText().toString();
-                if (TextUtils.isEmpty(sex)) {
-                    ToastUtils.showShort(R.string.please_input_sex);
-                    return;
-                }
                 String phoneNumber = mPhoneNumberEt.getText().toString();
                 if (TextUtils.isEmpty(phoneNumber)) {
                     ToastUtils.showShort(R.string.please_input_phone_number);
-                    return;
-                }
-                String cupType = mCupTypeEt.getText().toString();
-                if (TextUtils.isEmpty(cupType)) {
-                    ToastUtils.showShort(R.string.please_input_cup_type);
-                    return;
-                }
-                String cupColor = mCupColorEt.getText().toString();
-                if (TextUtils.isEmpty(cupColor)) {
-                    ToastUtils.showShort(R.string.please_input_cup_color);
-                    return;
-                }
-                String buyTime = mBuyTimeEt.getText().toString();
-                if (TextUtils.isEmpty(buyTime)) {
-                    ToastUtils.showShort(R.string.please_input_buy_time);
-                    return;
-                }
-                String useStatus = mUseStatusEt.getText().toString();
-                if (TextUtils.isEmpty(useStatus)) {
-                    ToastUtils.showShort(R.string.please_input_use_status);
                     return;
                 }
                 if (mTrackingNumberSettingCallback != null) {
@@ -169,12 +112,7 @@ public class SetTrackingNumberFragment extends BaseBarDialogFragment {
                     trackingNumberSettingBean.setExpressId(trackingNumber);
                     trackingNumberSettingBean.setExpressName(trackingCompany);
                     trackingNumberSettingBean.setInfoUserName(name);
-                    trackingNumberSettingBean.setInfoSex(sex);
                     trackingNumberSettingBean.setInfoPhone(phoneNumber);
-                    trackingNumberSettingBean.setInfoCupModel(cupType);
-                    trackingNumberSettingBean.setInfoCupColor(cupColor);
-                    trackingNumberSettingBean.setInfoBuyTime(buyTime);
-                    trackingNumberSettingBean.setInfoUsage(useStatus);
                     mTrackingNumberSettingCallback.onTrackingNumberSetting(trackingNumberSettingBean);
                     dismiss();
                 }
