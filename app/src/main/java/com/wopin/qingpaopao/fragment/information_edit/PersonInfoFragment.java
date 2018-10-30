@@ -11,6 +11,7 @@ import com.wopin.qingpaopao.adapter.MineListRvAdapter;
 import com.wopin.qingpaopao.fragment.BaseBarDialogFragment;
 import com.wopin.qingpaopao.presenter.LoginPresenter;
 import com.wopin.qingpaopao.presenter.PersonInfoPresenter;
+import com.wopin.qingpaopao.presenter.PhotoPresenter;
 import com.wopin.qingpaopao.utils.ToastUtils;
 import com.wopin.qingpaopao.view.PersonInfoView;
 
@@ -54,7 +55,7 @@ public class PersonInfoFragment extends BaseBarDialogFragment<PersonInfoPresente
     public void onListItemClick(int textResource, int position) {
         switch (textResource) {
             case R.string.head_portrait:
-//                mPresenter.requestPermissionTodo(PhotoPresenter.REQUEST_PERMISSION_ALBUM);
+                mPresenter.requestPermissionTodo(PhotoPresenter.REQUEST_PERMISSION_ALBUM);
                 break;
             case R.string.username:
                 EditUsernameFragment editUsernameFragment = new EditUsernameFragment();
@@ -84,6 +85,11 @@ public class PersonInfoFragment extends BaseBarDialogFragment<PersonInfoPresente
     public void onDestroy() {
         mPresenter.deletePhotoFile();
         super.onDestroy();
+    }
+
+    @Override
+    public void onUserDataRefresh() {
+        ToastUtils.showShort(R.string.person_info_had_change);
     }
 
     @Override

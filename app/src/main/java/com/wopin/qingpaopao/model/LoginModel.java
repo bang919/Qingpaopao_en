@@ -1,5 +1,7 @@
 package com.wopin.qingpaopao.model;
 
+import android.text.TextUtils;
+
 import com.wopin.qingpaopao.bean.request.LoginReq;
 import com.wopin.qingpaopao.bean.request.ThirdReq;
 import com.wopin.qingpaopao.bean.response.LoginRsp;
@@ -11,6 +13,8 @@ import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 
 public class LoginModel {
 
@@ -81,11 +85,12 @@ public class LoginModel {
                     @Override
                     public LoginRsp apply(LoginRsp loginRsp) throws Exception {
                         LoginRsp.ResultBean result = loginRsp.getResult();
-                        if (result.getIcon() == null || !result.getIcon().equals(thirdReq.getIcon())) {
-                            HttpClient.getApiInterface().changeIcon(thirdReq).subscribe();
+                        if (TextUtils.isEmpty(result.getIcon())) {
+                            RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), "{\"icon\":\"" + thirdReq.getIcon() + "\"}");
+                            HttpClient.getApiInterface().changeIcon(requestBody).subscribe();
+                            result.setIcon(thirdReq.getIcon());
+                            loginRsp.setResult(result);
                         }
-                        result.setIcon(thirdReq.getIcon());
-                        loginRsp.setResult(result);
                         return loginRsp;
                     }
                 })

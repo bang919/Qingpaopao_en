@@ -61,6 +61,7 @@
     <string name="my_fans">我的粉丝</string>
     <string name="my_focus">我的关注</string>
     <string name="person_info">个人基本信息</string>
+    <string name="person_info_had_change">头像已更新</string>
     <string name="edit_bind_phone">修改绑定手机</string>
     <string name="edit_bind_third">第三方绑定</string>
     <string name="no_binding">未绑定</string>

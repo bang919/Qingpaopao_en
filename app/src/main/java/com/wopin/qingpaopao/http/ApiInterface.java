@@ -96,7 +96,7 @@ public interface ApiInterface {
     Observable<NormalRsp> thirdBinding(@Body ThirdReq loginReq);
 
     @POST("users/changeIcon")
-    Observable<NormalRsp> changeIcon(@Body ThirdReq loginReq);
+    Observable<NormalRsp> changeIcon(@Body RequestBody changeIconBody);
 
     @POST("users/changeUserName")
     Observable<NormalRsp> changeUsername(@Body ThirdReq loginReq);
