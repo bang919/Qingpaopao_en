@@ -107,9 +107,9 @@
     <string name="link">连接</string>
     <string name="link_wifi">连接WIFI</string>
     <string name="wifi_page_1_content1">通电后按图示操作\n\n
-    长按重置按钮，保持10秒左右\n
-    至指示灯变为黄色灯，即重置成功。</string>
-    <string name="wifi_page_1_content2">按图操作后，看到黄色灯转为红绿蓝变幻</string>
+    关机状态下，长按按钮10秒左右\n
+    直至指示灯变为蓝灯，即重置成功。</string>
+    <string name="wifi_page_1_content2">按图操作后，会看到蓝灯闪烁</string>
     <string name="wifi_page_2_content">按扫描按键后\n
     请用手机扫描水杯底部的二维码</string>
     <string name="next_step">下一步</string>
@@ -343,9 +343,12 @@
     <string name="have_no_permission_for_location">缺少定位权限</string>
     <string name="remove_address">删除地址</string>
     <string name="set_tracking_explain">
-        1/.后续请到我的订单里完善物流信息把快递公司和单号填上\n
-        2/.收到快递后我们会第一时间发货\n
-        3/.旧品请寄到深圳龙华新区观澜街道环观中路102号1栋
+        以旧换新活动规则：\n
+1.寄出旧品后，请到“我的订单”⾥完善申请表，并填上快递公司和单号；\n
+2.收到客户寄出的快递，确认无误后，我们会第一时间安排发货；\n
+3.旧品回寄地址：深圳龙华新区观澜街道环观中路路102号1栋（小蜗签收）；\n
+4. 寄出快递前，请用小纸条单独写上您的姓名、地址和电话，若旧品有其他问题可一并附加，再与旧品一同寄出；\n
+5. 寄出旧品的快递运费由客户自行承担，若客户选择到付寄回，我们将拒签您的包裹。
     </string>
 
 </resources>
