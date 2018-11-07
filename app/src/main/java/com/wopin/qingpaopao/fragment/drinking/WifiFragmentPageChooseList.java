@@ -96,9 +96,9 @@ public class WifiFragmentPageChooseList extends BaseBarDialogFragment<WifiPageCh
     }
 
     @Override
-    public void onWifiChoose(WifiRsp wifiRsp) {
+    public void onWifiChoose(String ssid) {
         //点击选择了一个wifi
         mChooseWifiTv.setTextColor(Color.BLACK);
-        mChooseWifiTv.setText(wifiRsp.getEssid());
+        mChooseWifiTv.setText(ssid);
     }
 }

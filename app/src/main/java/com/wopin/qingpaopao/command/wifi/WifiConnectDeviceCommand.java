@@ -28,7 +28,7 @@ public class WifiConnectDeviceCommand extends IConnectDeviceCommand<WifiConfigur
             }
         }
         wifiManager.disconnect();
-        int networkId = wifiManager.addNetwork(getTarget());
+        int networkId = getTarget().networkId > 0 ? getTarget().networkId : wifiManager.addNetwork(getTarget());
         wifiManager.enableNetwork(networkId, true);
         wifiManager.reconnect();
         wifiManager = null;

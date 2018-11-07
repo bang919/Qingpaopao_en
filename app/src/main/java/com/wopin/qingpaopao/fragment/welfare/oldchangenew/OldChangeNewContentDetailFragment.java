@@ -10,7 +10,6 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -41,7 +40,7 @@ public class OldChangeNewContentDetailFragment extends BaseBarDialogFragment<Old
 
     public static final String TAG = "OldChangeNewContentDetailFragment";
     private ProductContent mProductContent;
-    private ProductContent mOldProduct;
+    private ProductContent.AttributeBean mOldProduct;
     private RecyclerView mGoodsDetailRv;
     private Spinner mChooseOldSpinner;
     private RecyclerViewAdDotLayout mRecyclerViewAdDotLayout;
@@ -114,6 +113,8 @@ public class OldChangeNewContentDetailFragment extends BaseBarDialogFragment<Old
         mGoodsDetailRv = rootView.findViewById(R.id.rv_goods_top_detail);
         mChooseOldSpinner = rootView.findViewById(R.id.choose_old_to_new_produce);
         mRecyclerViewAdDotLayout = rootView.findViewById(R.id.rv_advertising_decorate);
+
+
     }
 
     @Override
@@ -128,34 +129,12 @@ public class OldChangeNewContentDetailFragment extends BaseBarDialogFragment<Old
         PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
         pagerSnapHelper.attachToRecyclerView(mGoodsDetailRv);
 
-        setLoadingVisibility(true);
-        mPresenter.getOldGoodList();
-    }
-
-    @Override
-    public void onOldGoodsList(final ArrayList<ProductContent> oldGoodsList) {
-        setLoadingVisibility(false);
+        mOldProduct = mProductContent.getAttributes().get(0);
         ArrayList<String> datas = new ArrayList<>();
-        datas.add(getString(R.string.choose_old_to_new_produce));
-        for (ProductContent productContent : oldGoodsList) {
-            datas.add(productContent.getName());
-        }
+        datas.add(mOldProduct.getOptions().get(0));
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, datas);
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mChooseOldSpinner.setEnabled(false);
         mChooseOldSpinner.setAdapter(arrayAdapter);
-        mChooseOldSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position != 0) {
-                    mOldProduct = oldGoodsList.get(position - 1);
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
     }
 
     @Override
@@ -204,6 +183,6 @@ public class OldChangeNewContentDetailFragment extends BaseBarDialogFragment<Old
 
     @Override
     public void OnBuyInformation(int number, String addressId) {
-        mPresenter.payMentExchange(addressId, mProductContent.getName(), mProductContent.getDescriptionImage().size() == 0 ? null : mProductContent.getDescriptionImage().get(0), mProductContent.getId(), number, Integer.valueOf(mProductContent.getPrice()), mOldProduct == null ? 0 : Integer.valueOf(mOldProduct.getPrice()));
+        mPresenter.payMentExchange(addressId, mProductContent.getName(), mProductContent.getDescriptionImage().size() == 0 ? null : mProductContent.getDescriptionImage().get(0), mProductContent.getId(), number, Integer.valueOf(mProductContent.getPrice()), mOldProduct == null ? 0 : Integer.valueOf(mOldProduct.getName()));
     }
 }

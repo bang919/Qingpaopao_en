@@ -37,9 +37,9 @@ public class BuyOldChangeNewProduceDialog extends DialogFragment implements View
     private LoginRsp.ResultBean.AddressListBean mCurrentAddress;
     private BuyOldChangeNewCallback mBuyOldChangeNewCallback;
     private ProductContent mProductContent;
-    private ProductContent mOldProduct;
+    private ProductContent.AttributeBean mOldProduct;
 
-    public static BuyOldChangeNewProduceDialog build(ProductContent productContent, ProductContent oldProduct) {
+    public static BuyOldChangeNewProduceDialog build(ProductContent productContent, ProductContent.AttributeBean oldProduct) {
         BuyOldChangeNewProduceDialog enchangeScoreMarketProduceDialog = new BuyOldChangeNewProduceDialog();
         Bundle args = new Bundle();
         args.putParcelable(NEW_PRODUCE, productContent);
@@ -88,7 +88,7 @@ public class BuyOldChangeNewProduceDialog extends DialogFragment implements View
         mOldProduct = getArguments().getParcelable(OLD_PRODUCE);
         ((TextView) mRootView.findViewById(R.id.tv_produce_price_value)).setText(Html.fromHtml(getString(R.string.del_price_number, mProductContent.getPrice())));
         ((TextView) mRootView.findViewById(R.id.tv_old_change_new_price_value))
-                .setText(String.format(getString(R.string.price_number), mOldProduct == null ? "0" : mOldProduct.getPrice()));
+                .setText(String.format(getString(R.string.price_number), mOldProduct == null ? "0" : mOldProduct.getName()));
 
         ArrayList<LoginRsp.ResultBean.AddressListBean> addressList = LoginPresenter.getAccountMessage().getResult().getAddressList();
         if (addressList != null) {
@@ -139,7 +139,7 @@ public class BuyOldChangeNewProduceDialog extends DialogFragment implements View
     private void notifyTotalScore() {
         int priceEach = Integer.valueOf(mProductContent.getPrice());
         int totalPrice = priceEach * mBuyCount;
-        int finallyPrice = totalPrice - (mOldProduct != null ? Integer.valueOf(mOldProduct.getPrice()) : 0);
+        int finallyPrice = totalPrice - (mOldProduct != null ? Integer.valueOf(mOldProduct.getName()) : 0);
         ((TextView) mRootView.findViewById(R.id.tv_need_pay_value)).setText(String.format(getString(R.string.price_number), String.valueOf(finallyPrice)));
     }
 

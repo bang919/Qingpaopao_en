@@ -30,20 +30,27 @@ public class WifiChooseListRvAdapter extends RecyclerView.Adapter<WifiChooseList
     }
 
     @Override
-    public void onBindViewHolder(@NonNull WifiChooseListViewHolder holder, int position) {
-        final WifiRsp wifiRsp = wifiRsps.get(position);
-        holder.mTitleTv.setText(wifiRsp.getEssid());
+    public void onBindViewHolder(@NonNull final WifiChooseListViewHolder holder, final int position) {
+        final WifiRsp wifiRsp = position == 0 ? null : wifiRsps.get(position - 1);
+        if (position == 0) {
+            holder.mTitleTv.setText(R.string.input_ssid);
+            holder.mTitleTv.setTextColor(holder.itemView.getContext().getResources().getColor(R.color.colorAccent3));
+        } else {
+            holder.mTitleTv.setText(wifiRsp.getEssid());
+            holder.mTitleTv.setTextColor(holder.itemView.getContext().getResources().getColor(R.color.colorBlack));
+        }
+
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mWifiChooseCallback.onWifiChoose(wifiRsp);
+                mWifiChooseCallback.onWifiChoose(position == 0 ? null : wifiRsp.getEssid());
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return wifiRsps.size();
+        return wifiRsps.size() + 1;
     }
 
     class WifiChooseListViewHolder extends RecyclerView.ViewHolder {

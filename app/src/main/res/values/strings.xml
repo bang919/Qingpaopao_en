@@ -94,6 +94,7 @@
     <string name="system_update">系统更新</string>
     <string name="about_us">关于我们</string>
     <string name="system_version">系统版本</string>
+    <string name="newest">(最新)</string>
     <string name="search_your_favourite">搜索你感兴趣的信息</string>
     <string name="hot_topic">热门话题</string>
     <string name="newest_topic">最新话题</string>
@@ -106,7 +107,7 @@
     <string name="wifi_version">WIFI版本</string>
     <string name="link">连接</string>
     <string name="link_wifi">连接WIFI</string>
-    <string name="wifi_page_1_content1">通电后按图示操作\n\n
+    <string name="wifi_page_1_content1">
     关机状态下，长按按钮10秒左右\n
     直至指示灯变为蓝灯，即重置成功。</string>
     <string name="wifi_page_1_content2">按图操作后，会看到蓝灯闪烁</string>
@@ -115,6 +116,7 @@
     <string name="next_step">下一步</string>
     <string name="scan">扫描</string>
     <string name="link_by_hand">手动连接</string>
+    <string name="input_ssid">手动输入SSID</string>
     <string name="dont_know_version"><u>如何知道是什么版本?</u></string>
     <string name="cant_find_your_cup">没有找到你的水杯?<u>查找更多</u></string>
     <string name="not_support_bluetooth">该手机不支持蓝牙</string>
@@ -204,7 +206,7 @@
     <string name="submit_success_to_my_order">提交成功，已添加至我的订单</string>
     <string name="cancel_success">取消成功</string>
     <string name="buy_success">购买成功</string>
-    <string name="old_cup_to_new_cup">选择以旧换新机型</string>
+    <string name="old_cup_to_new_cup">以旧换新机型</string>
     <string name="old_cup_to_new_cup_support">支持先拖旧后购买/先购买后拖旧</string>
     <string name="choose_old_to_new_produce">&lt;&#8212;&#8212; 未选择 &#8212;&#8212;&gt;</string>
     <string name="submit">提交</string>

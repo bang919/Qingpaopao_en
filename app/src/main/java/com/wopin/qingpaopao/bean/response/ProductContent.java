@@ -1044,7 +1044,7 @@ public class ProductContent implements Parcelable {
         }
     }
 
-    public static class AttributeBean {
+    public static class AttributeBean implements Parcelable {
 
         /**
          * id : 0
@@ -1061,6 +1061,42 @@ public class ProductContent implements Parcelable {
         private boolean visible;
         private boolean variation;
         private List<String> options;
+
+        protected AttributeBean(Parcel in) {
+            id = in.readInt();
+            name = in.readString();
+            position = in.readInt();
+            visible = in.readByte() != 0;
+            variation = in.readByte() != 0;
+            options = in.createStringArrayList();
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeInt(id);
+            dest.writeString(name);
+            dest.writeInt(position);
+            dest.writeByte((byte) (visible ? 1 : 0));
+            dest.writeByte((byte) (variation ? 1 : 0));
+            dest.writeStringList(options);
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        public static final Creator<AttributeBean> CREATOR = new Creator<AttributeBean>() {
+            @Override
+            public AttributeBean createFromParcel(Parcel in) {
+                return new AttributeBean(in);
+            }
+
+            @Override
+            public AttributeBean[] newArray(int size) {
+                return new AttributeBean[size];
+            }
+        };
 
         public int getId() {
             return id;

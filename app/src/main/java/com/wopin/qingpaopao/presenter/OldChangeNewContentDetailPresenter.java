@@ -8,17 +8,10 @@ import com.wopin.qingpaopao.bean.request.TrackingNumberSettingBean;
 import com.wopin.qingpaopao.bean.response.NormalRsp;
 import com.wopin.qingpaopao.bean.response.OrderBean;
 import com.wopin.qingpaopao.bean.response.OrderOneResponse;
-import com.wopin.qingpaopao.bean.response.ProductContent;
 import com.wopin.qingpaopao.model.MyOrderModel;
 import com.wopin.qingpaopao.model.OldChangeNewContentDetailModel;
 import com.wopin.qingpaopao.model.WeiXinPayModel;
-import com.wopin.qingpaopao.model.WelfareModel;
 import com.wopin.qingpaopao.view.OldChangeNewContentDetailView;
-
-import java.util.ArrayList;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 
 public class OldChangeNewContentDetailPresenter extends BasePresenter<OldChangeNewContentDetailView> {
 
@@ -31,25 +24,6 @@ public class OldChangeNewContentDetailPresenter extends BasePresenter<OldChangeN
         mOldChangeNewContentDetailModel = new OldChangeNewContentDetailModel();
         mMyOrderModel = new MyOrderModel();
         mWeiXinPayModel = new WeiXinPayModel();
-    }
-
-    public void getOldGoodList() {
-        WelfareModel welfareModel = new WelfareModel();
-        subscribeNetworkTask(getClass().getSimpleName().concat("getOldGoodList"),
-                welfareModel.getProductContent(19)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread()),
-                new MyObserver<ArrayList<ProductContent>>() {
-                    @Override
-                    public void onMyNext(ArrayList<ProductContent> productContents) {
-                        mView.onOldGoodsList(productContents);
-                    }
-
-                    @Override
-                    public void onMyError(String errorMessage) {
-                        mView.onError(errorMessage);
-                    }
-                });
     }
 
     public void payMentExchange(String addressId, String title, String image, int goodsId, int number, int singlePrice, int offerPrice) {

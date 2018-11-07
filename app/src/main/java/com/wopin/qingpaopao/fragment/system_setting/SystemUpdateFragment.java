@@ -47,7 +47,7 @@ public class SystemUpdateFragment extends BaseBarDialogFragment implements MineL
                     .getPackageManager()
                     .getPackageInfo(getContext().getPackageName(), 0);
             String versionName = packageInfo.versionName;
-            mAdapter.setDatas(new String[]{versionName});
+            mAdapter.setDatas(new String[]{versionName + getString(R.string.newest)});
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }

@@ -8,6 +8,7 @@ import android.view.View;
 import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.adapter.WifiChooseListRvAdapter;
 import com.wopin.qingpaopao.bean.response.WifiRsp;
+import com.wopin.qingpaopao.dialog.NormalEdittextDialog;
 import com.wopin.qingpaopao.fragment.BaseDialogFragment;
 import com.wopin.qingpaopao.presenter.BasePresenter;
 
@@ -53,9 +54,18 @@ public class WifiFragmentPageChooseListDialog extends BaseDialogFragment impleme
         ArrayList<WifiRsp> wifiRsps = (ArrayList<WifiRsp>) getArguments().getSerializable(TAG);
         mChooseListRv.setAdapter(new WifiChooseListRvAdapter(wifiRsps, new WifiChooseCallback() {
             @Override
-            public void onWifiChoose(WifiRsp wifiRsp) {
-                if (mWifiChooseCallback != null) {
-                    mWifiChooseCallback.onWifiChoose(wifiRsp);
+            public void onWifiChoose(String ssid) {
+                if (ssid == null && mWifiChooseCallback != null) {
+                    new NormalEdittextDialog(getContext(), getString(R.string.confirm), getString(R.string.cancel), getString(R.string.input_ssid),
+                            new NormalEdittextDialog.NormalEdittextDialogETextCallback() {
+                                @Override
+                                public void onEdittextInput(String etString) {
+                                    mWifiChooseCallback.onWifiChoose(etString);
+                                    dismiss();
+                                }
+                            }, null).show();
+                } else if (mWifiChooseCallback != null) {
+                    mWifiChooseCallback.onWifiChoose(ssid);
                     dismiss();
                 }
             }
@@ -72,6 +82,6 @@ public class WifiFragmentPageChooseListDialog extends BaseDialogFragment impleme
     }
 
     public interface WifiChooseCallback {
-        void onWifiChoose(WifiRsp wifiRsp);
+        void onWifiChoose(String ssid);
     }
 }
