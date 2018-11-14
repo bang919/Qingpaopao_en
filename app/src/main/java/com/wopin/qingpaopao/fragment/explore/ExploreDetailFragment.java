@@ -349,9 +349,17 @@ public class ExploreDetailFragment extends BaseBarDialogFragment<ExploreDetailPr
     }
 
     @Override
-    public void onCommentLikeBtnClick(View likeBtn, CommentRsp.CommentBean commentBean) {
+    public void onCommentLikeBtnClick(View likeBtn, TextView likeCountTv, CommentRsp.CommentBean commentBean) {
         likeBtn.setSelected(!likeBtn.isSelected());
         mPresenter.setLikeBlogComment(String.valueOf(commentBean.getId()), likeBtn.isSelected());
+        int likes = commentBean.getLikes();
+        if (likeBtn.isSelected()) {
+            likeCountTv.setText(String.valueOf(likes + 1));
+            commentBean.setLikes(likes + 1);
+        } else {
+            likeCountTv.setText(String.valueOf(likes - 1));
+            commentBean.setLikes(likes - 1);
+        }
         commentBean.setMyLike(likeBtn.isSelected());
     }
 

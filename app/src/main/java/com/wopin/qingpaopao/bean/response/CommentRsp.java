@@ -39,6 +39,7 @@ public class CommentRsp extends NormalRsp {
         private String date;
         private String type;
         private boolean myLike;
+        private int likes;
         private ArrayList<CommentBean> followComments;
 
         public int getId() {
@@ -127,6 +128,14 @@ public class CommentRsp extends NormalRsp {
 
         public ArrayList<CommentBean> getFollowComment() {
             return followComments;
+        }
+
+        public int getLikes() {
+            return likes;
+        }
+
+        public void setLikes(int likes) {
+            this.likes = likes;
         }
     }
 }

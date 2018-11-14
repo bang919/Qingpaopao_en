@@ -53,6 +53,7 @@ public class ExploreCommentsAdapter extends RecyclerView.Adapter<ExploreComments
         holder.mNameTv.setText(commentBean.getAuthor_name());
         holder.mTimeTv.setText(TimeFormatUtils.formatToTime(commentBean.getDate(), mFormat));
         holder.mLikeBtn.setSelected(commentBean.isMyLike());
+        holder.mLikeTv.setText(String.valueOf(commentBean.getLikes()));
         holder.mCommentContentTv.setText(Html.fromHtml(commentBean.getContent()));
 
         holder.mFollowCommentLayout.removeAllViews();
@@ -81,7 +82,7 @@ public class ExploreCommentsAdapter extends RecyclerView.Adapter<ExploreComments
         holder.mLikeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mExploreCommentsAdapterCallback.onCommentLikeBtnClick(holder.mLikeBtn, commentBean);
+                mExploreCommentsAdapterCallback.onCommentLikeBtnClick(holder.mLikeBtn, holder.mLikeTv, commentBean);
             }
         });
     }
@@ -97,6 +98,7 @@ public class ExploreCommentsAdapter extends RecyclerView.Adapter<ExploreComments
         TextView mNameTv;
         TextView mTimeTv;
         View mLikeBtn;
+        TextView mLikeTv;
         View mCommentBtn;
         TextView mCommentContentTv;
         LinearLayout mFollowCommentLayout;
@@ -107,6 +109,7 @@ public class ExploreCommentsAdapter extends RecyclerView.Adapter<ExploreComments
             mNameTv = itemView.findViewById(R.id.author_name);
             mTimeTv = itemView.findViewById(R.id.tv_comment_time);
             mLikeBtn = itemView.findViewById(R.id.btn_like);
+            mLikeTv = itemView.findViewById(R.id.count_like);
             mCommentBtn = itemView.findViewById(R.id.btn_comment);
             mCommentContentTv = itemView.findViewById(R.id.tv_comment_content);
             mFollowCommentLayout = itemView.findViewById(R.id.follow_comment_layout);
@@ -114,7 +117,7 @@ public class ExploreCommentsAdapter extends RecyclerView.Adapter<ExploreComments
     }
 
     public interface ExploreCommentsAdapterCallback {
-        void onCommentLikeBtnClick(View likeBtn, CommentRsp.CommentBean commentBean);
+        void onCommentLikeBtnClick(View likeBtn, TextView likeCountTv, CommentRsp.CommentBean commentBean);
 
         void onReplyOtherBtnClick(CommentRsp.CommentBean commentBean);
     }

@@ -234,7 +234,7 @@ public interface ApiInterface {
     Observable<OrderListResponse> getScoresOrder();
 
     @GET("goods/exchangeOrderList")
-    Observable<OrderListResponse> getExchangeOrder();
+    Observable<ResponseBody> getExchangeOrder();
 
     @GET("goods/crowdfundingOrderList")
     Observable<OrderListResponse> getCrowdfundingOrder();
