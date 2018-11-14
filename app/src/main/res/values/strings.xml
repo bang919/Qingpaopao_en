@@ -355,6 +355,7 @@
     <string name="drink_notify">喝水提醒</string>
     <string name="new_message">新消息</string>
     <string name="favor">赞</string>
+    <string name="my_favor">我的赞</string>
     <string name="my_comment">我的评论</string>
     <string name="system_message">系统消息</string>
 

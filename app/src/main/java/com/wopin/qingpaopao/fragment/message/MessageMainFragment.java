@@ -74,6 +74,7 @@ public class MessageMainFragment extends BaseBarDialogFragment<MessageMainPresen
             case R.id.icon_new_message:
                 break;
             case R.id.icon_favor:
+                new MyLikeExploresFragment().show(getChildFragmentManager(), MyLikeExploresFragment.TAG);
                 break;
             case R.id.icon_my_comment:
                 break;

@@ -121,6 +121,9 @@ public interface ApiInterface {
     @GET("blog/historyPosts")
     Observable<ExploreListRsp> listHistoryExplores(@Query("page") int page, @Query("num") int num);
 
+    @GET("blog/likedPosts")
+    Observable<ExploreListRsp> listMyLikeExplores(@Query("page") int page, @Query("num") int num);
+
     @POST("blog/searchPosts")
     Observable<ExploreListRsp> searchExplores(@Body RequestBody requestBody);
 

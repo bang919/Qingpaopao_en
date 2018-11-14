@@ -48,6 +48,12 @@ public class ExploreModel {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    public Observable<ExploreListRsp> listMyLikeExplores() {//浏览历史
+        return HttpClient.getApiInterface().listMyLikeExplores(1, 99)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
     public Observable<ExploreListRsp> searchExplores(String searchString) {
         RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), "{\"search\":\"" + searchString + "\"}");
         return HttpClient.getApiInterface().searchExplores(requestBody)
