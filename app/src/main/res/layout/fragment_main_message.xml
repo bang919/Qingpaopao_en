@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/key_device_notification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/drink_notify"
+        android:textColor="@color/colorBlack"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <android.support.v7.widget.SwitchCompat
+        android:id="@+id/switch_notification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20dp"
+        android:background="@null"
+        android:theme="@style/MySwitchCompat"
+        app:layout_constraintBottom_toBottomOf="@id/key_device_notification"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/key_device_notification" />
+
+    <View
+        android:id="@+id/line1"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/colorWhite3"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/key_device_notification" />
+
+    <ImageView
+        android:id="@+id/icon_new_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="10dp"
+        android:src="@mipmap/c_letter"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line1" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/new_message"
+        android:textColor="@color/colorBlack"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="@id/icon_new_message"
+        app:layout_constraintRight_toRightOf="@id/icon_new_message"
+        app:layout_constraintTop_toBottomOf="@id/icon_new_message" />
+
+    <ImageView
+        android:id="@+id/icon_favor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:src="@mipmap/c_head"
+        app:layout_constraintLeft_toRightOf="@id/icon_new_message"
+        app:layout_constraintRight_toLeftOf="@id/icon_my_comment"
+        app:layout_constraintTop_toBottomOf="@id/line1" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/favor"
+        android:textColor="@color/colorBlack"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="@id/icon_favor"
+        app:layout_constraintRight_toRightOf="@id/icon_favor"
+        app:layout_constraintTop_toBottomOf="@id/icon_favor" />
+
+    <ImageView
+        android:id="@+id/icon_my_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="10dp"
+        android:src="@mipmap/c_text"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line1" />
+
+    <TextView
+        android:id="@+id/text_my_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/my_comment"
+        android:textColor="@color/colorBlack"
+        android:textSize="18sp"
+        app:layout_constraintLeft_toLeftOf="@id/icon_my_comment"
+        app:layout_constraintRight_toRightOf="@id/icon_my_comment"
+        app:layout_constraintTop_toBottomOf="@id/icon_my_comment" />
+
+    <View
+        android:id="@+id/line2"
+        android:layout_width="0dp"
+        android:layout_height="10dp"
+        android:layout_marginTop="6dp"
+        android:background="@color/colorWhite3"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_my_comment" />
+
+    <TextView
+        android:id="@+id/title_system_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        android:text="@string/system_message"
+        android:textColor="@color/colorBlack"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line2" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_system_message"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title_system_message" />
+
+</android.support.constraint.ConstraintLayout>

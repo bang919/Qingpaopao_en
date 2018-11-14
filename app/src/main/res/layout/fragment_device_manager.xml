@@ -148,7 +148,7 @@
         android:background="@color/colorWhite"
         android:gravity="center_vertical"
         android:paddingLeft="20dp"
-        android:text="@string/drinking_notification"
+        android:text="@string/drink_notify"
         android:textColor="@color/colorBlack"
         android:textSize="22sp"
         app:layout_constraintLeft_toLeftOf="parent"

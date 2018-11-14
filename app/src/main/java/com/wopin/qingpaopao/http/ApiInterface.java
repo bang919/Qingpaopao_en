@@ -15,6 +15,7 @@ import com.wopin.qingpaopao.bean.request.SendCommentReq;
 import com.wopin.qingpaopao.bean.request.ThirdReq;
 import com.wopin.qingpaopao.bean.request.TrackingNumberSettingBean;
 import com.wopin.qingpaopao.bean.response.BlogPostRsp;
+import com.wopin.qingpaopao.bean.response.CheckNewMessageRsp;
 import com.wopin.qingpaopao.bean.response.CommentRsp;
 import com.wopin.qingpaopao.bean.response.CrowdfundingOrderTotalMoneyRsp;
 import com.wopin.qingpaopao.bean.response.CrowdfundingOrderTotalPeopleRsp;
@@ -30,6 +31,7 @@ import com.wopin.qingpaopao.bean.response.OrderListResponse;
 import com.wopin.qingpaopao.bean.response.OrderOneResponse;
 import com.wopin.qingpaopao.bean.response.ProductBanner;
 import com.wopin.qingpaopao.bean.response.ProductContent;
+import com.wopin.qingpaopao.bean.response.SystemMessageRsp;
 import com.wopin.qingpaopao.bean.response.ThirdBindRsp;
 import com.wopin.qingpaopao.bean.response.UploadImageRsp;
 
@@ -261,4 +263,10 @@ public interface ApiInterface {
 
     @POST("local")
     Observable<NormalRsp> sendLocal(@Body LocalBean localBean);
+
+    @GET("blog/checkNewMessage")
+    Observable<CheckNewMessageRsp> checkNewMessage();
+
+    @GET("blog/sysMessage")
+    Observable<SystemMessageRsp> getSystemMessage();
 }

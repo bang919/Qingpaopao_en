@@ -8,6 +8,8 @@ import com.wopin.qingpaopao.http.ApiInterface;
 import com.wopin.qingpaopao.http.HttpClient;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -44,6 +46,12 @@ public class ExploreDetailModel {
                                 }
                             }
                         }
+                        Collections.sort(newComments, new Comparator<CommentRsp.CommentBean>() {
+                            @Override
+                            public int compare(CommentRsp.CommentBean o1, CommentRsp.CommentBean o2) {
+                                return o2.getLikes() - o1.getLikes();
+                            }
+                        });
                         commentRsp.setComments(newComments);
                         return commentRsp;
                     }

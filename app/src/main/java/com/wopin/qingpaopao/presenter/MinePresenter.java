@@ -2,10 +2,12 @@ package com.wopin.qingpaopao.presenter;
 
 import android.content.Context;
 
+import com.wopin.qingpaopao.bean.response.CheckNewMessageRsp;
 import com.wopin.qingpaopao.bean.response.DrinkListTodayRsp;
 import com.wopin.qingpaopao.bean.response.DrinkListTotalRsp;
 import com.wopin.qingpaopao.bean.response.LoginRsp;
 import com.wopin.qingpaopao.model.DrinkingModel;
+import com.wopin.qingpaopao.model.MessageModel;
 import com.wopin.qingpaopao.model.MineModel;
 import com.wopin.qingpaopao.view.MineView;
 
@@ -13,8 +15,12 @@ import io.reactivex.Observable;
 import io.reactivex.functions.BiFunction;
 
 public class MinePresenter extends BasePresenter<MineView> {
+
+    private MessageModel mMessageModel;
+
     public MinePresenter(Context context, MineView view) {
         super(context, view);
+        mMessageModel = new MessageModel();
     }
 
     public void requestDrinkData() {
@@ -39,6 +45,18 @@ public class MinePresenter extends BasePresenter<MineView> {
                         mView.onError(errorMessage);
                     }
                 });
+
+        subscribeNetworkTask(getClass().getSimpleName().concat("checkNewMessage"), mMessageModel.checkNewMessage(), new MyObserver<CheckNewMessageRsp>() {
+            @Override
+            public void onMyNext(CheckNewMessageRsp checkNewMessageRsp) {
+                mView.onNewMessage(checkNewMessageRsp);
+            }
+
+            @Override
+            public void onMyError(String errorMessage) {
+                mView.onError(errorMessage);
+            }
+        });
     }
 
     public void refreshUserData() {

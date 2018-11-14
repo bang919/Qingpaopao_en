@@ -12,12 +12,14 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.adapter.MineGridRvAdapter;
 import com.wopin.qingpaopao.adapter.MineListRvAdapter;
+import com.wopin.qingpaopao.bean.response.CheckNewMessageRsp;
 import com.wopin.qingpaopao.bean.response.DrinkListTodayRsp;
 import com.wopin.qingpaopao.bean.response.DrinkListTotalRsp;
 import com.wopin.qingpaopao.bean.response.LoginRsp;
 import com.wopin.qingpaopao.bean.response.NormalRsp;
 import com.wopin.qingpaopao.common.Constants;
 import com.wopin.qingpaopao.fragment.information_edit.InformationEditFragment;
+import com.wopin.qingpaopao.fragment.message.MessageMainFragment;
 import com.wopin.qingpaopao.fragment.my.CollectSubtitleFragment;
 import com.wopin.qingpaopao.fragment.my.FollowSubtitleFragment;
 import com.wopin.qingpaopao.fragment.my.HistorySubtitleFragment;
@@ -47,6 +49,7 @@ import io.reactivex.schedulers.Schedulers;
 public class MineFragment extends BaseMainFragment<MinePresenter> implements MineGridRvAdapter.MineGridRvCallback, MineListRvAdapter.MineListRvCallback, View.OnClickListener, MineView {
 
     private ImageView mMessageIv;
+    private TextView mMessageCountTv;
     private ImageView mHeadIconIv;
     private TextView mPhoneNumberTv;
     private TextView mUsernameTv;
@@ -82,6 +85,7 @@ public class MineFragment extends BaseMainFragment<MinePresenter> implements Min
         ));
 
         mMessageIv = rootView.findViewById(R.id.iv_message);
+        mMessageCountTv = rootView.findViewById(R.id.count_message);
         mHeadIconIv = rootView.findViewById(R.id.iv_person_head_icon);
         mPhoneNumberTv = rootView.findViewById(R.id.tv_phone_number);
         mUsernameTv = rootView.findViewById(R.id.tv_username);
@@ -97,6 +101,7 @@ public class MineFragment extends BaseMainFragment<MinePresenter> implements Min
         } else {
             mSignInTv.setOnClickListener(this);
         }
+        mMessageIv.setOnClickListener(this);
     }
 
     @Override
@@ -192,6 +197,9 @@ public class MineFragment extends BaseMainFragment<MinePresenter> implements Min
                         }
                 );
                 break;
+            case R.id.iv_message:
+                new MessageMainFragment().show(getChildFragmentManager(), MessageMainFragment.TAG);
+                break;
         }
     }
 
@@ -252,6 +260,17 @@ public class MineFragment extends BaseMainFragment<MinePresenter> implements Min
     @Override
     public void onRefreshUserData() {
         refreshData();
+    }
+
+    @Override
+    public void onNewMessage(CheckNewMessageRsp checkNewMessageRsp) {
+        int count = checkNewMessageRsp.getResult().getCount();
+        if (count > 0) {
+            mMessageCountTv.setText(String.valueOf(count));
+            mMessageCountTv.setVisibility(View.VISIBLE);
+        } else {
+            mMessageCountTv.setVisibility(View.GONE);
+        }
     }
 
     @Override
