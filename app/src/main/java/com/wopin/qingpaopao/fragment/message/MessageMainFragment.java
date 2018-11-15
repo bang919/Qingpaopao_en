@@ -100,6 +100,7 @@ public class MessageMainFragment extends BaseBarDialogFragment<MessageMainPresen
                 new MyLikeExploresFragment().show(getChildFragmentManager(), MyLikeExploresFragment.TAG);
                 break;
             case R.id.icon_my_comment:
+                new MyCommentFragment().show(getChildFragmentManager(), MyCommentFragment.TAG);
                 break;
         }
     }
@@ -135,7 +136,7 @@ public class MessageMainFragment extends BaseBarDialogFragment<MessageMainPresen
         SystemMessageDetailFragment.build(systemMessage).show(getChildFragmentManager(), SystemMessageDetailFragment.TAG);
     }
 
-    public interface MessageMainFragmentCallback{
+    public interface MessageMainFragmentCallback {
         void onDismiss();
     }
 }

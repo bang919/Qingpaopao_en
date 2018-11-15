@@ -359,5 +359,8 @@
     <string name="my_comment">我的评论</string>
     <string name="system_message">系统消息</string>
     <string name="new_comment">新的评论</string>
+    <string name="read">阅读</string>
+    <string name="comment">评论</string>
+    <string name="additional_comment">追评</string>
 
 </resources>

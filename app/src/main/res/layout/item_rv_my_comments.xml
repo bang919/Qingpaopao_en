@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <View
+        android:id="@+id/line1"
+        android:layout_width="0dp"
+        android:layout_height="6dp"
+        android:background="@color/colorWhite3"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <ImageView
+        android:id="@+id/author_icon"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="3dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line1" />
+
+    <TextView
+        android:id="@+id/author_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:textColor="@color/colorWhite3"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@id/author_icon"
+        app:layout_constraintLeft_toRightOf="@id/author_icon"
+        app:layout_constraintTop_toTopOf="@id/author_icon" />
+
+    <TextView
+        android:id="@+id/tv_comment_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/colorWhite3"
+        android:textSize="12sp"
+        app:layout_constraintLeft_toLeftOf="@id/author_icon"
+        app:layout_constraintTop_toBottomOf="@id/author_icon" />
+
+    <TextView
+        android:id="@+id/tv_comment_content"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/colorBlack"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="@id/tv_comment_time"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_comment_time" />
+
+    <ImageView
+        android:id="@+id/post_image"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        app:layout_constraintLeft_toLeftOf="@id/tv_comment_content"
+        app:layout_constraintTop_toBottomOf="@id/tv_comment_content" />
+
+    <TextView
+        android:id="@+id/post_content"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/colorWhite3"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:padding="5dp"
+        android:textColor="@color/colorBlack"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toBottomOf="@id/post_image"
+        app:layout_constraintLeft_toRightOf="@id/post_image"
+        app:layout_constraintRight_toRightOf="@id/tv_comment_content"
+        app:layout_constraintTop_toTopOf="@id/post_image" />
+
+    <TextView
+        android:id="@+id/read_key"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:text="@string/read"
+        android:textColor="@color/colorWhite3"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="@id/tv_comment_time"
+        app:layout_constraintTop_toBottomOf="@id/post_image" />
+
+    <TextView
+        android:id="@+id/read_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:text="0"
+        android:textColor="@color/colorWhite3"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@id/read_key"
+        app:layout_constraintLeft_toRightOf="@id/read_key" />
+
+    <TextView
+        android:id="@+id/comment_key"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:text="@string/comment"
+        android:textColor="@color/colorWhite3"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@id/read_key"
+        app:layout_constraintLeft_toRightOf="@id/read_value" />
+
+    <TextView
+        android:id="@+id/comment_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:text="0"
+        android:textColor="@color/colorWhite3"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@id/read_key"
+        app:layout_constraintLeft_toRightOf="@id/comment_key" />
+
+    <Button
+        android:id="@+id/delete_btn"
+        android:layout_width="50dp"
+        android:layout_height="28dp"
+        android:background="@drawable/bg_white_radius10_blackstroke"
+        android:gravity="center"
+        android:text="@string/delete"
+        android:textColor="@color/colorBlack"
+        app:layout_constraintBottom_toBottomOf="@id/read_key"
+        app:layout_constraintRight_toRightOf="@id/post_content" />
+
+    <Button
+        android:id="@+id/additional_comment"
+        android:layout_width="50dp"
+        android:layout_height="28dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/bg_white_radius10_blackstroke"
+        android:gravity="center"
+        android:text="@string/additional_comment"
+        android:textColor="@color/colorBlack"
+        app:layout_constraintBottom_toBottomOf="@id/read_key"
+        app:layout_constraintRight_toLeftOf="@id/delete_btn" />
+
+    <View
+        android:id="@+id/line2"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="5dp"
+        android:background="@color/colorWhite3"
+        app:layout_constraintLeft_toLeftOf="@id/read_key"
+        app:layout_constraintRight_toRightOf="@id/delete_btn"
+        app:layout_constraintTop_toBottomOf="@id/delete_btn" />
+
+    <LinearLayout
+        android:id="@+id/follow_comment_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:orientation="vertical"
+        android:paddingBottom="10dp"
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="@id/tv_comment_content"
+        app:layout_constraintRight_toRightOf="@id/post_content"
+        app:layout_constraintTop_toBottomOf="@id/line2" />
+
+</android.support.constraint.ConstraintLayout>
