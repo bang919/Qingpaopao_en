@@ -198,7 +198,14 @@ public class MineFragment extends BaseMainFragment<MinePresenter> implements Min
                 );
                 break;
             case R.id.iv_message:
-                new MessageMainFragment().show(getChildFragmentManager(), MessageMainFragment.TAG);
+                MessageMainFragment messageMainFragment = new MessageMainFragment();
+                messageMainFragment.show(getChildFragmentManager(), MessageMainFragment.TAG);
+                messageMainFragment.setMessageMainFragmentCallback(new MessageMainFragment.MessageMainFragmentCallback() {
+                    @Override
+                    public void onDismiss() {
+                        refreshData();
+                    }
+                });
                 break;
         }
     }

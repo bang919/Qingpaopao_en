@@ -1,13 +1,16 @@
 package com.wopin.qingpaopao.fragment.message;
 
+import android.content.DialogInterface;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.TextView;
 
 import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.adapter.SystemMessageListAdapter;
+import com.wopin.qingpaopao.bean.response.NewCommentRsp;
 import com.wopin.qingpaopao.bean.response.SystemMessageRsp;
 import com.wopin.qingpaopao.common.Constants;
 import com.wopin.qingpaopao.fragment.BaseBarDialogFragment;
@@ -17,16 +20,33 @@ import com.wopin.qingpaopao.utils.SPUtils;
 import com.wopin.qingpaopao.utils.ToastUtils;
 import com.wopin.qingpaopao.view.MessageMainView;
 
+import java.util.ArrayList;
+
 public class MessageMainFragment extends BaseBarDialogFragment<MessageMainPresenter> implements View.OnClickListener, MessageMainView, SystemMessageListAdapter.SystemMessageItemListener {
 
     public static final String TAG = "MessageMainFragment";
     private SwitchCompat mNotificationSwitch;
     private RecyclerView mSystemMessageRv;
+    private TextView mNewMessageCountTv;
     private SystemMessageListAdapter mSystemMessageListAdapter;
+    private ArrayList<NewCommentRsp.ResultBean.NewCommentBean> newCommentBeans;
+    private MessageMainFragmentCallback mMessageMainFragmentCallback;
+
+    public void setMessageMainFragmentCallback(MessageMainFragmentCallback messageMainFragmentCallback) {
+        mMessageMainFragmentCallback = messageMainFragmentCallback;
+    }
 
     @Override
     protected String setBarTitle() {
         return getString(R.string.message);
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+        super.onDismiss(dialog);
+        if (mMessageMainFragmentCallback != null) {
+            mMessageMainFragmentCallback.onDismiss();
+        }
     }
 
     @Override
@@ -41,6 +61,7 @@ public class MessageMainFragment extends BaseBarDialogFragment<MessageMainPresen
 
     @Override
     protected void initView(View rootView) {
+        mNewMessageCountTv = rootView.findViewById(R.id.count_new_message);
         mNotificationSwitch = rootView.findViewById(R.id.switch_notification);
         mNotificationSwitch.setChecked((Boolean) SPUtils.get(getContext(), Constants.DRINKING_NOTIFICATION, false));
         mSystemMessageRv = rootView.findViewById(R.id.rv_system_message);
@@ -65,13 +86,15 @@ public class MessageMainFragment extends BaseBarDialogFragment<MessageMainPresen
                 }
             }
         });
-        mPresenter.getSystemMessage();
+        setLoadingVisibility(true);
+        mPresenter.getMessages();
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.icon_new_message:
+                NewCommentFragment.build(newCommentBeans).show(getChildFragmentManager(), NewCommentFragment.TAG);
                 break;
             case R.id.icon_favor:
                 new MyLikeExploresFragment().show(getChildFragmentManager(), MyLikeExploresFragment.TAG);
@@ -82,17 +105,37 @@ public class MessageMainFragment extends BaseBarDialogFragment<MessageMainPresen
     }
 
     @Override
+    public void onNewCommentCount(ArrayList<NewCommentRsp.ResultBean.NewCommentBean> newCommentBeans) {
+        this.newCommentBeans = newCommentBeans;
+        int size = newCommentBeans.size();
+        if (size > 0) {
+            mNewMessageCountTv.setVisibility(View.VISIBLE);
+            mNewMessageCountTv.setText(String.valueOf(size));
+        }
+    }
+
+    @Override
     public void onSystemMessage(SystemMessageRsp systemMessageRsp) {
         mSystemMessageListAdapter.setSystemMessages(systemMessageRsp.getResult());
     }
 
     @Override
+    public void onFinishRequest() {
+        setLoadingVisibility(false);
+    }
+
+    @Override
     public void onError(String errorMessage) {
+        setLoadingVisibility(false);
         ToastUtils.showShort(errorMessage);
     }
 
     @Override
     public void onSystemMessageClick(SystemMessageRsp.ResultBean systemMessage) {
         SystemMessageDetailFragment.build(systemMessage).show(getChildFragmentManager(), SystemMessageDetailFragment.TAG);
+    }
+
+    public interface MessageMainFragmentCallback{
+        void onDismiss();
     }
 }
