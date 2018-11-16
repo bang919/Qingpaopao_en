@@ -38,13 +38,15 @@ public class MessageMainPresenter extends BasePresenter<MessageMainView> {
                         .doOnNext(new Consumer<NewCommentRsp>() {
                             @Override
                             public void accept(NewCommentRsp newCommentRsp) throws Exception {
-                                ArrayList<NewCommentRsp.ResultBean.NewCommentBean> newComments = newCommentRsp.getResult().getNewComment();
-                                ArrayList<NewCommentRsp.ResultBean.NewCommentBean> newCommentStores = getNewCommentRsps();
-                                if (newCommentStores != null) {
-                                    newComments.addAll(newCommentStores);
+                                if (newCommentRsp.getResult() != null) {
+                                    ArrayList<NewCommentRsp.ResultBean.NewCommentBean> newComments = newCommentRsp.getResult().getNewComment();
+                                    ArrayList<NewCommentRsp.ResultBean.NewCommentBean> newCommentStores = getNewCommentRsps();
+                                    if (newCommentStores != null) {
+                                        newComments.addAll(newCommentStores);
+                                    }
+                                    storeNewCommentRsps(newComments);
+                                    mView.onNewCommentCount(newComments);
                                 }
-                                storeNewCommentRsps(newComments);
-                                mView.onNewCommentCount(newComments);
                             }
                         }),
                 new BiFunction<SystemMessageRsp, NewCommentRsp, String>() {

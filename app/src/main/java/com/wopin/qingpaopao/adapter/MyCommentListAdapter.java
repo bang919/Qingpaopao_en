@@ -41,24 +41,26 @@ public class MyCommentListAdapter extends RecyclerView.Adapter<MyCommentListAdap
 
     public void setData(MyCommentsRsp myCommentsRsp) {
         MyCommentsRsp.ResultBean result = myCommentsRsp.getResult();
-        mComments = result.getComments();
+        if (result != null) {
+            mComments = result.getComments();
 
-        //分类
-        List<MyCommentsRsp.ResultBean.CommentsReplyMeBean> commentsReplyMe = result.getCommentsReplyMe();
-        replyMeCommentMap = new TreeMap<>();
-        for (MyCommentsRsp.ResultBean.CommentsReplyMeBean commentsReplyMeBean : commentsReplyMe) {
-            List<MyCommentsRsp.ResultBean.CommentsReplyMeBean> commentsReplyMeBeans = replyMeCommentMap.get(commentsReplyMeBean.getParent());
-            if (commentsReplyMeBeans == null) {
-                commentsReplyMeBeans = new ArrayList<>();
+            //分类
+            List<MyCommentsRsp.ResultBean.CommentsReplyMeBean> commentsReplyMe = result.getCommentsReplyMe();
+            replyMeCommentMap = new TreeMap<>();
+            for (MyCommentsRsp.ResultBean.CommentsReplyMeBean commentsReplyMeBean : commentsReplyMe) {
+                List<MyCommentsRsp.ResultBean.CommentsReplyMeBean> commentsReplyMeBeans = replyMeCommentMap.get(commentsReplyMeBean.getParent());
+                if (commentsReplyMeBeans == null) {
+                    commentsReplyMeBeans = new ArrayList<>();
+                }
+                commentsReplyMeBeans.add(commentsReplyMeBean);
+                replyMeCommentMap.put(commentsReplyMeBean.getParent(), commentsReplyMeBeans);
             }
-            commentsReplyMeBeans.add(commentsReplyMeBean);
-            replyMeCommentMap.put(commentsReplyMeBean.getParent(), commentsReplyMeBeans);
-        }
 
-        List<MyCommentsRsp.ResultBean.RelatedPostsBean> relatedPosts = result.getRelatedPosts();
-        postMap = new TreeMap<>();
-        for (MyCommentsRsp.ResultBean.RelatedPostsBean relatedPostsBean : relatedPosts) {
-            postMap.put(relatedPostsBean.getId(), relatedPostsBean);
+            List<MyCommentsRsp.ResultBean.RelatedPostsBean> relatedPosts = result.getRelatedPosts();
+            postMap = new TreeMap<>();
+            for (MyCommentsRsp.ResultBean.RelatedPostsBean relatedPostsBean : relatedPosts) {
+                postMap.put(relatedPostsBean.getId(), relatedPostsBean);
+            }
         }
         notifyDataSetChanged();
     }

@@ -26,8 +26,6 @@ import com.wopin.qingpaopao.bean.response.ExploreListRsp;
 import com.wopin.qingpaopao.bean.response.FollowListRsp;
 import com.wopin.qingpaopao.bean.response.GetWechatPayResponse;
 import com.wopin.qingpaopao.bean.response.LoginRsp;
-import com.wopin.qingpaopao.bean.response.MyCommentsRsp;
-import com.wopin.qingpaopao.bean.response.NewCommentRsp;
 import com.wopin.qingpaopao.bean.response.NormalRsp;
 import com.wopin.qingpaopao.bean.response.OrderListResponse;
 import com.wopin.qingpaopao.bean.response.OrderOneResponse;
@@ -276,10 +274,10 @@ public interface ApiInterface {
     Observable<SystemMessageRsp> getSystemMessage();
 
     @GET("blog/newBlogMessage")
-    Observable<NewCommentRsp> getNewBlogMessage();
+    Observable<ResponseBody> getNewBlogMessage();
 
     @GET("blog/myComments")
-    Observable<MyCommentsRsp> getMyComments(@Query("page") int page, @Query("num") int num);
+    Observable<ResponseBody> getMyComments(@Query("page") int page, @Query("num") int num);
 
     @POST("blog/deleteComment")
     Observable<NormalRsp> deleteComment(@Body RequestBody requestBody);
