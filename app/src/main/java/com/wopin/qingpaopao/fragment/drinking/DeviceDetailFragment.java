@@ -20,7 +20,7 @@ import com.wopin.qingpaopao.utils.NotificationSettingUtil;
 import com.wopin.qingpaopao.utils.PopupWindowUtil;
 import com.wopin.qingpaopao.utils.SPUtils;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 
 public class DeviceDetailFragment extends BaseBarDialogFragment implements View.OnClickListener {
 
@@ -153,7 +153,11 @@ public class DeviceDetailFragment extends BaseBarDialogFragment implements View.
                 break;
             }
             case R.id.value_cup_color: {
-                PopupWindowUtil.buildListPpp(v, Arrays.asList(Constants.CUP_COLOR_NAME), 150, 500, new PopupWindowListAdapter.PopupWindowListAdapterCallback() {
+                ArrayList<String> colors = new ArrayList<>();
+                for (int colorInt : Constants.CUP_COLOR_NAME) {
+                    colors.add(getString(colorInt));
+                }
+                PopupWindowUtil.buildListPpp(v, colors, 150, 500, new PopupWindowListAdapter.PopupWindowListAdapterCallback() {
                     @Override
                     public void onItemClick(String name, int position) {
                         mDeviceDetailFragmentCallback.onColorChange(Constants.CUP_COLOR_INT[position]);
