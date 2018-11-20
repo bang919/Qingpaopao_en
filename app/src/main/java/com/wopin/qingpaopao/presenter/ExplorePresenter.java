@@ -15,9 +15,9 @@ public class ExplorePresenter extends BasePresenter<ExploreView> {
         mExploreModel = new ExploreModel();
     }
 
-    public void listHotExplores() {
+    public void listHotExplores(int page, int number) {
         mView.onLoading();
-        subscribeNetworkTask(getClass().getSimpleName().concat("listHotExplores"), mExploreModel.listHotExplores(), new MyObserver<ExploreListRsp>() {
+        subscribeNetworkTask(getClass().getSimpleName().concat("listHotExplores"), mExploreModel.listHotExplores(page, number), new MyObserver<ExploreListRsp>() {
             @Override
             public void onMyNext(ExploreListRsp exploreListRsp) {
                 mView.onExploreList(exploreListRsp);
@@ -30,9 +30,9 @@ public class ExplorePresenter extends BasePresenter<ExploreView> {
         });
     }
 
-    public void listNewlyExplores() {
+    public void listNewlyExplores(int page, int number) {
         mView.onLoading();
-        subscribeNetworkTask(getClass().getSimpleName().concat("listNewlyExplores"), mExploreModel.listNewlyExplores(), new MyObserver<ExploreListRsp>() {
+        subscribeNetworkTask(getClass().getSimpleName().concat("listNewlyExplores"), mExploreModel.listNewlyExplores(page, number), new MyObserver<ExploreListRsp>() {
             @Override
             public void onMyNext(ExploreListRsp exploreListRsp) {
                 mView.onExploreList(exploreListRsp);
@@ -45,9 +45,9 @@ public class ExplorePresenter extends BasePresenter<ExploreView> {
         });
     }
 
-    public void listMyExplores() {
+    public void listMyExplores(int page, int number) {
         mView.onLoading();
-        subscribeNetworkTask(getClass().getSimpleName().concat("listMyExplores"), mExploreModel.listMyExplores(), new MyObserver<ExploreListRsp>() {
+        subscribeNetworkTask(getClass().getSimpleName().concat("listMyExplores"), mExploreModel.listMyExplores(page, number), new MyObserver<ExploreListRsp>() {
             @Override
             public void onMyNext(ExploreListRsp exploreListRsp) {
                 mView.onExploreList(exploreListRsp);

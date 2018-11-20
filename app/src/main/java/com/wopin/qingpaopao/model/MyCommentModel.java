@@ -7,7 +7,9 @@ import com.wopin.qingpaopao.http.HttpClient;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -19,9 +21,9 @@ import okhttp3.ResponseBody;
 
 public class MyCommentModel {
 
-    public Observable<MyCommentsRsp> getMyComments() {
+    public Observable<MyCommentsRsp> getMyComments(int page, int number) {
         return HttpClient.getApiInterface()
-                .getMyComments(1, 99)
+                .getMyComments(page, number)
                 .map(new Function<ResponseBody, MyCommentsRsp>() {
                     @Override
                     public MyCommentsRsp apply(ResponseBody responseBody) throws Exception {
@@ -30,11 +32,34 @@ public class MyCommentModel {
                         JSONObject result = jsonObject.optJSONObject("result");
                         if (result != null) {
                             MyCommentsRsp myCommentsRsp = new Gson().fromJson(string, MyCommentsRsp.class);
+
+                            //整理replyMe和relatedPost
+                            List<MyCommentsRsp.ResultBean.CommentsReplyMeBean> commentsReplyMe = myCommentsRsp.getResult().getCommentsReplyMe();
+                            TreeMap<Integer, List<MyCommentsRsp.ResultBean.CommentsReplyMeBean>> replyMeCommentMap = new TreeMap<>();
+                            for (MyCommentsRsp.ResultBean.CommentsReplyMeBean commentsReplyMeBean : commentsReplyMe) {
+                                List<MyCommentsRsp.ResultBean.CommentsReplyMeBean> commentsReplyMeBeans = replyMeCommentMap.get(commentsReplyMeBean.getParent());
+                                if (commentsReplyMeBeans == null) {
+                                    commentsReplyMeBeans = new ArrayList<>();
+                                }
+                                commentsReplyMeBeans.add(commentsReplyMeBean);
+                                replyMeCommentMap.put(commentsReplyMeBean.getParent(), commentsReplyMeBeans);
+                            }
+
+                            List<MyCommentsRsp.ResultBean.RelatedPostsBean> relatedPosts = myCommentsRsp.getResult().getRelatedPosts();
+                            TreeMap<Integer, MyCommentsRsp.ResultBean.RelatedPostsBean> postMap = new TreeMap<>();
+                            for (MyCommentsRsp.ResultBean.RelatedPostsBean relatedPostsBean : relatedPosts) {
+                                postMap.put(relatedPostsBean.getId(), relatedPostsBean);
+                            }
+
+                            //把replyMe和relatedPost扔到comments里面，并剔除getParent > 0的comments
                             List<MyCommentsRsp.ResultBean.CommentsBean> comments = myCommentsRsp.getResult().getComments();
                             for (int i = comments.size() - 1; i >= 0; i--) {
                                 MyCommentsRsp.ResultBean.CommentsBean commentsBean = comments.get(i);
                                 if (commentsBean.getParent() > 0) {
                                     comments.remove(i);
+                                } else {
+                                    commentsBean.setCommentReplys(replyMeCommentMap.get(commentsBean.getId()));
+                                    commentsBean.setRelatedPostsBean(postMap.get(commentsBean.getPost()));
                                 }
                             }
                             myCommentsRsp.getResult().setComments(comments);

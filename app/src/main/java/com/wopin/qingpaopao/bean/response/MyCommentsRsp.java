@@ -56,7 +56,7 @@ public class MyCommentsRsp extends NormalRsp {
              * author_name : chen-dao
              * avatar_URL : http://wifi.h2popo.com:8081/images/1541419743266421541419743482.jpg
              * content : <p>111</p>
-
+             * <p>
              * date : 2018-11-15T20:52:10
              * type : comment
              */
@@ -70,6 +70,8 @@ public class MyCommentsRsp extends NormalRsp {
             private String content;
             private String date;
             private String type;
+            private List<CommentsReplyMeBean> commentReplys;
+            private RelatedPostsBean relatedPostsBean;
 
             public int getId() {
                 return id;
@@ -142,6 +144,22 @@ public class MyCommentsRsp extends NormalRsp {
             public void setType(String type) {
                 this.type = type;
             }
+
+            public List<CommentsReplyMeBean> getCommentReplys() {
+                return commentReplys;
+            }
+
+            public void setCommentReplys(List<CommentsReplyMeBean> commentReplys) {
+                this.commentReplys = commentReplys;
+            }
+
+            public RelatedPostsBean getRelatedPostsBean() {
+                return relatedPostsBean;
+            }
+
+            public void setRelatedPostsBean(RelatedPostsBean relatedPostsBean) {
+                this.relatedPostsBean = relatedPostsBean;
+            }
         }
 
         public static class CommentsReplyMeBean {
@@ -153,7 +171,7 @@ public class MyCommentsRsp extends NormalRsp {
              * author_name : chen-dao
              * avatar_URL : http://wifi.h2popo.com:8081/images/1541419743266421541419743482.jpg
              * content : <p>農</p>
-
+             * <p>
              * date : 2018-11-15T22:39:51
              * type : comment
              */
@@ -248,7 +266,7 @@ public class MyCommentsRsp extends NormalRsp {
              * date : 2018-11-15T20:51:48
              * title : 測試
              * content : <p>測</p>
-
+             * <p>
              * featured_media : -1
              * URL : https://wifi.h2popo.com/2018/11/15/%e6%b8%ac%e8%a9%a6/
              * likes : 0

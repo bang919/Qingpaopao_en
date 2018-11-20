@@ -12,44 +12,44 @@ import okhttp3.RequestBody;
 
 public class ExploreModel {
 
-    public Observable<ExploreListRsp> listHotExplores() {//热门话题
-        return HttpClient.getApiInterface().listHotExplores(1, 99)
+    public Observable<ExploreListRsp> listHotExplores(int page, int number) {//热门话题
+        return HttpClient.getApiInterface().listHotExplores(page, number)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<ExploreListRsp> listNewlyExplores() {//最新话题
-        return HttpClient.getApiInterface().listNewlyExplores(1, 99)
+    public Observable<ExploreListRsp> listNewlyExplores(int page, int number) {//最新话题
+        return HttpClient.getApiInterface().listNewlyExplores(page, number)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<ExploreListRsp> listMyExplores() {//我的话题
-        return HttpClient.getApiInterface().listMyExplores(1, 99)
+    public Observable<ExploreListRsp> listMyExplores(int page, int number) {//我的话题
+        return HttpClient.getApiInterface().listMyExplores(page, number)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<ExploreListRsp> listFollowExplores() {//关注话题
-        return HttpClient.getApiInterface().listFollowExplores(1, 99)
+    public Observable<ExploreListRsp> listFollowExplores(int page, int number) {//关注话题
+        return HttpClient.getApiInterface().listFollowExplores(page, number)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<ExploreListRsp> listColletionExplores() {//收藏话题
-        return HttpClient.getApiInterface().listColletionExplores(1, 99)
+    public Observable<ExploreListRsp> listColletionExplores(int page, int number) {//收藏话题
+        return HttpClient.getApiInterface().listColletionExplores(page, number)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<ExploreListRsp> listHistoryExplores() {//浏览历史
-        return HttpClient.getApiInterface().listHistoryExplores(1, 99)
+    public Observable<ExploreListRsp> listHistoryExplores(int page, int number) {//浏览历史
+        return HttpClient.getApiInterface().listHistoryExplores(page, number)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<ExploreListRsp> listMyLikeExplores() {//浏览历史
-        return HttpClient.getApiInterface().listMyLikeExplores(1, 99)
+    public Observable<ExploreListRsp> listMyLikeExplores(int page, int number) {//浏览历史
+        return HttpClient.getApiInterface().listMyLikeExplores(page, number)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

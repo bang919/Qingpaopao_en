@@ -9,8 +9,9 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.wopin.qingpaopao.R;
-import com.wopin.qingpaopao.adapter.MyCommentListAdapter;
+import com.wopin.qingpaopao.adapter.MyCommentsAdapter;
 import com.wopin.qingpaopao.bean.response.MyCommentsRsp;
 import com.wopin.qingpaopao.dialog.NormalDialog;
 import com.wopin.qingpaopao.fragment.BaseBarDialogFragment;
@@ -18,11 +19,13 @@ import com.wopin.qingpaopao.presenter.MyCommentPresenter;
 import com.wopin.qingpaopao.utils.ToastUtils;
 import com.wopin.qingpaopao.view.MyCommentView;
 
-public class MyCommentFragment extends BaseBarDialogFragment<MyCommentPresenter> implements MyCommentView, MyCommentListAdapter.MyCommentListCallback, View.OnClickListener {
+import java.util.List;
+
+public class MyCommentFragment extends BaseBarDialogFragment<MyCommentPresenter> implements MyCommentView, View.OnClickListener {
 
     public static final String TAG = "MyCommentFragment";
     private RecyclerView mRecyclerView;
-    private MyCommentListAdapter mMyCommentListAdapter;
+    private MyCommentsAdapter mMyCommentListAdapter;
 
     private View mRootView;
     private ConstraintLayout mCommentLayou;
@@ -30,6 +33,8 @@ public class MyCommentFragment extends BaseBarDialogFragment<MyCommentPresenter>
     private int keyBoardHeight;
     private View.OnLayoutChangeListener mKeyBoardListener;
     private int postId, commentId;
+    private final static int COMMENT_PAGE_NUMBER = 10;
+    private int commentPage = 1;
 
     public MyCommentFragment() {
         mKeyBoardListener = new View.OnLayoutChangeListener() {
@@ -66,7 +71,7 @@ public class MyCommentFragment extends BaseBarDialogFragment<MyCommentPresenter>
 
     @Override
     protected MyCommentPresenter initPresenter() {
-        return new MyCommentPresenter(getContext(), this);
+        return new MyCommentPresenter(getContext(), this, COMMENT_PAGE_NUMBER);
     }
 
     @Override
@@ -74,7 +79,40 @@ public class MyCommentFragment extends BaseBarDialogFragment<MyCommentPresenter>
         mRootView = rootView;
         mRecyclerView = rootView.findViewById(R.id.recyclerview);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mMyCommentListAdapter = new MyCommentListAdapter(this);
+        mMyCommentListAdapter = new MyCommentsAdapter(R.layout.item_rv_my_comments);
+        mMyCommentListAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                final MyCommentsRsp.ResultBean.CommentsBean comment = (MyCommentsRsp.ResultBean.CommentsBean) adapter.getItem(position);
+                switch (view.getId()) {
+                    case R.id.delete_btn:
+                        new NormalDialog(getContext(), getString(R.string.confirm), getString(R.string.cancel), getString(R.string.delete), new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                setLoadingVisibility(true);
+                                mPresenter.deleteComment(comment.getId());
+                            }
+                        }, null).show();
+                        break;
+                    case R.id.additional_comment:
+                        if (comment.getRelatedPostsBean() != null) {
+                            MyCommentFragment.this.postId = comment.getRelatedPostsBean().getId();
+                            MyCommentFragment.this.commentId = comment.getId();
+                            mCommentLayou.setVisibility(View.VISIBLE);
+                            setKeyBoardShow(mCommentEt, true);
+                            mCommentEt.setText(null);
+                            mRootView.addOnLayoutChangeListener(mKeyBoardListener);
+                        }
+                        break;
+                }
+            }
+        });
+        mMyCommentListAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                initEvent();
+            }
+        }, mRecyclerView);
         mRecyclerView.setAdapter(mMyCommentListAdapter);
 
         mCommentLayou = rootView.findViewById(R.id.bottom_comment_layout);
@@ -87,29 +125,40 @@ public class MyCommentFragment extends BaseBarDialogFragment<MyCommentPresenter>
     @Override
     protected void initEvent() {
         setLoadingVisibility(true);
-        mPresenter.getMyComments();
+        mPresenter.getMyComments(commentPage, COMMENT_PAGE_NUMBER);
     }
 
     @Override
-    public void onMyCommentsRsp(MyCommentsRsp myCommentsRsp) {
+    public void onMyCommentsRsp(int page, MyCommentsRsp myCommentsRsp) {
+        if (page == 1) {
+            commentPage = 1;
+            mMyCommentListAdapter.setNewData(null);
+        }
         setLoadingVisibility(false);
-        mMyCommentListAdapter.setData(myCommentsRsp);
+
+        MyCommentsRsp.ResultBean result = myCommentsRsp.getResult();
+        if (result != null) {
+            List<MyCommentsRsp.ResultBean.CommentsBean> comments = result.getComments();
+            mMyCommentListAdapter.addData(comments);
+
+            int replyMeSize = myCommentsRsp.getResult().getCommentsReplyMe() != null ? myCommentsRsp.getResult().getCommentsReplyMe().size() : 0;
+            if (comments.size() + replyMeSize < COMMENT_PAGE_NUMBER) {
+                mMyCommentListAdapter.loadMoreEnd();
+            } else {
+                commentPage++;
+                mMyCommentListAdapter.loadMoreComplete();
+            }
+        } else {
+            mMyCommentListAdapter.loadMoreEnd();
+        }
+
     }
 
     @Override
     public void onError(String errorMessage) {
+        mMyCommentListAdapter.loadMoreFail();
         setLoadingVisibility(false);
         ToastUtils.showShort(errorMessage);
-    }
-
-    @Override
-    public void onAddCommentClick(int postId, int commentId) {
-        this.postId = postId;
-        this.commentId = commentId;
-        mCommentLayou.setVisibility(View.VISIBLE);
-        setKeyBoardShow(mCommentEt, true);
-        mCommentEt.setText(null);
-        mRootView.addOnLayoutChangeListener(mKeyBoardListener);
     }
 
     public void setKeyBoardShow(View view, boolean isShow) {
@@ -120,17 +169,6 @@ public class MyCommentFragment extends BaseBarDialogFragment<MyCommentPresenter>
         } else if (inputMethodManager != null) {
             inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
-    }
-
-    @Override
-    public void onDeleteCommentClick(final MyCommentsRsp.ResultBean.CommentsBean comment) {
-        new NormalDialog(getContext(), getString(R.string.confirm), getString(R.string.cancel), getString(R.string.delete), new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setLoadingVisibility(true);
-                mPresenter.deleteComment(comment.getId());
-            }
-        }, null).show();
     }
 
     @Override

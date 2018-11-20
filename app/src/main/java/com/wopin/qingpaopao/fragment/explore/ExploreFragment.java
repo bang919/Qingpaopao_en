@@ -10,22 +10,25 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.activity.BuildBlogActivity;
-import com.wopin.qingpaopao.adapter.ExploreListAdapter;
+import com.wopin.qingpaopao.adapter.ExploreListNorAdapter;
 import com.wopin.qingpaopao.bean.response.ExploreListRsp;
 import com.wopin.qingpaopao.fragment.BaseMainFragment;
 import com.wopin.qingpaopao.presenter.ExplorePresenter;
 import com.wopin.qingpaopao.utils.ToastUtils;
 import com.wopin.qingpaopao.view.ExploreView;
 
-public class ExploreFragment extends BaseMainFragment<ExplorePresenter> implements ExploreView, ExploreListAdapter.ExploreListItemClick, View.OnClickListener {
+public class ExploreFragment extends BaseMainFragment<ExplorePresenter> implements ExploreView, View.OnClickListener {
 
     private TabLayout mTabLayout;
     private EditText mSearchEt;
     private RecyclerView mExploreRv;
     private View mLoadingView;
-    private ExploreListAdapter mExploreListAdapter;
+    private ExploreListNorAdapter mExploreListAdapter;
+    private final static int PAGE_NUMBER = 10;
+    private int page = 1;
 
     @Override
     public void onViewPagerFragmentPause() {
@@ -62,19 +65,40 @@ public class ExploreFragment extends BaseMainFragment<ExplorePresenter> implemen
     @Override
     protected void initEvent() {
         mExploreRv.setLayoutManager(new LinearLayoutManager(getContext()));
-        mExploreListAdapter = new ExploreListAdapter(this);
+        mExploreListAdapter = new ExploreListNorAdapter(R.layout.item_explore_list, null);
+        mExploreListAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                ExploreDetailFragment.build((ExploreListRsp.PostsBean) adapter.getItem(position)).show(getChildFragmentManager(), ExploreDetailFragment.TAG);
+            }
+        });
+        mExploreListAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                String s = mTabLayout.getTabAt(mTabLayout.getSelectedTabPosition()).getText().toString();
+                if (s.equals(getString(R.string.hot_topic))) {//热门话题
+                    mPresenter.listHotExplores(page, PAGE_NUMBER);
+                } else if (s.equals(getString(R.string.newest_topic))) {//最新话题
+                    mPresenter.listNewlyExplores(page, PAGE_NUMBER);
+                } else {//我的话题
+                    mPresenter.listMyExplores(page, PAGE_NUMBER);
+                }
+            }
+        }, mExploreRv);
         mExploreRv.setAdapter(mExploreListAdapter);
 
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 String s = tab.getText().toString();
+                mExploreListAdapter.setNewData(null);
+                page = 1;
                 if (s.equals(getString(R.string.hot_topic))) {//热门话题
-                    mPresenter.listHotExplores();
+                    mPresenter.listHotExplores(page, PAGE_NUMBER);
                 } else if (s.equals(getString(R.string.newest_topic))) {//最新话题
-                    mPresenter.listNewlyExplores();
+                    mPresenter.listNewlyExplores(page, PAGE_NUMBER);
                 } else {//我的话题
-                    mPresenter.listMyExplores();
+                    mPresenter.listMyExplores(page, PAGE_NUMBER);
                 }
             }
 
@@ -108,7 +132,7 @@ public class ExploreFragment extends BaseMainFragment<ExplorePresenter> implemen
 
     @Override
     public void refreshData() {
-        mPresenter.listHotExplores();
+        mPresenter.listHotExplores(1, PAGE_NUMBER);
     }
 
     @Override
@@ -119,19 +143,22 @@ public class ExploreFragment extends BaseMainFragment<ExplorePresenter> implemen
     @Override
     public void onExploreList(ExploreListRsp exploreListRsp) {
         setLoadingVisibility(false);
-        mExploreListAdapter.setDatas(exploreListRsp.getPosts());
         onDataRefreshFinish(true);
+
+        mExploreListAdapter.addData(exploreListRsp.getPosts());
+        if (exploreListRsp.getPosts().size() < PAGE_NUMBER) {
+            mExploreListAdapter.loadMoreEnd();
+        } else {
+            page++;
+            mExploreListAdapter.loadMoreComplete();
+        }
     }
 
     @Override
     public void onError(String errorMsg) {
         setLoadingVisibility(false);
         ToastUtils.showShort(errorMsg);
-    }
-
-    @Override
-    public void onExploreItemClick(final ExploreListRsp.PostsBean postsBean, int position) {
-        ExploreDetailFragment.build(postsBean).show(getChildFragmentManager(), ExploreDetailFragment.TAG);
+        mExploreListAdapter.loadMoreFail();
     }
 
     @Override
