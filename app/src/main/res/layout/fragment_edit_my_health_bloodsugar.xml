@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/key1"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="@color/colorWhite"
+        android:gravity="center_vertical"
+        android:paddingLeft="20dp"
+        android:text="@string/new_password"
+        android:textColor="@color/colorBlack"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <EditText
+        android:id="@+id/value1"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="255dp"
+        android:background="@null"
+        android:gravity="right"
+        android:inputType="numberDecimal"
+        android:paddingRight="10dp"
+        android:singleLine="true"
+        android:textSize="16sp"
+        app:layout_constraintBaseline_toBaselineOf="@id/key1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:id="@+id/key2"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="1dp"
+        android:background="@color/colorWhite"
+        android:gravity="center_vertical"
+        android:paddingLeft="20dp"
+        android:text="@string/new_password"
+        android:textColor="@color/colorBlack"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/key1" />
+
+    <EditText
+        android:id="@+id/value2"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="255dp"
+        android:background="@null"
+        android:gravity="right"
+        android:inputType="numberDecimal"
+        android:paddingRight="10dp"
+        android:singleLine="true"
+        android:textSize="16sp"
+        app:layout_constraintBaseline_toBaselineOf="@id/key2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:id="@+id/key3"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="1dp"
+        android:background="@color/colorWhite"
+        android:gravity="center_vertical"
+        android:paddingLeft="20dp"
+        android:text="@string/new_password"
+        android:textColor="@color/colorBlack"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/key2" />
+
+    <EditText
+        android:id="@+id/value3"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="255dp"
+        android:background="@null"
+        android:gravity="right"
+        android:inputType="numberDecimal"
+        android:paddingRight="10dp"
+        android:singleLine="true"
+        android:textSize="16sp"
+        app:layout_constraintBaseline_toBaselineOf="@id/key3"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

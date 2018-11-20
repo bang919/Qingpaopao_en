@@ -218,19 +218,19 @@ public class MyDrinkingFragment extends BaseBarDialogFragment implements View.On
                 mLineChart.getXAxis().setValueFormatter(new IAxisValueFormatter() {
                     @Override
                     public String getFormattedValue(float value, AxisBase axis) {
-                        String s = "星期天";
+                        String s = "Sunday";
                         if (value <= 0) {
-                            s = "星期一";
+                            s = "Monday";
                         } else if (value <= 1) {
-                            s = "星期二";
+                            s = "Tuesday";
                         } else if (value <= 2) {
-                            s = "星期三";
+                            s = "Wednesday";
                         } else if (value <= 3) {
-                            s = "星期四";
+                            s = "Thursday";
                         } else if (value <= 4) {
-                            s = "星期五";
+                            s = "Friday";
                         } else if (value <= 5) {
-                            s = "星期六";
+                            s = "Saturday";
                         }
                         return s;
                     }

@@ -96,6 +96,7 @@ public class MyHealthFragment extends BaseBarDialogFragment<MyHealthPresenter> i
                 break;
             case R.id.tv_blood_pressure:
                 editMyHealthFragment = EditMyHealthFragment.build(
+                        R.layout.fragment_edit_my_health_bloodpressure,
                         getString(R.string.edit_health_title, getString(R.string.blood_pressure)),
                         getString(R.string.blood_pressure_key1), profiles.getBlood_pressure(),
                         getString(R.string.blood_pressure_key2), profiles.getBlood_pressure_press()
@@ -123,6 +124,7 @@ public class MyHealthFragment extends BaseBarDialogFragment<MyHealthPresenter> i
                 break;
             case R.id.tv_blood_glucose:
                 editMyHealthFragment = EditMyHealthFragment.build(
+                        R.layout.fragment_edit_my_health_bloodsugar,
                         getString(R.string.edit_health_title, getString(R.string.blood_glucose)),
                         getString(R.string.blood_glucose_key1), profiles.getBlood_sugar_hugry(),
                         getString(R.string.blood_glucose_key2), profiles.getBlood_sugar_full()

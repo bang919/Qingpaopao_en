@@ -11,10 +11,9 @@ import android.widget.TextView;
 
 import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.fragment.BaseMainFragment;
+import com.wopin.qingpaopao.fragment.MineFragment;
 import com.wopin.qingpaopao.fragment.drinking.DrinkingFragment;
 import com.wopin.qingpaopao.fragment.explore.ExploreFragment;
-import com.wopin.qingpaopao.fragment.MineFragment;
-import com.wopin.qingpaopao.fragment.welfare.WelfareFragment;
 
 import java.util.HashMap;
 
@@ -24,9 +23,18 @@ import java.util.HashMap;
 
 public class MainViewPagerAdapter extends FragmentStatePagerAdapter {
 
-    private int[] tabTitles = {R.string.drinking, R.string.explore, R.string.welfare_discounts, R.string.mine};
-    private int[] tabImages = {R.drawable.select_img_bottom_tab_tea, R.drawable.select_img_bottom_tab_toy,
-            R.drawable.select_img_bottom_tab_gift, R.drawable.select_img_bottom_tab_profile};
+    private int[] tabTitles = {
+            R.string.drinking,
+            R.string.explore,
+//            R.string.welfare_discounts,
+            R.string.mine
+    };
+    private int[] tabImages = {
+            R.drawable.select_img_bottom_tab_tea,
+            R.drawable.select_img_bottom_tab_toy,
+//            R.drawable.select_img_bottom_tab_gift,
+            R.drawable.select_img_bottom_tab_profile
+    };
     private HashMap<Integer, BaseMainFragment> mFragmentMap;
 
     public MainViewPagerAdapter(FragmentManager fm) {
@@ -89,8 +97,8 @@ public class MainViewPagerAdapter extends FragmentStatePagerAdapter {
                     f = new ExploreFragment();
                     break;
                 case 2:
-                    f = new WelfareFragment();
-                    break;
+//                    f = new WelfareFragment();
+//                    break;
                 case 3:
                     f = new MineFragment();
                     break;

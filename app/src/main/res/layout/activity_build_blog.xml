@@ -25,10 +25,10 @@
 
     <TextView
         android:id="@+id/tv_top_right"
-        android:layout_width="50dp"
+        android:layout_width="60dp"
         android:layout_height="50dp"
         android:gravity="center"
-        android:text="@string/issue"
+        android:text="@string/release"
         android:textColor="@color/colorWhite"
         android:textSize="16sp"
         app:layout_constraintBaseline_toBaselineOf="@id/actionbar_title"

@@ -1,99 +1,99 @@
-﻿氢POPO富氢水杯客户答疑
-问：杯子的使用方法
-答：
-1 开机，长按开机键3秒
-2电解时间，默认5分钟，电解完成以后自动关机；
-3强制关机，开机状态长按开关键3秒，关机；
-4 手机操控，扫描杯底二维码下载氢泡泡APP，在手机上打开APP，通过手机蓝牙连接杯子，可以操控杯子灯光、电解时间、提醒喝水等功能；
-5新杯子最好用60度左右的热水，电解3-5次，倒掉。以后的就可以正常使用了；
-6 喝水建议：用60度左右的水，早晨一杯水电解两次后喝掉，上午1～2杯电解1次，下午1-2杯电解1次，晚上睡觉前电解两次1杯，按照此种方式饮用10天，会有较好效果。电解后，最好在20分钟内喝完
+﻿"Hydrogen POPO hydrogen-rich water cup customer Q & A
+Q: How to use the cup
+answer:
+1 Power on, long press the power button for 3 seconds
+2 electrolysis time, default 5 minutes, automatically shut down after electrolysis is completed;
+3 forced shutdown, power on state for a long time to open the key for 3 seconds, shut down;
+4 mobile phone control, scan the bottom of the cup QR code to download hydrogen bubble APP, open the APP on the phone, connect the cup through the phone Bluetooth, you can control the cup light, electrolysis time, remind water and other functions;
+5 new cups are best to use about 60 degrees of hot water, electrolysis 3-5 times, dumped. It will be used normally in the future;
+6 Drinking water recommendation: use about 60 degrees of water, drink a cup of water in the morning and then drink it twice, 1 to 2 cups of electrolysis in the morning, 1-2 cups of electrolysis in the afternoon, and 1 cup of electrolysis twice before going to bed at night. Drinking in this way for 10 days will have a better effect. After electrolysis, it is best to finish in 20 minutes.
 
-问：刚拆开的杯子里为什么会有水？
-答：杯子里的水是在工厂里组装时加的抑菌水，是为了湿润电解片和氢氧分离离子膜，激活并保持离子膜的活性，让用户在拿到杯子后就能有很好的制氢效果。在首次使用时，揭开硅胶塞后，倒掉即可。
+Q: Why is there water in the newly opened cup?
+A: The water in the cup is the antibacterial water added during assembly in the factory. It is used to wet the electrolyte sheet and separate the ion membrane from hydrogen and oxygen. It activates and maintains the activity of the ion membrane, so that the user can get a good result after getting the cup. Hydrogen production effect. When using it for the first time, remove the silicone plug and pour it off.
 
-问：首次打开杯子如何操作？
-答：首次使用杯子，把杯中的硅胶塞拿去，倒掉火山口里的抑菌水，若没有电，则开始充电，充电时按钮显示红色，充满时按钮显示绿色；充满电后，到入60°左右的热水，电解倒掉，如此反复3-5次以后，就可以正常使用了。
-
-
-问：杯子能否使用热开水？
-答：杯子可以使用热水，但不建议使用热开水。若是用刚烧开的热水，制氢后尚需放凉才能饮用，而这个等待时间会让氢气流失。所以，用60°左右热水制氢最适宜，且制氢完20分钟内饮用效果最佳。
+Q: How do I open the cup for the first time?
+A: Use the cup for the first time, take the silicone plug in the cup, and pour out the antibacterial water in the crater. If there is no electricity, start charging. When charging, the button will display red. When it is full, the button will display green. When fully charged, it will be Into the hot water of about 60 °, electrolytically dumped, so repeated 3-5 times, you can use it normally.
 
 
-问：如何开机关机？
-答：长按开关键3-5秒，即可开机关机。
+Q: Can the cup use hot water?
+A: Hot water can be used in the cup, but hot water is not recommended. If you use hot water that has just been boiled, you need to let it cool after drinking hydrogen, and this waiting time will cause hydrogen to be lost. Therefore, it is most suitable to produce hydrogen with hot water of about 60°, and the drinking effect is best within 20 minutes after hydrogen production.
 
-问：app在哪里可以连接到蓝牙？
-答：app界面中左下方有个蓝牙设置，点进去就可以连接蓝牙，记得先把手机蓝牙打开哦。
 
-问：如何设置制氢时间？
-答：不用app时，水杯开机后默认电解5分钟；用app操控时可以在0-20min任意调节。
+Q: How do I turn the phone off?
+A: Long press the key for 3-5 seconds, you can turn it on and off.
 
-问：硅胶塞怎么使用呢？
-答：硅胶塞在使用时需要拿掉，当第一次打开杯子时，会看到中间有些水，这是为了湿润杜邦膜片。所以需要打开杯子，把这个硅胶塞拿去。若长期不使用时，要倒入一部分水后用硅胶塞盖住。保持杯子活性，防止灰尘落入。
+Q: Where can the app connect to Bluetooth?
+A: There is a Bluetooth setting in the lower left of the app interface. You can connect to Bluetooth when you click in. Remember to open the phone Bluetooth first.
 
-问：刚打开的杯子中为什么会有一股怪味？
-答：在包装塑封后，包装盒里的空气难以流动，导致塑封袋气味进入杯子，并不妨碍使用，用60°左右的热水水浸泡电解，并放在通风比较好的地方敞开杯子一段时间即可。
+Q: How do I set the hydrogen production time?
+A: When the app is not used, the cup is electrolyzed for 5 minutes by default; when it is controlled by the app, it can be adjusted at 0-20min.
 
-问：水杯能否用饮水机除垢剂清洗？
-答：我们建议最好是用清水洗，可以用柠檬片泡一泡。因为除垢剂属于中强酸，会腐蚀杯子的电解片，不建议使用。
+Q: How is the silicone plug used?
+A: The silicone plug needs to be removed when it is used. When the cup is opened for the first time, some water will be seen in the middle. This is to moisten the DuPont diaphragm. So you need to open the cup and take the silicone plug. If it is not used for a long time, pour some water and cover it with a silicone plug. Keep the cup active and prevent dust from falling in.
 
-问：为什么杯子制氢的气泡特别少？
-答：本产品采用的是美国杜邦离子膜，需要通过浸泡去增强它的通透性和导电性（即激活离子膜），浸泡时间越长，离子膜导电性和通透性就越强。产生氢气量就越多。多使用就会越来越好的。
+Q: Why is there a strange smell in the newly opened cup?
+A: After the packaging and plastic packaging, the air in the packaging box is difficult to flow, which causes the smell of the plastic sealing bag to enter the cup, which does not hinder the use. Soak the electrolysis with hot water of about 60°, and open the cup for a while in a well-ventilated place. Just fine.
 
-问：杯子用于电解什么水？
-答：氢POPO富氢水杯可用于电解可直饮饮用水。可直饮饮用水，即我们平时喝的水。包括烧开的自来水，纯净水，矿泉水。烧开的井水，山泉水等。
+Q: Can the water cup be cleaned with a water dispenser descaling agent?
+A: We recommend that you wash with water and use a lemon slice to make a bubble. Because the descaling agent is a medium-strong acid, it will corrode the electrolytic sheet of the cup and is not recommended.
 
-问：用什么充电头？
-答：普通的USB充电头，5V=1A、5V=2A、都可以
-   闪冲充电头（5v=3A、5V=4A）的不行！
- 
-问：怎么打开杯子后没有情景灯？
-答：开机以后，杯内灯和开关灯默认呼吸变换。在开机状态下，短按开关键1秒，可以关闭或开启杯内呼吸灯。
-有些消费者在开机时，按开关键时间过久，或者按压时手指抖动，造成智能系统认为使用者多短按了一次，关闭了杯内灯。若杯内灯不亮，请尝试短按开关键1秒。若想关闭，也短按开关键1秒。
+Q: Why are there so few bubbles in hydrogen production in the cup?
+Answer: This product uses DuPont ionizing membrane. It needs to be immersed to enhance its permeability and conductivity (ie, activate the ion membrane). The longer the soaking time, the stronger the conductivity and permeability of the ion membrane. The amount of hydrogen produced is greater. More use will get better and better.
 
-问：为什么刚买的杯子杯身有水珠？
-答：温馨提示：在发货之前工厂都会测试合格才发货，里面的硅胶塞原本是把抑菌水锁在出氢口的，因为氢气发生器的离子膜需要保持湿润。快递在粗暴的运输过程中震落了硅胶塞，导致出氢口的无菌水撒在了杯子里。所有产品都是全新的，请放心使用。
+Q: What kind of water is used to electrolyze the cup?
+A: Hydrogen POPO hydrogen-rich water cup can be used for electrolysis and drinking water directly. Drinking water directly, that is, the water we usually drink. Including boiled tap water, purified water, mineral water. Boiled well water, mountain spring water, etc.
 
-问：杯子的使用寿命是多长？保修多长时间？
-答：杯子的使用寿命是三到五年，非人为损坏保修一年，人为损坏不保修.但可以免维修费，客户需承担来回运费及产品更换的零件价格。
+Q: What charging head is used?
+A: Ordinary USB charging head, 5V=1A, 5V=2A, can be
+   Flash charging head (5v = 3A, 5V = 4A) is not working!
+ 
+Q: How do I have no scene lights after opening the cup?
+A: After the power is turned on, the cup inner light and the switch light will change by default. In the power on state, short press the key for 1 second to turn off or turn on the inner breathing light.
+Some consumers turn on the critical time for too long when they turn on the power, or the fingers shake when they press, causing the intelligent system to think that the user has pressed the button once and closed the inner light. If the inside light of the cup does not light, please try to press the key for 1 second. If you want to turn it off, just press the key for 1 second.
 
-问：异味怎么处理？
-答：长期使用后，主机氢气生成部位可能有异味。此时，可向瓶内倒入60-80℃热水，泡上柠檬片，静置5分钟后把水倒掉，即可除去异味，再次使用。
+Q: Why did the cup I just bought have water drops?
+A: Tips: Before the delivery, the factory will test and pass the test. The silicone plug inside is originally locked with the antibacterial water in the hydrogen outlet, because the ion membrane of the hydrogen generator needs to be kept moist. The courier shook the silicone plug during the rough transportation, causing the sterile water from the hydrogen outlet to spill into the cup. All products are brand new, so feel free to use them.
 
-问：该怎么保管的好呢？
-答：每次使用完毕，请盖好杯盖，防止进入异物。携带产品时，请检查主机开关，必须保持关机状态。勿将产品放置在高温、高寒、腐蚀等恶劣环境。
+Q: How long is the life of the cup? How long is the warranty?
+A: The service life of the cup is three to five years. The non-human damage is guaranteed for one year. The man-made damage is not guaranteed. However, the maintenance fee can be exempted, and the customer must bear the price of the return shipping and product replacement parts.
 
-问：杯子多久清洗一次，用什么清洗
-答：建议每天清洗，用清水清洗即可，如有异味，可以用柠檬片浸泡数小时，倒掉。
+Q: How to deal with odor?
+A: After long-term use, there may be an odor in the hydrogen generating part of the main engine. At this point, you can pour 60-80 °C hot water into the bottle, soak the lemon slices, let stand for 5 minutes, then pour off the water, then remove the odor and use again.
 
-问：充电时杯子里需要有水吗？
-答：不需要，充电和杯子里有没有水是没有关系的
+Q: How can I keep it?
+A: After each use, please cover the cup to prevent foreign matter. When carrying the product, please check the host switch and it must be kept off. Do not place the product in a harsh environment such as high temperature, cold or corrosion.
 
-问：制氢时杯盖为什么会喷小小的水珠出来
-答：气泡是排出杯子内部多余的气体，防止杯内气压太高时损伤杯子部件。冒出的水滴是因为杯口有水，排气时把水吹出来了。
+Q: How often does the cup clean and what is used for cleaning?
+A: It is recommended to wash every day and wash it with water. If there is any smell, you can soak it with lemon slices for several hours and pour it off.
 
-问：富氢水喝多会不会有副作用？
-答：富氢水即是加入氢气的水。氢气是无毒无害、符合食品安全国家标准，而水更是您平时喝的饮用水。所以，富氢水对身体没有任何副作用，请放心饮用。
+Q: Do you need water in the cup when charging?
+A: No, it doesn't matter if there is no water in the cup.
 
-问：病人吃药期间还可以喝富氢水吗？
-答：可以的。可以使用富氢水送药，富氢水可以提高病人的免疫力，帮助调理身体不适，并且能够结合药疗更好更快的促进患者恢复。
+Q: Why does the lid of the cup spray a small drop of water when hydrogen is produced?
+A: The bubble is the excess gas inside the cup, which prevents the cup part from being damaged when the pressure inside the cup is too high. The water droplets that popped out were because there was water in the mouth of the cup, and the water was blown out when it was exhausted.
 
-问：可以一边制氢一边充电吗？
-答：一边制氢一边充电会损耗电池寿命，当杯子按钮红灯闪烁时，请停止制氢工作，进行充电，直至按钮亮绿灯
+Q: Will there be any side effects if you drink more hydrogen-rich water?
+A: Hydrogen-rich water is water that is added to hydrogen. Hydrogen is non-toxic and harmless, meets national food safety standards, and water is the drinking water you usually drink. Therefore, hydrogen-rich water has no side effects on the body, please feel free to drink.
 
-问：制氢好的水，放几个小时后喝，还有疗效吗？
-答：建议制氢后20分钟内饮用，此时效果最佳。氢分子运动的非常快，会随着时间流失，放置几个小时后的富氢水，含氢量大大降低，效果也就大大减弱了。
+Q: Can patients drink hydrogen-rich water during medication?
+A: Yes. Hydrogen-rich water can be used to deliver medicines. Hydrogen-rich water can improve the patient's immunity, help to adjust the body's discomfort, and can better and faster to promote patient recovery in combination with medication.
 
-问：富氢杯能在高温环境下放着吗？比如室外车内
-答：富氢杯是电子产品，不可以在高温坏境下暴晒。
+Q: Can I charge while producing hydrogen?
+A: Charging will reduce battery life while charging hydrogen. When the cup button flashes red, stop hydrogen production and charge until the button lights up green.
 
-问：杯子超过保修期坏了怎么办
-答：超过保修期，需客户自己承担来回运费以及更换零件费用。
+Q: Is it good to make hydrogen water and drink it after a few hours?
+A: It is recommended to drink within 20 minutes after hydrogen production. The movement of hydrogen molecules is very fast, and it will be lost over time. After a few hours of hydrogen-rich water, the hydrogen content is greatly reduced, and the effect is greatly reduced.
 
-问：杯子购买后什么情况可以退货
-答：我们产品到货7天内，没有拆开外包装，不影响二次销售的情况下可以退货。
-问：杯子可以用来制氢茶水吗
-答：可以的，但是必须把茶叶过滤干净。经常装茶水会有茶垢，建议每次使用后清洗杯子。
+Q: Can the hydrogen-rich cup be placed in a high temperature environment? Such as in an outdoor car
+A: The hydrogen-rich cup is an electronic product that cannot be exposed to high temperatures.
 
-问：冬天零下温度的寒冷环境长时间不用后再次使用没有气泡？
-答：建议使用80摄氏度左右的热水浸泡15min后再开机使用
+Q: What should I do if the cup is out of warranty?
+A: Exceeding the warranty period, the customer must bear the cost of return shipping and replacement parts.
+
+Q: What can be returned after the cup is purchased?
+A: Our products can be returned within 7 days of arrival, without unpacking the outer packaging and without affecting the secondary sales.
+Q: Can the cup be used to make hydrogen tea?
+A: Yes, but the tea must be filtered. Frequently loading tea will have tea stains. It is recommended to clean the cup after each use.
+
+Q: In the cold environment of zero temperature in winter, there is no air bubble after using it for a long time.
+A: It is recommended to use the hot water of about 80 degrees Celsius for 15 minutes before turning it on."

@@ -27,9 +27,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:text="@string/bluetooth_version"
             android:textColor="@color/colorBlack"
-            android:textSize="18sp" />
+            android:textSize="14sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -54,15 +55,17 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:text="@string/wifi_version"
             android:textColor="@color/colorBlack"
-            android:textSize="18sp" />
+            android:textSize="14sp" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/dont_know_version"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:text="@string/dont_know_version"
         android:textColor="@color/colorWhite"
         android:textSize="18sp"

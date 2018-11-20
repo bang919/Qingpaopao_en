@@ -82,7 +82,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         mRegisterViewFragment.setRegisterViewFragmentCallback(new RegisterViewFragment.RegisterViewFragmentCallback() {
             @Override
             public void onBackClick() {
-                onBackPressed();
+                LoginActivity.super.onBackPressed();
             }
 
             @Override
