@@ -382,5 +382,9 @@
     <string name="activate_cup">激活水杯</string>
     <string name="activate_text">请在以下输入 激活码</string>
     <string name="activate_success">激活水杯成功</string>
+    <string name="error_414">用户或密码错误</string>
+    <string name="error_511">输入email已经注册</string>
+    <string name="error_512">杯子已经被其他账号绑定</string>
+
 
 </resources>

@@ -1,8 +1,11 @@
 package com.wopin.qingpaopao.utils;
 
+import android.content.Context;
 import android.text.TextUtils;
 
+import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.bean.response.NormalRsp;
+import com.wopin.qingpaopao.common.MyApplication;
 import com.wopin.qingpaopao.presenter.BasePresenter;
 
 import io.reactivex.Observable;
@@ -55,7 +58,21 @@ public class HttpUtil {
                     if (TextUtils.isEmpty(status) || Integer.valueOf(status) == 0) {
                         observer.onNext(t);
                     } else {
-                        onError(new Throwable(normalRsp.getMsg()));
+                        String errorMsg = normalRsp.getMsg();
+                        Context context = MyApplication.getMyApplicationContext();
+                        switch (status) {
+                            case "414":
+                                errorMsg = context.getString(R.string.error_414);
+                                break;
+                            case "511":
+                                errorMsg = context.getString(R.string.error_511);
+                                break;
+                            case "512":
+                                errorMsg = context.getString(R.string.error_512);
+                                break;
+                        }
+
+                        onError(new Throwable(errorMsg));
                     }
                 } else {
                     observer.onNext(t);
