@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.presenter.ForgetPasswordPresenter;
+import com.wopin.qingpaopao.utils.StringUtils;
 import com.wopin.qingpaopao.utils.ToastUtils;
 import com.wopin.qingpaopao.view.ForgetPasswordView;
 
@@ -18,6 +19,7 @@ public class ForgetPasswordFragment extends BaseBarDialogFragment<ForgetPassword
     private EditText mPasswordEt;
     private EditText mDoubleCheckPasswordEt;
     private TextView mVerificationCodeView;
+    private String mEmail;
 
     @Override
     protected int getLayout() {
@@ -64,15 +66,19 @@ public class ForgetPasswordFragment extends BaseBarDialogFragment<ForgetPassword
                 mPresenter.sendVerifyCode();
                 break;
             case R.id.bt_confirm:
-                mPresenter.changePassword(mPhoneNumberEt.getText().toString(), mPasswordEt.getText().toString()
-                        , mDoubleCheckPasswordEt.getText().toString(), mVerificationCodeEt.getText().toString());
+                mEmail = mPhoneNumberEt.getText().toString();
+                if (!StringUtils.isEmail(mEmail)) {
+                    ToastUtils.showShort(R.string.email_format_error);
+                    return;
+                }
+                mPresenter.changePassword(mEmail);
                 break;
         }
     }
 
     @Override
     public void onChangePasswordSuccess() {
-        ToastUtils.showShort(R.string.password_had_be_change);
+        ToastUtils.showShort(R.string.email_had_sent);
         dismiss();
     }
 

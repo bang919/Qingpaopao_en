@@ -5,7 +5,7 @@ import android.view.View;
 
 import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.adapter.MyFragmentPageAdapter;
-import com.wopin.qingpaopao.bean.request.LoginReq;
+import com.wopin.qingpaopao.bean.request.EmailLoginReq;
 import com.wopin.qingpaopao.bean.request.ThirdReq;
 import com.wopin.qingpaopao.common.Constants;
 import com.wopin.qingpaopao.fragment.ForgetPasswordFragment;
@@ -67,10 +67,10 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
             @Override
             public void login(String phoneNumber, String password) {
-                LoginReq loginReq = new LoginReq();
-                loginReq.setPhone(phoneNumber);
-                loginReq.setPassword(password);
-                mPresenter.login(loginReq);
+                EmailLoginReq emailLoginReq = new EmailLoginReq();
+                emailLoginReq.setEmail(phoneNumber);
+                emailLoginReq.setPassword(password);
+                mPresenter.login(emailLoginReq);
             }
 
             @Override
@@ -91,8 +91,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
             }
 
             @Override
-            public void onRegisterClick(LoginReq loginReq) {
-                mPresenter.register(loginReq);
+            public void onRegisterClick(EmailLoginReq emailLoginReq) {
+                mPresenter.register(emailLoginReq);
             }
         });
         switchFragment(mLoginViewFragment);
@@ -109,7 +109,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @Override
     protected void initEvent() {
         try {
-            LoginReq loginReq = SPUtils.getObject(this, Constants.LOGIN_REQUEST);
+            EmailLoginReq loginReq = SPUtils.getObject(this, Constants.LOGIN_REQUEST);
             ThirdReq thirdReq = SPUtils.getObject(this, Constants.THIRD_REQUEST);
             if (loginReq != null) {
                 mPresenter.login(loginReq);

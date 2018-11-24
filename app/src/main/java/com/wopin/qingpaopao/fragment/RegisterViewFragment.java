@@ -11,7 +11,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.wopin.qingpaopao.R;
-import com.wopin.qingpaopao.bean.request.LoginReq;
+import com.wopin.qingpaopao.bean.request.EmailLoginReq;
+import com.wopin.qingpaopao.utils.StringUtils;
+import com.wopin.qingpaopao.utils.ToastUtils;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -22,6 +24,7 @@ public class RegisterViewFragment extends Fragment implements View.OnClickListen
     private RegisterViewFragmentCallback mRegisterViewFragmentCallback;
     private EditText mPhoneNumberEt;
     private EditText mVerificationCodeEt;
+    private EditText mUsernameEt;
     private EditText mPasswordEt;
     private TextView mVerificationCodeView;
 
@@ -55,6 +58,7 @@ public class RegisterViewFragment extends Fragment implements View.OnClickListen
     private void onViewPagerFragmentCreate() {
         mPhoneNumberEt = mRootView.findViewById(R.id.et_phone_number);
         mVerificationCodeEt = mRootView.findViewById(R.id.et_verification_code);
+        mUsernameEt = mRootView.findViewById(R.id.et_input_username);
         mPasswordEt = mRootView.findViewById(R.id.et_password);
         mVerificationCodeView = mRootView.findViewById(R.id.get_verification_code);
         mVerificationCodeView.setOnClickListener(this);
@@ -117,13 +121,17 @@ public class RegisterViewFragment extends Fragment implements View.OnClickListen
                 }
                 break;
             case R.id.bt_register:
+                String email = mPhoneNumberEt.getText().toString();
+                if (!StringUtils.isEmail(email)) {
+                    ToastUtils.showShort(R.string.email_format_error);
+                    return;
+                }
                 if (mRegisterViewFragmentCallback != null) {
-                    LoginReq loginReq = new LoginReq();
-                    loginReq.setPhone(mPhoneNumberEt.getText().toString());
-                    loginReq.setUserName(mPhoneNumberEt.getText().toString());
-                    loginReq.setPassword(mPasswordEt.getText().toString());
-                    loginReq.setV_code(mVerificationCodeEt.getText().toString());
-                    mRegisterViewFragmentCallback.onRegisterClick(loginReq);
+                    EmailLoginReq emailLoginReq = new EmailLoginReq();
+                    emailLoginReq.setEmail(email);
+                    emailLoginReq.setUserName(mUsernameEt.getText().toString());
+                    emailLoginReq.setPassword(mPasswordEt.getText().toString());
+                    mRegisterViewFragmentCallback.onRegisterClick(emailLoginReq);
                 }
                 break;
             case R.id.get_verification_code:
@@ -143,6 +151,6 @@ public class RegisterViewFragment extends Fragment implements View.OnClickListen
 
         void onSendVerificationCodeClick(String phoneNumber);
 
-        void onRegisterClick(LoginReq loginReq);
+        void onRegisterClick(EmailLoginReq emailLoginReq);
     }
 }

@@ -7,6 +7,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class StringUtils {
     public static String getRandomString2(int length) {
@@ -59,5 +61,19 @@ public class StringUtils {
             e.printStackTrace();
         }
         return stringBuilder.toString();
+    }
+
+    /**
+     * 判断邮箱是否合法
+     *
+     * @param email
+     * @return
+     */
+    public static boolean isEmail(String email) {
+        if (null == email || "".equals(email)) return false;
+        //Pattern p = Pattern.compile("\\w+@(\\w+.)+[a-z]{2,3}"); //简单匹配
+        Pattern p = Pattern.compile("\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*");//复杂匹配
+        Matcher m = p.matcher(email);
+        return m.matches();
     }
 }

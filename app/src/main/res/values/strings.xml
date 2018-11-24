@@ -10,6 +10,9 @@
     <string name="cancel">Cancel</string>
     <string name="login">Login</string>
     <string name="please_input_phone_number">Please enter your mobile number</string>
+    <string name="please_input_email">Please enter your email</string>
+    <string name="email_format_error">Email format error</string>
+    <string name="please_input_username">Please enter username</string>
     <string name="please_input_password">Please enter new password</string>
     <string name="new_password">New password</string>
     <string name="double_check_password">Confirm password</string>
@@ -24,6 +27,7 @@
     <string name="get_verification_code">Get verification code</string>
     <string name="verification_code_had_send">verification code had send</string>
     <string name="password_had_be_change">edit password success</string>
+    <string name="email_had_sent">An Email had sent, please check.</string>
     <string name="register">register</string>
     <string name="register_success">Register success</string>
     <string name="i_agree_qingpaopao">I agree</string>
@@ -76,6 +80,7 @@
     <string name="edit_username_success">Modify username success！</string>
     <string name="save">Save</string>
     <string name="please_input_new_username">Please enter your username</string>
+    <string name="email">Email</string>
     <string name="phone_number">Mobile number</string>
     <string name="new_phone_number">New Mobile number</string>
     <string name="new_phone_number_cant_same">The new mobile number is the same as the current number</string>
@@ -369,5 +374,10 @@
     <string name="color_4">Red</string>
     <string name="color_5">Green</string>
     <string name="color_6">Cancel</string>
+    <string name="activate">Activate</string>
+    <string name="activated">Activated</string>
+    <string name="activate_cup">Activate Cup</string>
+    <string name="activate_text">Please input the activate code below</string>
+    <string name="activate_success">Activate cup success</string>
 
 </resources>

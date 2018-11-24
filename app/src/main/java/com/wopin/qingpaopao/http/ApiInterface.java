@@ -5,6 +5,7 @@ import com.wopin.qingpaopao.bean.request.AddressBean;
 import com.wopin.qingpaopao.bean.request.BodyProfilesBean;
 import com.wopin.qingpaopao.bean.request.CupColorReq;
 import com.wopin.qingpaopao.bean.request.CupUpdateReq;
+import com.wopin.qingpaopao.bean.request.EmailLoginReq;
 import com.wopin.qingpaopao.bean.request.GetWechatPayReq;
 import com.wopin.qingpaopao.bean.request.LocalBean;
 import com.wopin.qingpaopao.bean.request.LoginReq;
@@ -31,6 +32,7 @@ import com.wopin.qingpaopao.bean.response.OrderListResponse;
 import com.wopin.qingpaopao.bean.response.OrderOneResponse;
 import com.wopin.qingpaopao.bean.response.ProductBanner;
 import com.wopin.qingpaopao.bean.response.ProductContent;
+import com.wopin.qingpaopao.bean.response.SigninCheckRsp;
 import com.wopin.qingpaopao.bean.response.SystemMessageRsp;
 import com.wopin.qingpaopao.bean.response.ThirdBindRsp;
 import com.wopin.qingpaopao.bean.response.UploadImageRsp;
@@ -67,6 +69,9 @@ public interface ApiInterface {
     @POST("users/login")
     Observable<LoginRsp> login(@Body LoginReq loginReq);
 
+    @POST("users/emailLogin")
+    Observable<LoginRsp> emaillogin(@Body EmailLoginReq emailLoginReq);
+
     @GET("users/getUserData")
     Observable<LoginRsp> getUserData();
 
@@ -79,8 +84,17 @@ public interface ApiInterface {
     @POST("users/register")
     Observable<NormalRsp> register(@Body LoginReq loginReq);
 
+    @POST("users/emailRegister")
+    Observable<NormalRsp> emailRegister(@Body EmailLoginReq loginReq);
+
     @POST("users/changePassword")
     Observable<NormalRsp> changePassword(@Body LoginReq loginReq);
+
+    @POST("users/resetEmailPassword")
+    Observable<NormalRsp> resetEmailPassword(@Body EmailLoginReq emailLoginReq);
+
+    @POST("users/changePasswordByEmail")
+    Observable<NormalRsp> changePasswordByEmail(@Body EmailLoginReq emailLoginReq);
 
     @POST("users/changePhone")
     Observable<NormalRsp> changePhone(@Body LoginReq loginReq);
@@ -281,4 +295,10 @@ public interface ApiInterface {
 
     @POST("blog/deleteComment")
     Observable<NormalRsp> deleteComment(@Body RequestBody requestBody);
+
+    @POST("users/checkSigninCup")
+    Observable<SigninCheckRsp> checkSigninCup(@Body RequestBody requestBody);
+
+    @POST("users/signinCup")
+    Observable<NormalRsp> signinCup(@Body RequestBody requestBody);
 }

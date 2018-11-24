@@ -28,7 +28,12 @@ public class InformationEditFragment extends BaseBarDialogFragment implements Mi
     protected void initView(View rootView) {
         RecyclerView listRv = rootView.findViewById(R.id.list_recyclerview);
         listRv.setLayoutManager(new LinearLayoutManager(getContext()));
-        listRv.setAdapter(new MineListRvAdapter(new int[]{R.string.person_info, R.string.edit_bind_phone, R.string.edit_bind_third, R.string.edit_password}, this));
+        listRv.setAdapter(new MineListRvAdapter(new int[]{
+                R.string.person_info,
+//                R.string.edit_bind_phone,
+//                R.string.edit_bind_third,
+                R.string.edit_password
+        }, this));
         rootView.findViewById(R.id.bt_safe_logout).setOnClickListener(this);
     }
 

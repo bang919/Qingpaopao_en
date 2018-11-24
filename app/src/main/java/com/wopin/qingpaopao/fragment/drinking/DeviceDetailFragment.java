@@ -10,9 +10,11 @@ import android.widget.TextView;
 import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.adapter.PopupWindowListAdapter;
 import com.wopin.qingpaopao.bean.response.CupListRsp;
+import com.wopin.qingpaopao.bean.response.SigninCheckRsp;
 import com.wopin.qingpaopao.common.Constants;
 import com.wopin.qingpaopao.dialog.EditCupNameDialog;
 import com.wopin.qingpaopao.fragment.BaseBarDialogFragment;
+import com.wopin.qingpaopao.http.HttpClient;
 import com.wopin.qingpaopao.manager.MessageProxy;
 import com.wopin.qingpaopao.manager.MessageProxyCallback;
 import com.wopin.qingpaopao.presenter.BasePresenter;
@@ -21,6 +23,13 @@ import com.wopin.qingpaopao.utils.PopupWindowUtil;
 import com.wopin.qingpaopao.utils.SPUtils;
 
 import java.util.ArrayList;
+
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 
 public class DeviceDetailFragment extends BaseBarDialogFragment implements View.OnClickListener {
 
@@ -32,7 +41,9 @@ public class DeviceDetailFragment extends BaseBarDialogFragment implements View.
     private TextView mDeviceStatusTv;
     private TextView mDeviceStatusTime;
     private SwitchCompat mNotificationSwitch;
+    private TextView mActivateTv;
     private DeviceDetailFragmentCallback mDeviceDetailFragmentCallback;
+    private Disposable checkSigninDisposable;
 
     public static DeviceDetailFragment getDeviceDetailFragment(CupListRsp.CupBean cupBean, DeviceDetailFragmentCallback deviceDetailFragmentCallback) {
         DeviceDetailFragment deviceDetailFragment = new DeviceDetailFragment();
@@ -72,6 +83,20 @@ public class DeviceDetailFragment extends BaseBarDialogFragment implements View.
         mDeviceStatusTime = rootView.findViewById(R.id.value_device_time);
         mNotificationSwitch = rootView.findViewById(R.id.switch_notification);
         mNotificationSwitch.setChecked((Boolean) SPUtils.get(getContext(), Constants.DRINKING_NOTIFICATION, false));
+
+        mActivateTv = rootView.findViewById(R.id.tv_activate);
+    }
+
+    private void setActivateBtnEnable(boolean enable) {
+        mActivateTv.setVisibility(View.VISIBLE);
+        if (enable) {
+            mActivateTv.setText(R.string.activate);
+            mActivateTv.setClickable(true);
+            mActivateTv.setOnClickListener(this);
+        } else {
+            mActivateTv.setText(R.string.activated);
+            mActivateTv.setClickable(false);
+        }
     }
 
     @Override
@@ -129,11 +154,43 @@ public class DeviceDetailFragment extends BaseBarDialogFragment implements View.
                 }
             }
         });
+
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), "{\"cupId\":\"" + mCupBean.getUuid() + "\"}");
+        HttpClient.getApiInterface()
+                .checkSigninCup(requestBody)
+                .retry(2)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<SigninCheckRsp>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        checkSigninDisposable = d;
+                    }
+
+                    @Override
+                    public void onNext(SigninCheckRsp signinCheckRsp) {
+                        setActivateBtnEnable(!signinCheckRsp.getResult().isSigninCup());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        checkSigninDisposable = null;
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        checkSigninDisposable = null;
+                    }
+                });
     }
 
     @Override
     public void onDestroy() {
         MessageProxy.clearMessageProxyCallback();
+        if (checkSigninDisposable != null) {
+            checkSigninDisposable.dispose();
+            checkSigninDisposable = null;
+        }
         super.onDestroy();
     }
 
@@ -166,6 +223,14 @@ public class DeviceDetailFragment extends BaseBarDialogFragment implements View.
                 });
                 break;
             }
+            case R.id.tv_activate:
+                ActivateFragment.build(mCupBean.getUuid(), new ActivateFragment.ActivateCallback() {
+                    @Override
+                    public void onSigninSuccess() {
+                        setActivateBtnEnable(false);
+                    }
+                }).show(getChildFragmentManager(), ActivateFragment.TAG);
+                break;
         }
     }
 

@@ -2,7 +2,7 @@ package com.wopin.qingpaopao.presenter;
 
 import android.content.Context;
 
-import com.wopin.qingpaopao.bean.request.LoginReq;
+import com.wopin.qingpaopao.bean.request.EmailLoginReq;
 import com.wopin.qingpaopao.bean.request.ThirdReq;
 import com.wopin.qingpaopao.bean.response.LoginRsp;
 import com.wopin.qingpaopao.bean.response.NormalRsp;
@@ -41,12 +41,12 @@ public class LoginPresenter extends BasePresenter<LoginView> {
         });
     }
 
-    public void register(final LoginReq loginReq) {
+    public void register(final EmailLoginReq emailLoginReq) {
         mView.onLoading();
-        subscribeNetworkTask(getClass().getName().concat("register"), mLoginModel.register(loginReq), new MyObserver<NormalRsp>() {
+        subscribeNetworkTask(getClass().getName().concat("register"), mLoginModel.register(emailLoginReq), new MyObserver<NormalRsp>() {
             @Override
             public void onMyNext(NormalRsp normalRsp) {
-                SPUtils.put(MyApplication.getMyApplicationContext(), Constants.USERNAME, loginReq.getPhone());
+                SPUtils.put(MyApplication.getMyApplicationContext(), Constants.USERNAME, emailLoginReq.getEmail());
                 mView.onRegisterSuccess();
             }
 
@@ -57,14 +57,14 @@ public class LoginPresenter extends BasePresenter<LoginView> {
         });
     }
 
-    public void login(final LoginReq loginReq) {
+    public void login(final EmailLoginReq emailLoginReq) {
         mView.onLoading();
-        subscribeNetworkTask(getClass().getName().concat("login"), mLoginModel.login(loginReq), new MyObserver<LoginRsp>() {
+        subscribeNetworkTask(getClass().getName().concat("login"), mLoginModel.emailLogin(emailLoginReq), new MyObserver<LoginRsp>() {
             @Override
             public void onMyNext(LoginRsp loginResponseBean) {
                 updateLoginMessage(loginResponseBean);
-                SPUtils.putObject(MyApplication.getMyApplicationContext(), Constants.LOGIN_REQUEST, loginReq);
-                SPUtils.put(MyApplication.getMyApplicationContext(), Constants.USERNAME, loginReq.getPhone());
+                SPUtils.putObject(MyApplication.getMyApplicationContext(), Constants.LOGIN_REQUEST, emailLoginReq);
+                SPUtils.put(MyApplication.getMyApplicationContext(), Constants.USERNAME, emailLoginReq.getEmail());
                 mView.onLoginSuccess();
             }
 

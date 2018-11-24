@@ -6,13 +6,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.wopin.qingpaopao.R;
-import com.wopin.qingpaopao.bean.request.LoginReq;
+import com.wopin.qingpaopao.bean.request.EmailLoginReq;
 import com.wopin.qingpaopao.bean.response.NormalRsp;
 import com.wopin.qingpaopao.common.Constants;
 import com.wopin.qingpaopao.fragment.BaseBarDialogFragment;
 import com.wopin.qingpaopao.model.LoginModel;
 import com.wopin.qingpaopao.presenter.BasePresenter;
-import com.wopin.qingpaopao.presenter.LoginPresenter;
 import com.wopin.qingpaopao.presenter.SendVerifyCodePresenter;
 import com.wopin.qingpaopao.utils.EncryptionUtil;
 import com.wopin.qingpaopao.utils.HttpUtil;
@@ -68,7 +67,7 @@ public class EditPasswordFragment extends BaseBarDialogFragment<SendVerifyCodePr
 
     @Override
     protected void initEvent() {
-        String phone = LoginPresenter.getAccountMessage().getResult().getPhone();
+        String phone = (String) SPUtils.get(getContext(), Constants.USERNAME, "");
         if (TextUtils.isEmpty(phone)) {
             phone = getString(R.string.please_bind_phone_number);
         } else {
@@ -88,7 +87,7 @@ public class EditPasswordFragment extends BaseBarDialogFragment<SendVerifyCodePr
 
     private void changePassword(final String phoneNumber, String newPassword, String passwordCheck, String vcode) {
         try {
-            LoginReq loginReq = SPUtils.getObject(getContext(), Constants.LOGIN_REQUEST);
+            EmailLoginReq loginReq = SPUtils.getObject(getContext(), Constants.LOGIN_REQUEST);
             if (loginReq != null && !TextUtils.isEmpty(newPassword) && EncryptionUtil.md5(newPassword).equals(loginReq.getPassword())) {
                 ToastUtils.showShort(R.string.new_password_cant_same);
                 return;

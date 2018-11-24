@@ -41,7 +41,7 @@ android {
         targetSdkVersion 27
         versionCode 1
         versionName "1.0.0"
-        buildConfigField "String", "basicUrlHttps", "\"http://wifi.h2popo.com:8081\""
+        buildConfigField "String", "basicUrlHttps", "\"http://wifi2.h2popo.com:8081\""
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 

@@ -10,6 +10,9 @@
     <string name="cancel">取消</string>
     <string name="login">登录</string>
     <string name="please_input_phone_number">请输入手机号码</string>
+    <string name="please_input_email">请输入电子邮箱</string>
+    <string name="email_format_error">电子邮箱格式错误</string>
+    <string name="please_input_username">请输入用户名</string>
     <string name="please_input_password">请输入密码</string>
     <string name="new_password">新密码</string>
     <string name="double_check_password">确认密码</string>
@@ -24,6 +27,7 @@
     <string name="get_verification_code">获取验证码</string>
     <string name="verification_code_had_send">验证码已发送</string>
     <string name="password_had_be_change">密码更改成功</string>
+    <string name="email_had_sent">邮件已发送，请查收。</string>
     <string name="register">注册</string>
     <string name="register_success">注册成功</string>
     <string name="i_agree_qingpaopao">我同意氢泡泡</string>
@@ -76,6 +80,7 @@
     <string name="edit_username_success">修改用户名成功！</string>
     <string name="save">保存</string>
     <string name="please_input_new_username">请输入新的用户名</string>
+    <string name="email">电子邮箱</string>
     <string name="phone_number">手机号</string>
     <string name="new_phone_number">新手机号</string>
     <string name="new_phone_number_cant_same">新手机号不能和旧手机号相同</string>
@@ -372,5 +377,10 @@
     <string name="color_4">中国红</string>
     <string name="color_5">草木绿</string>
     <string name="color_6">曜石黑</string>
+    <string name="activate">激活</string>
+    <string name="activated">已激活</string>
+    <string name="activate_cup">激活水杯</string>
+    <string name="activate_text">请在以下输入 激活码</string>
+    <string name="activate_success">激活水杯成功</string>
 
 </resources>

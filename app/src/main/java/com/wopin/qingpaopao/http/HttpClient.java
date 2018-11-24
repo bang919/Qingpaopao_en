@@ -73,7 +73,7 @@ public class HttpClient {
     private static void initOkhttpClient() {
         if (mOkHttpClient == null) {
 
-            Interceptor headInterceptor = getHeadInterceptor();
+//            Interceptor headInterceptor = getHeadInterceptor();
             HttpLoggingInterceptor httpLoggingInterceptor = getLoggingInterceptor();
             Cache cache = getCache();
 
@@ -92,7 +92,7 @@ public class HttpClient {
                         }
                     })
                     .cache(cache)
-                    .addNetworkInterceptor(headInterceptor)
+//                    .addNetworkInterceptor(headInterceptor)
                     .addInterceptor(httpLoggingInterceptor)
                     .build();
         }

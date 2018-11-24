@@ -2,6 +2,7 @@ package com.wopin.qingpaopao.model;
 
 import android.text.TextUtils;
 
+import com.wopin.qingpaopao.bean.request.EmailLoginReq;
 import com.wopin.qingpaopao.bean.request.LoginReq;
 import com.wopin.qingpaopao.bean.request.ThirdReq;
 import com.wopin.qingpaopao.bean.response.LoginRsp;
@@ -26,18 +27,24 @@ public class LoginModel {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<NormalRsp> register(LoginReq loginReq) {
-        return HttpClient.getApiInterface().register(loginReq)
+    public Observable<NormalRsp> register(EmailLoginReq emailLoginReq) {
+        return HttpClient.getApiInterface().emailRegister(emailLoginReq)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public Observable<NormalRsp> resetEmailPassword(String email){
+        EmailLoginReq emailLoginReq = new EmailLoginReq();
+        emailLoginReq.setEmail(email);
+        return HttpClient.getApiInterface().resetEmailPassword(emailLoginReq)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
     public Observable<NormalRsp> changePassword(String phoneNumber, String vcode, String newPassword) {
-        LoginReq loginReq = new LoginReq();
-        loginReq.setPhone(phoneNumber);
-        loginReq.setV_code(vcode);
-        loginReq.setPassword(newPassword);
-        return HttpClient.getApiInterface().changePassword(loginReq)
+        EmailLoginReq emailLoginReq = new EmailLoginReq();
+        emailLoginReq.setPassword(newPassword);
+        return HttpClient.getApiInterface().changePasswordByEmail(emailLoginReq)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
@@ -51,8 +58,8 @@ public class LoginModel {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
-    public Observable<LoginRsp> login(LoginReq loginReq) {
-        return HttpClient.getApiInterface().login(loginReq)
+    public Observable<LoginRsp> emailLogin(EmailLoginReq loginReq) {
+        return HttpClient.getApiInterface().emaillogin(loginReq)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

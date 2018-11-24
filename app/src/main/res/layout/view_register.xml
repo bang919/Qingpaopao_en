@@ -31,8 +31,8 @@
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
         android:layout_marginTop="70dp"
-        android:hint="@string/please_input_phone_number"
-        android:inputType="number"
+        android:hint="@string/please_input_email"
+        android:inputType="textEmailAddress"
         android:singleLine="true"
         android:textSize="20sp"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -48,6 +48,7 @@
         android:inputType="number"
         android:singleLine="true"
         android:textSize="16sp"
+        android:visibility="gone"
         app:layout_constraintLeft_toLeftOf="@id/et_phone_number"
         app:layout_constraintRight_toRightOf="@id/et_phone_number"
         app:layout_constraintTop_toBottomOf="@id/et_phone_number" />
@@ -60,9 +61,22 @@
         android:text="@string/get_verification_code"
         android:textColor="@color/colorRed"
         android:textSize="12sp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/et_verification_code"
         app:layout_constraintRight_toRightOf="@id/et_verification_code"
         app:layout_constraintTop_toTopOf="@id/et_verification_code" />
+
+    <EditText
+        android:id="@+id/et_input_username"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:hint="@string/please_input_username"
+        android:singleLine="true"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toLeftOf="@id/et_phone_number"
+        app:layout_constraintRight_toRightOf="@id/et_phone_number"
+        app:layout_constraintTop_toBottomOf="@id/et_phone_number" />
 
     <EditText
         android:id="@+id/et_password"
@@ -73,9 +87,9 @@
         android:inputType="textPassword"
         android:singleLine="true"
         android:textSize="20sp"
-        app:layout_constraintLeft_toLeftOf="@id/et_verification_code"
-        app:layout_constraintRight_toRightOf="@id/et_verification_code"
-        app:layout_constraintTop_toBottomOf="@id/et_verification_code" />
+        app:layout_constraintLeft_toLeftOf="@id/et_input_username"
+        app:layout_constraintRight_toRightOf="@id/et_input_username"
+        app:layout_constraintTop_toBottomOf="@id/et_input_username" />
 
     <TextView
         android:id="@+id/tv_i_agree_qingpaopao"
