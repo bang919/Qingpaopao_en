@@ -8,6 +8,8 @@ import com.wopin.qingpaopao.fragment.BaseBarDialogFragment;
 import com.wopin.qingpaopao.presenter.BasePresenter;
 import com.wopin.qingpaopao.utils.StringUtils;
 
+import java.util.Locale;
+
 public class AboutUsFragment extends BaseBarDialogFragment {
 
     public static final String TAG = "AboutUsFragment";
@@ -30,7 +32,7 @@ public class AboutUsFragment extends BaseBarDialogFragment {
     @Override
     protected void initView(View rootView) {
         TextView textView = rootView.findViewById(R.id.textview);
-        textView.setText(StringUtils.getAssetsTex("about_us.txt", getContext()));
+        textView.setText(StringUtils.getAssetsTex(Locale.getDefault().getLanguage().equals("zh") ? "about_us_zh.txt" : "about_us.txt", getContext()));
     }
 
     @Override

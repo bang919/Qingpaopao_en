@@ -8,6 +8,8 @@ import com.wopin.qingpaopao.fragment.BaseBarDialogFragment;
 import com.wopin.qingpaopao.presenter.BasePresenter;
 import com.wopin.qingpaopao.utils.StringUtils;
 
+import java.util.Locale;
+
 public class HelpCenterFragment extends BaseBarDialogFragment {
 
     public static final String TAG = "HelpCenterFragment";
@@ -35,7 +37,7 @@ public class HelpCenterFragment extends BaseBarDialogFragment {
 
     @Override
     protected void initEvent() {
-        String helpText = StringUtils.getAssetsTex("help_qa.txt", getContext());
+        String helpText = StringUtils.getAssetsTex(Locale.getDefault().getLanguage().equals("zh") ? "help_qa_zh.txt" : "help_qa.txt", getContext());
         mTextView.setText(helpText);
     }
 

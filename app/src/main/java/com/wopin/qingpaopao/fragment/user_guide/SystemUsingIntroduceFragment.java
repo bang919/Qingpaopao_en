@@ -8,6 +8,8 @@ import com.wopin.qingpaopao.fragment.BaseBarDialogFragment;
 import com.wopin.qingpaopao.presenter.BasePresenter;
 import com.wopin.qingpaopao.utils.StringUtils;
 
+import java.util.Locale;
+
 public class SystemUsingIntroduceFragment extends BaseBarDialogFragment {
 
     public static final String TAG = "SystemUsingIntroduceFragment";
@@ -35,7 +37,7 @@ public class SystemUsingIntroduceFragment extends BaseBarDialogFragment {
 
     @Override
     protected void initEvent() {
-        String helpText = StringUtils.getAssetsTex("system_qa.txt", getContext());
+        String helpText = StringUtils.getAssetsTex(Locale.getDefault().getLanguage().equals("zh") ? "system_qa_zh.txt" : "system_qa.txt", getContext());
         mTextView.setText(helpText);
     }
 }

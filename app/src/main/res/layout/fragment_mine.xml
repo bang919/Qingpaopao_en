@@ -78,6 +78,7 @@
         android:text="@string/score"
         android:textColor="@color/colorWhite"
         android:textSize="18sp"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/tv_phone_number"
         app:layout_constraintRight_toRightOf="@id/iv_message" />
 
