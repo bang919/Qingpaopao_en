@@ -380,6 +380,7 @@
     <string name="activate_text">Please input the activate code below</string>
     <string name="activate_success">Activate cup success</string>
     <string name="error_414">Username or password error</string>
+    <string name="error_415">Email not exist</string>
     <string name="error_511">The Email had register</string>
     <string name="error_512">The cup had bind.</string>
 

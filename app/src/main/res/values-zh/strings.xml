@@ -104,7 +104,6 @@
     <string name="hot_topic">热门话题</string>
     <string name="newest_topic">最新话题</string>
     <string name="my_topic">我的话题</string>
-    <string name="other">其他</string>
     <string name="issue">发布</string>
     <string name="release">发布</string>
     <string name="device">设备</string>
@@ -155,7 +154,6 @@
     2.此窗口会在您重启水杯之后自动消失！</string>
     <string name="light_setting">灯光设置</string>
     <string name="brightness_setting">灯光亮度调节</string>
-    <string name="device_too_much">哇，周边设备有点多，都放不下啦，施主请手动连接吧～</string>
     <string name="link_wifi_by_hand_course">跳出此app到手机设定——WiFi——选择H2-popo-301——然后再跳回此app</string>
     <string name="trying_connect">正在连接设备：%s</string>
     <string name="failure_connect_wifi">连接设备失败</string>
@@ -383,6 +381,7 @@
     <string name="activate_text">请在以下输入 激活码</string>
     <string name="activate_success">激活水杯成功</string>
     <string name="error_414">用户或密码错误</string>
+    <string name="error_415">Email不存在</string>
     <string name="error_511">输入email已经注册</string>
     <string name="error_512">杯子已经被其他账号绑定</string>
 

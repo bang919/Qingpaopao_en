@@ -14,7 +14,7 @@ public class NotificationClickReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         //判断app进程是否存活
-        if (getAppSatus(context, "com.mywopin.com.cup")) {
+        if (getAppSatus(context, "com.mywopin.com.cup.point")) {
             //目前已经打开，不动声色
 //            intent.setClass(context, MainActivity.class);
 //            context.startActivity(intent);

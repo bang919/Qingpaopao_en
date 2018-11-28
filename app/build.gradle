@@ -36,7 +36,7 @@ static def releaseTime() {
 android {
     compileSdkVersion 27
     defaultConfig {
-        applicationId "com.mywopin.com.cup"
+        applicationId "com.mywopin.com.cup.point"
         minSdkVersion 19
         targetSdkVersion 27
         versionCode 1

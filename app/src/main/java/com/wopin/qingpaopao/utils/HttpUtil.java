@@ -64,6 +64,9 @@ public class HttpUtil {
                             case "414":
                                 errorMsg = context.getString(R.string.error_414);
                                 break;
+                            case "415":
+                                errorMsg = context.getString(R.string.error_415);
+                                break;
                             case "511":
                                 errorMsg = context.getString(R.string.error_511);
                                 break;
