@@ -384,6 +384,8 @@
     <string name="error_415">Email不存在</string>
     <string name="error_511">输入email已经注册</string>
     <string name="error_512">杯子已经被其他账号绑定</string>
-
+    <string name="choose_device">选择设备</string>
+    <string name="no_connect_device">未连接设备</string>
+    <string name="no_choose_device">未选择设备</string>
 
 </resources>

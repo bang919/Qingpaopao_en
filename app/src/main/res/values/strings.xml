@@ -383,5 +383,7 @@
     <string name="error_415">Email not exist</string>
     <string name="error_511">The Email had register</string>
     <string name="error_512">The cup had bind.</string>
-
+    <string name="choose_device">Choose Device</string>
+    <string name="no_connect_device">No device connected</string>
+    <string name="no_choose_device">No device chose</string>
 </resources>
