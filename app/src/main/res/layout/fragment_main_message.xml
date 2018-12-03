@@ -54,7 +54,7 @@
         android:layout_marginTop="10dp"
         android:text="@string/new_message"
         android:textColor="@color/colorBlack"
-        android:textSize="18sp"
+        android:textSize="14sp"
         app:layout_constraintLeft_toLeftOf="@id/icon_new_message"
         app:layout_constraintRight_toRightOf="@id/icon_new_message"
         app:layout_constraintTop_toBottomOf="@id/icon_new_message" />
@@ -88,7 +88,7 @@
         android:layout_marginTop="10dp"
         android:text="@string/favor"
         android:textColor="@color/colorBlack"
-        android:textSize="18sp"
+        android:textSize="14sp"
         app:layout_constraintLeft_toLeftOf="@id/icon_favor"
         app:layout_constraintRight_toRightOf="@id/icon_favor"
         app:layout_constraintTop_toBottomOf="@id/icon_favor" />
@@ -110,7 +110,7 @@
         android:layout_marginTop="10dp"
         android:text="@string/my_comment"
         android:textColor="@color/colorBlack"
-        android:textSize="18sp"
+        android:textSize="14sp"
         app:layout_constraintLeft_toLeftOf="@id/icon_my_comment"
         app:layout_constraintRight_toRightOf="@id/icon_my_comment"
         app:layout_constraintTop_toBottomOf="@id/icon_my_comment" />
