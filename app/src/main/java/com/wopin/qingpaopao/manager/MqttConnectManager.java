@@ -38,7 +38,7 @@ public class MqttConnectManager extends ConnectManager<MqttConnectManager.MqttUp
     private static final String TAG = "MqttConnectManager";
     private static MqttConnectManager mMqttConnectManager;
     //Mqtt Related
-    private static final String URL = "tcp://wifi.h2popo.com:8083";
+    private static final String URL = "tcp://wifi2.h2popo.com:8083";
     private static final String username = "wopin";
     private static final String password = "wopinH2popo";
     private static final String clientId = "clientId";

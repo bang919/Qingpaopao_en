@@ -32,7 +32,7 @@ public class SystemSettingFragment extends BaseBarDialogFragment implements Mine
     protected void initView(View rootView) {
         RecyclerView userGuideRv = rootView.findViewById(R.id.list_recyclerview);
         userGuideRv.setLayoutManager(new LinearLayoutManager(getContext()));
-        userGuideRv.setAdapter(new MineListRvAdapter(new int[]{R.string.system_update, R.string.about_us}, this));
+        userGuideRv.setAdapter(new MineListRvAdapter(new int[]{R.string.system_update, R.string.about_us, R.string.language_setting}, this));
     }
 
     @Override
@@ -48,6 +48,9 @@ public class SystemSettingFragment extends BaseBarDialogFragment implements Mine
                 break;
             case R.string.about_us:
                 new AboutUsFragment().show(getChildFragmentManager(), AboutUsFragment.TAG);
+                break;
+            case R.string.language_setting:
+                new LanguageSettingFragment().show(getChildFragmentManager(), LanguageSettingFragment.TAG);
                 break;
         }
     }

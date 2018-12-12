@@ -97,6 +97,10 @@
     <string name="service_phone">Customer service hotline： 020&#8211;37277399</string>
     <string name="system_update">System update</string>
     <string name="about_us">About us</string>
+    <string name="language_setting">Language Setting</string>
+    <string name="default_language">Default(默认）</string>
+    <string name="english_language">English(英语）</string>
+    <string name="chinese_language">Chinese(中文）</string>
     <string name="system_version">System Version</string>
     <string name="newest">(Newest)</string>
     <string name="search_your_favourite">Search</string>
