@@ -101,7 +101,7 @@
     <string name="language_setting">语言设置</string>
     <string name="default_language">默认(Default)</string>
     <string name="english_language">英语(English)</string>
-    <string name="chinese_language">中文(Chinese)</string>
+    <string name="chinese_language">简体中文(Chinese)</string>
     <string name="system_version">系统版本</string>
     <string name="newest">(最新)</string>
     <string name="search_your_favourite">搜索你感兴趣的信息</string>

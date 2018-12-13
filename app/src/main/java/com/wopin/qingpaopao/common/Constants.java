@@ -26,7 +26,6 @@ public class Constants {
     public final static String MY_LOCATION = "my location";
     public final static String NEW_COMMENT = "new comment";
     public final static String LANGUAGE = "language";
-    public final static String DEFAULT_LANGUAGE = "default language";
 
 
     //定时提醒喝水

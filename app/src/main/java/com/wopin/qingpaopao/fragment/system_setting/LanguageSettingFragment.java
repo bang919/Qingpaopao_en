@@ -16,7 +16,6 @@ public class LanguageSettingFragment extends BaseBarDialogFragment implements Vi
 
     public static final String TAG = "LanguageSettingFragment";
 
-    private CheckBox mDefaultBox;
     private CheckBox mEnglishBox;
     private CheckBox mChineseBox;
     private int language = ChangeLanguageHelper.getAppLanguage();
@@ -57,21 +56,16 @@ public class LanguageSettingFragment extends BaseBarDialogFragment implements Vi
 
     @Override
     protected void initView(View rootView) {
-        mDefaultBox = rootView.findViewById(R.id.default_checkbox);
         mEnglishBox = rootView.findViewById(R.id.english_checkbox);
         mChineseBox = rootView.findViewById(R.id.chinese_checkbox);
 
-        mDefaultBox.setOnClickListener(this);
         mEnglishBox.setOnClickListener(this);
         mChineseBox.setOnClickListener(this);
 
-        rootView.findViewById(R.id.default_tv).setOnClickListener(this);
         rootView.findViewById(R.id.english_tv).setOnClickListener(this);
         rootView.findViewById(R.id.chinese_tv).setOnClickListener(this);
 
-        if (language == ChangeLanguageHelper.CHANGE_LANGUAGE_DEFAULT) {
-            mDefaultBox.setChecked(true);
-        } else if (language == ChangeLanguageHelper.CHANGE_LANGUAGE_ENGLISH) {
+        if (language == ChangeLanguageHelper.CHANGE_LANGUAGE_ENGLISH) {
             mEnglishBox.setChecked(true);
         } else if (language == ChangeLanguageHelper.CHANGE_LANGUAGE_CHINA) {
             mChineseBox.setChecked(true);
@@ -86,23 +80,14 @@ public class LanguageSettingFragment extends BaseBarDialogFragment implements Vi
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.default_tv:
-            case R.id.default_checkbox:
-                mDefaultBox.setChecked(true);
-                mEnglishBox.setChecked(false);
-                mChineseBox.setChecked(false);
-                language = ChangeLanguageHelper.CHANGE_LANGUAGE_DEFAULT;
-                break;
             case R.id.english_tv:
             case R.id.english_checkbox:
-                mDefaultBox.setChecked(false);
                 mEnglishBox.setChecked(true);
                 mChineseBox.setChecked(false);
                 language = ChangeLanguageHelper.CHANGE_LANGUAGE_ENGLISH;
                 break;
             case R.id.chinese_tv:
             case R.id.chinese_checkbox:
-                mDefaultBox.setChecked(false);
                 mEnglishBox.setChecked(false);
                 mChineseBox.setChecked(true);
                 language = ChangeLanguageHelper.CHANGE_LANGUAGE_CHINA;

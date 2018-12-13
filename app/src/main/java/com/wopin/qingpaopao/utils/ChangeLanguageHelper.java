@@ -13,7 +13,6 @@ public class ChangeLanguageHelper {
 
     public static final int CHANGE_LANGUAGE_CHINA = 1;
     public static final int CHANGE_LANGUAGE_ENGLISH = 2;
-    public static final int CHANGE_LANGUAGE_DEFAULT = 0;
 
     public static void changeLanguage(Resources resources, int language) {
 
@@ -30,25 +29,6 @@ public class ChangeLanguageHelper {
                 config.setLayoutDirection(Locale.ENGLISH);
                 setAppLanguage(CHANGE_LANGUAGE_ENGLISH);
                 break;
-            case CHANGE_LANGUAGE_DEFAULT:
-                int defaultLanguage = (int) SPUtils.get(MyApplication.getMyApplicationContext(), Constants.DEFAULT_LANGUAGE, 0);
-                if (defaultLanguage == CHANGE_LANGUAGE_DEFAULT) {
-                    defaultLanguage = Locale.getDefault().getLanguage().equals("zh") ? CHANGE_LANGUAGE_CHINA : CHANGE_LANGUAGE_ENGLISH;
-                    SPUtils.put(MyApplication.getMyApplicationContext(), Constants.DEFAULT_LANGUAGE, defaultLanguage);
-                }
-
-                Locale defaultLocale;
-
-                if (defaultLanguage == CHANGE_LANGUAGE_CHINA) {
-                    defaultLocale = Locale.SIMPLIFIED_CHINESE;
-                } else {
-                    defaultLocale = Locale.ENGLISH;
-                }
-
-                config.locale = defaultLocale;         // 系统默认语言
-                config.setLayoutDirection(defaultLocale);
-                setAppLanguage(CHANGE_LANGUAGE_DEFAULT);
-                break;
         }
         resources.updateConfiguration(config, dm);
     }
@@ -58,6 +38,10 @@ public class ChangeLanguageHelper {
     }
 
     public static int getAppLanguage() {
-        return (int) SPUtils.get(MyApplication.getMyApplicationContext(), Constants.LANGUAGE, CHANGE_LANGUAGE_DEFAULT);
+        int language = (int) SPUtils.get(MyApplication.getMyApplicationContext(), Constants.LANGUAGE, 0);
+        if (language == 0) {
+            language = Locale.getDefault().getLanguage().equals("zh") ? ChangeLanguageHelper.CHANGE_LANGUAGE_CHINA : ChangeLanguageHelper.CHANGE_LANGUAGE_ENGLISH;
+        }
+        return language;
     }
 }

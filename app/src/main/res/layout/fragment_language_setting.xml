@@ -5,42 +5,18 @@
     android:layout_height="match_parent">
 
     <CheckBox
-        android:id="@+id/default_checkbox"
-        style="@style/CustomCheckboxTheme"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="10dp"
-        android:clickable="false"
-        android:gravity="center"
-        android:padding="20dp"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/default_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/default_language"
-        android:textColor="@color/colorHalfBlack"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/default_checkbox"
-        app:layout_constraintLeft_toRightOf="@id/default_checkbox"
-        app:layout_constraintTop_toTopOf="@+id/default_checkbox" />
-
-    <CheckBox
         android:id="@+id/english_checkbox"
         style="@style/CustomCheckboxTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:layout_marginTop="15dp"
         android:layout_marginLeft="30dp"
         android:clickable="false"
         android:gravity="center"
         android:padding="20dp"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/default_checkbox" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/english_tv"

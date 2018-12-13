@@ -36,7 +36,7 @@
     </style>
 
     <style name="LauncherActivity" parent="AppThemeLight">
-        <item name="android:background">@mipmap/b_splash</item>
+        <item name="android:windowBackground">@mipmap/ahead_splash</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowFullscreen">true</item>
     </style>
