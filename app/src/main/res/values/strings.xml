@@ -390,4 +390,6 @@
     <string name="choose_device">Choose Device</string>
     <string name="no_connect_device">No device connected</string>
     <string name="no_choose_device">No device chose</string>
+    <string name="please_try_link_by_hand">Wifi was switch by system, please try manual connect model.</string>
+    <string name="connecting_to">Trying to connect: %s</string>
 </resources>
