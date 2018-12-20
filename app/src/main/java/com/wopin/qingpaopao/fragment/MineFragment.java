@@ -106,6 +106,7 @@ public class MineFragment extends BaseMainFragment<MinePresenter> implements Min
         }
         mMessageIv.setOnClickListener(this);
         mHeadIconIv.setOnClickListener(this);
+        rootView.findViewById(R.id.tv_coin_link).setOnClickListener(this);
     }
 
     @Override
@@ -213,6 +214,9 @@ public class MineFragment extends BaseMainFragment<MinePresenter> implements Min
                         refreshData();
                     }
                 });
+                break;
+            case R.id.tv_coin_link:
+                new MemberCenterFragment().show(getChildFragmentManager(), MemberCenterFragment.TAG);
                 break;
         }
     }

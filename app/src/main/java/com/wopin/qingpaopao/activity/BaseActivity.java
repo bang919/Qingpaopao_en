@@ -25,6 +25,7 @@ import com.wopin.qingpaopao.common.Constants;
 import com.wopin.qingpaopao.http.HttpClient;
 import com.wopin.qingpaopao.presenter.BasePresenter;
 import com.wopin.qingpaopao.presenter.LoginPresenter;
+import com.wopin.qingpaopao.utils.ChangeLanguageHelper;
 
 import java.util.Map;
 
@@ -76,6 +77,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        checkLanguage();
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);//竖屏
         setSystemBarTransparent();
         setContentView(getLayout());
@@ -84,6 +86,13 @@ public abstract class BaseActivity<P extends BasePresenter> extends AppCompatAct
         initView();
         initData();
         initEvent();
+    }
+
+    private void checkLanguage() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            int appLanguage = ChangeLanguageHelper.getAppLanguage();
+            ChangeLanguageHelper.changeLanguage(getResources(), appLanguage);
+        }
     }
 
 

@@ -145,6 +145,7 @@ public class BuildBlogActivity extends BaseActivity<BuildBlogPresenter> implemen
     }
 
     private void initRichViews() {
+        mWebView.setWebChromeClient(new WebChromeClient());
         mWebView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {

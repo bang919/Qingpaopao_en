@@ -15,7 +15,6 @@ public class ChangeLanguageHelper {
     public static final int CHANGE_LANGUAGE_ENGLISH = 2;
 
     public static void changeLanguage(Resources resources, int language) {
-
         Configuration config = resources.getConfiguration();     // 获得设置对象
         DisplayMetrics dm = resources.getDisplayMetrics();
         switch (language) {
@@ -41,6 +40,7 @@ public class ChangeLanguageHelper {
         int language = (int) SPUtils.get(MyApplication.getMyApplicationContext(), Constants.LANGUAGE, 0);
         if (language == 0) {
             language = Locale.getDefault().getLanguage().equals("zh") ? ChangeLanguageHelper.CHANGE_LANGUAGE_CHINA : ChangeLanguageHelper.CHANGE_LANGUAGE_ENGLISH;
+            setAppLanguage(language);
         }
         return language;
     }

@@ -19,6 +19,11 @@ public class PersonInfoFragment extends BaseBarDialogFragment<PersonInfoPresente
 
     public static final String TAG = "PersonInfoFragment";
     private MineListRvAdapter mMineListRvAdapter;
+    private PersonInfoDestroyCallback mPersonInfoDestroyCallback;
+
+    public void setPersonInfoDestroyCallback(PersonInfoDestroyCallback personInfoDestroyCallback) {
+        mPersonInfoDestroyCallback = personInfoDestroyCallback;
+    }
 
     @Override
     protected String setBarTitle() {
@@ -84,6 +89,9 @@ public class PersonInfoFragment extends BaseBarDialogFragment<PersonInfoPresente
     @Override
     public void onDestroy() {
         mPresenter.deletePhotoFile();
+        if (mPersonInfoDestroyCallback != null) {
+            mPersonInfoDestroyCallback.onDestroy();
+        }
         super.onDestroy();
     }
 
@@ -95,5 +103,9 @@ public class PersonInfoFragment extends BaseBarDialogFragment<PersonInfoPresente
     @Override
     public void onError(String errorMessage) {
         ToastUtils.showShort(errorMessage);
+    }
+
+    public interface PersonInfoDestroyCallback {
+        void onDestroy();
     }
 }

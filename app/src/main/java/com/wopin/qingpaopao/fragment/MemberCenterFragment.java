@@ -1,7 +1,6 @@
-package com.wopin.qingpaopao.fragment.welfare.order;
+package com.wopin.qingpaopao.fragment;
 
 import android.net.http.SslError;
-import android.os.Bundle;
 import android.view.View;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
@@ -10,21 +9,16 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.wopin.qingpaopao.R;
-import com.wopin.qingpaopao.bean.response.OrderBean;
-import com.wopin.qingpaopao.fragment.BaseBarDialogFragment;
 import com.wopin.qingpaopao.presenter.BasePresenter;
 
-public class OrderFollowOrderFragment extends BaseBarDialogFragment {
+public class MemberCenterFragment extends BaseBarDialogFragment {
 
-    public static final String TAG = "OrderFollowOrderFragment";
+    public static final String TAG = "MemberCenterFragment";
     private WebView mDetailWebView;
 
-    public static OrderFollowOrderFragment build(OrderBean orderBean) {
-        OrderFollowOrderFragment orderFollowOrderFragment = new OrderFollowOrderFragment();
-        Bundle args = new Bundle();
-        args.putString(TAG, orderBean.getOrderId());
-        orderFollowOrderFragment.setArguments(args);
-        return orderFollowOrderFragment;
+    @Override
+    protected String setBarTitle() {
+        return getString(R.string.member_center);
     }
 
     @Override
@@ -32,11 +26,6 @@ public class OrderFollowOrderFragment extends BaseBarDialogFragment {
         mDetailWebView.loadUrl("");
         mDetailWebView.destroy();
         super.onDestroy();
-    }
-
-    @Override
-    protected String setBarTitle() {
-        return getString(R.string.search_express);
     }
 
     @Override
@@ -56,12 +45,20 @@ public class OrderFollowOrderFragment extends BaseBarDialogFragment {
 
     @Override
     protected void initEvent() {
-        String searchOrderid = getArguments().getString(TAG);
-        String webViewUrl = "http://m.kuaidi100.com/result.jsp?nu=".concat(searchOrderid);
+        String webViewUrl = "http://www.h-popo.com";
         mDetailWebView.loadUrl(webViewUrl);
         WebSettings settings = mDetailWebView.getSettings();
         // 如果访问的页面中要与Javascript交互，则webview必须设置支持Javascript
         settings.setJavaScriptEnabled(true);
+        settings.setJavaScriptCanOpenWindowsAutomatically(true);
+        settings.setAllowFileAccess(true);// 设置允许访问文件数据
+        settings.setSupportZoom(true);
+        settings.setBuiltInZoomControls(true);
+        settings.setJavaScriptCanOpenWindowsAutomatically(true);
+        settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        settings.setDomStorageEnabled(true);
+        settings.setDatabaseEnabled(true);
+
         mDetailWebView.setWebChromeClient(new WebChromeClient());
         mDetailWebView.setWebViewClient(new WebViewClient() {
             public boolean shouldOverrideUrlLoading(WebView view, String url) {

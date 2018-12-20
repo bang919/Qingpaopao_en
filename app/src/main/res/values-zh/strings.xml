@@ -394,5 +394,7 @@
     <string name="please_try_link_by_hand">Wifi被系统切换了，请尝试手动连接模式</string>
     <string name="please_disable_auto_switch">Wifi被系统切换到%s，请禁用Wifi自动切换功能后重试</string>
     <string name="connect_timeout">连接超时，请检查密码</string>
+    <string name="coin_link"><u>积分连结</u></string>
+    <string name="member_center">会员中心</string>
 
 </resources>

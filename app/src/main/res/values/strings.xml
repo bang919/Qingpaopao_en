@@ -393,4 +393,6 @@
     <string name="please_try_link_by_hand">Wifi was switch by system, please try manual connect model.</string>
     <string name="please_disable_auto_switch">Wifi was switch by system, please disable wifi auto switch and retry</string>
     <string name="connect_timeout">Connect timeout, please check password</string>
+    <string name="coin_link"><u>Points Link</u></string>
+    <string name="member_center">Member Center</string>
 </resources>
