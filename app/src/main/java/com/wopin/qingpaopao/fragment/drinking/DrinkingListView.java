@@ -82,7 +82,7 @@ public class DrinkingListView extends Fragment implements View.OnClickListener {
             }
         };
         // 设置监听器。
-        mCupListRv.setSwipeMenuCreator(mSwipeMenuCreator);
+//        mCupListRv.setSwipeMenuCreator(mSwipeMenuCreator);
 
         SwipeMenuItemClickListener mMenuItemClickListener = new SwipeMenuItemClickListener() {
             @Override
