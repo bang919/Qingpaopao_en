@@ -77,7 +77,7 @@ public class AlarmNotificationReceiver extends BroadcastReceiver {
             builder.setSmallIcon(R.mipmap.i_tran_icon);
             builder.setColor(Color.BLUE);
         } else {
-            builder.setSmallIcon(R.mipmap.i_qing_icon);
+            builder.setSmallIcon(R.mipmap.launch_icon);
         }
         Notification notification = builder.build();
         notificationManager.notify(123, notification);
