@@ -18,7 +18,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.FitCenter;
 import com.wopin.qingpaopao.R;
 import com.wopin.qingpaopao.adapter.CrowdFundingGradeAdapter;
 import com.wopin.qingpaopao.bean.response.LoginRsp;
@@ -185,7 +185,7 @@ public class CrowdFundingProduceDialog extends DialogFragment implements View.On
         if (mCurrentAttributeBean.getOptions() != null && mCurrentAttributeBean.getOptions().size() > 0) {
             gradeContentTv.setText(mCurrentAttributeBean.getOptions().get(0));
         }
-        GlideUtils.loadImage(gradeImage, -1, mProductContent.getDescriptionImage().get(0), new CenterCrop());
+        GlideUtils.loadImage(gradeImage, -1, mProductContent.getDescriptionImage().get(0), new FitCenter());
     }
 
     public interface SupportInformationDialogCallback {
